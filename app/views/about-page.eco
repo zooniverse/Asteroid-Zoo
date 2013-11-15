@@ -1,0 +1,13 @@
+<% translate = require 't7e' %>
+
+<div class="content-block">
+  <div class="content-container">
+    <%- translate 'h2', 'about.title' %>
+    <%- translate 'p', 'about.summary' %>
+  </div>
+
+  <div class="content-container">
+    <%- translate 'p', 'about.content' %>
+  </div>
+</div>
+

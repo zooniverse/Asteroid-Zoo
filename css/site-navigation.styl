@@ -1,0 +1,59 @@
+.site-navigation
+  background: MEDIUM_GRAY url("./images/nav-bg.jpg") 75% 75%
+  background-size: cover
+  color: #fff
+  font-weight: 300
+  overflow: hidden
+  position: relative
+
+  .content-container
+    margin-top: 50px
+    line-height: 1
+    text-align: right
+
+  .logo
+    float: left
+    font-size: 20px
+    letter-spacing: 2px
+    text-transform: uppercase
+
+  .links a
+    display: inline-block
+    margin: 0 10px
+    padding: 10px 0
+    position: relative
+
+    &:after
+      BALL_RADIUS = 4px
+
+      background: transparent
+      border-radius: 50%
+      content: ""
+      height: BALL_RADIUS * 2
+      left: 50%
+      margin: (-1 * BALL_RADIUS) 0 0 (-1 * BALL_RADIUS)
+      position: absolute
+      top: 67%
+      transition:
+        background 0.25s ease-in-out 0.125s,
+        top 0.25s ease-in-out 0.125s
+      width: BALL_RADIUS * 2
+
+    &.active:after
+      background: #fff
+      top: 100%
+
+.zooniverse-top-bar
+  background: transparent
+  font-weight: 300
+  margin-top: 15px
+  margin-right: unit((100 - SITE_WIDTH) / 2, '%')
+
+  .corner
+    display: none
+
+  .current-user-name
+    font-weight: inherit
+
+  .avatar img
+    border-radius: 50%
