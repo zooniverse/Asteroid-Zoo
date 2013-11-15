@@ -1,6 +1,6 @@
 module.exports =
   siteNavigation:
-    projectName: 'Food Barn'
+    projectName: 'AsteroidZoo'
     home: 'Home'
     classify: 'Classify'
     science: 'Science'
@@ -12,15 +12,15 @@ module.exports =
 
   home:
     header:
-      title: 'Food is in the barn'
+      title: 'Asteroid Zoo'
       content: '''
-       food is in the barn food is in the barn food is in the barn
+       Asteroid Zoo Asteroid Zoo Asteroid Zoo Asteroid Zoo 
       '''
       start: 'Get started!'
     whatDo:
       title: 'What can you do?'
       content: '''
-	 food is in the barn food is in the barn food is in the barn
+	 Afsteroid Zoo Asteroid  Asteroid Zoo Asteroid Zoo 
       '''
 
   classifier:
