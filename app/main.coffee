@@ -26,7 +26,7 @@ languageManager.on 'change-language', (e, code, strings) ->
 # load api
 ##################################################
 Api = require 'zooniverse/lib/api'
-api = new Api project: 'worms'
+api = new Api project: 'serengeti'
 
 ##################################################
 # load the site navigation
@@ -42,6 +42,7 @@ StackOfPages = require 'stack-of-pages/src/stack-of-pages'
 stack = new StackOfPages
   '#/': require './controllers/home-page'
   '#/about': require './controllers/about-page'
+  '#/classify': require './controllers/classifier'
   NOT_FOUND: '<div class="content-block"><div class="content-container"><h1>Page not found!</h1></div></div>'
   ERROR: '<div class="content-block"><div class="content-container"><h1>There was an error!</h1></div></div>'
 
