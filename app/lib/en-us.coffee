@@ -20,7 +20,7 @@ module.exports =
     whatDo:
       title: 'What can you do?'
       content: '''
-	 Afsteroid Zoo Asteroid  Asteroid Zoo Asteroid Zoo 
+	 Asteroid Zoo Asteroid  Asteroid Zoo Asteroid Zoo 
       '''
 
   classifier:
@@ -33,6 +33,9 @@ module.exports =
     cantTell: 'Can\'t tell'
     finished: 'Finished'
     noTags: 'No tags visible'
+    delete: 'Delete'
+    next: 'Next'
+    whatKind: 'Type of Image Defect'
 
     marker:
       identification: 'Identification'
@@ -43,9 +46,17 @@ module.exports =
       cancel: 'Cancel'
       next: 'Next'
       done: 'Done'
-      delete: 'Delete'
-      spurious: 'Spurious'
 
+      spurious: 'Spurious'
+  
+  artifacts:
+    starbleed:
+      label: 'Star Bleed'
+    hotpixel:
+      label: 'Hot Pixel'
+    other:
+      label: 'Other' 
+      
   presenceInspector:
     toggleOriginal: 'Original image'
     proximityChange: 'Estimate zonder <small>NO</small>. $tag\'s proximity in this photo.'
@@ -66,15 +77,15 @@ module.exports =
     title: 'Science!'
     summary: 'This page will explain the science end of the project.'
     content: '''
-      <p>Tell us about zonders. Tell us why they're almost extinct, and how we're helping bring them back.</p>
-      <p>Tell us about lead poisoning.</p>
+      <p>Teach the computers to leanr about asteroids..</p>
+      <p>Mine asteroids!.</p>
       <p>Etc.</p>
     '''
 
     figures:
       something:
         image: '//placehold.it/640x480.png'
-        description: 'This is a feature of zonders'
+        description: 'This is a feature of asteroid zoo'
 
   about:
     title: 'About the project'

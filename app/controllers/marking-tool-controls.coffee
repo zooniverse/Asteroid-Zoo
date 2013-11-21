@@ -9,7 +9,7 @@ KEYS =
 
 class MarkingToolControlsController extends BaseController
   className: 'marking-tool-controls-controller'
-  template: require '../views/condor-tool-controls'
+  template: require '../views/artifact-tool-controls'
 
   tool: null
 
@@ -133,23 +133,23 @@ class MarkingToolControlsController extends BaseController
         @el.find('.what-kind').hide()
         @el.find('button[name="next"]').hide()
 
-    condorDetails:
-      enter: ->
-        @el.find('.condor-details').show()
-        @el.find('button[name="done-with-condor"]').show()
+    # condorDetails:
+    #   enter: ->
+    #     @el.find('.condor-details').show()
+    #     @el.find('button[name="done-with-condor"]').show()
 
-      exit: ->
-        @el.find('.condor-details').hide()
-        @el.find('button[name="done-with-condor"]').hide()
+    #   exit: ->
+    #     @el.find('.condor-details').hide()
+    #     @el.find('button[name="done-with-condor"]').hide()
 
-    nonCondorDetails:
-      enter: ->
-        @el.find('.non-condor-details').show()
-        @el.find('button[name="done-with-non-condor"]').show()
+    # nonCondorDetails:
+    #   enter: ->
+    #     @el.find('.non-condor-details').show()
+    #     @el.find('button[name="done-with-non-condor"]').show()
 
-      exit: ->
-        @el.find('.non-condor-details').hide()
-        @el.find('button[name="done-with-non-condor"]').hide()
+    #   exit: ->
+    #     @el.find('.non-condor-details').hide()
+    #     @el.find('button[name="done-with-non-condor"]').hide()
 
 
 class MarkingToolControls extends ToolControls
