@@ -39,11 +39,6 @@ class Classifier extends BaseController
 
     @markingSurface.svgRoot.attr 'id', 'classifier-svg-root'
 
-    # @subjectImages @markingSurface.addShape 'image',
-    #   width: '100%'
-    #   height: '100%'
-    #   preserveAspectRatio: 'none'
-
     @subjectContainer.append @markingSurface.el
 
     User.on 'change', @onUserChange
@@ -68,9 +63,7 @@ class Classifier extends BaseController
     #reset the marking surface and load classifcation
     @markingSurface.reset()
     @classification = new Classification {subject}
-    frameImages = new Array
     framesCount =  subject.location.standard.length
-    console.log "Frame Count" + framesCount
     for i in [0..framesCount-1] by 1
       # # add image element to the marking surface
       frame_id = "frame-id-#{i}"
@@ -79,24 +72,13 @@ class Classifier extends BaseController
         width: '100%'
         height: '100%'
         preserveAspectRatio: 'none'
-      #frameImages.push frameImage
-      #load the image from the retrieved subject
+     
       img_src = subject.location.standard[i]
-      console.log "frameImage id #{frameImage.id}"
+      #load the image for this frame
       do (img_src, frameImage)  => 
         loadImage img_src, (img) =>
         frameImage.attr
          'xlink:href': img_src
-
-
-       #load the image from the retrieved subject
-    # frameImages.length  
-    # # for i in [0..framesCount-1] by 1
-    # #   img_src = subject.location.standard[i]
-    # #   console.log "frameImage id #{frameImage.id}"
-    # #   loadImage img_src, (img) =>
-    # #     frameImages[i].attr
-    # #      'xlink:href': img_src
 
 
     @stopLoading()
