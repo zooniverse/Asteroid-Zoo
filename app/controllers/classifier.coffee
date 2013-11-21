@@ -1,150 +1,125 @@
-console.log "its deep below"
 BaseController = require 'zooniverse/controllers/base-controller'
 User = require 'zooniverse/models/user'
 Subject = require 'zooniverse/models/subject'
 
-# loadImage = require '../lib/load-image'
-# Classification = require 'zooniverse/models/classification'
-# MarkingSurface = require 'marking-surface'
-# CondorTool = require './condor-tool'
-# PresenceInspector = require './presence-inspector'
-#ClassificationSummary = require './classification-summary'
+loadImage = require '../lib/load-image'
+Classification = require 'zooniverse/models/classification'
+MarkingSurface = require 'marking-surface'
+MarkingTool = require './marking-tool'
+ClassificationSummary = require './classification-summary'
 
-# DEV_SUBJECT = './dev-subject-images/CDY_0034.JPG'
+DEV_SUBJECTS = [
+  '../dev-subjects-images/asteroid.png'
+]
 
-# DEV_OTHERS = [
-#   './dev-subject-images/CDY_0030.JPG'
-#   './dev-subject-images/CDY_0032.JPG'
-#   './dev-subject-images/CDY_0036.JPG'
-#   './dev-subject-images/CDY_0038.JPG'
-# ]
+NEXT_DEV_SUBJECT = ->
+  console.log "In NEXT_DEV_SUBJECT()"
+  DEV_SUBJECTS.push DEV_SUBJECTS.shift()
+  DEV_SUBJECTS[0]
 
 class Classifier extends BaseController
   className: 'classifier'
   template: require '../views/classifier'
 
-  # events:
-  #   'click button[name="finish-marking"]': 'onClickFinishMarking'
-  #   'click button[name="no-tags"]': 'onClickNoTags'
+  events:
+    'click button[name="finish-marking"]': 'onClickFinishMarking'
+    'click button[name="no-tags"]': 'onClickNoTags'
 
-  # elements:
-  #   '.subject': 'subjectContainer'
-  #   'button[name="finish-marking"]': 'finishButton'
-  #   'button[name="no-tags"]': 'noTagsButton'
+  elements:
+    '.subject': 'subjectContainer'
+    'button[name="finish-marking"]': 'finishButton'
+    'button[name="no-tags"]': 'noTagsButton'
 
   constructor: ->
     super
     window.classifier = @
 
-    # @markingSurface = new MarkingSurface
-    #   tool: CondorTool
+    @markingSurface = new MarkingSurface
+      tool: MarkingTool
 
-    # @markingSurface.svgRoot.attr 'id', 'classifier-svg-root'
+    @markingSurface.svgRoot.attr 'id', 'classifier-svg-root'
 
-    # @markingSurface.on 'create-mark', @onChangeMarkCount
-    # @markingSurface.on 'destroy-mark', @onChangeMarkCount
+    @subjectImage = @markingSurface.addShape 'image',
+      width: '100%'
+      height: '100%'
+      preserveAspectRatio: 'none'
 
-    # @subjectImage = @markingSurface.addShape 'image',
-    #   width: '100%'
-    #   height: '100%'
-    #   preserveAspectRatio: 'none'
+    @subjectContainer.append @markingSurface.el
 
-    # @subjectContainer.append @markingSurface.el
+    User.on 'change', @onUserChange
+    Subject.on 'fetch', @onSubjectFetch
+    Subject.on 'select', @onSubjectSelect
 
-    # User.on 'change', @onUserChange
-    # Subject.on 'fetch', @onSubjectFetch
-    # Subject.on 'select', @onSubjectSelect
+    #addEventListener 'resize', @rescale, false
 
-    # addEventListener 'resize', @rescale, false
-
-    # @onChangeMarkCount()
-
-#  activate: ->
+  activate: ->
     # setTimeout @rescale, 100
 
-  # onChangeMarkCount: =>
-  #   # @finishButton.prop 'disabled', @markingSurface.marks.length is 0
-  #   # @noTagsButton.prop 'disabled', @markingSurface.marks.length isnt 0
+  onUserChange: (e, user) =>
+    console.log "user change"
+    Subject.next() unless @classification?
 
-  # onUserChange: (e, user) =>
-  #   # Subject.next() unless @classification?
+  onSubjectFetch: =>
+    console.log "in onSubjectFetch() "
+    @startLoading()
 
-  # onSubjectFetch: =>
-  #   @startLoading()
+  onSubjectSelect: (e, subject) =>
+    console.log "in onSubjectSelect() "
+    @markingSurface.reset()
 
-  # onSubjectSelect: (e, subject) =>
-  #   @markingSurface.reset()
+    @classification = new Classification {subject}
 
-  #   @classification = new Classification {subject}
+    #how will we load the set of images  
+    loadImage subject.location.standard[0], (img) =>
+      console.log img.src
+      console.log "loadImage()"
+      
+     # _img_src =  subject.location.standard[0]
+      #console.log _img_src
+      @subjectImage.attr
+        #'xlink:href': NEXT_DEV_SUBJECT() || img.src
 
-  #   loadImage subject.location.standard, (img) =>
-  #     # @markingSurface.resize img.width, img.height
+        'xlink:href':  img.src 
 
-  #     @subjectImage.attr
-  #       'xlink:href': DEV_SUBJECT || img.src
+      @stopLoading()
 
-  #     @askForTags()
-  #     @stopLoading()
+      @markingSurface.enable()
 
-  #     @markingSurface.enable()
+  onClickFinishMarking: ->
+    @showSummary()
 
-  # onClickFinishMarking: ->
-  #   @askAboutIndividuals()
+  rescale: =>
+    setTimeout =>
+      over = innerHeight - document.body.clientHeight
+      @subjectContainer.height parseFloat(@subjectContainer.height()) + over
 
-  # onClickNoTags: ->
-  #   @showSummary()
+  startLoading: ->
+    console.log "In startLoading()"
 
-  # rescale: =>
-  #   setTimeout =>
-  #     over = innerHeight - document.body.clientHeight
-  #     @subjectContainer.height parseFloat(@subjectContainer.height()) + over
+    #@el.addClass 'loading'
 
-  # startLoading: ->
-  #   @el.addClass 'loading'
+  stopLoading: ->
+    @el.removeClass 'loading'
 
-  # stopLoading: ->
-  #   @el.removeClass 'loading'
+  showSummary: ->
+    @sendClassification()
 
-  # askForTags: ->
-  #   # Switch to the "mark all the tags" view
+    classificationSummary = new ClassificationSummary {@classification}
 
-  # askAboutIndividuals: ->
-  #   @markingSurface.disable()
+    classificationSummary.el.appendTo @el
 
-  #   presenceInspector = new PresenceInspector
-  #     otherImages: @classification?.subject?.other_times || DEV_OTHERS
-  #     marks: @markingSurface.marks
+    @el.addClass 'showing-summary'
 
-  #   presenceInspector.el.appendTo @el
+    classificationSummary.on 'destroying', =>
+      @el.removeClass 'showing-summary'
+      Subject.next()
 
-  #   @el.addClass 'inspecting-individuals'
+    setTimeout =>
+      classificationSummary.show()
 
-  #   presenceInspector.on 'destroying', =>
-  #     @el.removeClass 'inspecting-individuals'
-  #     @showSummary()
-
-  #   setTimeout =>
-  #     presenceInspector.show()
-
-  # showSummary: ->
-  #   @sendClassification()
-
-  #   classificationSummary = new ClassificationSummary {@classification}
-
-  #   classificationSummary.el.appendTo @el
-
-  #   @el.addClass 'showing-summary'
-
-  #   classificationSummary.on 'destroying', =>
-  #     @el.removeClass 'showing-summary'
-  #     Subject.next()
-
-  #   setTimeout =>
-  #     classificationSummary.show()
-
-  # sendClassification: ->
-  #   @classification.set 'marks', [@markingSurface.marks...]
-  #   console?.log JSON.stringify @classification
-  #   # @classification.send()
+  sendClassification: ->
+    @classification.set 'marks', [@markingSurface.marks...]
+    console?.log JSON.stringify @classification
+    # @classification.send()
 
 module.exports = Classifier

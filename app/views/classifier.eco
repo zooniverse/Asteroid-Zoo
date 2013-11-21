@@ -1,5 +1,5 @@
 <% translate = require 't7e' %>
-<% #ifTouch = require '../lib/if-touch' %>
+<% ifTouch = require '../lib/if-touch' %>
 
 <div class="content-block">
   <div class="content-container">
@@ -14,12 +14,11 @@
 <div class="content-block">
   <div class="content-container">
     <div class="instructions">
-      <%# action = ifTouch 'tapping', 'clicking' %><!--TODO: Translate these.-->
-      <%#- translate 'div.question', 'classifier.markTags', $action: action %>
+      <% action = translate 'span', "classifier.#{ifTouch 'tapping', 'clicking'}" %><!--TODO: Translate these.-->
+      <%- translate 'div.question', 'classifier.markAnimals', $action: action %>
 
       <div class="answers">
         <%- translate 'button', 'classifier.finished', name: 'finish-marking' %>
-        <%- translate 'button', 'classifier.noTags', name: 'no-tags' %>
       </div>
     </div>
   </div>

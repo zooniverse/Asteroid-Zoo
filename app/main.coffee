@@ -26,7 +26,7 @@ languageManager.on 'change-language', (e, code, strings) ->
 # load api
 ##################################################
 Api = require 'zooniverse/lib/api'
-api = new Api project: 'serengeti'
+api = new Api project: 'asteroid'
 
 ##################################################
 # load the site navigation
