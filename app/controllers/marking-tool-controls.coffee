@@ -9,20 +9,16 @@ KEYS =
 
 class MarkingToolControlsController extends BaseController
   className: 'marking-tool-controls-controller'
-  template: require '../views/marking-tool-controls-controls' 
+  template: require '../views/marking-tool-controls' 
 
   tool: null
 
   state: ''
 
-  elements:
-    'img.selected-animal-example': 'selectedAnimalImage'
-    '.selected-animal-label': 'selectedAnimalLabel'
-    'input[name="selected-animal"]': 'selectedAnimalRadios'
-    'input[name="tag"]': 'tagInput'
-    'input[name="cant-see-tag"]': 'cantSeeTagCheckbox'
-    'input[name="proximity"]': 'proximityInput'
-    'input[name="is-on-carcass"]': 'isOnCarcassRadios'
+  # This construct would take an element or element attribute from the DOM and construct an instance variable
+  # elements:
+  #   # 'img.selected-animal-example': 'selectedAnimalImage'
+  
 
   constructor: ->
     super
@@ -31,72 +27,65 @@ class MarkingToolControlsController extends BaseController
     @on 'destroy', -> fauxRangeInputs.shift().destroy() until fauxRangeInputs.length is 0
 
     @tool.mark.on 'change', (property, value) =>
-      switch property
-        when 'animal'
-          @selectedAnimalImage.attr 'src', translate "animals.#{value}.image"
-          @selectedAnimalLabel.html translate "animals.#{value}.label"
-          @selectedAnimalRadios.prop 'checked', false
-          @selectedAnimalRadios.filter("[value='#{value}']").prop 'checked', true
+            
+    #   switch property
+    #     when 'animal'
+    #       @selectedAnimalImage.attr 'src', translate "animals.#{value}.image"
+    #       @selectedAnimalLabel.html translate "animals.#{value}.label"
+    #       @selectedAnimalRadios.prop 'checked', false
+    #       @selectedAnimalRadios.filter("[value='#{value}']").prop 'checked', true
 
-          if value is 'condor'
-            @tool.mark.set 'isOnCarcass', null
-          else
-            @tool.mark.set 'tag', null
-            @tool.mark.set 'cantSeeTag', null
-            @tool.mark.set 'proximity', null
+    #       if value is 'condor'
+    #         @tool.mark.set 'isOnCarcass', null
+    #       else
+    #         @tool.mark.set 'tag', null
+    #         @tool.mark.set 'cantSeeTag', null
+    #         @tool.mark.set 'proximity', null
 
-        when 'tag'
-          @tagInput.val value
+    #     when 'tag'
+    #       @tagInput.val value
 
-        when 'cantSeeTag'
-          @tagInput.prop 'disabled', value
-          @cantSeeTagCheckbox.prop 'checked', value
+    #     when 'cantSeeTag'
+    #       @tagInput.prop 'disabled', value
+    #       @cantSeeTagCheckbox.prop 'checked', value
 
-        when 'proximity'
-          @proximityInput.val value
+    #     when 'proximity'
+    #       @proximityInput.val value
 
-        when 'isOnCarcass'
-          @isOnCarcassRadios.prop 'checked', false
-          @isOnCarcassRadios.filter("[value='#{value}']").prop 'checked', true
+    #     when 'isOnCarcass'
+    #       @isOnCarcassRadios.prop 'checked', false
+    #       @isOnCarcassRadios.filter("[value='#{value}']").prop 'checked', true
 
-      @el.find('button[name="next"]').prop 'disabled', not @tool.mark.animal
-      @el.find('button[name="done-with-condor"]').prop 'disabled', not @tool.mark.tag and not @tool.mark.cantSeeTag
-      @el.find('button[name="done-with-non-condor"]').prop 'disabled', not @tool.mark.isOnCarcass?
-
+    #   @el.find('button[name="next"]').prop 'disabled', not @tool.mark.animal
+    #   @el.find('button[name="done-with-condor"]').prop 'disabled', not @tool.mark.tag and not @tool.mark.cantSeeTag
+    #   @el.find('button[name="done-with-non-condor"]').prop 'disabled', not @tool.mark.isOnCarcass?
+    console.log("mark changed")
     @setState 'whatKind'
 
   events:
     'click button[name="to-select"]': ->
+      console.log("click button to select")
       @setState 'whatKind'
 
-    'change input[name="selected-animal"]': (e) ->
-      @tool.mark.set 'animal', @selectedAnimalRadios.filter(':checked').val()
-
-    'input input[name="tag"]': (e) ->
-      @tool.mark.set 'tag', e.currentTarget.value
-
-    'change input[name="cant-see-tag"]': (e) ->
-      @tool.mark.set 'cantSeeTag', e.currentTarget.checked
-
-    'change input[name="proximity"]': (e) ->
-      @tool.mark.set 'proximity', e.currentTarget.value
-
-    'change input[name="is-on-carcass"]': (e) ->
-      @tool.mark.set 'isOnCarcass', @isOnCarcassRadios.filter(':checked').val()
+    'change input[name="classifier-type"]': (e) ->
+      if e.currentTarget.value == 'asteroid'  
+        @setState 'asteroidTool'
+      else if  e.currentTarget.value == 'artifact'
+        @setState 'artifactTool'
+      else
+        console.log("Error: unknown classifier-type")
 
     'click button[name="delete"]': ->
-      @tool.mark.destroy()
+       @tool.mark.destroy()
 
-    'click button[name="back"]': ->
-      @setState 'what-kind'
+    'click button[name="reset"]': ->
+      console.log "reset"
+      @setState 'whatKind'
 
-    'click button[name="next"]': ->
-      @setState if @tool.mark.animal is 'condor'
-        'condorDetails'
-      else
-        'nonCondorDetails'
+    'click button[name="next"]':   ->
+      console.log "buttonnext clicked"
 
-    'click button[name^="done-with-"]': ->
+    'click button[name^="done"]': ->
       @tool.deselect()
 
     'keydown': (e) ->
@@ -105,6 +94,7 @@ class MarkingToolControlsController extends BaseController
         when KEYS.esc then @el.find('footer button.cancel:visible').first().click()
 
   setState: (newState) ->
+    console.log("enter setState")
     if @state
       @states[@state]?.exit.call @
     else
@@ -120,36 +110,34 @@ class MarkingToolControlsController extends BaseController
   states:
     whatKind:
       enter: ->
-        @el.find('button[name="to-select"]').addClass 'hidden'
-        @selectedAnimalImage.addClass 'major'
-        @selectedAnimalLabel.addClass 'hidden'
-        @el.find('.what-kind').show()
-        @el.find('button[name="next"]').show()
+        console.log("enter state whatKind")
+        @el.find('button[name="to-select"]').addClass 'hidden' 
+        @el.find('.what-kind').show()       
+       #@el.find('button[name="next"]').show()  
 
       exit: ->
+        console.log("ext state what kind")
         @el.find('button[name="to-select"]').removeClass 'hidden'
-        @selectedAnimalImage.removeClass 'major'
-        @selectedAnimalLabel.removeClass 'hidden'
         @el.find('.what-kind').hide()
         @el.find('button[name="next"]').hide()
 
-    # condorDetails:
-    #   enter: ->
-    #     @el.find('.condor-details').show()
-    #     @el.find('button[name="done-with-condor"]').show()
-
-    #   exit: ->
-    #     @el.find('.condor-details').hide()
-    #     @el.find('button[name="done-with-condor"]').hide()
-
-    # nonCondorDetails:
-    #   enter: ->
-    #     @el.find('.non-condor-details').show()
-    #     @el.find('button[name="done-with-non-condor"]').show()
-
-    #   exit: ->
-    #     @el.find('.non-condor-details').hide()
-    #     @el.find('button[name="done-with-non-condor"]').hide()
+    asteroidTool:
+      enter: ->
+        console.log("enter state asteroidTool")
+        @el.find('.asteroid-classifier').show()
+       
+      exit: ->
+        console.log("exit state asteroidTool")
+        @el.find('.asteroid-classifier').hide()  
+      
+        
+    artifactTool:
+      enter: ->
+        console.log("enter state artifactTool")
+        @el.find('.artifact-classifier').show()
+      exit: ->
+        console.log("exit state artifactTool")
+        @el.find('.artifact-classifier').hide() 
 
 
 class MarkingToolControls extends ToolControls

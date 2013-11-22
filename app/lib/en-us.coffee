@@ -25,45 +25,59 @@ module.exports =
 
   classifier:
     title: 'Classify'
-    markTags: 'Mark each zonder\'s numbered tag visible in this photo by $action.'
-    clicking: 'clicking'
-    tapping: 'tapping'
-    proximityNear: 'Near'
-    proximityFar: 'Far'
-    cantTell: 'Can\'t tell'
-    finished: 'Finished'
-    noTags: 'No tags visible'
+    # TODO condors remanant
+    #markTags: 'blurbs'
+    #clicking: 'clicking'
+    #tapping: 'tapping'
+    #proximityNear: 'Near'
+    #proximityFar: 'Far'
+    ##cantTell: 'Can\'t tell'
+    #finished: 'Finished'
+    #noTags: 'No tags visible'
+    done:  "Finished"
+    reset: 'Reset'
     delete: 'Delete'
     next: 'Next'
-    whatKind: 'Type of Image Defect'
-    whatKind: 'Type of Image Defect'
-    
-    marker:
-      identification: 'Identification'
-      tagNo: 'Tag no.'
-      tagHidden: 'Tag number hidden'
-      proximity: 'Proximity'
-      proximityExplanation: '<strong>How close</strong> is this zonder to the carcass or scale?'
-      cancel: 'Cancel'
-      next: 'Next'
-      done: 'Done'
+    whatKind: 'Asteroid or Artifact'
+
+    type:
+      asteroid:
+        label: 'Asteroid'
+      artifact:
+        label: 'Artifact'
+
+  #TODO condors reminant
+    # marker:
+    #   identification: 'Identification'
+    #   tagNo: 'Tag no.'
+    #   tagHidden: 'Tag number hidden'
+    #   proximity: 'Proximity'
+    #   proximityExplanation: '<strong>How close</strong> is this zonder to the carcass or scale?'
+    #   cancel: 'Cancel'
+    #   next: 'Next'
+    #   done: 'Done'
 
       spurious: 'Spurious'
   
   artifacts:
+    heading: "Type of Image Artifact"
     starbleed:
       label: 'Star Bleed'
     hotpixel:
       label: 'Hot Pixel'
     other:
       label: 'Other' 
-      
-  presenceInspector:
-    toggleOriginal: 'Original image'
-    proximityChange: 'Estimate zonder <small>NO</small>. $tag\'s proximity in this photo.'
-    continue: 'Continue'
-    finish: 'Finish'
+  asteroids:
+    heading: "Mark Asteroid"
 
+  #TODO condors reminant
+  # presenceInspector:
+  #   toggleOriginal: 'Original image'
+  #   proximityChange: 'Proximity change'
+  #   continue: 'Continue'
+  #   finish: 'Finish'
+
+  #TODO condors reminant
   classificationSummary:
     title: 'Summary'
     noTags: '(No tags visible)'
