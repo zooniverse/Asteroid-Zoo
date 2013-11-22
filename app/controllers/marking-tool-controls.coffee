@@ -9,7 +9,7 @@ KEYS =
 
 class MarkingToolControlsController extends BaseController
   className: 'marking-tool-controls-controller'
-  template: require '../views/artifact-tool-controls'
+  template: require '../views/marking-tool-controls-controls' 
 
   tool: null
 

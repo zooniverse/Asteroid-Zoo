@@ -36,7 +36,8 @@ module.exports =
     delete: 'Delete'
     next: 'Next'
     whatKind: 'Type of Image Defect'
-
+    whatKind: 'Type of Image Defect'
+    
     marker:
       identification: 'Identification'
       tagNo: 'Tag no.'
