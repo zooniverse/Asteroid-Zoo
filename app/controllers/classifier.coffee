@@ -26,7 +26,8 @@ class Classifier extends BaseController
 
   events:
     'click button[name="finish-marking"]': 'onClickFinishMarking'
-    'click button[name="no-tags"]': 'onClickNoTags'
+    'click button[name="no-tags"]'       : 'onClickNoTags'
+    'click button[name="play-frames"]'   : 'onClickPlayFrames'
 
   elements:
     '.subject': 'subjectContainer'
@@ -72,6 +73,7 @@ class Classifier extends BaseController
       frame_id = "frame-id-#{i}"
       frameImage = @markingSurface.addShape 'image',
         id:  frame_id
+        class: 'frameImage'
         width: '100%'
         height: '100%'
         preserveAspectRatio: 'none'
@@ -86,6 +88,10 @@ class Classifier extends BaseController
 
     @stopLoading()
     @markingSurface.enable()
+
+  onClickPlayFrames: ->
+    console.log "Play frames!"
+    #@playFrames() # still needs to be built!
 
   onClickFinishMarking: ->
     @showSummary()

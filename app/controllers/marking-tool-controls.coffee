@@ -121,7 +121,8 @@ class MarkingToolControlsController extends BaseController
 
   hideFrame: (img_id) ->
     document.getElementById(img_id).style.visibility="hidden"
-  
+
+  destroyImage: (img_id) ->
 
 
   setState: (newState) ->
