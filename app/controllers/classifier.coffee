@@ -9,7 +9,10 @@ MarkingTool = require './marking-tool'
 ClassificationSummary = require './classification-summary'
 
 DEV_SUBJECTS = [
-  '../dev-subjects-images/asteroid.png'
+  './dev-subjects-images/registered_1.png'
+  './dev-subjects-images/registered_2.png'
+  './dev-subjects-images/registered_3.png'
+  './dev-subjects-images/registered_4.png'
 ]
 
 NEXT_DEV_SUBJECT = ->
@@ -23,7 +26,8 @@ class Classifier extends BaseController
 
   events:
     'click button[name="finish-marking"]': 'onClickFinishMarking'
-    'click button[name="no-tags"]': 'onClickNoTags'
+    'click button[name="no-tags"]'       : 'onClickNoTags'
+    'click button[name="play-frames"]'   : 'onClickPlayFrames'
 
   elements:
     '.subject': 'subjectContainer'
@@ -69,6 +73,7 @@ class Classifier extends BaseController
       frame_id = "frame-id-#{i}"
       frameImage = @markingSurface.addShape 'image',
         id:  frame_id
+        class: 'frameImage'
         width: '100%'
         height: '100%'
         preserveAspectRatio: 'none'
@@ -78,12 +83,15 @@ class Classifier extends BaseController
       do (img_src, frameImage)  => 
         loadImage img_src, (img) =>
         frameImage.attr
-         'xlink:href': img_src
-
+          #'xlink:href': img_src          # get images from api
+          'xlink:href': DEV_SUBJECTS[i]   # use hardcoded static images
 
     @stopLoading()
-
     @markingSurface.enable()
+
+  onClickPlayFrames: ->
+    console.log "Play frames!"
+    #@playFrames() # still needs to be built!
 
   onClickFinishMarking: ->
     @showSummary()
