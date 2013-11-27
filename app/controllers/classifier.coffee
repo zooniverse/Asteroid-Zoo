@@ -8,6 +8,8 @@ MarkingSurface = require 'marking-surface'
 MarkingTool = require './marking-tool'
 ClassificationSummary = require './classification-summary'
 
+SubjectViewer = require './subject-viewer'
+
 DEV_SUBJECTS = [
   './dev-subjects-images/registered_1.png'
   './dev-subjects-images/registered_2.png'
@@ -27,7 +29,6 @@ class Classifier extends BaseController
   events:
     'click button[name="finish-marking"]': 'onClickFinishMarking'
     'click button[name="no-tags"]'       : 'onClickNoTags'
-    'click button[name="play-frames"]'   : 'onClickPlayFrames'
 
   elements:
     '.subject': 'subjectContainer'
@@ -41,6 +42,8 @@ class Classifier extends BaseController
     @markingSurface = new MarkingSurface
       tool: MarkingTool
 
+    @subjectViewer = new SubjectViewer
+
     @markingSurface.svgRoot.attr 'id', 'classifier-svg-root'
 
     @subjectContainer.append @markingSurface.el
@@ -51,8 +54,8 @@ class Classifier extends BaseController
 
     #addEventListener 'resize', @rescale, false
 
-  activate: ->
-    # setTimeout @rescale, 100
+  # activate: ->
+  #   # setTimeout @rescale, 100
 
   onUserChange: (e, user) =>
     console.log "user change"
@@ -89,9 +92,9 @@ class Classifier extends BaseController
     @stopLoading()
     @markingSurface.enable()
 
-  onClickPlayFrames: ->
-    console.log "Play frames!"
-    #@playFrames() # still needs to be built!
+  # onClickPlayFrames: ->
+  #   console.log "Play frames!"
+  #   #@playFrames() # still needs to be built!
 
   onClickFinishMarking: ->
     @showSummary()
