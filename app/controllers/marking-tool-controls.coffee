@@ -32,38 +32,10 @@ class MarkingToolControlsController extends BaseController
     @on 'destroy', -> fauxRangeInputs.shift().destroy() until fauxRangeInputs.length is 0
 
     @tool.mark.on 'change', (property, value) =>
-            
-    #   switch property
-    #     when 'animal'
-    #       @selectedAnimalImage.attr 'src', translate "animals.#{value}.image"
-    #       @selectedAnimalLabel.html translate "animals.#{value}.label"
-    #       @selectedAnimalRadios.prop 'checked', false
-    #       @selectedAnimalRadios.filter("[value='#{value}']").prop 'checked', true
+        # switch property
+        #   when 'asteroid'
 
-    #       if value is 'condor'
-    #         @tool.mark.set 'isOnCarcass', null
-    #       else
-    #         @tool.mark.set 'tag', null
-    #         @tool.mark.set 'cantSeeTag', null
-    #         @tool.mark.set 'proximity', null
-
-    #     when 'tag'
-    #       @tagInput.val value
-
-    #     when 'cantSeeTag'
-    #       @tagInput.prop 'disabled', value
-    #       @cantSeeTagCheckbox.prop 'checked', value
-
-    #     when 'proximity'
-    #       @proximityInput.val value
-
-    #     when 'isOnCarcass'
-    #       @isOnCarcassRadios.prop 'checked', false
-    #       @isOnCarcassRadios.filter("[value='#{value}']").prop 'checked', true
-
-    #   @el.find('button[name="next"]').prop 'disabled', not @tool.mark.animal
-    #   @el.find('button[name="done-with-condor"]').prop 'disabled', not @tool.mark.tag and not @tool.mark.cantSeeTag
-    #   @el.find('button[name="done-with-non-condor"]').prop 'disabled', not @tool.mark.isOnCarcass?
+        #   when 'artifact'
     console.log("mark changed")
     @setState 'whatKind'
 
@@ -74,9 +46,15 @@ class MarkingToolControlsController extends BaseController
 
     'change input[name="classifier-type"]': (e) ->
       if e.currentTarget.value == 'asteroid'  
+        #console.log "asteroid tool"
         @setState 'asteroidTool'
+        @tool.mark.set 'asteroid', true
+        
       else if  e.currentTarget.value == 'artifact'
+        #console.log "asteroid tool"
         @setState 'artifactTool'
+        @tool.mark.set 'artifact', true
+        
       else
         console.log("Error: unknown classifier-type")
 
