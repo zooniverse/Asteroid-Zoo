@@ -83,6 +83,10 @@ class Classifier extends BaseController
   # activate: ->
   #   # setTimeout @rescale, 100
 
+  renderTemplate: =>
+    super
+    
+
   onUserChange: (e, user) =>
     Subject.next() unless @classification?
 
