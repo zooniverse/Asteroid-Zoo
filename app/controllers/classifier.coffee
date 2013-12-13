@@ -11,6 +11,7 @@ ClassificationSummary = require './classification-summary'
 
 # for keybindings
 KEYS =
+  space:  32
   return: 13
   esc:    27
   one:    49
@@ -53,8 +54,8 @@ class Classifier extends BaseController
         when KEYS.four
           @hideAllFrames()
           @showFrame("frame-id-3")
-
-    
+        when KEYS.space
+          @play()
 
   elements:
     '.subject'                      : 'subjectContainer'
@@ -70,21 +71,14 @@ class Classifier extends BaseController
     #@setClassification @classification  # ...
     
     window.classifier = @
-
     @markingSurface = new MarkingSurface
       tool: MarkingTool
-
-    # @subjectViewer = new SubjectViewer
-
     @markingSurface.svgRoot.attr 'id', 'classifier-svg-root'
-
     @subjectContainer.append @markingSurface.el
 
     User.on 'change', @onUserChange
     Subject.on 'fetch', @onSubjectFetch
     Subject.on 'select', @onSubjectSelect
-
-    #addEventListener 'resize', @rescale, false
 
   # activate: ->
   #   # setTimeout @rescale, 100
