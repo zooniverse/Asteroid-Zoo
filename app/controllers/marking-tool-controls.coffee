@@ -40,6 +40,7 @@ class MarkingToolControlsController extends BaseController
       
     @currentFrame  =  @imageSet.getFrameFromElement('frame-id-0')
     
+
     # provisional default case of artifact subtype
     artifactSubtype = "other"
 
@@ -52,8 +53,8 @@ class MarkingToolControlsController extends BaseController
 
         #   when 'artifact'
         #     #@tool.mark.artifact.set "subtype", @selectedArtifactRadios.value
-
-    console.log("mark changed")
+        #console.log ("noop")
+   
     @setState 'whatKind'
 
   events:
@@ -63,29 +64,22 @@ class MarkingToolControlsController extends BaseController
     'change input[name="classifier-type"]': (e) ->
 
       if e.currentTarget.value == 'asteroid' 
-        asteroid_detection= 
-          type: "asteroid" 
-          frame: @currentFrame.seqNumber
-          
-        @setState 'asteroidTool change'
-        @tool.mark.set 'detection', asteroid_detection
+        @setState 'asteroidTool'
         
       else if  e.currentTarget.value == 'artifact'
-        art_detection = 
-          type: "artifact" 
-          frame:   @currentFrame.seqNumber
-          subType: @artifactSubtype
         @setState 'artifactTool'
-        @tool.mark.set 'detection', art_detection
         
       else
         console.log("Error: unknown classifier-type")
 
-    'change input[name="selected-artifact"]': =>
+    #'change input[name="selected-artifact"]': =>
      
       #TODO why do I need to place locate  selectedArtifactRadios in elements. 
       # it shoudl be added go  the object scope
       # @artifactSubtype = selectedArtifactRadios.filter(':checked').val() 
+
+    'click button[name="done"]': ->
+      @setMark()
 
     'click button[name="delete"]': ->
       @tool.mark.destroy()
@@ -134,6 +128,15 @@ class MarkingToolControlsController extends BaseController
 
   destroyImage: (img_id) ->
 
+  setMark: ->
+    #TODO state machine is getting messy
+    if @state is "asteroidTool" or "whatKind"  
+      @tool.mark.set 'detection', @getAsteroidDetection()
+    else if @state is "artifactTool"
+      @tool.mark.set 'detection', @getArtifactDetection()
+    else
+      debugger  
+      console.log("Error: marking tool not specified")   
 
   setState: (newState) ->
     if @state
@@ -174,6 +177,21 @@ class MarkingToolControlsController extends BaseController
       exit: ->
         @el.find('.artifact-classifier').hide() 
 
+  getAsteroidDetection: =>
+    asteroid_detection= 
+      type: "asteroid" 
+      frame: @currentFrame.seqNumber
+    asteroid_detection
+
+  getArtifactDetection: =>
+    art_detection = 
+        type: "artifact" 
+        frame:   @currentFrame.seqNumber
+        subType: @artifactSubtype
+    art_detection
+
+
+
   #ToDo move to model 
 class ImageSet
 
@@ -199,7 +217,6 @@ class ImageSet
         
 #TODO move to model
 class ImageFrame
-  require ("underscore")
   elementId: ''
   seqNumber: ''
   url: ''
