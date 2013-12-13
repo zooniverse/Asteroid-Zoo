@@ -1,13 +1,13 @@
 todos
 *  to select frames doesn't become active until marking tool controll is dropped on surface
 (Moving this key press logic to classifer)
-* radio button doesn't default so mark might miss metadata when set
-* no artifact sub-type sent
-* seperate view and model, ImageSet and ImageFrame logic is more model than controller but kind of knows about the view
-* dispaly indicator of frame based on what the current frame si so more clear
-* why is X a float and Y an Integer.  Shouldn't they both be integer
+* DONE radio button doesn't default so mark might miss metadata when set
+* DONE no artifact sub-type sent
+* display indicator of frame based on what the current frame si so more clear
+* WENT AWAY why is X a float and Y an Integer.  Shouldn't they both be integer
 * toggle button  in display for current frame
 	* link this display to key press events
 
-# next release
+# next iteration
 * connect animation to classifcation
+* seperate view and model, ImageSet and ImageFrame logic is more model than controller but kind of knows about the view
