@@ -208,6 +208,6 @@ class Classifier extends BaseController
   sendClassification: ->
     @classification.set 'marks', [@markingSurface.marks...]
     console?.log JSON.stringify @classification
-    # @classification.send()
+    @classification.send()
 
 module.exports = Classifier

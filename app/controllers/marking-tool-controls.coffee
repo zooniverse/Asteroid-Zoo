@@ -124,7 +124,10 @@ class MarkingToolControlsController extends BaseController
     else if @state is "artifactTool"
       detection =  @getArtifactDetection()
     else
-      console.log("Error: marking tool not specified") 
+      console.log("Error: marking tool not specified")
+    # hack may not be needed
+    # @tool.mark.x = Math.floor(@tool.mark.x) 
+    # @tool.mark.y = Math.floor(@tool.mark.y) 
     @tool.mark.set 'detection', detection
 
   setState: (newState) ->
@@ -193,14 +196,12 @@ class ImageSet
     for i in [0..3] by 1
       frame = new ImageFrame("frame-id-#{i}", i, "", "")
       @imageFrames[i] = frame
-    #TODO 
     @imageFrames
 
   getFrameFromElement: (elementId) => 
     frame = _.findWhere(@imageFrames, elementId: elementId)
 
   getFrameSeqNumberFromElement: (elementId) => 
-     debugger
      getFrameFromElement(elementId).seqNumber
         
 #TODO move to model
