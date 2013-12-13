@@ -6,17 +6,12 @@
     <%- translate 'h2', 'classifier.title' %>
   </div>
 
-  <% @foo = {"BLAH1", "BLAH2"} %>
-  <% for src, i in @foo: %>
-    <H1><%= "puts blah" %></H1>
-  <% end %>
-
   <div class="content-container">
     <div class="subject"></div>
 
-      <% #for src, i in @DEV_SUBJECTS: %>
-          <img src1="<%= #src %>" />
-      <% #end %>
+      <!-- #for src, i in @DEV_SUBJECTS: %>
+          <img src="<%= #src %>" />
+      <% #end %>-->
     
   </div>
 </div>
