@@ -35,7 +35,7 @@ class Classifier extends BaseController
 
   elements:
     '.subject'                      : 'subjectContainer'
-    # '.frame-image'                  : 'imageFrames'   # not being used (yet?)
+    '.frame-image'                  : 'imageFrames'   # not being used (yet?)
     'button[name="play-frames"]'    : 'playButton'
     'button[name="finish-marking"]' : 'finishButton'
     'button[name="no-tags"]'        : 'noTagsButton'
@@ -77,8 +77,10 @@ class Classifier extends BaseController
     #reset the marking surface and load classifcation
     @markingSurface.reset()
     @classification = new Classification {subject}
+
+    # create image elements  
     framesCount =  subject.location.standard.length
-    for i in [0..framesCount-1] by 1
+    for i in [framesCount-1..0] by -1
       # # add image element to the marking surface
       frame_id = "frame-id-#{i}"
       frameImage = @markingSurface.addShape 'image',
@@ -100,20 +102,16 @@ class Classifier extends BaseController
     @markingSurface.enable()
 
   onClickPlay: ->
-    @play() # still needs to be built!
+    @play()
 
   play: ->
     console.log "SUBJECTS:"
     for src, i in DEV_SUBJECTS
       console.log "  SUBJECT-" + i + ": " + src
 
-    # Flip the images back and forth a couple times.
+    # flip the images back and forth once
     last = @classification.subject.location.standard.length - 1
-    iterator = [0...last].concat [last...0]
-    iterator = iterator.concat [0...last].concat [last...0]
-
-    # End half way through.
-    iterator = iterator.concat [0...Math.floor(@classification.subject.location.standard.length / 2) + 1]
+    iterator = [0...last].concat [last...-1]
 
     @el.addClass 'playing'
 
@@ -148,7 +146,7 @@ class Classifier extends BaseController
     document.getElementById(img_id).style.visibility="visible"
 
   hideFrame: (img_id) ->
-    console.log "HIDE " + img_id
+    #console.log "HIDE " + img_id
     document.getElementById(img_id).style.visibility="hidden"
 
   onClickFinishMarking: ->
