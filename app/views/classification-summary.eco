@@ -5,35 +5,25 @@
   <%- translate 'h2', 'classificationSummary.title' %>
 
   <div class="marks">
-    <% for mark in @classification.get 'marks' when mark.animal is 'condor' and not mark.cantSeeTag: %>
+    <% for mark in @classification.get 'marks': %>
+     
       <div class="mark" data-tag="<%= mark.tag %>">
         <div class="tag">
           <svg viewBox="0 0 100 100">
             <g transform="translate(50, 50)">
             <polygon points="<%= getOctagonPoints 50 %>" />
           </svg>
-
-          <div class="tag-number">
-            <small>No.</small>
-            <strong><%= mark.tag %></strong>
-          </div>
         </div>
 
         <div class="stat">
-          <div><%- translate 'strong', 'classificationSummary.relativeAge' %></div>
-          <div class="age-value">· · ·</div>
+          A stat would be here
         </div>
 
         <div class="stat">
-          <div><%- translate 'strong', 'classificationSummary.born' %></div>
-          <div class="born-value">· · ·</div>
+          Another stat would be here
         </div>
 
-        <div class="stat">
-          <div><%- translate 'strong', 'classificationSummary.died' %></div>
-          <div class="died-value">· · ·</div>
-        </div>
-
+        
         <div class="share">
           <div>
             <%- translate 'strong', 'classificationSummary.share', $tag: mark.tag %>
