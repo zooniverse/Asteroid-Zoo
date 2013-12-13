@@ -85,7 +85,7 @@ class Classifier extends BaseController
 
   renderTemplate: =>
     super
-    
+
 
   onUserChange: (e, user) =>
     Subject.next() unless @classification?
@@ -109,7 +109,7 @@ class Classifier extends BaseController
         class: 'frame-image'
         width: '100%'
         height: '100%'
-        preserveAspectRatio: 'none'
+        preserveAspectRatio: 'true'
      
       img_src = subject.location.standard[i]
       #load the image for this frame
