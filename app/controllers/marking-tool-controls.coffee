@@ -3,6 +3,7 @@ BaseController = require 'zooniverse/controllers/base-controller'
 FauxRangeInput = require 'faux-range-input'
 translate = require 't7e'
 Subject = require 'zooniverse/models/subject'
+_  = require 'underscore'
 
 KEYS =
   return: 13
@@ -17,52 +18,85 @@ class MarkingToolControlsController extends BaseController
   template: require '../views/marking-tool-controls' 
 
   tool: null
+  
+  imageSet:  null
+  currentFrame: null
 
   state: ''
 
-  # This construct would take an element or element attribute from the DOM and construct an instance variable
+  # This construct  takes an element or element attribute from the DOM and construct an instance variable
   # elements:
-  #   # 'img.selected-animal-example': 'selectedAnimalImage'
+  # TODO provisional handle to frames
+  elements:
+    'input[name="selected-artifact"]': 'selectedArtifactRadios'
+    'img.frame-id-1': 'firstFrame'
+    'img.frame-id-2': 'secondFrame'
+    'img.frame-id-3': 'thirdFrame'
+    'img.frame-id-4': 'fourthFrame'
   
-
   constructor: ->
+
     super
+   
+    #this populates 4 image frames 
+    @imageSet = new ImageSet()
+    #TODO 
+    @currentFrame  =  @imageSet.getFrameFromElement('frame-id-1')
+
+    
+    console.log  "Current frame #{@currentFrame .val}"
+
+    # provisional default case of artifact subtype
+    artifactSubtype = "other"
 
     fauxRangeInputs = FauxRangeInput.find @el.get 0
     @on 'destroy', -> fauxRangeInputs.shift().destroy() until fauxRangeInputs.length is 0
 
     @tool.mark.on 'change', (property, value) =>
         # switch property
-        #   when 'asteroid'
+        #   #when 'asteroid'
 
         #   when 'artifact'
+        #     #@tool.mark.artifact.set "subtype", @selectedArtifactRadios.value
+
     console.log("mark changed")
     @setState 'whatKind'
 
   events:
     'click button[name="to-select"]': ->
-      console.log("click button to select")
       @setState 'whatKind'
 
     'change input[name="classifier-type"]': (e) ->
-      if e.currentTarget.value == 'asteroid'  
-        #console.log "asteroid tool"
-        @setState 'asteroidTool'
-        @tool.mark.set 'asteroid', true
+
+      if e.currentTarget.value == 'asteroid' 
+        asteroid_detection= 
+          type: "asteroid" 
+          frame: @currentFrame.seqNumber
+          
+        @setState 'asteroidTool change'
+        @tool.mark.set 'detection', asteroid_detection
         
       else if  e.currentTarget.value == 'artifact'
-        #console.log "asteroid tool"
+        art_detection = 
+          type: "artifact" 
+          frame:   @currentFrame.seqNumber
+          subType: @artifactSubtype
         @setState 'artifactTool'
-        @tool.mark.set 'artifact', true
+        @tool.mark.set 'detection', art_detection
         
       else
         console.log("Error: unknown classifier-type")
 
+    'change input[name="selected-artifact"]': =>
+     
+      #TODO why do I need to place locate  selectedArtifactRadios in elements. 
+      # it shoudl be added go  the object scope
+      # @artifactSubtype = selectedArtifactRadios.filter(':checked').val() 
+
     'click button[name="delete"]': ->
-       @tool.mark.destroy()
+      @tool.mark.destroy()
 
     'click button[name="reset"]': ->
-      console.log "reset"
       @setState 'whatKind'
 
     'click button[name="next"]':   ->
@@ -95,8 +129,9 @@ class MarkingToolControlsController extends BaseController
     @hideFrame("frame-id-3")
     
   showFrame: (img_id) ->
+    @currentFrame  =  @imageSet.getFrameFromElement(img_id)
     document.getElementById(img_id).style.visibility="visible"
-
+   
   hideFrame: (img_id) ->
     document.getElementById(img_id).style.visibility="hidden"
 
@@ -104,7 +139,6 @@ class MarkingToolControlsController extends BaseController
 
 
   setState: (newState) ->
-    console.log("enter setState")
     if @state
       @states[@state]?.exit.call @
     else
@@ -120,35 +154,63 @@ class MarkingToolControlsController extends BaseController
   states:
     whatKind:
       enter: ->
-        console.log("enter state whatKind")
         @el.find('button[name="to-select"]').addClass 'hidden' 
         @el.find('.what-kind').show()       
        #@el.find('button[name="next"]').show()  
 
       exit: ->
-        console.log("ext state what kind")
         @el.find('button[name="to-select"]').removeClass 'hidden'
         @el.find('.what-kind').hide()
         @el.find('button[name="next"]').hide()
 
     asteroidTool:
       enter: ->
-        console.log("enter state asteroidTool")
         @el.find('.asteroid-classifier').show()
        
       exit: ->
-        console.log("exit state asteroidTool")
         @el.find('.asteroid-classifier').hide()  
       
         
     artifactTool:
       enter: ->
-        console.log("enter state artifactTool")
         @el.find('.artifact-classifier').show()
       exit: ->
-        console.log("exit state artifactTool")
         @el.find('.artifact-classifier').hide() 
 
+  #ToDo move to model 
+class ImageSet
+
+  imageFrames: null
+
+  constructor: ->
+    @populateImageSet()
+
+  populateImageSet: =>
+    @imageFrames = new Array()
+    #firstFrame = new ImageFrame('frame-id-1', '1' , "", "")
+    for i in [0..3] by 1
+      frame = new ImageFrame("frame-id-#{i}", i, "", "")
+      @imageFrames[i] = frame
+    @imageFrames
+
+  getFrameFromElement: (elementId) => 
+    frame = _.findWhere(@imageFrames, elementId: elementId)
+
+  # getFrameSeqNumberFromElement: (elementId) => 
+  #   getFrameFromElement(elementId).seqNumber
+        
+#TODO move to model
+class ImageFrame
+  require ("underscore")
+  elementId: ''
+  seqNumber: ''
+  url: ''
+  inversionUrl: ''
+
+  constructor: (@elementId,@seqNumber,@url,@inversionUrl) ->
+
+   
+  
 
 class MarkingToolControls extends ToolControls
   constructor: ->
