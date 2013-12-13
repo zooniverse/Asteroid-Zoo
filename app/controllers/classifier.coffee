@@ -45,16 +45,16 @@ class Classifier extends BaseController
       switch e.which
         when KEYS.one
           @hideAllFrames()
-          @showFrame("frame-id-0")
+          @showFrame(0)
         when KEYS.two
           @hideAllFrames()
-          @showFrame("frame-id-1")
+          @showFrame(1)
         when KEYS.three
           @hideAllFrames()
-          @showFrame("frame-id-2")
+          @showFrame(2)
         when KEYS.four
           @hideAllFrames()
-          @showFrame("frame-id-3")
+          @showFrame(3)
         when KEYS.space
           @play()
 
@@ -62,7 +62,7 @@ class Classifier extends BaseController
     '.subject'                      : 'subjectContainer'
     '.frame-image'                  : 'imageFrames'   # not being used (yet?)
     '.current-frame input'          : 'frameRadioButtons'
-    'input[name="current-frame"]'   : 'currentFrameRadioButton'
+    'input[name="current-frame-button"]'   : 'currentFrameRadioButton'
     'button[name="play-frames"]'    : 'playButton'
     'button[name="finish-marking"]' : 'finishButton'
     'button[name="no-tags"]'        : 'noTagsButton'
@@ -107,9 +107,9 @@ class Classifier extends BaseController
     framesCount =  subject.location.standard.length
     for i in [framesCount-1..0] by -1
       # # add image element to the marking surface
-      frame_id = "frame-id-#{i}"
+      frame_idx = "frame-id-#{i}"
       frameImage = @markingSurface.addShape 'image',
-        id:  frame_id
+        id:  frame_idx
         class: 'frame-image'
         width: '100%'
         height: '100%'
@@ -135,15 +135,14 @@ class Classifier extends BaseController
     @markingSurface.enable()
 
   onClickRadioButton: ->
-    console.log "Radio button pressed!"
+    for i in [0...@frameRadioButtons.length]
+      if @frameRadioButtons[i].checked
+        @showFrame(i)
 
   onClickPlay: ->
     @play()
 
   play: ->
-
-    console.log "Number of radio buttons: " + @frameRadioButtons.length
-
     console.log "IMAGES:"
     for src, i in DEV_SUBJECTS
       console.log "  Frame-" + i + ": " + src
@@ -166,28 +165,30 @@ class Classifier extends BaseController
 
   activateFrame: (@active) ->
     @active = modulus +@active, @classification.subject.location.standard.length
-    console.log "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"
     for image, i in @el.find('.frame-image')
       # console.log "SHOWING FRAME: " + @active
-      @hideFrame(image.id)
+      @hideFrame(i)
 
-    @showFrame("frame-id-"+@active)
+    @showFrame(@active)
 
 
   # A VERY DODGY WAY OF HIDING/SHOWING FRAMES:
   hideAllFrames: ->
-    @hideFrame("frame-id-0")
-    @hideFrame("frame-id-1")
-    @hideFrame("frame-id-2")
-    @hideFrame("frame-id-3")
+    @hideFrame(0)
+    @hideFrame(1)
+    @hideFrame(2)
+    @hideFrame(3)
     
-  showFrame: (img_id) ->
-    console.log "SHOW " + img_id
-    document.getElementById(img_id).style.visibility="visible"
+  showFrame: (frame_idx) ->
+    console.log "show frame: " + frame_idx
+    @hideAllFrames()
+    document.getElementById("frame-id-#{frame_idx}").style.visibility="visible"
+    console.log "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"
+    @frameRadioButtons[frame_idx].checked = "true"
 
-  hideFrame: (img_id) ->
-    #console.log "HIDE " + img_id
-    document.getElementById(img_id).style.visibility="hidden"
+  hideFrame: (frame_idx) ->
+    document.getElementById("frame-id-#{frame_idx}").style.visibility="hidden"
+    @frameRadioButtons[frame_idx].checked = "true"
 
   destroyFrames: ->
     console.log "Derstroying frames..."

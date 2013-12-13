@@ -17,10 +17,10 @@
 
   <div class="current-frame">
     Current Frame:
-    <input id="radio-id-1" class="current-frame-button" name="current-frame" type="radio" value="1">1
-    <input id="radio-id-2" class="current-frame-button" name="current-frame" type="radio" value="2">2
-    <input id="radio-id-3" class="current-frame-button" name="current-frame" type="radio" value="3">3
-    <input id="radio-id-4" class="current-frame-button" name="current-frame" type="radio" value="4">4
+    <input id="radio-id-0" class="current-frame-button" name="current-frame" type="radio" value="1" checked>1
+    <input id="radio-id-1" class="current-frame-button" name="current-frame" type="radio" value="2">2
+    <input id="radio-id-2" class="current-frame-button" name="current-frame" type="radio" value="3">3
+    <input id="radio-id-3" class="current-frame-button" name="current-frame" type="radio" value="4">4
   </div>
 </div>
 
