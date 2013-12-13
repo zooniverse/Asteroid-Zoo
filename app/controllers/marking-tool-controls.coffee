@@ -99,6 +99,7 @@ class MarkingToolControlsController extends BaseController
     'click button[name^="done"]': ->
       @tool.deselect()
 
+    #TODO With this setup we don't where we are until the classifier is created.
     'keydown': (e) ->
       switch e.which
         when KEYS.return then @el.find('footer button.default:visible').first().click()
