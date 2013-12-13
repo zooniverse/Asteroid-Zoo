@@ -35,7 +35,7 @@ class Classifier extends BaseController
 
   elements:
     '.subject'                      : 'subjectContainer'
-    '.frame-image'                  : 'foo123'
+    # '.frame-image'                  : 'imageFrames'   # not being used (yet?)
     'button[name="play-frames"]'    : 'playButton'
     'button[name="finish-marking"]' : 'finishButton'
     'button[name="no-tags"]'        : 'noTagsButton'
@@ -103,7 +103,6 @@ class Classifier extends BaseController
     @play() # still needs to be built!
 
   play: ->
-
     console.log "SUBJECTS:"
     for src, i in DEV_SUBJECTS
       console.log "  SUBJECT-" + i + ": " + src
@@ -128,31 +127,29 @@ class Classifier extends BaseController
     @playTimeouts.splice 0
     @el.removeClass 'playing'
 
-  # activate: somehow doesn't work. defined somewhere else?
   activateFrame: (@active) ->
-    # console.log "Active = " + @active
-
-    # there are no satellite images for AZ
-    # @satelliteImage.add(@satelliteToggle).removeClass 'active'
-
     @active = modulus +@active, @classification.subject.location.standard.length
-
-    console.log "@el " + @el.find('.frame-image').length
+    console.log "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"
     for image, i in @el.find('.frame-image')
-      console.log "(i, image): " + i + ", " + image
-      @setActiveClasses image, i, @active
+      # console.log "SHOWING FRAME: " + @active
+      @hideFrame(image.id)
 
-    # for button, i in @toggles
-    #   @setActiveClasses button, i, @active
+    @showFrame("frame-id-"+@active)
 
-  setActiveClasses: (el, elIndex, activeIndex) ->
-    # el = $(el)
+  # A VERY DODGY WAY OF HIDING/SHOWING FRAMES:
+  hideAllFrames: ->
+    @hideFrame("frame-id-0")
+    @hideFrame("frame-id-1")
+    @hideFrame("frame-id-2")
+    @hideFrame("frame-id-3")
+    
+  showFrame: (img_id) ->
+    console.log "SHOW " + img_id
+    document.getElementById(img_id).style.visibility="visible"
 
-    # console.log "+elIndex < +activeIndex " + +elIndex < +activeIndex
-    el.toggleClass 'before', +elIndex < +activeIndex
-    el.toggleClass 'active', +elIndex is +activeIndex
-    el.toggleClass 'after', +elIndex > +activeIndex
-
+  hideFrame: (img_id) ->
+    console.log "HIDE " + img_id
+    document.getElementById(img_id).style.visibility="hidden"
 
   onClickFinishMarking: ->
     @showSummary()
