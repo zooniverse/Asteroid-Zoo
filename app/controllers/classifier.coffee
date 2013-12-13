@@ -9,7 +9,14 @@ MarkingSurface = require 'marking-surface'
 MarkingTool = require './marking-tool'
 ClassificationSummary = require './classification-summary'
 
-# SubjectViewer = require './subject-viewer'
+# for keybindings
+KEYS =
+  return: 13
+  esc:    27
+  one:    49
+  two:    50
+  three:  51
+  four:   52
 
 DEV_SUBJECTS = [
   './dev-subjects-images/registered_1.png'
@@ -31,6 +38,22 @@ class Classifier extends BaseController
     'click button[name="play-frames"]'    : 'onClickPlay'
     'click button[name="finish-marking"]' : 'onClickFinishMarking'
     # 'click button[name="no-tags"]'        : 'onClickNoTags'
+
+    'keydown': (e) ->
+      switch e.which
+        when KEYS.one
+          @hideAllFrames()
+          @showFrame("frame-id-0")
+        when KEYS.two
+          @hideAllFrames()
+          @showFrame("frame-id-1")
+        when KEYS.three
+          @hideAllFrames()
+          @showFrame("frame-id-2")
+        when KEYS.four
+          @hideAllFrames()
+          @showFrame("frame-id-3")
+
     
 
   elements:
@@ -105,9 +128,9 @@ class Classifier extends BaseController
     @play()
 
   play: ->
-    console.log "SUBJECTS:"
+    console.log "IMAGES:"
     for src, i in DEV_SUBJECTS
-      console.log "  SUBJECT-" + i + ": " + src
+      console.log "  Frame-" + i + ": " + src
 
     # flip the images back and forth once
     last = @classification.subject.location.standard.length - 1
@@ -149,6 +172,11 @@ class Classifier extends BaseController
     #console.log "HIDE " + img_id
     document.getElementById(img_id).style.visibility="hidden"
 
+  destroyFrames: ->
+    console.log "Derstroying frames..."
+    for image, i in @el.find('.frame-image')
+      image.remove()
+
   onClickFinishMarking: ->
     @showSummary()
 
@@ -166,14 +194,11 @@ class Classifier extends BaseController
 
   showSummary: ->
     @sendClassification()
-
     classificationSummary = new ClassificationSummary {@classification}
-
     classificationSummary.el.appendTo @el
-
     @el.addClass 'showing-summary'
-
     classificationSummary.on 'destroying', =>
+      @destroyFrames()
       @el.removeClass 'showing-summary'
       Subject.next()
 
