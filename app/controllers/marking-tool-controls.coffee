@@ -29,23 +29,17 @@ class MarkingToolControlsController extends BaseController
   # TODO provisional handle to frames
   elements:
     'input[name="selected-artifact"]': 'selectedArtifactRadios'
-    'img.frame-id-1': 'firstFrame'
-    'img.frame-id-2': 'secondFrame'
-    'img.frame-id-3': 'thirdFrame'
-    'img.frame-id-4': 'fourthFrame'
   
   constructor: ->
 
     super
-   
+    
     #this populates 4 image frames 
     @imageSet = new ImageSet()
-    #TODO 
-    @currentFrame  =  @imageSet.getFrameFromElement('frame-id-1')
-
     
-    console.log  "Current frame #{@currentFrame .val}"
-
+      
+    @currentFrame  =  @imageSet.getFrameFromElement('frame-id-0')
+    
     # provisional default case of artifact subtype
     artifactSubtype = "other"
 
@@ -129,8 +123,10 @@ class MarkingToolControlsController extends BaseController
     @hideFrame("frame-id-3")
     
   showFrame: (img_id) ->
+    #console.log("Frame shifted to #{img_id}"
     @currentFrame  =  @imageSet.getFrameFromElement(img_id)
     document.getElementById(img_id).style.visibility="visible"
+
    
   hideFrame: (img_id) ->
     document.getElementById(img_id).style.visibility="hidden"
@@ -187,17 +183,18 @@ class ImageSet
 
   populateImageSet: =>
     @imageFrames = new Array()
-    #firstFrame = new ImageFrame('frame-id-1', '1' , "", "")
     for i in [0..3] by 1
       frame = new ImageFrame("frame-id-#{i}", i, "", "")
       @imageFrames[i] = frame
+    #TODO 
     @imageFrames
 
   getFrameFromElement: (elementId) => 
     frame = _.findWhere(@imageFrames, elementId: elementId)
 
-  # getFrameSeqNumberFromElement: (elementId) => 
-  #   getFrameFromElement(elementId).seqNumber
+  getFrameSeqNumberFromElement: (elementId) => 
+     debugger
+     getFrameFromElement(elementId).seqNumber
         
 #TODO move to model
 class ImageFrame
@@ -227,4 +224,6 @@ class MarkingToolControls extends ToolControls
         @tool.radius = (@tool.constructor::radius / 2) * (2 - proximity)
         @tool.redraw()
 
+#module.exports = ImageFrame
+#module.exports = ImageSet
 module.exports = MarkingToolControls
