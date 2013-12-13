@@ -38,6 +38,7 @@ class Classifier extends BaseController
   events:
     'click button[name="play-frames"]'    : 'onClickPlay'
     'click button[name="finish-marking"]' : 'onClickFinishMarking'
+    'click input[name="current-frame"]'   : 'onClickRadioButton'
     # 'click button[name="no-tags"]'        : 'onClickNoTags'
 
     'keydown': (e) ->
@@ -60,6 +61,8 @@ class Classifier extends BaseController
   elements:
     '.subject'                      : 'subjectContainer'
     '.frame-image'                  : 'imageFrames'   # not being used (yet?)
+    '.current-frame input'          : 'frameRadioButtons'
+    'input[name="current-frame"]'   : 'currentFrameRadioButton'
     'button[name="play-frames"]'    : 'playButton'
     'button[name="finish-marking"]' : 'finishButton'
     'button[name="no-tags"]'        : 'noTagsButton'
@@ -99,6 +102,7 @@ class Classifier extends BaseController
     @markingSurface.reset()
     @classification = new Classification {subject}
 
+
     # create image elements  
     framesCount =  subject.location.standard.length
     for i in [framesCount-1..0] by -1
@@ -110,6 +114,14 @@ class Classifier extends BaseController
         width: '100%'
         height: '100%'
         preserveAspectRatio: 'true'
+
+
+      # radio_id = "radio-id-#{i}"
+      # @markingSurface.addShape 'input', 
+      #   id:  radio_id
+      #   type: 'radio'
+      #   value: "#{i}"
+
      
       img_src = subject.location.standard[i]
       #load the image for this frame
@@ -122,10 +134,16 @@ class Classifier extends BaseController
     @stopLoading()
     @markingSurface.enable()
 
+  onClickRadioButton: ->
+    console.log "Radio button pressed!"
+
   onClickPlay: ->
     @play()
 
   play: ->
+
+    console.log "Number of radio buttons: " + @frameRadioButtons.length
+
     console.log "IMAGES:"
     for src, i in DEV_SUBJECTS
       console.log "  Frame-" + i + ": " + src
@@ -154,6 +172,7 @@ class Classifier extends BaseController
       @hideFrame(image.id)
 
     @showFrame("frame-id-"+@active)
+
 
   # A VERY DODGY WAY OF HIDING/SHOWING FRAMES:
   hideAllFrames: ->
@@ -208,4 +227,4 @@ class Classifier extends BaseController
     console?.log JSON.stringify @classification
     # @classification.send()
 
-module.exports = Classifier
+module.exports = Classifier 
