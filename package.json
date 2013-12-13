@@ -12,5 +12,9 @@
     "zooniverse": "~0.2.0",
     "zootorial": "~0.3.6",
     "underscore": "~1.5.2"
+  },
+  "scripts": {
+    "start": "haw serve --port 3416",
+    "deploy-to-staging": "haw build && publisssh ./build zooniverse-demo/asteroid-zoo && rm -rf ./build"
   }
 }
