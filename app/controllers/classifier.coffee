@@ -37,6 +37,7 @@ class Classifier extends BaseController
   
   events:
     'click button[name="play-frames"]'    : 'onClickPlay'
+    'click button[name="invert"]'         : 'onClickInvert'
     'click button[name="finish-marking"]' : 'onClickFinishMarking'
     'click input[name="current-frame"]'   : 'onClickRadioButton'
     # 'click button[name="no-tags"]'        : 'onClickNoTags'
@@ -72,6 +73,8 @@ class Classifier extends BaseController
     @playTimeouts = []                  # for image_changer
     @el.attr tabindex: 0                # ...
     #@setClassification @classification  # ...
+
+    @invert = false
     
     window.classifier = @
     @markingSurface = new MarkingSurface
@@ -101,11 +104,13 @@ class Classifier extends BaseController
     #reset the marking surface and load classifcation
     @markingSurface.reset()
     @classification = new Classification {subject}
+    @loadFrames()
 
-
+  loadFrames: =>
+    @destroyFrames()
+    subject_info = @classification.subject.location
     # create image elements  
-    framesCount =  subject.location.standard.length
-    for i in [framesCount-1..0] by -1
+    for i in [subject_info.standard.length-1..0]
       # # add image element to the marking surface
       frame_idx = "frame-id-#{i}"
       frameImage = @markingSurface.addShape 'image',
@@ -115,14 +120,17 @@ class Classifier extends BaseController
         height: '100%'
         preserveAspectRatio: 'true'
 
-     
-      img_src = subject.location.standard[i]
+      if @invert is true
+        img_src = subject_info.inverted[i]
+      else
+        img_src = subject_info.standard[i]
+      
       #load the image for this frame
       do (img_src, frameImage)  => 
         loadImage img_src, (img) =>
         frameImage.attr
-          #'xlink:href': img_src          # get images from api
-          'xlink:href': DEV_SUBJECTS[i]   # use hardcoded static images
+          'xlink:href': img_src          # get images from api
+          # 'xlink:href': DEV_SUBJECTS[i]   # use hardcoded static images
 
     @stopLoading()
     @markingSurface.enable()
@@ -166,13 +174,7 @@ class Classifier extends BaseController
 
   hideAllFrames: ->
     for i in [0...@frameRadioButtons.length]
-      console.log "hide frame: " + i
       @hideFrame(i)
-    # NEW CHANGES --STI  
-    # @hideFrame(0)
-    # @hideFrame(1)
-    # @hideFrame(2)
-    # @hideFrame(3)
     
   showFrame: (frame_idx) ->
     console.log "show frame: " + frame_idx
@@ -186,9 +188,19 @@ class Classifier extends BaseController
     @frameRadioButtons[frame_idx].checked = "true"
 
   destroyFrames: ->
-    console.log "Derstroying frames..."
+    console.log "Destroying frames..."
     for image, i in @el.find('.frame-image')
       image.remove()
+
+  onClickInvert: ->
+    if @invert is true
+      @invert = false
+      console.log "invert: false"
+    else
+      @invert = true
+      console.log "invert: true"
+
+    @loadFrames()
 
   onClickFinishMarking: ->
     @showSummary()

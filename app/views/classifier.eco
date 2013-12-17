@@ -8,19 +8,6 @@
 
   <div class="content-container">
     <div class="subject"></div>
-
-      <!-- #for src, i in @DEV_SUBJECTS: %>
-          <img src="<%= #src %>" />
-      <% #end %>-->
-    
-  </div>
-
-  <div class="current-frame">
-    Current Frame:
-    <input name="current-frame" type="radio" value="1" checked>1
-    <input name="current-frame" type="radio" value="2">2
-    <input name="current-frame" type="radio" value="3">3
-    <input name="current-frame" type="radio" value="4">4
   </div>
 </div>
 
@@ -28,15 +15,28 @@
   <div class="content-container">
     <div class="instructions">
       <% action = translate 'span', "classifier.#{ifTouch 'tapping', 'clicking'}" %><!--TODO: Translate these.-->
-      <!--<%- translate 'div.question', 'classifier.markAnimals', $action: action %>-->
 
-      <div class="answers">
-        <%- translate 'button', 'frames.play', name: 'play-frames' %>
+      <div class="current-frame">
+        Current Frame:
+        <input name="current-frame" type="radio" value="1" checked>1
+        <input name="current-frame" type="radio" value="2">2
+        <input name="current-frame" type="radio" value="3">3
+        <input name="current-frame" type="radio" value="4">4
       </div>
 
       <div class="answers">
-        <%- translate 'button', 'classifier.finished', name: 'finish-marking' %>
+        <%- translate 'button', 'Play', name: 'play-frames' %>
       </div>
+
+      <div class="answers">
+        <%- translate 'button', 'Invert', name: 'invert' %>
+      </div>
+
+      <div class="answers">
+        <%- translate 'button', 'Finished', name: 'finish-marking' %>
+      </div>
+
+
     </div>
   </div>
 </div>
