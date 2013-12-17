@@ -62,7 +62,7 @@ class Classifier extends BaseController
     '.subject'                      : 'subjectContainer'
     '.frame-image'                  : 'imageFrames'   # not being used (yet?)
     '.current-frame input'          : 'frameRadioButtons'
-    'input[name="current-frame-button"]'   : 'currentFrameRadioButton'
+    'input[name="current-frame"]'   : 'currentFrameRadioButton'
     'button[name="play-frames"]'    : 'playButton'
     'button[name="finish-marking"]' : 'finishButton'
     'button[name="no-tags"]'        : 'noTagsButton'
@@ -115,13 +115,6 @@ class Classifier extends BaseController
         height: '100%'
         preserveAspectRatio: 'true'
 
-
-      # radio_id = "radio-id-#{i}"
-      # @markingSurface.addShape 'input', 
-      #   id:  radio_id
-      #   type: 'radio'
-      #   value: "#{i}"
-
      
       img_src = subject.location.standard[i]
       #load the image for this frame
@@ -171,13 +164,15 @@ class Classifier extends BaseController
 
     @showFrame(@active)
 
-
-  # A VERY DODGY WAY OF HIDING/SHOWING FRAMES:
   hideAllFrames: ->
-    @hideFrame(0)
-    @hideFrame(1)
-    @hideFrame(2)
-    @hideFrame(3)
+    for i in [0...@frameRadioButtons.length]
+      console.log "hide frame: " + i
+      @hideFrame(i)
+    # NEW CHANGES --STI  
+    # @hideFrame(0)
+    # @hideFrame(1)
+    # @hideFrame(2)
+    # @hideFrame(3)
     
   showFrame: (frame_idx) ->
     console.log "show frame: " + frame_idx
