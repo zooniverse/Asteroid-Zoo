@@ -33,23 +33,20 @@ class MarkingToolControlsController extends BaseController
     #this populates 4 image frames 
     @imageSet = new ImageSet()
     
-      
     @currentFrame  =  @imageSet.getFrameFromElement('frame-id-0')
-    
+
     # provisional default case of artifact subtype
     artifactSubtype = "other"
 
     fauxRangeInputs = FauxRangeInput.find @el.get 0
     @on 'destroy', -> fauxRangeInputs.shift().destroy() until fauxRangeInputs.length is 0
 
-    @tool.mark.on 'change', (property, value) =>
-        # switch property
-        #   #when 'asteroid'
+    #TODO not sure when we would need this
+    # @tool.mark.on 'change', (property, value) =>
+    #     # switch property
+    #     #   #when 'asteroid'
 
-        #   when 'artifact'
-        #     #@tool.mark.artifact.set "subtype", @selectedArtifactRadios.value
-
-    console.log("mark changed")
+   
     @setState 'whatKind'
 
   events:
@@ -59,29 +56,17 @@ class MarkingToolControlsController extends BaseController
     'change input[name="classifier-type"]': (e) ->
 
       if e.currentTarget.value == 'asteroid' 
-        asteroid_detection= 
-          type: "asteroid" 
-          frame: @currentFrame.seqNumber
-          
-        @setState 'asteroidTool change'
-        @tool.mark.set 'detection', asteroid_detection
-        
+        @setState 'asteroidTool'
       else if  e.currentTarget.value == 'artifact'
-        art_detection = 
-          type: "artifact" 
-          frame:   @currentFrame.seqNumber
-          subType: @artifactSubtype
         @setState 'artifactTool'
-        @tool.mark.set 'detection', art_detection
-        
       else
         console.log("Error: unknown classifier-type")
 
-    'change input[name="selected-artifact"]': =>
-     
-      #TODO why do I need to place locate  selectedArtifactRadios in elements. 
-      # it shoudl be added go  the object scope
-      # @artifactSubtype = selectedArtifactRadios.filter(':checked').val() 
+    'change input[name="selected-artifact"]': ->      
+      @artifactSubtype = @selectedArtifactRadios.filter(':checked').val() 
+
+    'click button[name="done"]': ->
+      @setMark()
 
     'click button[name="delete"]': ->
       @tool.mark.destroy()
@@ -101,6 +86,17 @@ class MarkingToolControlsController extends BaseController
         when KEYS.return then @el.find('footer button.default:visible').first().click()
         when KEYS.esc then @el.find('footer button.cancel:visible').first().click()
 
+  setMark: =>
+    if @state is "asteroidTool" or @state is "whatKind" 
+      detection =  @getAsteroidDetection()
+    else if @state is "artifactTool"
+      detection =  @getArtifactDetection()
+    else
+      console.log("Error: marking tool not specified")
+    # hack may not be needed
+    # @tool.mark.x = Math.floor(@tool.mark.x) 
+    # @tool.mark.y = Math.floor(@tool.mark.y) 
+    @tool.mark.set 'detection', detection
 
   setState: (newState) ->
     if @state
@@ -134,12 +130,26 @@ class MarkingToolControlsController extends BaseController
       exit: ->
         @el.find('.asteroid-classifier').hide()  
       
-        
     artifactTool:
       enter: ->
         @el.find('.artifact-classifier').show()
       exit: ->
         @el.find('.artifact-classifier').hide() 
+
+  getAsteroidDetection: =>
+    asteroid_detection= 
+      type: "asteroid" 
+      frame: @currentFrame.seqNumber
+    asteroid_detection
+
+  getArtifactDetection: =>
+    art_detection = 
+        type: "artifact" 
+        frame:   @currentFrame.seqNumber
+        subType: @artifactSubtype
+    art_detection
+
+
 
   #ToDo move to model 
 class ImageSet
@@ -154,19 +164,16 @@ class ImageSet
     for i in [0..3] by 1
       frame = new ImageFrame("frame-id-#{i}", i, "", "")
       @imageFrames[i] = frame
-    #TODO 
     @imageFrames
 
   getFrameFromElement: (elementId) => 
     frame = _.findWhere(@imageFrames, elementId: elementId)
 
   getFrameSeqNumberFromElement: (elementId) => 
-     debugger
      getFrameFromElement(elementId).seqNumber
         
 #TODO move to model
 class ImageFrame
-  require ("underscore")
   elementId: ''
   seqNumber: ''
   url: ''
