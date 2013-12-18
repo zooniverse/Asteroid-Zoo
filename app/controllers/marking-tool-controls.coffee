@@ -8,10 +8,6 @@ _  = require 'underscore'
 KEYS =
   return: 13
   esc:    27
-  one:    49
-  two:    50
-  three:  51
-  four:   52
 
 class MarkingToolControlsController extends BaseController
   className: 'marking-tool-controls-controller'
@@ -89,34 +85,6 @@ class MarkingToolControlsController extends BaseController
       switch e.which
         when KEYS.return then @el.find('footer button.default:visible').first().click()
         when KEYS.esc then @el.find('footer button.cancel:visible').first().click()
-        when KEYS.one
-          @hideAllFrames()
-          @showFrame("frame-id-0")
-        when KEYS.two
-          @hideAllFrames()
-          @showFrame("frame-id-1")
-        when KEYS.three
-          @hideAllFrames()
-          @showFrame("frame-id-2")
-        when KEYS.four
-          @hideAllFrames()
-          @showFrame("frame-id-3")
-
-  hideAllFrames: ->
-    @hideFrame("frame-id-0")
-    @hideFrame("frame-id-1")
-    @hideFrame("frame-id-2")
-    @hideFrame("frame-id-3")
-    
-  showFrame: (img_id) ->
-    @currentFrame  =  @imageSet.getFrameFromElement(img_id)
-    document.getElementById(img_id).style.visibility="visible"
-
-   
-  hideFrame: (img_id) ->
-    document.getElementById(img_id).style.visibility="hidden"
-
-  destroyImage: (img_id) ->
 
   setMark: =>
     if @state is "asteroidTool" or @state is "whatKind" 
