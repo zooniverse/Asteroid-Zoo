@@ -29,7 +29,6 @@ class MarkingToolControlsController extends BaseController
   constructor: ->
 
     super
-    
     #this populates 4 image frames 
     @imageSet = new ImageSet()
     
@@ -94,8 +93,8 @@ class MarkingToolControlsController extends BaseController
     else
       console.log("Error: marking tool not specified")
     # hack may not be needed
-    # @tool.mark.x = Math.floor(@tool.mark.x) 
-    # @tool.mark.y = Math.floor(@tool.mark.y) 
+    @tool.mark.x = Math.floor(@tool.mark.x) 
+    @tool.mark.y = Math.floor(@tool.mark.y) 
     @tool.mark.set 'detection', detection
 
   setState: (newState) ->

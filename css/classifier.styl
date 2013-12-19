@@ -16,6 +16,26 @@
 
   .marking-tool-root
     opacity: 1
+  
+  [class^="from-frame"]
+    fill: red
+    opacity: 0.5
+  
+  &[data-on-frame="0"]
+    .from-frame-0
+      opacity: 1
+
+  &[data-on-frame="1"]
+    .from-frame-1
+      opacity: 1
+
+  &[data-on-frame="2"]
+    .from-frame-2
+      opacity: 1
+
+  &[data-on-frame="3"]
+    .from-frame-3
+      opacity: 1
 
   .tag-marker
     fill: rgba(#fff, 0.8)

@@ -75,7 +75,7 @@ class Classifier extends BaseController
     #@setClassification @classification  # ...
 
     @invert = false
-    currentFrameIdx: null
+    @setCurrentFrameIdx 0
     
     window.classifier = @
     @markingSurface = new MarkingSurface
@@ -83,11 +83,15 @@ class Classifier extends BaseController
     @markingSurface.svgRoot.attr 'id', 'classifier-svg-root'
     @subjectContainer.append @markingSurface.el
 
+    @markingSurface.on 'create-tool', (tool) =>
+      tool.mark.set 'frame', @currentFrameIdx
+
     User.on 'change', @onUserChange
     Subject.on 'fetch', @onSubjectFetch
     Subject.on 'select', @onSubjectSelect
 
-  # activate: ->
+  activate: ->
+    console.log 'Welcome to the balahj'
   #   # setTimeout @rescale, 100
 
   renderTemplate: =>
@@ -110,8 +114,12 @@ class Classifier extends BaseController
     @destroyFrames()
     subject_info = @classification.subject.location
 
+    for src in subject_info.standard
+      img = new Image
+      img.src = src
+
     # create image elements  
-    for i in [subject_info.standard.length-1..0]
+    @frames = for i in [subject_info.standard.length-1..0]
       frame_idx = "frame-id-#{i}"
       frameImage = @markingSurface.addShape 'image',
         id:  frame_idx
@@ -131,6 +139,8 @@ class Classifier extends BaseController
         frameImage.attr
           'xlink:href': img_src          # get images from api
           # 'xlink:href': DEV_SUBJECTS[i]   # use hardcoded static images
+
+      frameImage
 
     @stopLoading()
 
@@ -173,6 +183,7 @@ class Classifier extends BaseController
   setCurrentFrameIdx: (frame_idx) ->
     @currentFrameIdx = frame_idx
     # find way to communicate current frame with marking tool
+    @el.attr 'data-on-frame', @currentFrameIdx
 
   hideAllFrames: ->
     for i in [0...@frameRadioButtons.length]
@@ -181,20 +192,21 @@ class Classifier extends BaseController
   showFrame: (frame_idx) ->
     @hideAllFrames()
 
+
     # this is a dodgy way of getting it done!
     document.getElementById("frame-id-#{frame_idx}").style.visibility="visible"
   
     @frameRadioButtons[frame_idx].checked = "true"
     @setCurrentFrameIdx(frame_idx)
 
-    console.log "show frame: " + frame_idx
+    # console.log "show frame: " + frame_idx
     
   hideFrame: (frame_idx) ->
     document.getElementById("frame-id-#{frame_idx}").style.visibility="hidden"
     @frameRadioButtons[frame_idx].checked = "true"
 
   destroyFrames: ->
-    console.log "Destroying frames..."
+    # console.log "Destroying frames..."
     for image, i in @el.find('.frame-image')
       image.remove()
 
