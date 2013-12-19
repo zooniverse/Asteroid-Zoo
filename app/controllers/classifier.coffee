@@ -75,6 +75,7 @@ class Classifier extends BaseController
     #@setClassification @classification  # ...
 
     @invert = false
+    currentFrameIdx: null
     
     window.classifier = @
     @markingSurface = new MarkingSurface
@@ -92,7 +93,6 @@ class Classifier extends BaseController
   renderTemplate: =>
     super
 
-
   onUserChange: (e, user) =>
     Subject.next() unless @classification?
 
@@ -109,9 +109,9 @@ class Classifier extends BaseController
   loadFrames: =>
     @destroyFrames()
     subject_info = @classification.subject.location
+
     # create image elements  
     for i in [subject_info.standard.length-1..0]
-      # # add image element to the marking surface
       frame_idx = "frame-id-#{i}"
       frameImage = @markingSurface.addShape 'image',
         id:  frame_idx
@@ -136,17 +136,18 @@ class Classifier extends BaseController
     @markingSurface.enable()
 
   onClickRadioButton: ->
+    console.log "radio button clicked"
     for i in [0...@frameRadioButtons.length]
       if @frameRadioButtons[i].checked
+        console.log "  - show frame: " + i
         @showFrame(i)
 
   onClickPlay: ->
     @play()
 
   play: ->
-    console.log "IMAGES:"
-    for src, i in DEV_SUBJECTS
-      console.log "  Frame-" + i + ": " + src
+
+    @markingSurface.disable()
 
     # flip the images back and forth once
     last = @classification.subject.location.standard.length - 1
@@ -163,26 +164,31 @@ class Classifier extends BaseController
     clearTimeout timeout for timeout in @playTimeouts
     @playTimeouts.splice 0
     @el.removeClass 'playing'
+    @markingSurface.enable()
 
   activateFrame: (@active) ->
     @active = modulus +@active, @classification.subject.location.standard.length
-    for image, i in @el.find('.frame-image')
-      # console.log "SHOWING FRAME: " + @active
-      @hideFrame(i)
-
     @showFrame(@active)
 
+  setCurrentFrameIdx: (frame_idx) ->
+    @currentFrameIdx = frame_idx
+    # find way to communicate current frame with marking tool
+
+
   hideAllFrames: ->
+    console.log "hiding all frames"
     for i in [0...@frameRadioButtons.length]
       @hideFrame(i)
     
   showFrame: (frame_idx) ->
-    console.log "show frame: " + frame_idx
     @hideAllFrames()
-    document.getElementById("frame-id-#{frame_idx}").style.visibility="visible"
-    console.log "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"
-    @frameRadioButtons[frame_idx].checked = "true"
 
+    # this is a dodgy way of getting it done!
+    document.getElementById("frame-id-#{frame_idx}").style.visibility="visible"
+  
+    @frameRadioButtons[frame_idx].checked = "true"
+    @setCurrentFrameIdx(frame_idx)
+    
   hideFrame: (frame_idx) ->
     document.getElementById("frame-id-#{frame_idx}").style.visibility="hidden"
     @frameRadioButtons[frame_idx].checked = "true"
@@ -195,10 +201,10 @@ class Classifier extends BaseController
   onClickInvert: ->
     if @invert is true
       @invert = false
-      console.log "invert: false"
+      # console.log "invert: false"
     else
       @invert = true
-      console.log "invert: true"
+      # console.log "invert: true"
 
     @loadFrames()
 
@@ -218,6 +224,7 @@ class Classifier extends BaseController
     @el.removeClass 'loading'
 
   showSummary: ->
+    console.log JSON.stringify @classification
     @sendClassification()
     classificationSummary = new ClassificationSummary {@classification}
     classificationSummary.el.appendTo @el
