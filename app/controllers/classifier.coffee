@@ -133,20 +133,20 @@ class Classifier extends BaseController
           # 'xlink:href': DEV_SUBJECTS[i]   # use hardcoded static images
 
     @stopLoading()
-    @markingSurface.enable()
+
+    #@markingSurface.enable() # why is this here again?
+    # console.log "Showing frame: " + @currentFrameIdx
+    # @showFrame(@currentFrameIdx) unless @currentFrameIdx is null
 
   onClickRadioButton: ->
-    console.log "radio button clicked"
     for i in [0...@frameRadioButtons.length]
       if @frameRadioButtons[i].checked
-        console.log "  - show frame: " + i
         @showFrame(i)
 
   onClickPlay: ->
     @play()
 
   play: ->
-
     @markingSurface.disable()
 
     # flip the images back and forth once
@@ -174,9 +174,7 @@ class Classifier extends BaseController
     @currentFrameIdx = frame_idx
     # find way to communicate current frame with marking tool
 
-
   hideAllFrames: ->
-    console.log "hiding all frames"
     for i in [0...@frameRadioButtons.length]
       @hideFrame(i)
     
@@ -188,6 +186,8 @@ class Classifier extends BaseController
   
     @frameRadioButtons[frame_idx].checked = "true"
     @setCurrentFrameIdx(frame_idx)
+
+    console.log "show frame: " + frame_idx
     
   hideFrame: (frame_idx) ->
     document.getElementById("frame-id-#{frame_idx}").style.visibility="hidden"
@@ -207,6 +207,8 @@ class Classifier extends BaseController
       # console.log "invert: true"
 
     @loadFrames()
+
+    @showFrame(@currentFrameIdx) unless @currentFrameIdx is undefined
 
   onClickFinishMarking: ->
     @showSummary()
