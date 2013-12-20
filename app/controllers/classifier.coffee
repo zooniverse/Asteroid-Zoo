@@ -45,16 +45,12 @@ class Classifier extends BaseController
     'keydown': (e) ->
       switch e.which
         when KEYS.one
-          @hideAllFrames()
           @showFrame(0)
         when KEYS.two
-          @hideAllFrames()
           @showFrame(1)
         when KEYS.three
-          @hideAllFrames()
           @showFrame(2)
         when KEYS.four
-          @hideAllFrames()
           @showFrame(3)
         when KEYS.space
           @play()
@@ -62,6 +58,7 @@ class Classifier extends BaseController
   elements:
     '.subject'                      : 'subjectContainer'
     '.frame-image'                  : 'imageFrames'   # not being used (yet?)
+    '.marking-tool-root g'            : 'markingTools'
     '.current-frame input'          : 'frameRadioButtons'
     'input[name="current-frame"]'   : 'currentFrameRadioButton'
     'button[name="play-frames"]'    : 'playButton'
@@ -83,6 +80,11 @@ class Classifier extends BaseController
     @markingSurface.svgRoot.attr 'id', 'classifier-svg-root'
     @subjectContainer.append @markingSurface.el
 
+    #debugger
+    # jQuery(@markingSurface.svgRoot).appendTo( jQuery.find(".marking-tool-root"))
+    # console.log "BLAH: " + @markingSurface.svgRoot.length #.append '.marking-tool-root'
+    jQuery( jQuery.find(".marking-tool-root")).appendTo( jQuery.find(".svg-root"))
+
     @markingSurface.on 'create-tool', (tool) =>
       tool.mark.set 'frame', @currentFrameIdx
 
@@ -90,8 +92,7 @@ class Classifier extends BaseController
     Subject.on 'fetch', @onSubjectFetch
     Subject.on 'select', @onSubjectSelect
 
-  activate: ->
-    console.log 'Welcome to the balahj'
+  # activate: ->
   #   # setTimeout @rescale, 100
 
   renderTemplate: =>
@@ -114,15 +115,16 @@ class Classifier extends BaseController
     @destroyFrames()
     subject_info = @classification.subject.location
 
-    for src in subject_info.standard
-      img = new Image
-      img.src = src
+    # for src in subject_info.standard
+    #   img = new Image
+    #   img.src = src
 
     # create image elements  
+    #todo @frames doesn't get referenced, what is it doing?
     @frames = for i in [subject_info.standard.length-1..0]
-      frame_idx = "frame-id-#{i}"
+      frame_id = "frame-id-#{i}"
       frameImage = @markingSurface.addShape 'image',
-        id:  frame_idx
+        id:  frame_id
         class: 'frame-image'
         width: '100%'
         height: '100%'
@@ -140,7 +142,7 @@ class Classifier extends BaseController
           'xlink:href': img_src          # get images from api
           # 'xlink:href': DEV_SUBJECTS[i]   # use hardcoded static images
 
-      frameImage
+      # frameImage
 
     @stopLoading()
 
@@ -153,10 +155,11 @@ class Classifier extends BaseController
       if @frameRadioButtons[i].checked
         @showFrame(i)
 
-  onClickPlay: ->
+  onClickPlay: ->    
     @play()
 
   play: ->
+
     @markingSurface.disable()
 
     # flip the images back and forth once
@@ -219,8 +222,10 @@ class Classifier extends BaseController
       # console.log "invert: true"
 
     @loadFrames()
+    @showFrame(@currentFrameIdx) # unless @currentFrameIdx is undefined
 
-    @showFrame(@currentFrameIdx) unless @currentFrameIdx is undefined
+    # bring tools back to front
+    @el.find('.svg-root').append @el.find('.marking-tool-root')
 
   onClickFinishMarking: ->
     @showSummary()
