@@ -41,9 +41,8 @@ class MarkingToolControlsController extends BaseController
     @on 'destroy', -> fauxRangeInputs.shift().destroy() until fauxRangeInputs.length is 0
 
     #TODO not sure when we would need this
-    # @tool.mark.on 'change', (property, value) =>
-    #     # switch property
-    #     #   #when 'asteroid'
+    @tool.mark.on 'change', (property, value) =>
+      @setMark
 
    
     @setState 'whatKind'
@@ -64,14 +63,11 @@ class MarkingToolControlsController extends BaseController
     'change input[name="selected-artifact"]': ->      
       @artifactSubtype = @selectedArtifactRadios.filter(':checked').val() 
 
-    'click button[name="done"]': ->
-      @setMark()
+    #'click button[name="done"]': ->
+      
 
     'click button[name="delete"]': ->
       @tool.mark.destroy()
-
-    'click button[name="reset"]': ->
-      @setState 'whatKind'
 
     'click button[name^="done"]': ->
       @tool.deselect()
@@ -82,15 +78,15 @@ class MarkingToolControlsController extends BaseController
         when KEYS.return then @el.find('footer button.default:visible').first().click()
         when KEYS.esc then @el.find('footer button.cancel:visible').first().click()
 
-  setMark: =>
-    console.log "BLAH"
+  setMark: (frameIdx) =>
     if @state is "asteroidTool" or @state is "whatKind" 
       detection =  @getAsteroidDetection()
     else if @state is "artifactTool"
       detection =  @getArtifactDetection()
     else
       console.log("Error: marking tool not specified")
-    # hack may not be needed
+    # hack which doesn't even work 
+    @tool.mark.frame = frameIdx
     @tool.mark.x = Math.floor(@tool.mark.x) 
     @tool.mark.y = Math.floor(@tool.mark.y) 
     @tool.mark.set 'detection', detection
@@ -183,16 +179,11 @@ class MarkingToolControls extends ToolControls
   constructor: ->
     super
 
-    controller = new MarkingToolControlsController tool: @tool
-    @el.appendChild controller.el.get 0
-    @on 'destroy', -> controller.destroy()
+    @controller = new MarkingToolControlsController tool: @tool
+    @el.appendChild @controller.el.get 0
+    @on 'destroy', -> @controller.destroy()
 
-    @tool.mark.on 'change', (property, value) =>
-      if property is 'proximity'
-        proximity = @tool.mark.proximity
-        proximity ?= 0.5
-        @tool.radius = (@tool.constructor::radius / 2) * (2 - proximity)
-        @tool.redraw()
+  
 
 #module.exports = ImageFrame
 #module.exports = ImageSet

@@ -25,20 +25,11 @@ module.exports =
 
   classifier:
     title: 'Classify'
-    # TODO condors remanant
-    #markTags: 'blurbs'
-    #clicking: 'clicking'
-    #tapping: 'tapping'
-    #proximityNear: 'Near'
-    #proximityFar: 'Far'
-    ##cantTell: 'Can\'t tell'
-    #finished: 'Finished'
-    #noTags: 'No tags visible'
-    done:  "Finished"
+    done:  "Save"
     reset: 'Reset'
     delete: 'Delete'
     next: 'Next'
-    whatKind: 'Asteroid or Artifact'
+    whatKind: 'What do you see here?'
 
     type:
       asteroid:
@@ -46,21 +37,8 @@ module.exports =
       artifact:
         label: 'Artifact'
 
-  #TODO condors reminant
-    # marker:
-    #   identification: 'Identification'
-    #   tagNo: 'Tag no.'
-    #   tagHidden: 'Tag number hidden'
-    #   proximity: 'Proximity'
-    #   proximityExplanation: '<strong>How close</strong> is this zonder to the carcass or scale?'
-    #   cancel: 'Cancel'
-    #   next: 'Next'
-    #   done: 'Done'
-
-      spurious: 'Spurious'
-  
   artifacts:
-    heading: "Type of Image Artifact"
+    heading: 'What type of artifact is this?'
     starbleed:
       label: 'Star Bleed'
     hotpixel:
@@ -69,13 +47,6 @@ module.exports =
       label: 'Other' 
   asteroids:
     heading: "Mark Asteroid"
-
-  #TODO condors reminant
-  # presenceInspector:
-  #   toggleOriginal: 'Original image'
-  #   proximityChange: 'Proximity change'
-  #   continue: 'Continue'
-  #   finish: 'Finish'
 
   #TODO condors reminant
   classificationSummary:
