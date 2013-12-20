@@ -86,6 +86,7 @@ class MarkingToolControlsController extends BaseController
         when KEYS.esc then @el.find('footer button.cancel:visible').first().click()
 
   setMark: =>
+    console.log "BLAH"
     if @state is "asteroidTool" or @state is "whatKind" 
       detection =  @getAsteroidDetection()
     else if @state is "artifactTool"
