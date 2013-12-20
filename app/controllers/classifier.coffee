@@ -75,6 +75,7 @@ class Classifier extends BaseController
     #@setClassification @classification  # ...
 
     @invert = false
+    @setCurrentFrameIdx 0
     
     window.classifier = @
     @markingSurface = new MarkingSurface
@@ -82,16 +83,19 @@ class Classifier extends BaseController
     @markingSurface.svgRoot.attr 'id', 'classifier-svg-root'
     @subjectContainer.append @markingSurface.el
 
+    @markingSurface.on 'create-tool', (tool) =>
+      tool.mark.set 'frame', @currentFrameIdx
+
     User.on 'change', @onUserChange
     Subject.on 'fetch', @onSubjectFetch
     Subject.on 'select', @onSubjectSelect
 
-  # activate: ->
+  activate: ->
+    console.log 'Welcome to the balahj'
   #   # setTimeout @rescale, 100
 
   renderTemplate: =>
     super
-
 
   onUserChange: (e, user) =>
     Subject.next() unless @classification?
@@ -109,9 +113,13 @@ class Classifier extends BaseController
   loadFrames: =>
     @destroyFrames()
     subject_info = @classification.subject.location
+
+    for src in subject_info.standard
+      img = new Image
+      img.src = src
+
     # create image elements  
-    for i in [subject_info.standard.length-1..0]
-      # # add image element to the marking surface
+    @frames = for i in [subject_info.standard.length-1..0]
       frame_idx = "frame-id-#{i}"
       frameImage = @markingSurface.addShape 'image',
         id:  frame_idx
@@ -132,8 +140,13 @@ class Classifier extends BaseController
           'xlink:href': img_src          # get images from api
           # 'xlink:href': DEV_SUBJECTS[i]   # use hardcoded static images
 
+      frameImage
+
     @stopLoading()
-    @markingSurface.enable()
+
+    #@markingSurface.enable() # why is this here again?
+    # console.log "Showing frame: " + @currentFrameIdx
+    # @showFrame(@currentFrameIdx) unless @currentFrameIdx is null
 
   onClickRadioButton: ->
     for i in [0...@frameRadioButtons.length]
@@ -144,9 +157,7 @@ class Classifier extends BaseController
     @play()
 
   play: ->
-    console.log "IMAGES:"
-    for src, i in DEV_SUBJECTS
-      console.log "  Frame-" + i + ": " + src
+    @markingSurface.disable()
 
     # flip the images back and forth once
     last = @classification.subject.location.standard.length - 1
@@ -163,44 +174,53 @@ class Classifier extends BaseController
     clearTimeout timeout for timeout in @playTimeouts
     @playTimeouts.splice 0
     @el.removeClass 'playing'
+    @markingSurface.enable()
 
   activateFrame: (@active) ->
     @active = modulus +@active, @classification.subject.location.standard.length
-    for image, i in @el.find('.frame-image')
-      # console.log "SHOWING FRAME: " + @active
-      @hideFrame(i)
-
     @showFrame(@active)
+
+  setCurrentFrameIdx: (frame_idx) ->
+    @currentFrameIdx = frame_idx
+    # find way to communicate current frame with marking tool
+    @el.attr 'data-on-frame', @currentFrameIdx
 
   hideAllFrames: ->
     for i in [0...@frameRadioButtons.length]
       @hideFrame(i)
     
   showFrame: (frame_idx) ->
-    console.log "show frame: " + frame_idx
     @hideAllFrames()
-    document.getElementById("frame-id-#{frame_idx}").style.visibility="visible"
-    console.log "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"
-    @frameRadioButtons[frame_idx].checked = "true"
 
+
+    # this is a dodgy way of getting it done!
+    document.getElementById("frame-id-#{frame_idx}").style.visibility="visible"
+  
+    @frameRadioButtons[frame_idx].checked = "true"
+    @setCurrentFrameIdx(frame_idx)
+
+    # console.log "show frame: " + frame_idx
+    
   hideFrame: (frame_idx) ->
     document.getElementById("frame-id-#{frame_idx}").style.visibility="hidden"
     @frameRadioButtons[frame_idx].checked = "true"
 
   destroyFrames: ->
-    console.log "Destroying frames..."
+    # console.log "Destroying frames..."
     for image, i in @el.find('.frame-image')
       image.remove()
 
   onClickInvert: ->
     if @invert is true
       @invert = false
-      console.log "invert: false"
+      # console.log "invert: false"
     else
       @invert = true
-      console.log "invert: true"
+      # console.log "invert: true"
 
     @loadFrames()
+
+    @showFrame(@currentFrameIdx) unless @currentFrameIdx is undefined
 
   onClickFinishMarking: ->
     @showSummary()
@@ -218,6 +238,7 @@ class Classifier extends BaseController
     @el.removeClass 'loading'
 
   showSummary: ->
+    console.log JSON.stringify @classification
     @sendClassification()
     classificationSummary = new ClassificationSummary {@classification}
     classificationSummary.el.appendTo @el
