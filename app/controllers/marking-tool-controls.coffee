@@ -73,9 +73,6 @@ class MarkingToolControlsController extends BaseController
     'click button[name="reset"]': ->
       @setState 'whatKind'
 
-    'click button[name="next"]':   ->
-      console.log "buttonnext clicked"
-
     'click button[name^="done"]': ->
       @tool.deselect()
 
@@ -116,12 +113,10 @@ class MarkingToolControlsController extends BaseController
       enter: ->
         @el.find('button[name="to-select"]').addClass 'hidden' 
         @el.find('.what-kind').show()       
-       #@el.find('button[name="next"]').show()  
 
       exit: ->
         @el.find('button[name="to-select"]').removeClass 'hidden'
         @el.find('.what-kind').hide()
-        @el.find('button[name="next"]').hide()
 
     asteroidTool:
       enter: ->

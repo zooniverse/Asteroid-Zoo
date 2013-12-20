@@ -53,6 +53,5 @@
 <footer>
   <%- translate 'button.cancel', 'classifier.reset', name: 'reset', type: 'button' %>
   <%- translate 'button.cancel', 'classifier.delete', name: 'delete', type: 'button' %>
-  <%- translate 'button.default', 'classifier.next', name: 'next', type: 'button' %>
   <%- translate 'button.default', 'classifier.done', name: 'done', type: 'button' %>
 </footer>
