@@ -58,7 +58,6 @@ class Classifier extends BaseController
   elements:
     '.subject'                      : 'subjectContainer'
     '.frame-image'                  : 'imageFrames'   # not being used (yet?)
-    '.marking-tool-root g'            : 'markingTools'
     '.current-frame input'          : 'frameRadioButtons'
     'input[name="current-frame"]'   : 'currentFrameRadioButton'
     'button[name="play-frames"]'    : 'playButton'
@@ -80,13 +79,10 @@ class Classifier extends BaseController
     @markingSurface.svgRoot.attr 'id', 'classifier-svg-root'
     @subjectContainer.append @markingSurface.el
 
-    #debugger
-    # jQuery(@markingSurface.svgRoot).appendTo( jQuery.find(".marking-tool-root"))
-    # console.log "BLAH: " + @markingSurface.svgRoot.length #.append '.marking-tool-root'
-    jQuery( jQuery.find(".marking-tool-root")).appendTo( jQuery.find(".svg-root"))
-
+  
     @markingSurface.on 'create-tool', (tool) =>
-      tool.mark.set 'frame', @currentFrameIdx
+      tool.controls.controller.setMark(@currentFrameIdx)
+      #tool.mark.set 'frame', @currentFrameIdx
 
     User.on 'change', @onUserChange
     Subject.on 'fetch', @onSubjectFetch

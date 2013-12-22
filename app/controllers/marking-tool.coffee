@@ -29,7 +29,6 @@ class MarkingTool extends Tool
     @mark.set offset
 
   render: ->
-    #debugger
     @circle.attr
       r: @size / 2 / @surface.zoomBy
       strokeWidth: 1 / @surface.zoomBy
@@ -39,7 +38,6 @@ class MarkingTool extends Tool
 
     @group.attr 'transform', "translate(#{@mark.x}, #{@mark.y})"
     @controls.moveTo @mark.x, @mark.y
-
     @group.attr 'class', "from-frame-#{@mark.frame}"
 
 module.exports = MarkingTool
