@@ -39,7 +39,12 @@ class Classifier extends BaseController
     'click button[name="play-frames"]'    : 'onClickPlay'
     'click button[name="invert"]'         : 'onClickInvert'
     'click button[name="finish-marking"]' : 'onClickFinishMarking'
+    'click button[name="four-up"]'        : 'onClickFourUp'
+    'click button[name="flicker"]'        : 'onClickFlicker'
     'click input[name="current-frame"]'   : 'onClickRadioButton'
+
+
+
     # 'click button[name="no-tags"]'        : 'onClickNoTags'
 
     'keydown': (e) ->
@@ -146,23 +151,31 @@ class Classifier extends BaseController
     # console.log "Showing frame: " + @currentFrameIdx
     # @showFrame(@currentFrameIdx) unless @currentFrameIdx is null
 
+  onClickFourUp: ->
+    console.log "4-up"
+
+    # flicker.disable() # find way to disable flicker
+
+  onClickFlicker: ->
+    console.log "Flicker"
+
+    # fourUp.disable() # may need to disable 4-up display
+
   onClickRadioButton: ->
     for i in [0...@frameRadioButtons.length]
       if @frameRadioButtons[i].checked
         @showFrame(i)
 
-  onClickPlay: ->    
-    @play()
-
-  play: ->
-
-    @markingSurface.disable()
+  onClickPlay: ->
+    # play only once at a time
+    if @el.hasClass 'playing' then return    
+    
+    @el.addClass 'playing'
+    @markingSurface.disable()   # no marking while playing
 
     # flip the images back and forth once
     last = @classification.subject.location.standard.length - 1
     iterator = [0...last].concat [last...-1]
-
-    @el.addClass 'playing'
 
     for index, i in iterator then do (index, i) =>
       @playTimeouts.push setTimeout (=> @activateFrame index), i * 333

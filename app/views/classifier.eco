@@ -12,7 +12,9 @@
 
 <div class="content-block">
   <div class="content-container">
+
     <div class="instructions">
+
       <% action = translate 'span', "classifier.#{ifTouch 'tapping', 'clicking'}" %><!--TODO: Translate these.-->
 
       <div class="current-frame">
@@ -33,6 +35,13 @@
 
       <div class="answers">
         <%- translate 'button', 'Finished', name: 'finish-marking' %>
+      </div>
+
+      <br>
+      <br>
+      <div class="answers">
+        <%- translate 'button', '4-up',    name: 'four-up' %>
+        <%- translate 'button', 'Flicker', name: 'flicker' %>
       </div>
 
 
