@@ -48,6 +48,7 @@ class Classifier extends BaseController
     # 'click button[name="no-tags"]'        : 'onClickNoTags'
 
     'keydown': (e) ->
+      return if @el.hasClass 'playing'  # disable while playing
       switch e.which
         when KEYS.one
           @showFrame(0)
@@ -58,7 +59,7 @@ class Classifier extends BaseController
         when KEYS.four
           @showFrame(3)
         when KEYS.space
-          @play()
+          @onClickPlay()
 
   elements:
     '.subject'                      : 'subjectContainer'
@@ -154,6 +155,8 @@ class Classifier extends BaseController
   onClickFourUp: ->
     console.log "4-up"
 
+    @markingSurface.svg.slideDown 100
+
     # flicker.disable() # find way to disable flicker
 
   onClickFlicker: ->
@@ -167,8 +170,7 @@ class Classifier extends BaseController
         @showFrame(i)
 
   onClickPlay: ->
-    # play only once at a time
-    if @el.hasClass 'playing' then return    
+    return if @el.hasClass 'playing'  # play only once at a time  
     
     @el.addClass 'playing'
     @markingSurface.disable()   # no marking while playing
