@@ -6,7 +6,12 @@
   </div>
 
   <div class="content-container">
-    <div class="subject"></div>
+    <div class="subject">
+
+      <div id="flicker" class="flicker"></div>
+      <div id="four-up" class="four-up"></div>
+
+    </div>
   </div>
 </div>
 

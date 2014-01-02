@@ -43,8 +43,6 @@ class Classifier extends BaseController
     'click button[name="flicker"]'        : 'onClickFlicker'
     'click input[name="current-frame"]'   : 'onClickRadioButton'
 
-
-
     # 'click button[name="no-tags"]'        : 'onClickNoTags'
 
     'keydown': (e) ->
@@ -63,6 +61,8 @@ class Classifier extends BaseController
 
   elements:
     '.subject'                      : 'subjectContainer'
+    '.flicker'                      : 'flickerContainer'
+    '.four-up'                      : 'fourUpContainer'
     '.frame-image'                  : 'imageFrames'   # not being used (yet?)
     '.current-frame input'          : 'frameRadioButtons'
     'input[name="current-frame"]'   : 'currentFrameRadioButton'
@@ -72,23 +72,36 @@ class Classifier extends BaseController
 
   constructor: ->
     super
-    @playTimeouts = []                  # for image_changer
-    @el.attr tabindex: 0                # ...
-    #@setClassification @classification  # ...
+    @playTimeouts = []                   # for image_changer
+    @el.attr tabindex: 0                 # ...
+    # @setClassification @classification  # ...
 
     @invert = false
     @setCurrentFrameIdx 0
     
     window.classifier = @
-    @markingSurface = new MarkingSurface
-      tool: MarkingTool
-    @markingSurface.svgRoot.attr 'id', 'classifier-svg-root'
-    @subjectContainer.append @markingSurface.el
-
   
-    @markingSurface.on 'create-tool', (tool) =>
-      tool.controls.controller.setMark(@currentFrameIdx)
-      #tool.mark.set 'frame', @currentFrameIdx
+    # default to flicker mode on initialization
+    @el.find('.four-up').hide()
+
+    @numFrames = 4
+    @markingSurface = new Array
+
+    # create marking surfaces for frames
+    # note: 0 index is "master"
+    for i in [0..@numFrames]
+      console.log "Creating frame " + i 
+      @markingSurface[i] = new MarkingSurface
+        tool: MarkingTool
+      @markingSurface[i].svgRoot.attr 'id', "classifier-svg-root-#{i}"
+
+      if i is 0 # master
+        @flickerContainer.append @markingSurface[i].el
+      else   
+        @fourUpContainer.append @markingSurface[i].el
+
+      @markingSurface[i].on 'create-tool', (tool) =>
+        tool.controls.controller.setMark(@currentFrameIdx)
 
     User.on 'change', @onUserChange
     Subject.on 'fetch', @onSubjectFetch
@@ -107,25 +120,42 @@ class Classifier extends BaseController
     @startLoading()
 
   onSubjectSelect: (e, subject) =>
+    console.log "insides onSubjectSelect()"
 
     #reset the marking surface and load classifcation
-    @markingSurface.reset()
+    # @markingSurface.reset()
+    
+    @resetMarkingSurfaces()
+
     @classification = new Classification {subject}
     @loadFrames()
 
+  resetMarkingSurfaces: =>
+    for i in [0..@numFrames]
+      @markingSurface[i].reset()
+
+  disableMarkingSurfaces: =>
+    for i in [0..@numFrames]
+      @markingSurface[i].disable()
+
+  enableMarkingSurfaces: =>
+    for i in [0..@numFrames]
+      @markingSurface[i].enable()
+
   loadFrames: =>
+
+    # create separate divs for 4-up vs. flicker views
+
+
     @destroyFrames()
     subject_info = @classification.subject.location
+    frameImages = new Array()
 
-    # for src in subject_info.standard
-    #   img = new Image
-    #   img.src = src
-
-    # create image elements  
+    # create image elements for "master" view
     #todo @frames doesn't get referenced, what is it doing?
     @frames = for i in [subject_info.standard.length-1..0]
       frame_id = "frame-id-#{i}"
-      frameImage = @markingSurface.addShape 'image',
+      frameImage = @markingSurface[0].addShape 'image',
         id:  frame_id
         class: 'frame-image'
         width: '100%'
@@ -144,7 +174,29 @@ class Classifier extends BaseController
           'xlink:href': img_src          # get images from api
           # 'xlink:href': DEV_SUBJECTS[i]   # use hardcoded static images
 
-      # frameImage
+    # create image elements for 4-up view
+    for i in [1..subject_info.standard.length]
+      frameImage = @markingSurface[i].addShape 'image',
+        id:  frame_id
+        class:  'frame-image'
+        width:  '100%'
+        height: '100%'
+        preserveAspectRatio: 'true'
+
+      if @invert is true
+        img_src = subject_info.inverted[i-1]
+      else
+        img_src = subject_info.standard[i-1]
+
+      do (img_src, frameImage)  => 
+        loadImage img_src, (img) =>
+        frameImage.attr
+          'xlink:href': img_src          # get images from api
+          # 'xlink:href': DEV_SUBJECTS[i]   # use hardcoded static images
+
+      # need to edit .marking-surface CSS and create separate flicker vs. 4-up styles
+      # frameImage.attr 'transform', 'scale(0.75)'  
+      
 
     @stopLoading()
 
@@ -154,14 +206,14 @@ class Classifier extends BaseController
 
   onClickFourUp: ->
     console.log "4-up"
-
-    @markingSurface.svg.slideDown 100
-
+    @el.find(".four-up").show()
+    @el.find(".flicker").hide()
     # flicker.disable() # find way to disable flicker
 
   onClickFlicker: ->
     console.log "Flicker"
-
+    @el.find(".flicker").show()
+    @el.find(".four-up").hide()
     # fourUp.disable() # may need to disable 4-up display
 
   onClickRadioButton: ->
@@ -173,7 +225,8 @@ class Classifier extends BaseController
     return if @el.hasClass 'playing'  # play only once at a time  
     
     @el.addClass 'playing'
-    @markingSurface.disable()   # no marking while playing
+    @disableMarkingSurfaces()
+    # @markingSurface.disable()   # no marking while playing
 
     # flip the images back and forth once
     last = @classification.subject.location.standard.length - 1
@@ -188,7 +241,8 @@ class Classifier extends BaseController
     clearTimeout timeout for timeout in @playTimeouts
     @playTimeouts.splice 0
     @el.removeClass 'playing'
-    @markingSurface.enable()
+    @enableMarkingSurfaces()
+    # @markingSurface.enable()
 
   activateFrame: (@active) ->
     @active = modulus +@active, @classification.subject.location.standard.length
@@ -208,6 +262,7 @@ class Classifier extends BaseController
 
 
     # this is a dodgy way of getting it done!
+    # @el.find("frame-id-#{frame_idx}").show()
     document.getElementById("frame-id-#{frame_idx}").style.visibility="visible"
   
     @frameRadioButtons[frame_idx].checked = "true"
@@ -216,6 +271,8 @@ class Classifier extends BaseController
     # console.log "show frame: " + frame_idx
     
   hideFrame: (frame_idx) ->
+    # id="frame-id-#{frame_idx}"
+    # @el.find(id).hide()
     document.getElementById("frame-id-#{frame_idx}").style.visibility="hidden"
     @frameRadioButtons[frame_idx].checked = "true"
 
@@ -254,18 +311,20 @@ class Classifier extends BaseController
     @el.removeClass 'loading'
 
   showSummary: ->
-    console.log JSON.stringify @classification
-    @sendClassification()
-    classificationSummary = new ClassificationSummary {@classification}
-    classificationSummary.el.appendTo @el
-    @el.addClass 'showing-summary'
-    classificationSummary.on 'destroying', =>
-      @destroyFrames()
-      @el.removeClass 'showing-summary'
-      Subject.next()
+    console.log JSON.stringify @classification    
+    
+    # ALL THIS IS BROKEN FOR NOW
+    # @sendClassification()
+    # classificationSummary = new ClassificationSummary {@classification}
+    # classificationSummary.el.appendTo @el
+    # @el.addClass 'showing-summary'
+    # classificationSummary.on 'destroying', =>
+    #   @destroyFrames()
+    #   @el.removeClass 'showing-summary'
+    #   Subject.next()
 
-    setTimeout =>
-      classificationSummary.show()
+    # setTimeout =>
+    #   classificationSummary.show()
 
   sendClassification: ->
     @classification.set 'marks', [@markingSurface.marks...]
