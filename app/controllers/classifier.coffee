@@ -319,23 +319,21 @@ class Classifier extends BaseController
     @el.removeClass 'loading'
 
   showSummary: ->
-    console.log JSON.stringify @classification    
     
-    # ALL THIS IS BROKEN FOR NOW
-    # @sendClassification()
-    # classificationSummary = new ClassificationSummary {@classification}
-    # classificationSummary.el.appendTo @el
-    # @el.addClass 'showing-summary'
-    # classificationSummary.on 'destroying', =>
-    #   @destroyFrames()
-    #   @el.removeClass 'showing-summary'
-    #   Subject.next()
+    @sendClassification()
+    classificationSummary = new ClassificationSummary {@classification}
+    classificationSummary.el.appendTo @el
+    @el.addClass 'showing-summary'
+    classificationSummary.on 'destroying', =>
+      @destroyFrames()
+      @el.removeClass 'showing-summary'
+      Subject.next()
 
-    # setTimeout =>
-    #   classificationSummary.show()
+    setTimeout =>
+      classificationSummary.show()
 
   sendClassification: ->
-    @classification.set 'marks', [@markingSurface.marks...]
+    @classification.set 'marks', [@markingSurface[0].marks...]
     console?.log JSON.stringify @classification
     @classification.send()
 

@@ -84,11 +84,11 @@ class MarkingToolControlsController extends BaseController
     else if @state is "artifactTool"
       detection =  @getArtifactDetection()
     else
-      console.log("Error: marking tool not specified")
+      console?.log("Error: marking tool not specified")
     # hack which doesn't even work 
     @tool.mark.frame = frameIdx
     @tool.mark.x = Math.floor(@tool.mark.x) 
-    @tool.mark.y = Math.floor(@tool.mark.y) 
+    @tool.mark.y = Math.floor(@tool.mark.y)
     @tool.mark.set 'detection', detection
 
   setState: (newState) ->
