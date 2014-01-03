@@ -144,7 +144,7 @@ class Classifier extends BaseController
 
   loadFrames: =>
 
-    # create separate divs for 4-up vs. flicker views
+    # this code could probably be cleaned up
 
 
     @destroyFrames()
@@ -208,13 +208,25 @@ class Classifier extends BaseController
     console.log "4-up"
     @el.find(".four-up").show()
     @el.find(".flicker").hide()
-    # flicker.disable() # find way to disable flicker
+
+    # disable flicker
+    @el.find("button[name=\"play-frames\"]").hide()
+    @el.find("button[name=\"four-up\"]").hide()
+    @el.find("input[name=\"current-frame\"]").hide()
+
+    @el.find("button[name=\"flicker\"]").show()
 
   onClickFlicker: ->
     console.log "Flicker"
     @el.find(".flicker").show()
     @el.find(".four-up").hide()
     # fourUp.disable() # may need to disable 4-up display
+
+    @el.find("button[name=\"flicker\"]").hide()
+
+    @el.find("button[name=\"play-frames\"]").show()
+    @el.find("button[name=\"four-up\"]").show()
+    @el.find("input[name=\"current-frame\"]").show()
 
   onClickRadioButton: ->
     for i in [0...@frameRadioButtons.length]
