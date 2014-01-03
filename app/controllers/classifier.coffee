@@ -43,7 +43,18 @@ class Classifier extends BaseController
     'click button[name="flicker"]'        : 'onClickFlicker'
     'click input[name="current-frame"]'   : 'onClickRadioButton'
 
-    # 'click button[name="no-tags"]'        : 'onClickNoTags'
+  elements:
+    '.subject'                      : 'subjectContainer'
+    '.flicker'                      : 'flickerContainer'
+    '.four-up'                      : 'fourUpContainer'
+    '.frame-image'                  : 'imageFrames'   # not being used (yet?)
+    '.current-frame input'          : 'frameRadioButtons'
+    'input[name="current-frame"]'   : 'currentFrameRadioButton'
+    'button[name="play-frames"]'    : 'playButton'
+    'button[name="invert"]'         : 'invertButton'
+    'button[name="flicker"]'        : 'flickerButton'
+    'button[name="four-up"]'        : 'fourUpButton'
+    'button[name="finish-marking"]' : 'finishButton'
 
     'keydown': (e) ->
       return if @el.hasClass 'playing'  # disable while playing
@@ -59,17 +70,6 @@ class Classifier extends BaseController
         when KEYS.space
           @onClickPlay()
 
-  elements:
-    '.subject'                      : 'subjectContainer'
-    '.flicker'                      : 'flickerContainer'
-    '.four-up'                      : 'fourUpContainer'
-    '.frame-image'                  : 'imageFrames'   # not being used (yet?)
-    '.current-frame input'          : 'frameRadioButtons'
-    'input[name="current-frame"]'   : 'currentFrameRadioButton'
-    'button[name="play-frames"]'    : 'playButton'
-    'button[name="finish-marking"]' : 'finishButton'
-    'button[name="no-tags"]'        : 'noTagsButton'
-
   constructor: ->
     super
     @playTimeouts = []                   # for image_changer
@@ -83,6 +83,7 @@ class Classifier extends BaseController
   
     # default to flicker mode on initialization
     @el.find('.four-up').hide()
+    @flickerButton.attr 'disabled', true
 
     @numFrames = 4
     @markingSurface = new Array
@@ -209,24 +210,17 @@ class Classifier extends BaseController
     @el.find(".four-up").show()
     @el.find(".flicker").hide()
 
-    # disable flicker
-    @el.find("button[name=\"play-frames\"]").hide()
-    @el.find("button[name=\"four-up\"]").hide()
-    @el.find("input[name=\"current-frame\"]").hide()
-
-    @el.find("button[name=\"flicker\"]").show()
+    @fourUpButton.attr 'disabled', true
+    @flickerButton.attr 'disabled', false
 
   onClickFlicker: ->
     console.log "Flicker"
     @el.find(".flicker").show()
     @el.find(".four-up").hide()
-    # fourUp.disable() # may need to disable 4-up display
 
-    @el.find("button[name=\"flicker\"]").hide()
-
-    @el.find("button[name=\"play-frames\"]").show()
-    @el.find("button[name=\"four-up\"]").show()
-    @el.find("input[name=\"current-frame\"]").show()
+    @flickerButton.attr 'disabled', true
+    @fourUpButton.attr 'disabled', false
+    
 
   onClickRadioButton: ->
     for i in [0...@frameRadioButtons.length]
@@ -236,6 +230,7 @@ class Classifier extends BaseController
   onClickPlay: ->
     return if @el.hasClass 'playing'  # play only once at a time  
     
+    @playButton.attr 'disabled', true
     @el.addClass 'playing'
     @disableMarkingSurfaces()
     # @markingSurface.disable()   # no marking while playing
@@ -252,6 +247,7 @@ class Classifier extends BaseController
   pause: =>
     clearTimeout timeout for timeout in @playTimeouts
     @playTimeouts.splice 0
+    @playButton.attr 'disabled', false
     @el.removeClass 'playing'
     @enableMarkingSurfaces()
     # @markingSurface.enable()
