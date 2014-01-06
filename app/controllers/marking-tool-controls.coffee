@@ -1,6 +1,9 @@
 {ToolControls} = require 'marking-surface'
 BaseController = require 'zooniverse/controllers/base-controller'
 FauxRangeInput = require 'faux-range-input'
+#broke
+# ImageSet = require "../models/image-set"
+# ImageFrame =  require "../models/image-frame"
 translate = require 't7e'
 Subject = require 'zooniverse/models/subject'
 _  = require 'underscore'
