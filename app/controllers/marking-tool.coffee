@@ -29,6 +29,8 @@ class MarkingTool extends Tool
     @mark.set offset
 
   render: ->
+    #debugger
+    console.log("MarkingToo.render()")
     # @circle.attr
     #   r: @size / 2 / @surface.zoomBy
     #   strokeWidth: 10/ @surface.zoomBy
