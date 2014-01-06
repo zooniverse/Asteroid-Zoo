@@ -35,7 +35,7 @@ NEXT_DEV_SUBJECT = ->
 class Classifier extends BaseController
   className: 'classifier'
   template: require '../views/classifier'
-  
+  marks: []
   events:
     'click button[name="play-frames"]'    : 'onClickPlay'
     'click button[name="invert"]'         : 'onClickInvert'
@@ -73,6 +73,7 @@ class Classifier extends BaseController
           @onClickPlay()
 
   constructor: ->
+    @marks = []
     super
     @playTimeouts = []                   # for image_changer
     @el.attr tabindex: 0                 # ...
@@ -111,27 +112,22 @@ class Classifier extends BaseController
     User.on 'change', @onUserChange
     Subject.on 'fetch', @onSubjectFetch
     Subject.on 'select', @onSubjectSelect
+
+    #adding a listener for each marking surface
     for tool in @markingSurface 
       console.log "adding events"
       tool.on "create-mark", @onCreateMark
   # activate: ->
   #   # setTimeout @rescale, 100
 
-  onCreateMark:(_mark) =>
-    for  _surface, i in @markingSurface
-      console.log ("which surface #{i}")
-      console.log _surface
-      console.log _mark
-      #toodo hack fix
-      #if i == _mark.frame
-      if i == 1
-        console.log "found surface to mirror too"
-        mirroredTool = new _surface.tool
-          surface: _surface
-          mark: _mark
-        #_surface.addTool mirroredTool  
-
-  #  
+  onCreateMark:(mark) =>
+    @marks.push mark
+    #locate the surface this framecoresponds to 
+    theSurface = @markingSurface[mark.frame] 
+    mirroredTool = new theSurface.tool
+      surface: theSurface
+      mark: mark
+   
   renderTemplate: =>
     super
 
@@ -176,6 +172,7 @@ class Classifier extends BaseController
     # create image elements for "master" view
     #todo @frames doesn't get referenced, what is it doing?
     @frames = for i in [subject_info.standard.length-1..0]
+      console.log("#{i} index enumerates?")
       frame_id = "frame-id-#{i}"
       frameImage = @markingSurface[0].addShape 'image',
         id:  frame_id
@@ -197,24 +194,28 @@ class Classifier extends BaseController
           # 'xlink:href': DEV_SUBJECTS[i]   # use hardcoded static images
 
     # create image elements for 4-up view
-    for i in [1..subject_info.standard.length]
-      frameImage = @markingSurface[i].addShape 'image',
-        id:  frame_id
-        class:  'frame-image'
-        width:  '100%'
-        height: '100%'
-        preserveAspectRatio: 'true'
+    do (frame_id) =>
+      for i in [1..subject_info.standard.length]
+        frame_id = "frame-id-#{i}"
+        console.log("Emmitting four up frame-id #{frame_id}")
+        frameImage = 
+            @markingSurface[i].addShape 'image',
+            id:  frame_id
+            class:  'frame-image'
+            width:  '100%'
+            height: '100%'
+            preserveAspectRatio: 'true'
 
-      if @invert is true
-        img_src = subject_info.inverted[i-1]
-      else
-        img_src = subject_info.standard[i-1]
+        if @invert is true
+          img_src = subject_info.inverted[i-1]
+        else
+          img_src = subject_info.standard[i-1]
 
-      do (img_src, frameImage)  => 
-        loadImage img_src, (img) =>
-        frameImage.attr
-          'xlink:href': img_src          # get images from api
-          # 'xlink:href': DEV_SUBJECTS[i]   # use hardcoded static images
+        do (img_src, frameImage)  => 
+          loadImage img_src, (img) =>
+          frameImage.attr
+            'xlink:href': img_src          # get images from api
+            # 'xlink:href': DEV_SUBJECTS[i]   # use hardcoded static images
 
       # need to edit .marking-surface CSS and create separate flicker vs. 4-up styles
       # frameImage.attr 'transform', 'scale(0.75)'  

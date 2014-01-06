@@ -32,7 +32,7 @@ class MarkingToolControlsController extends BaseController
     #this populates 4 image frames 
     @imageSet = new ImageSet()
     
-    @currentFrame  =  @imageSet.getFrameFromElement('frame-id-0')
+    @currentFrame  =  @imageSet.getFrameFromElement('frame-id-1')
 
     # provisional default case of artifact subtype
     artifactSubtype = "other"
@@ -164,7 +164,7 @@ class ImageSet
 
   populateImageSet: =>
     @imageFrames = new Array()
-    for i in [0..3] by 1
+    for i in [1..4] by 1
       frame = new ImageFrame("frame-id-#{i}", i, "", "")
       @imageFrames[i] = frame
     @imageFrames

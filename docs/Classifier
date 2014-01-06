@@ -1,0 +1,34 @@
+Classifier
+
+classification: Classification
+currentFrameIdx: 0
+currentFrameRadioButton: x.fn.x.init[4]
+disableMarkingSurfaces: function (){ return fn.apply(me, arguments); }
+el: x.fn.x.init[1]
+enableMarkingSurfaces: function (){ return fn.apply(me, arguments); }
+escape: function (value) {
+finishButton: x.fn.x.init[1]
+flickerContainer: x.fn.x.init[1]
+fourUpContainer: x.fn.x.init[1]
+frameRadioButtons: x.fn.x.init[4]
+frames: Array[4]
+id: "controller_3"
+imageFrames: x.fn.x.init[0]
+invert: false
+loadFrames: function (){ return fn.apply(me, arguments); }
+markingSurface: Array[5]
+noTagsButton: x.fn.x.init[0]
+numFrames: 4
+onCreateMark: function (){ return fn.apply(me, arguments); }
+onSubjectFetch: function (){ return fn.apply(me, arguments); }
+onSubjectSelect: function (){ return fn.apply(me, arguments); }
+onUserChange: function (){ return fn.apply(me, arguments); }
+pause: function (){ return fn.apply(me, arguments); }
+playButton: x.fn.x.init[1]
+playTimeouts: Array[0]
+renderTemplate: function (){ return fn.apply(me, arguments); }
+rescale: function (){ return fn.apply(me, arguments); }
+resetMarkingSurfaces: function (){ return fn.apply(me, arguments); }
+safe: undefined
+subjectContainer: x.fn.x.init[1]
+__proto__: ctor
