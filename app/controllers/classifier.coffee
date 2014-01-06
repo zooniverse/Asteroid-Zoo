@@ -355,7 +355,7 @@ class Classifier extends BaseController
       classificationSummary.show()
 
   sendClassification: ->
-    @classification.set 'marks', [@markingSurface[0].marks...]
+    @classification.set 'marks', [@marks...]
     console?.log JSON.stringify @classification
     @classification.send()
 
