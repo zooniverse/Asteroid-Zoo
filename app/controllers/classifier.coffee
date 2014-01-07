@@ -7,6 +7,7 @@ loadImage = require '../lib/load-image'
 Classification = require 'zooniverse/models/classification'
 MarkingSurface = require 'marking-surface'
 MarkingTool = require './marking-tool'
+MarkingToolControls = require './marking-tool-controls'
 ClassificationSummary = require './classification-summary'
 
 # for keybindings
@@ -91,7 +92,6 @@ class Classifier extends BaseController
     # create marking surfaces for frames
     # note: 0 index is "master"
     for i in [0..@numFrames]
-      console.log "Creating frame " + i 
       @markingSurface[i] = new MarkingSurface
         tool: MarkingTool
       @markingSurface[i].svgRoot.attr 'id', "classifier-svg-root-#{i}"
@@ -103,6 +103,9 @@ class Classifier extends BaseController
 
       @markingSurface[i].on 'create-tool', (tool) =>
         tool.controls.controller.setMark(@currentFrameIdx)
+
+
+    # @fooControls = new MarkingToolControls
 
     User.on 'change', @onUserChange
     Subject.on 'fetch', @onSubjectFetch

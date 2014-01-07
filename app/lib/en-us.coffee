@@ -36,6 +36,8 @@ module.exports =
         label: 'Asteroid'
       artifact:
         label: 'Artifact'
+      nothing: 
+        label: 'Nothing'
 
   artifacts:
     heading: 'What type of artifact is this?'
@@ -46,7 +48,7 @@ module.exports =
     other:
       label: 'Other' 
   asteroids:
-    heading: "Mark Asteroid"
+    heading: "Asteroid Tracking"
 
   #TODO condors reminant
   classificationSummary:
