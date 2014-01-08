@@ -44,6 +44,7 @@ class Classifier extends BaseController
     'click button[name="flicker"]'        : 'onClickFlicker'
     'click input[name="current-frame"]'   : 'onClickRadioButton'
 
+
   elements:
     '.subject'                      : 'subjectContainer'
     '.flicker'                      : 'flickerContainer'
@@ -110,10 +111,27 @@ class Classifier extends BaseController
     User.on 'change', @onUserChange
     Subject.on 'fetch', @onSubjectFetch
     Subject.on 'select', @onSubjectSelect
-
+    for tool in @markingSurface 
+      console.log "adding events"
+      tool.on "create-mark", @onCreateMark
   # activate: ->
   #   # setTimeout @rescale, 100
 
+  onCreateMark:(_mark) =>
+    for  _surface, i in @markingSurface
+      console.log ("which surface #{i}")
+      console.log _surface
+      console.log _mark
+      #toodo hack fix
+      #if i == _mark.frame
+      if i == 1
+        console.log "found surface to mirror too"
+        mirroredTool = new _surface.tool
+          surface: _surface
+          mark: _mark
+        #_surface.addTool mirroredTool  
+
+  #  
   renderTemplate: =>
     super
 
@@ -322,23 +340,21 @@ class Classifier extends BaseController
     @el.removeClass 'loading'
 
   showSummary: ->
-    console.log JSON.stringify @classification    
     
-    # ALL THIS IS BROKEN FOR NOW
-    # @sendClassification()
-    # classificationSummary = new ClassificationSummary {@classification}
-    # classificationSummary.el.appendTo @el
-    # @el.addClass 'showing-summary'
-    # classificationSummary.on 'destroying', =>
-    #   @destroyFrames()
-    #   @el.removeClass 'showing-summary'
-    #   Subject.next()
+    @sendClassification()
+    classificationSummary = new ClassificationSummary {@classification}
+    classificationSummary.el.appendTo @el
+    @el.addClass 'showing-summary'
+    classificationSummary.on 'destroying', =>
+      @destroyFrames()
+      @el.removeClass 'showing-summary'
+      Subject.next()
 
-    # setTimeout =>
-    #   classificationSummary.show()
+    setTimeout =>
+      classificationSummary.show()
 
   sendClassification: ->
-    @classification.set 'marks', [@markingSurface.marks...]
+    @classification.set 'marks', [@markingSurface[0].marks...]
     console?.log JSON.stringify @classification
     @classification.send()
 

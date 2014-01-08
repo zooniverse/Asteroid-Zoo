@@ -40,8 +40,11 @@ class MarkingToolControlsController extends BaseController
     fauxRangeInputs = FauxRangeInput.find @el.get 0
     @on 'destroy', -> fauxRangeInputs.shift().destroy() until fauxRangeInputs.length is 0
 
-    #TODO not sure when we would need this
+    
     @tool.mark.on 'change', (property, value) =>
+      console.log("Property#{ property}")
+      console.log("Value#{value}") 
+      # @trigger("create-mark" , this  )
       @setMark
 
    
@@ -72,6 +75,7 @@ class MarkingToolControlsController extends BaseController
     'click button[name^="done"]': ->
       @tool.deselect()
 
+
     #TODO With this setup we don't where we are until the classifier is created.
     'keydown': (e) ->
       switch e.which
@@ -79,17 +83,19 @@ class MarkingToolControlsController extends BaseController
         when KEYS.esc then @el.find('footer button.cancel:visible').first().click()
 
   setMark: (frameIdx) =>
+    console.log("setMark")
     if @state is "asteroidTool" or @state is "whatKind" 
       detection =  @getAsteroidDetection()
     else if @state is "artifactTool"
       detection =  @getArtifactDetection()
     else
-      console.log("Error: marking tool not specified")
+      console?.log("Error: marking tool not specified")
     # hack which doesn't even work 
     @tool.mark.frame = frameIdx
     @tool.mark.x = Math.floor(@tool.mark.x) 
-    @tool.mark.y = Math.floor(@tool.mark.y) 
+    @tool.mark.y = Math.floor(@tool.mark.y)
     @tool.mark.set 'detection', detection
+
 
   setState: (newState) ->
     if @state
