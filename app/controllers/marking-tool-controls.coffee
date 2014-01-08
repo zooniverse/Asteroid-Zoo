@@ -1,7 +1,7 @@
 {ToolControls} = require 'marking-surface'
 BaseController = require 'zooniverse/controllers/base-controller'
 FauxRangeInput = require 'faux-range-input'
-#broke
+#TODO broke include of external class
 # ImageSet = require "../models/image-set"
 # ImageFrame =  require "../models/image-frame"
 translate = require 't7e'
@@ -35,6 +35,7 @@ class MarkingToolControlsController extends BaseController
     #this populates 4 image frames 
     @imageSet = new ImageSet()
     
+    #TODO dubious, broke, wrong way    
     @currentFrame  =  @imageSet.getFrameFromElement('frame-id-1')
 
     # provisional default case of artifact subtype
@@ -45,12 +46,7 @@ class MarkingToolControlsController extends BaseController
 
     
     @tool.mark.on 'change', (property, value) =>
-      console.log("Property#{ property}")
-      console.log("Value#{value}") 
-      # @trigger("create-mark" , this  )
       @setMark
-
-   
     @setState 'whatKind'
 
   events:
@@ -71,13 +67,11 @@ class MarkingToolControlsController extends BaseController
 
     #'click button[name="done"]': ->
       
-
     'click button[name="delete"]': ->
       @tool.mark.destroy()
 
     'click button[name^="done"]': ->
       @tool.deselect()
-
 
     #TODO With this setup we don't where we are until the classifier is created.
     'keydown': (e) ->
@@ -86,17 +80,26 @@ class MarkingToolControlsController extends BaseController
         when KEYS.esc then @el.find('footer button.cancel:visible').first().click()
 
   setMark: (frameIdx) =>
-    console.log("setMark")
     if @state is "asteroidTool" or @state is "whatKind" 
       detection =  @getAsteroidDetection()
     else if @state is "artifactTool"
       detection =  @getArtifactDetection()
     else
       console?.log("Error: marking tool not specified")
-    # hack which doesn't even work 
+
+    #TODO frameIdx not reliably being set anymore
     @tool.mark.frame = frameIdx
+
+    #TODO make integral hack which doesn't even work , GH issue on integral values GH#2
+   
     @tool.mark.x = Math.floor(@tool.mark.x) 
     @tool.mark.y = Math.floor(@tool.mark.y)
+    # pass the what surface this mark came from back to the classifier.  
+    if this.tool.surface.el.id  is "surface-master"
+      @tool.mark.surface_master = true
+    else
+      @tool.mark.surface_master = false
+    #TODO Sascha didn't like the sub-structure here
     @tool.mark.set 'detection', detection
 
 
@@ -142,6 +145,8 @@ class MarkingToolControlsController extends BaseController
         console.log "STATE: \'artifactTool/exit\'"
         @el.find('.artifact-classifier').hide() 
 
+  #TODO factor currentFrame determination up andor out, 
+  # probably as paremter to this controller class
   getAsteroidDetection: =>
     asteroid_detection= 
       type: "asteroid" 
