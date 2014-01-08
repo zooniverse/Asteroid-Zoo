@@ -90,10 +90,6 @@ class Classifier extends BaseController
 
     #######################################################   
     # create marking surfaces for frames
-<<<<<<< HEAD
-=======
-
->>>>>>> 4-up-merge
     ####################################################### 
     # create master surface -- "flicker view"
     @masterMarkingSurface = new MarkingSurface
