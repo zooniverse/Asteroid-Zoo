@@ -152,6 +152,9 @@
 
       <br>
       <br>
+      <div class="answers" style="display: block; padding: 20px">
+        <%- translate 'button', 'Flicker', name: 'flicker' %>
+      </div>
 
 
     </div> <!-- end instructions -->
