@@ -7,6 +7,7 @@ loadImage = require '../lib/load-image'
 Classification = require 'zooniverse/models/classification'
 MarkingSurface = require 'marking-surface'
 MarkingTool = require './marking-tool'
+MarkingToolControls = require './marking-tool-controls'
 ClassificationSummary = require './classification-summary'
 
 # for keybindings
@@ -89,6 +90,10 @@ class Classifier extends BaseController
 
     #######################################################   
     # create marking surfaces for frames
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4-up-merge
     ####################################################### 
     # create master surface -- "flicker view"
     @masterMarkingSurface = new MarkingSurface

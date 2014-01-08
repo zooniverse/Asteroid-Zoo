@@ -119,24 +119,30 @@ class MarkingToolControlsController extends BaseController
   states:
     whatKind:
       enter: ->
+        console.log "STATE: \'whatKind/enter\'"
         @el.find('button[name="to-select"]').addClass 'hidden' 
         @el.find('.what-kind').show()       
 
       exit: ->
+        console.log "STATE: \'whatKind/exit\'"
         @el.find('button[name="to-select"]').removeClass 'hidden'
         @el.find('.what-kind').hide()
 
     asteroidTool:
       enter: ->
+        console.log "STATE: \'asteroidTool/enter\'"
         @el.find('.asteroid-classifier').show()
        
       exit: ->
+        console.log "STATE: \'asteroidTool/exit\'"
         @el.find('.asteroid-classifier').hide()  
       
     artifactTool:
       enter: ->
+        console.log "STATE: \'artifactTool/enter\'"
         @el.find('.artifact-classifier').show()
       exit: ->
+        console.log "STATE: \'artifactTool/exit\'"
         @el.find('.artifact-classifier').hide() 
 
   #TODO factor currentFrame determination up andor out, 

@@ -6,12 +6,124 @@
   </div>
 
   <div class="content-container">
-    <div class="subject">
 
+    <div class="quarter-column">
+        <div class="view-toggle">
+          
+        <h2>TOOLS</h2>
+          <div class="answers" style="display: block; padding: 20px">
+           <%- translate 'button', 'Invert', name: 'invert' %>
+          </div>
+
+          <h2>VIEW</h2>
+          <div class="answers" style="display: block; padding: 20px">
+            <%- translate 'button', '4-up',    name: 'four-up' %>
+          </div>
+
+          <div class="answers" style="display: block; padding: 20px">
+            <%- translate 'button', 'Flicker', name: 'flicker' %>
+          </div>
+
+          <h2>HELP</h3>
+          <div class="answers">
+          </div>
+
+        </div>
+    </div>
+
+    <div class="subject">
       <div id="flicker" class="flicker"></div>
       <div id="four-up" class="four-up"></div>
-
     </div>
+
+
+    <div class="quarter-column">
+      <div class="marking-tool-interface">
+        <div class="answers">
+  
+          <header>
+            <!-- <button type="button" name="to-select">
+              <i class="icon-chevron-left"></i>
+            </button>
+            <%-# TODO  What's this placeholder going to do? %>
+            <img src="//placehold.it/100.png" class="selected-animal-example" />
+
+            <span class="selected-artifact-label"></span> -->
+          </header>
+
+          <div class="what-kind">
+            <section>
+              <!-- WHAT DO YOU SEE HERE? -->
+              <h3><%- translate 'div', 'classifier.whatKind' %></h3>
+              <div class="classifier-type-menu-item">
+                <label class="as-radio-button">
+                  <input type="radio" name="classifier-type" value="asteroid" checked/>
+                  <%- translate 'span', "classifier.type.asteroid.label" %>
+                </label>
+              </div> 
+              <div class="classifier-type-menu-item">
+                <label class="as-radio-button">
+                  <input type="radio" name="classifier-type" value="artifact" />
+                   <%- translate 'span', "classifier.type.artifact.label" %>
+                </label>
+             </div>
+             <div class="classifier-type-menu-item">
+                <label class="as-radio-button">
+                  <input type="radio" name="classifier-type" value="artifact" />
+                   <%- translate 'span', "classifier.type.nothing.label" %>
+                </label>
+             </div>
+            </section>
+          </div>
+
+          <div class="artifact-classifier">
+            <section>
+              <!-- WHAT TYPE OF ARTIFACT IS THIS? -->
+              <h3><%- translate 'div', 'artifacts.heading' %></h3>
+              <%-# TODO this needs to be some kind of dynamic lookup %>
+              <% for artifact in ['starbleed', 'hotpixel', 'other']: %>
+                <div class="artifact-menu-item">
+                  <label class="as-radio-button">
+                    <input type="radio" name="selected-artifact" value="<%- artifact %>" <%- "checked" if artifact is "other" %> />
+                    <%- translate 'span', "artifacts.#{artifact}.label" %>
+                  </label>
+                </div>
+              <% end %>
+              <div class="button">
+                <%- translate 'button', 'Next Frame', name: 'next-frame' %>
+              </div>
+               <div class="button">
+                <%- translate 'button', 'Cancel', name: 'cancel' %>
+              </div>
+            <section> 
+          </div>
+
+          <div class="asteroid-classifier">
+            <section>
+              <!-- ASTEROID TRACKING -->
+              <h3><%- translate 'div', 'asteroids.heading' %></h3>
+              <label class="as-radio-button">
+                <input type="radio" name="selected-artifact" value="<%- artifact %>" <%- "checked" if artifact is "other" %> />
+                <%- translate 'span', "artifacts.#{artifact}.label" %>
+              </label>
+              <div class="button">
+                <%- translate 'button', 'Next Frame', name: 'next-frame' %>
+              </div>
+              <div class="button">
+                <%- translate 'button', 'Cancel', name: 'cancel' %>
+              </div>
+            <section> 
+          </div>
+
+          <footer>
+            <%- translate 'button.cancel', 'classifier.delete', name: 'delete', type: 'button' %>
+            <%- translate 'button.default', 'classifier.done', name: 'done', type: 'button' %>
+          </footer>
+
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -35,21 +147,16 @@
       </div>
 
       <div class="answers">
-        <%- translate 'button', 'Invert', name: 'invert' %>
-      </div>
-
-      <div class="answers">
         <%- translate 'button', 'Finished', name: 'finish-marking' %>
       </div>
 
       <br>
       <br>
-      <div class="answers">
-        <%- translate 'button', '4-up',    name: 'four-up' %>
+      <div class="answers" style="display: block; padding: 20px">
         <%- translate 'button', 'Flicker', name: 'flicker' %>
       </div>
 
 
-    </div>
-  </div>
-</div>
+    </div> <!-- end instructions -->
+  </div><!-- end content-container -->
+</div><!-- end content-block -->

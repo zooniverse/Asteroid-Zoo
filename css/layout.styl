@@ -55,14 +55,27 @@ body
     button
       @extends #_STANDARD_BUTTON
 
-  .view-toggle
+.view-toggle
+  display: block
+  width: 200px
+  //margin-top: 200px
+  //margin: 0 auto
+  //padding-top: auto;
+  text-align: center
+
+  .question
+    display: table-cell
+    padding-right: 1em
+    text-align: center
+    vertical-align: middle
+
+  .answers
     display: inline
     text-align: center
     vertical-align: middle
     white-space: nowrap
     button
-      @extends #_TOGGLE_BUTTON
-
+      @extends #_STANDARD_BUTTON
 
 h1
   font-size: 42px

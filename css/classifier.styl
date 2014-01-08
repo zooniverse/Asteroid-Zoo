@@ -1,4 +1,5 @@
 .classifier
+    background-color: white
   .subject
     //background: MEDIUM_GRAY
     border-radius: 5px
@@ -19,15 +20,33 @@
     height: 1028px
 
   .marking-surface
+    background: #EEEEEE
     display: inline-block
     float: left
     margin-left: auto
     margin-right: auto
-    padding: 1px 1px
+    padding: 20px
     height: 512px
     width: 512px
     max-height: 100%
     max-width: 100%
+
+  .marking-tool-interface
+    //background: #CCCCCC
+    margin: 20px
+
+  .view-toggle
+    //background: #CCCCCC
+    margin: 20px
+
+  .button
+    display: block
+    text-align: center
+    vertical-align: middle
+    white-space: nowrap
+    button
+      @extends #_STANDARD_BUTTON
+
  
   .marking-tool-root
     opacity: 1
