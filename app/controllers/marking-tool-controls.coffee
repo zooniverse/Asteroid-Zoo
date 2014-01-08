@@ -1,6 +1,9 @@
 {ToolControls} = require 'marking-surface'
 BaseController = require 'zooniverse/controllers/base-controller'
 FauxRangeInput = require 'faux-range-input'
+#TODO broke include of external class
+# ImageSet = require "../models/image-set"
+# ImageFrame =  require "../models/image-frame"
 translate = require 't7e'
 Subject = require 'zooniverse/models/subject'
 _  = require 'underscore'
@@ -32,7 +35,8 @@ class MarkingToolControlsController extends BaseController
     #this populates 4 image frames 
     @imageSet = new ImageSet()
     
-    @currentFrame  =  @imageSet.getFrameFromElement('frame-id-0')
+    #TODO dubious, broke, wrong way    
+    @currentFrame  =  @imageSet.getFrameFromElement('frame-id-1')
 
     # provisional default case of artifact subtype
     artifactSubtype = "other"
@@ -40,11 +44,9 @@ class MarkingToolControlsController extends BaseController
     fauxRangeInputs = FauxRangeInput.find @el.get 0
     @on 'destroy', -> fauxRangeInputs.shift().destroy() until fauxRangeInputs.length is 0
 
-    #TODO not sure when we would need this
+    
     @tool.mark.on 'change', (property, value) =>
       @setMark
-
-   
     @setState 'whatKind'
 
   events:
@@ -65,7 +67,6 @@ class MarkingToolControlsController extends BaseController
 
     #'click button[name="done"]': ->
       
-
     'click button[name="delete"]': ->
       @tool.mark.destroy()
 
@@ -84,12 +85,23 @@ class MarkingToolControlsController extends BaseController
     else if @state is "artifactTool"
       detection =  @getArtifactDetection()
     else
-      console.log("Error: marking tool not specified")
-    # hack which doesn't even work 
+      console?.log("Error: marking tool not specified")
+
+    #TODO frameIdx not reliably being set anymore
     @tool.mark.frame = frameIdx
+
+    #TODO make integral hack which doesn't even work , GH issue on integral values GH#2
+   
     @tool.mark.x = Math.floor(@tool.mark.x) 
-    @tool.mark.y = Math.floor(@tool.mark.y) 
+    @tool.mark.y = Math.floor(@tool.mark.y)
+    # pass the what surface this mark came from back to the classifier.  
+    if this.tool.surface.el.id  is "surface-master"
+      @tool.mark.surface_master = true
+    else
+      @tool.mark.surface_master = false
+    #TODO Sascha didn't like the sub-structure here
     @tool.mark.set 'detection', detection
+
 
   setState: (newState) ->
     if @state
@@ -107,26 +119,34 @@ class MarkingToolControlsController extends BaseController
   states:
     whatKind:
       enter: ->
+        console.log "STATE: \'whatKind/enter\'"
         @el.find('button[name="to-select"]').addClass 'hidden' 
         @el.find('.what-kind').show()       
 
       exit: ->
+        console.log "STATE: \'whatKind/exit\'"
         @el.find('button[name="to-select"]').removeClass 'hidden'
         @el.find('.what-kind').hide()
 
     asteroidTool:
       enter: ->
+        console.log "STATE: \'asteroidTool/enter\'"
         @el.find('.asteroid-classifier').show()
        
       exit: ->
+        console.log "STATE: \'asteroidTool/exit\'"
         @el.find('.asteroid-classifier').hide()  
       
     artifactTool:
       enter: ->
+        console.log "STATE: \'artifactTool/enter\'"
         @el.find('.artifact-classifier').show()
       exit: ->
+        console.log "STATE: \'artifactTool/exit\'"
         @el.find('.artifact-classifier').hide() 
 
+  #TODO factor currentFrame determination up andor out, 
+  # probably as paremter to this controller class
   getAsteroidDetection: =>
     asteroid_detection= 
       type: "asteroid" 
@@ -152,7 +172,7 @@ class ImageSet
 
   populateImageSet: =>
     @imageFrames = new Array()
-    for i in [0..3] by 1
+    for i in [1..4] by 1
       frame = new ImageFrame("frame-id-#{i}", i, "", "")
       @imageFrames[i] = frame
     @imageFrames
