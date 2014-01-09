@@ -81,16 +81,16 @@ class Classifier extends BaseController
 
     @invert = false
     @setCurrentFrameIdx 0
-    
+
     window.classifier = @
-  
+
     # default to flicker mode on initialization
     @el.find('.four-up').hide()
     @flickerButton.attr 'disabled', true
 
-    #######################################################   
+    #######################################################
     # create marking surfaces for frames
-    ####################################################### 
+    #######################################################
     # create master surface -- "flicker view"
     @masterMarkingSurface = new MarkingSurface
       tool: MarkingTool
@@ -112,14 +112,14 @@ class Classifier extends BaseController
       @markingSurfaceList[i].on 'create-tool', (tool) =>
         tool.controls.controller.setMark(@currentFrameIdx)
 
-    ####################################################### 
+    #######################################################
     #  API event bindings
-    #######################################################     
+    #######################################################
     User.on 'change', @onUserChange
     Subject.on 'fetch', @onSubjectFetch
     Subject.on 'select', @onSubjectSelect
 
-    ####################################################### 
+    #######################################################
     #adding a listener for each marking surface
     # on the master
     @masterMarkingSurface.on "create-mark", @onCreateMark
@@ -143,7 +143,7 @@ class Classifier extends BaseController
       mirroredTool = new theSurface.tool
         surface: theSurface
         mark: mark
-   
+
   renderTemplate: =>
     super
 
@@ -195,7 +195,7 @@ class Classifier extends BaseController
         img_src = subject_info.inverted[i]
       else
         img_src = subject_info.standard[i]
-      
+
       #load the image for this frame
       do (img_src, frameImage)  =>
         loadImage img_src, (img) =>
@@ -220,12 +220,11 @@ class Classifier extends BaseController
       else
         img_src = subject_info.standard[i]
 
-
-        do (img_src, frameImage)  =>
-          loadImage img_src, (img) =>
-          frameImage.attr
-            'xlink:href': img_src          # get images from api
-            # 'xlink:href': DEV_SUBJECTS[i]   # use hardcoded static images
+      do (img_src, frameImage)  =>
+        loadImage img_src, (img) =>
+        frameImage.attr
+          'xlink:href': img_src          # get images from api
+          # 'xlink:href': DEV_SUBJECTS[i]   # use hardcoded static images
 
       # need to edit .marking-surface CSS and create
       # separate flicker vs. 4-up styles
@@ -252,7 +251,7 @@ class Classifier extends BaseController
 
     @flickerButton.attr 'disabled', true
     @fourUpButton.attr 'disabled', false
-    
+
 
   onClickRadioButton: ->
     for i in [0...@frameRadioButtons.length]
@@ -261,7 +260,7 @@ class Classifier extends BaseController
 
   onClickPlay: ->
     return if @el.hasClass 'playing'  # play only once at a time
-    
+
     @playButton.attr 'disabled', true
     @el.addClass 'playing'
     @disableMarkingSurfaces()
@@ -296,7 +295,7 @@ class Classifier extends BaseController
   hideAllFrames: ->
     for i in [0...@frameRadioButtons.length]
       @hideFrame(i)
-    
+
   showFrame: (frame_idx) ->
     @hideAllFrames()
     # this is a dodgy way of getting it done!
@@ -305,7 +304,7 @@ class Classifier extends BaseController
     @frameRadioButtons[frame_idx].checked = "true"
     @setCurrentFrameIdx(frame_idx)
     console.log "show frame: " + frame_idx
-    
+
   hideFrame: (frame_idx) ->
     # id="frame-id-#{frame_idx}"
     # @el.find(id).hide()
@@ -347,7 +346,7 @@ class Classifier extends BaseController
     @el.removeClass 'loading'
 
   showSummary: ->
-    
+
     @sendClassification()
     classificationSummary = new ClassificationSummary {@classification}
     classificationSummary.el.appendTo @el
