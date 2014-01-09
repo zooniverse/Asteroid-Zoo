@@ -33,7 +33,7 @@
         <!-- <button type="button" name="to-select">
           <i class="icon-chevron-left"></i>
         </button>
-        <%-# TODO  What's this placeholder going to do? %>
+        <%# TODO  What's this placeholder going to do? %>
         <img src="//placehold.it/100.png" class="selected-animal-example" />
 
         <span class="selected-artifact-label"></span> -->

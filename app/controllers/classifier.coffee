@@ -9,6 +9,7 @@ MarkingSurface = require 'marking-surface'
 MarkingTool = require './marking-tool'
 MarkingToolControls = require './marking-tool-controls'
 ClassificationSummary = require './classification-summary'
+$ = window.jQuery
 
 # for keybindings
 KEYS =
@@ -241,6 +242,8 @@ class Classifier extends BaseController
     @el.find(".four-up").show()
     @el.find(".flicker").hide()
 
+    $(".marking-surface").css "width": "254px", "height": "254px" # image sizing for 4up view
+
     @fourUpButton.attr 'disabled', true
     @flickerButton.attr 'disabled', false
 
@@ -248,6 +251,8 @@ class Classifier extends BaseController
     console.log "Flicker"
     @el.find(".flicker").show()
     @el.find(".four-up").hide()
+
+    $(".marking-surface").css "width": "512px", "height": "512px" # image sizing for 4up view
 
     @flickerButton.attr 'disabled', true
     @fourUpButton.attr 'disabled', false
