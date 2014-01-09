@@ -21,80 +21,76 @@
             "y": 179,
             "type": "asteroid",
             "frame": 0,
-            "timestamp": <TimeStamp>,
-            "file-name": <FrameFilePath>,
-            "detection-id": <GUID>
+            "timestamp": "TimeStamp",
+            "file-name": "FrameFilePath",
+            "detection-id": "GUID"
           },
           {
             "x": 105,
             "y": 328,
             "type": "asteroid",
             "frame": 1,
-            "timestamp": <TimeStamp>,
-            "file-name": <FrameFilePath>,
-            "detection-id": <GUID>
+            "timestamp": "TimeStamp",
+            "file-name": "FrameFilePath",
+            "detection-id": "GUID"
           },
           {
-            "x": 426.5,
+            "x": 426,
             "frame": 2,
             "type": "asteroid",
-            "timestamp": <TimeStamp>,
-            "file-name": <FrameFilePath>,
-            "detection-id": <GUID>
+            "timestamp": "TimeStamp",
+            "file-name": "FrameFilePath",
+            "detection-id": "GUID"
           },
           {
-            "x": 420.5,
+            "x": 420,
             "y": 390,
             "type": "asteroid",
-            frame": 3,
-            "timestamp": <TimeStamp>,
-            "file-name": <FrameFilePath>,
-            "detection-id": <GUID>
-          },
-          {
-            "x": 180,
-            "y": 179,
-            "type": "artifact",
-              {  "sub-type": "bleed"}
-            },
-            "frame": 0,
-            "timestamp": <TimeStamp>,
-            "file-name": <FrameFilePath>,
-            "detection-id": <GUID>
-          },
-          {
-            "x": 180,
-            "y": 179,
-            "type": "artifact"
-                "sub-type": "bleed"
-            },
-            "frame": 1,
-            "timestamp": <TimeStamp>,
-            "file-name": <FrameFilePath>,
-            "detection-id": <GUID>
-          },
-          {
-            "x": 180,
-            "y": 179,
-            "type": "artifact",
-              {  "sub-type": "bleed"}
-            },
-            "frame": 2,
-            "timestamp": <TimeStamp>,
-            "file-name": <FrameFilePath>,
-            "detection-id": <GUID>
-          },
-          {
-            "x": 180,
-            "y": 179,
-            "type": "artifact",
-              {  "sub-type": "bleed"}
-            },
             "frame": 3,
-            "timestamp": <TimeStamp>,
-            "file-name": <FrameFilePath>,
-            "detection-id": <GUID>
+            "timestamp": "TimeStamp",
+            "file-name": "FrameFilePath",
+            "detection-id": "GUID"
           },
+          {
+            "x": 180,
+            "y": 179,
+            "type": "artifact",
+            "sub-type": "bleed",
+            "frame": 0,
+            "timestamp": "TimeStamp",
+            "file-name": "FrameFilePath",
+            "detection-id": "GUID"
+          },
+          {
+            "x": 180,
+            "y": 179,
+            "type": "artifact",
+            "sub-type": "bleed",
+            "frame": 1,
+            "timestamp": "TimeStamp",
+            "file-name": "FrameFilePath",
+            "detection-id": "GUID"
+          },
+          {
+            "x": 180,
+            "y": 179,
+            "type": "artifact",
+            "sub-type": "bleed",
+            "frame": 2,
+            "timestamp": "TimeStamp",
+            "file-name": "FrameFilePath",
+            "detection-id": "GUID"
+          },
+          {
+            "x": 180,
+            "y": 179,
+            "type": "artifact",
+            "sub-type": "bleed",
+            "frame": 3,
+            "timestamp": "TimeStamp",
+            "file-name": "FrameFilePath",
+            "detection-id": "GUID"
+          }
         ]
       }
     ]
