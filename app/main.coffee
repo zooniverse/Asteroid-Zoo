@@ -69,6 +69,18 @@ User = require 'zooniverse/models/user'
 u = User.fetch()
 
 ##################################################
+# footer
+##################################################
+
+footerContainer = document.createElement 'div'
+footerContainer.className = 'footer-container'
+
+Footer = require 'zooniverse/controllers/footer'
+footer = new Footer
+document.body.appendChild footerContainer
+footer.el.appendTo footerContainer
+
+##################################################
 # button management
 ##################################################
 # Don't wait for a double-tap check on buttons.
