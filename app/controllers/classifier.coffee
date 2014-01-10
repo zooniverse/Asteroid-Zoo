@@ -43,7 +43,8 @@ class Classifier extends BaseController
     'click button[name="finish-marking"]' : 'onClickFinishMarking'
     'click button[name="four-up"]'        : 'onClickFourUp'
     'click button[name="flicker"]'        : 'onClickFlicker'
-    'click input[name="current-frame"]'   : 'onClickRadioButton'
+    # 'click input[name="current-frame"]'   : 'onClickRadioButton'
+    'change input[name="current-frame"]'  : 'onChangeFrameSlider'
 
 
   elements:
@@ -147,6 +148,10 @@ class Classifier extends BaseController
 
   renderTemplate: =>
     super
+
+  onChangeFrameSlider: =>
+    frame = document.getElementById('frame-slider').value
+    @showFrame(frame)
 
   onUserChange: (e, user) =>
     Subject.next() unless @classification?
@@ -258,10 +263,10 @@ class Classifier extends BaseController
     @fourUpButton.attr 'disabled', false
 
 
-  onClickRadioButton: ->
-    for i in [0...@frameRadioButtons.length]
-      if @frameRadioButtons[i].checked
-        @showFrame(i)
+  # onClickRadioButton: ->
+  #   for i in [0...@frameRadioButtons.length]
+  #     if @frameRadioButtons[i].checked
+  #       @showFrame(i)
 
   onClickPlay: ->
     return if @el.hasClass 'playing'  # play only once at a time
@@ -298,7 +303,7 @@ class Classifier extends BaseController
     @el.attr 'data-on-frame', @currentFrameIdx
 
   hideAllFrames: ->
-    for i in [0...@frameRadioButtons.length]
+    for i in [0...4]
       @hideFrame(i)
 
   showFrame: (frame_idx) ->
@@ -306,7 +311,9 @@ class Classifier extends BaseController
     # this is a dodgy way of getting it done!
     # @el.find("frame-id-#{frame_idx}").show()
     document.getElementById("frame-id-#{frame_idx}").style.visibility = "visible"
-    @frameRadioButtons[frame_idx].checked = "true"
+    #@frameRadioButtons[frame_idx].checked = "true"
+    document.getElementById("frame-slider").value = frame_idx
+
     @setCurrentFrameIdx(frame_idx)
     console.log "show frame: " + frame_idx
 
@@ -314,7 +321,7 @@ class Classifier extends BaseController
     # id="frame-id-#{frame_idx}"
     # @el.find(id).hide()
     document.getElementById("frame-id-#{frame_idx}").style.visibility = "hidden"
-    @frameRadioButtons[frame_idx].checked = "true"
+    # @frameRadioButtons[frame_idx].checked = "true"
 
   destroyFrames: ->
     # #console.log "Destroying frames..."

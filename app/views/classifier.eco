@@ -117,10 +117,7 @@
       <%- translate 'button', 'Play', name: 'play-frames' %>
 
       <div class="current-frame">
-        <input name="current-frame" type="radio" value="1" checked>1
-        <input name="current-frame" type="radio" value="2">2
-        <input name="current-frame" type="radio" value="3">3
-        <input name="current-frame" type="radio" value="4">4
+        <input id="frame-slider" type="range" name="current-frame" min="0" max="3" value="0">
       </div>
     </div>
 
