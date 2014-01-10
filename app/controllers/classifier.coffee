@@ -358,7 +358,6 @@ class Classifier extends BaseController
     @el.removeClass 'loading'
 
   showSummary: ->
-
     @sendClassification()
     classificationSummary = new ClassificationSummary {@classification}
     classificationSummary.el.appendTo @el
@@ -370,6 +369,7 @@ class Classifier extends BaseController
 
     setTimeout =>
       classificationSummary.show()
+    document.getElementById('frame-slider').value = 0 #reset slider to first frame
 
   sendClassification: ->
     @classification.set 'marks', [@marks...]
