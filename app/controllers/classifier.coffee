@@ -305,7 +305,7 @@ class Classifier extends BaseController
     @hideAllFrames()
     # this is a dodgy way of getting it done!
     # @el.find("frame-id-#{frame_idx}").show()
-    document.getElementById("frame-id-#{frame_idx}").style.visibility="visible"
+    document.getElementById("frame-id-#{frame_idx}").style.visibility = "visible"
     @frameRadioButtons[frame_idx].checked = "true"
     @setCurrentFrameIdx(frame_idx)
     console.log "show frame: " + frame_idx
@@ -313,7 +313,7 @@ class Classifier extends BaseController
   hideFrame: (frame_idx) ->
     # id="frame-id-#{frame_idx}"
     # @el.find(id).hide()
-    document.getElementById("frame-id-#{frame_idx}").style.visibility="hidden"
+    document.getElementById("frame-id-#{frame_idx}").style.visibility = "hidden"
     @frameRadioButtons[frame_idx].checked = "true"
 
   destroyFrames: ->
