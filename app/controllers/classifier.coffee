@@ -262,7 +262,6 @@ class Classifier extends BaseController
     @flickerButton.attr 'disabled', true
     @fourUpButton.attr 'disabled', false
 
-
   # onClickRadioButton: ->
   #   for i in [0...@frameRadioButtons.length]
   #     if @frameRadioButtons[i].checked
@@ -351,7 +350,6 @@ class Classifier extends BaseController
       @subjectContainer.height parseFloat(@subjectContainer.height()) + over
 
   startLoading: ->
-
     @el.addClass 'loading'
 
   stopLoading: ->
