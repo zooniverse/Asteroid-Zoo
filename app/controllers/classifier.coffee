@@ -318,6 +318,7 @@ class Classifier extends BaseController
       # separate flicker vs. 4-up styles
       # frameImage.attr 'transform', 'scale(0.75)'
 
+    @activateFrame 0  # default to first frame after loading
     @stopLoading()
 
   onClickFourUp: ->
@@ -380,7 +381,6 @@ class Classifier extends BaseController
     # @markingSurfaceList.enable()
 
   activateFrame: (@active) ->
-    console.log "activating frame: " + @active
     @active = modulus +@active, @classification.subject.location.standard.length
     @showFrame(@active)
 
