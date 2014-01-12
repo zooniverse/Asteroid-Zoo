@@ -21,7 +21,7 @@ class MarkingToolControlsController extends BaseController
   imageSet:  null
   currentFrame: null
 
-  state: ''
+  # state: ''
 
   # This construct  takes an element or element attribute from the DOM and construct an instance variable
   # elements:
@@ -47,31 +47,31 @@ class MarkingToolControlsController extends BaseController
     
     @tool.mark.on 'change', (property, value) =>
       @setMark
-    @setState 'whatKind'
+    # @setState 'whatKind'
 
   events:
-    'click button[name="to-select"]': ->
-      @setState 'whatKind'
+    # 'click button[name="to-select"]': ->
+    #   @setState 'whatKind'
 
-    'change input[name="classifier-type"]': (e) ->
+    # 'change input[name="classifier-type"]': (e) ->
 
-      if e.currentTarget.value == 'asteroid' 
-        @setState 'asteroidTool'
-      else if  e.currentTarget.value == 'artifact'
-        @setState 'artifactTool'
-      else
-        console.log("Error: unknown classifier-type")
+    #   if e.currentTarget.value == 'asteroid' 
+    #     @setState 'asteroidTool'
+    #   else if  e.currentTarget.value == 'artifact'
+    #     @setState 'artifactTool'
+    #   else
+    #     console.log("Error: unknown classifier-type")
 
-    'change input[name="selected-artifact"]': ->      
-      @artifactSubtype = @selectedArtifactRadios.filter(':checked').val() 
+    # 'change input[name="selected-artifact"]': ->      
+    #   @artifactSubtype = @selectedArtifactRadios.filter(':checked').val() 
 
-    #'click button[name="done"]': ->
+    # #'click button[name="done"]': ->
       
-    'click button[name="delete"]': ->
-      @tool.mark.destroy()
+    # 'click button[name="delete"]': ->
+    #   @tool.mark.destroy()
 
-    'click button[name^="done"]': ->
-      @tool.deselect()
+    # 'click button[name^="done"]': ->
+    #   @tool.deselect()
 
     #TODO With this setup we don't where we are until the classifier is created.
     'keydown': (e) ->
@@ -80,12 +80,14 @@ class MarkingToolControlsController extends BaseController
         when KEYS.esc then @el.find('footer button.cancel:visible').first().click()
 
   setMark: (frameIdx) =>
-    if @state is "asteroidTool" or @state is "whatKind" 
-      detection =  @getAsteroidDetection()
-    else if @state is "artifactTool"
-      detection =  @getArtifactDetection()
-    else
-      console?.log("Error: marking tool not specified")
+    # if @state is "asteroidTool" or @state is "whatKind" 
+    #   detection =  @getAsteroidDetection()
+    # else if @state is "artifactTool"
+    #   detection =  @getArtifactDetection()
+    # else
+    #   console?.log("Error: marking tool not specified")
+
+    detection = '' # temporary 'fix' while we figure out how to bring this back
 
     #TODO frameIdx not reliably being set anymore
     @tool.mark.frame = frameIdx
@@ -103,47 +105,47 @@ class MarkingToolControlsController extends BaseController
     @tool.mark.set 'detection', detection
 
 
-  setState: (newState) ->
-    if @state
-      @states[@state]?.exit.call @
-    else
-      exit.call @ for state, {exit} of @states when state isnt newState
+  # setState: (newState) ->
+  #   if @state
+  #     @states[@state]?.exit.call @
+  #   else
+  #     exit.call @ for state, {exit} of @states when state isnt newState
 
-    @state = newState
-    @states[@state]?.enter.call @
-    @el.attr 'data-state', @state
+  #   @state = newState
+  #   @states[@state]?.enter.call @
+  #   @el.attr 'data-state', @state
 
-    setTimeout =>
-      @el.find('a, button, input, textarea, select').filter('section *:visible').first().focus()
+  #   setTimeout =>
+  #     @el.find('a, button, input, textarea, select').filter('section *:visible').first().focus()
 
-  states:
-    whatKind:
-      enter: ->
-        console.log "STATE: \'whatKind/enter\'"
-        @el.find('button[name="to-select"]').addClass 'hidden' 
-        @el.find('.what-kind').show()       
+  # states:
+  #   whatKind:
+  #     enter: ->
+  #       console.log "STATE: \'whatKind/enter\'"
+  #       @el.find('button[name="to-select"]').addClass 'hidden' 
+  #       @el.find('.what-kind').show()       
 
-      exit: ->
-        console.log "STATE: \'whatKind/exit\'"
-        @el.find('button[name="to-select"]').removeClass 'hidden'
-        @el.find('.what-kind').hide()
+  #     exit: ->
+  #       console.log "STATE: \'whatKind/exit\'"
+  #       @el.find('button[name="to-select"]').removeClass 'hidden'
+  #       @el.find('.what-kind').hide()
 
-    asteroidTool:
-      enter: ->
-        console.log "STATE: \'asteroidTool/enter\'"
-        @el.find('.asteroid-classifier').show()
+  #   asteroidTool:
+  #     enter: ->
+  #       console.log "STATE: \'asteroidTool/enter\'"
+  #       @el.find('.asteroid-classifier').show()
        
-      exit: ->
-        console.log "STATE: \'asteroidTool/exit\'"
-        @el.find('.asteroid-classifier').hide()  
+  #     exit: ->
+  #       console.log "STATE: \'asteroidTool/exit\'"
+  #       @el.find('.asteroid-classifier').hide()  
       
-    artifactTool:
-      enter: ->
-        console.log "STATE: \'artifactTool/enter\'"
-        @el.find('.artifact-classifier').show()
-      exit: ->
-        console.log "STATE: \'artifactTool/exit\'"
-        @el.find('.artifact-classifier').hide() 
+  #   artifactTool:
+  #     enter: ->
+  #       console.log "STATE: \'artifactTool/enter\'"
+  #       @el.find('.artifact-classifier').show()
+  #     exit: ->
+  #       console.log "STATE: \'artifactTool/exit\'"
+  #       @el.find('.artifact-classifier').hide() 
 
   #TODO factor currentFrame determination up andor out, 
   # probably as paremter to this controller class
@@ -200,7 +202,7 @@ class MarkingToolControls extends ToolControls
     super
 
     @controller = new MarkingToolControlsController tool: @tool
-    @el.appendChild @controller.el.get 0
+    # @el.appendChild @controller.el.get 0
     @on 'destroy', -> @controller.destroy()
 
   

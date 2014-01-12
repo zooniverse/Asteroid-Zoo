@@ -57,7 +57,7 @@
          </div>
          <div class="classifier-type-menu-item">
             <label class="as-radio-button">
-              <input type="radio" name="classifier-type" value="artifact" />
+              <input type="radio" name="classifier-type" value="nothing" />
                <%- translate 'span', "classifier.type.nothing.label" %>
             </label>
          </div>

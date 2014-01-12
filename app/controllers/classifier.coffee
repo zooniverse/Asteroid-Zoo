@@ -46,9 +46,31 @@ class Classifier extends BaseController
     'click button[name="four-up"]'        : 'onClickFourUp'
     'click button[name="flicker"]'        : 'onClickFlicker'
     'click button[name="next-frame"]'     : 'onClickNextFrame'
+    'click button[name="cancel"]'         : 'onClickCancel'
     # 'click input[name="current-frame"]'   : 'onClickRadioButton'
     'change input[name="current-frame"]'  : 'onChangeFrameSlider'
+    
+    # state controller events
+    'change input[name="classifier-type"]': (e) ->
+      if e.currentTarget.value == 'asteroid' 
+        @setState 'asteroidTool'
+      else if  e.currentTarget.value == 'artifact'
+        @setState 'artifactTool'
+      else if e.currentTarget.value == 'nothing'
+        # do nothing (yet?)
+      else
+        console.log("Error: unknown classifier-type")
 
+    'change input[name="selected-artifact"]': ->      
+      @artifactSubtype = @selectedArtifactRadios.filter(':checked').val() 
+
+    #'click button[name="done"]': ->
+      
+    'click button[name="delete"]': ->
+      @tool.mark.destroy()
+
+    'click button[name^="done"]': ->
+      @tool.deselect()
 
   elements:
     '.subject'                      : 'subjectContainer'
@@ -63,6 +85,9 @@ class Classifier extends BaseController
     'button[name="four-up"]'        : 'fourUpButton'
     'button[name="finish-marking"]' : 'finishButton'
     'button[name="next-frame"]'     : 'nextFrame'
+    'button[name="cancel"]'         : 'cancel'
+    'input[name="selected-artifact"]': 'selectedArtifactRadios'
+  
 
     'keydown': (e) ->
       return if @el.hasClass 'playing'  # disable while playing
@@ -78,12 +103,64 @@ class Classifier extends BaseController
         when KEYS.space
           @onClickPlay()
 
+  #######################################################
+  # FINITE STATE MACHINE CONTROLLER
+  #######################################################
+  setState: (newState) ->
+    if @state
+      @states[@state]?.exit.call @
+    else
+      exit.call @ for state, {exit} of @states when state isnt newState
+
+    @state = newState
+    @states[@state]?.enter.call @
+    @el.attr 'data-state', @state
+
+    setTimeout =>
+      @el.find('a, button, input, textarea, select').filter('section *:visible').first().focus()
+
+  states:
+    whatKind:
+      enter: ->
+        # console.log "STATE: \'whatKind/enter\'"
+        # reset checkboxes and radio buttons
+        for e in @el.find('input[name="classifier-type"]')
+          e.checked = false
+        @el.find('button[name="to-select"]').addClass 'hidden' 
+        @el.find('.what-kind').show()       
+
+      exit: ->
+        # console.log "STATE: \'whatKind/exit\'"
+        @el.find('button[name="to-select"]').removeClass 'hidden'
+        @el.find('.what-kind').hide()
+
+    asteroidTool:
+      enter: ->
+        # console.log "STATE: \'asteroidTool/enter\'"
+        @el.find('.asteroid-classifier').show()
+       
+      exit: ->
+        # console.log "STATE: \'asteroidTool/exit\'"
+        @el.find('.asteroid-classifier').hide()  
+      
+    artifactTool:
+      enter: ->
+        # console.log "STATE: \'artifactTool/enter\'"
+        @el.find('.artifact-classifier').show()
+      exit: ->
+        # console.log "STATE: \'artifactTool/exit\'"
+        @el.find('.artifact-classifier').hide() 
+
   constructor: ->
     @marks = []
     super
     @playTimeouts = []                   # for image_changer
     @el.attr tabindex: 0                 # ...
     # @setClassification @classification  # ...
+
+
+    artifactSubtype = "other" # not sure what this is for?
+    @setState 'whatKind'      # set initial state
 
     @invert = false
 
@@ -243,10 +320,6 @@ class Classifier extends BaseController
 
     @stopLoading()
 
-    #@markingSurfaceList.enable() # why is this here again?
-    console.log "Showing frame: " + @currentFrameIdx
-    # @showFrame(@currentFrameIdx) unless @currentFrameIdx is null
-
   onClickFourUp: ->
     console.log "4-up"
     @el.find(".four-up").show()
@@ -268,16 +341,18 @@ class Classifier extends BaseController
     @fourUpButton.attr 'disabled', false
 
   onClickNextFrame: ->
-    console.log "next frame...: " + @currentFrameIdx
     @currentFrameIdx++
     @setCurrentFrameIdx(@currentFrameIdx)
     @activateFrame(@currentFrameIdx)
-    console.log @currentFrameIdx
+
+  onClickCancel: ->
+    @setState 'whatKind'  # return to initial state
 
   # onClickRadioButton: ->
   #   for i in [0...@frameRadioButtons.length]
   #     if @frameRadioButtons[i].checked
   #       @showFrame(i)
+
 
   onClickPlay: ->
     return if @el.hasClass 'playing'  # play only once at a time
