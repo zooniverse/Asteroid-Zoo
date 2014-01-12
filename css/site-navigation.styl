@@ -1,5 +1,5 @@
 .site-navigation
-  background: MEDIUM_GRAY url("./images/nav-bg.jpg") 75% 75%
+  background-color black
   background-size: cover
   color: #fff
   font-weight: 300
@@ -7,8 +7,9 @@
   position: relative
 
   .content-container
+    width SITE_WIDTH
     margin-top: 50px
-    line-height: 1
+    line-height: 45px
     text-align: right
 
   .logo
@@ -17,31 +18,34 @@
     letter-spacing: 2px
     text-transform: uppercase
 
-  .links a
-    display: inline-block
-    margin: 0 10px
-    padding: 10px 0
-    position: relative
+  .links
+    a
+      display: inline-block
+      padding: 0 10px
+      position: relative
 
-    &:after
-      BALL_RADIUS = 4px
+      &:after
+        background: transparent
+        content: ""
+        height: 4px
+        left: 0
+        margin-top: -4px
+        position: absolute
+        top: 67%
+        width: 100%
+        // transition:
+        //   background 1.4s ease-in-out 0.125s,
+        //   top 0.25s ease-in-out 0.125s
 
-      background: transparent
-      border-radius: 50%
-      content: ""
-      height: BALL_RADIUS * 2
-      left: 50%
-      margin: (-1 * BALL_RADIUS) 0 0 (-1 * BALL_RADIUS)
-      position: absolute
-      top: 67%
-      transition:
-        background 0.25s ease-in-out 0.125s,
-        top 0.25s ease-in-out 0.125s
-      width: BALL_RADIUS * 2
+      &:hover:after
+        height 4px
+        background: #212121
+        top: 100%
 
-    &.active:after
-      background: #fff
-      top: 100%
+      &.active:after
+        background: #1fa1a9
+        top: 100%
+        transition: .2s
 
 .zooniverse-top-bar
   background: transparent

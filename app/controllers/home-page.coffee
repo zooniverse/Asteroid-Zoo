@@ -1,5 +1,5 @@
 BaseController = require 'zooniverse/controllers/base-controller'
-Footer = require 'zooniverse/controllers/footer'
+# Footer = require 'zooniverse/controllers/footer'
 $ = window.jQuery
 
 
@@ -18,15 +18,9 @@ class HomePage extends BaseController
   headerSlideDelay: 150
   animationDuration: 333
 
-  elements:
-    '.for-footer': 'footerContainer'
-
   constructor: ->
     super
     @navigationComponent = $('.site-navigation .for-home-page')
-
-    @footer = new Footer
-    @footer.el.appendTo @footerContainer
 
   activate: ->
     setTimeout @showNavigationComponent, @headerSlideDelay
