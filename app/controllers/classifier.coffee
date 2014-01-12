@@ -37,12 +37,15 @@ class Classifier extends BaseController
   className: 'classifier'
   template: require '../views/classifier'
   marks: []
+  currentFrameIdx = 0 # keeps track of current (zero-indexed) frame
+
   events:
     'click button[name="play-frames"]'    : 'onClickPlay'
     'click button[name="invert"]'         : 'onClickInvert'
     'click button[name="finish-marking"]' : 'onClickFinishMarking'
     'click button[name="four-up"]'        : 'onClickFourUp'
     'click button[name="flicker"]'        : 'onClickFlicker'
+    'click button[name="next-frame"]'     : 'onClickNextFrame'
     # 'click input[name="current-frame"]'   : 'onClickRadioButton'
     'change input[name="current-frame"]'  : 'onChangeFrameSlider'
 
@@ -59,6 +62,7 @@ class Classifier extends BaseController
     'button[name="flicker"]'        : 'flickerButton'
     'button[name="four-up"]'        : 'fourUpButton'
     'button[name="finish-marking"]' : 'finishButton'
+    'button[name="next-frame"]'     : 'nextFrame'
 
     'keydown': (e) ->
       return if @el.hasClass 'playing'  # disable while playing
@@ -82,7 +86,8 @@ class Classifier extends BaseController
     # @setClassification @classification  # ...
 
     @invert = false
-    @setCurrentFrameIdx 0
+
+    @currentFrameIdx = 0
 
     window.classifier = @
 
@@ -262,6 +267,13 @@ class Classifier extends BaseController
     @flickerButton.attr 'disabled', true
     @fourUpButton.attr 'disabled', false
 
+  onClickNextFrame: ->
+    console.log "next frame...: " + @currentFrameIdx
+    @currentFrameIdx++
+    @setCurrentFrameIdx(@currentFrameIdx)
+    @activateFrame(@currentFrameIdx)
+    console.log @currentFrameIdx
+
   # onClickRadioButton: ->
   #   for i in [0...@frameRadioButtons.length]
   #     if @frameRadioButtons[i].checked
@@ -293,6 +305,7 @@ class Classifier extends BaseController
     # @markingSurfaceList.enable()
 
   activateFrame: (@active) ->
+    console.log "activating frame: " + @active
     @active = modulus +@active, @classification.subject.location.standard.length
     @showFrame(@active)
 
