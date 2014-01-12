@@ -45,7 +45,7 @@
           <h3><%- translate 'div', 'classifier.whatKind' %></h3>
           <div class="classifier-type-menu-item">
             <label class="as-radio-button">
-              <input type="radio" name="classifier-type" value="asteroid" checked/>
+              <input type="radio" name="classifier-type" value="asteroid" />
               <%- translate 'span', "classifier.type.asteroid.label" %>
             </label>
           </div>
@@ -72,7 +72,7 @@
           <% for artifact in ['starbleed', 'hotpixel', 'other']: %>
             <div class="artifact-menu-item">
               <label class="as-radio-button">
-                <input type="radio" name="selected-artifact" value="<%- artifact %>" <%- "checked" if artifact is "other" %> />
+                <input type="radio" name="selected-artifact" value="<%- artifact %>" <%- #"checked" if artifact is "other" %> />
                 <%- translate 'span', "artifacts.#{artifact}.label" %>
               </label>
             </div>
@@ -90,10 +90,22 @@
         <section>
           <!-- ASTEROID TRACKING -->
           <h3><%- translate 'div', 'asteroids.heading' %></h3>
-          <label class="as-radio-button">
-            <input type="radio" name="selected-artifact" value="<%- artifact %>" <%- "checked" if artifact is "other" %> />
-            <%- translate 'span', "artifacts.#{artifact}.label" %>
-          </label>
+
+          <% for frameNum in [1..4]: %>
+            <div>
+              <label>
+                <input type="checkbox" name="asteroid-frame-complete" 
+                <%- #"checked" if artifact is "other" %> />
+                <%- translate 'span', "#{frameNum}" %>
+              </label>
+              <label>
+                <input type="checkbox" name="asteroid-visible" 
+                <%- #"checked" if artifact is "other" %> />
+                <%- translate 'span', "Not Visible?" %>
+              </label>
+            </div>
+          <% end %>
+
           <div class="button">
             <%- translate 'button', 'Next Frame', name: 'next-frame' %>
           </div>
