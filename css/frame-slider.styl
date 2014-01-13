@@ -1,0 +1,51 @@
+.classifier
+  .bottom-row
+    .faux-range-input
+      width 340px
+      height 18px
+      margin-left 25px
+      vertical-align middle
+      background #25b4c5
+
+      &:before
+        content: "1234"
+        position absolute
+        margin -18px 0 0 38px
+        font-size 12px
+        top: 0
+        width: 100%
+        z-index 5
+        letter-spacing 79px
+
+      .faux-range-track
+        width 258px
+
+      .faux-range-thumb
+        background #1b7a85
+        outline none
+        border none
+        width 85px
+        height 18px
+        border-radius 10px
+        top 45%
+
+        &:before
+          content: "III"
+          color #2fa5b9
+          position absolute
+          margin -18px 0 0 38px
+          font-size 12px
+          top: 0
+          width: 100%
+          z-index 5
+
+      .faux-range-tick
+        background #1b7a85
+        border-radius 0px
+        margin-left -9px
+        top 0px
+        width 1px
+        height 18px
+
+        &:first-child
+          display none

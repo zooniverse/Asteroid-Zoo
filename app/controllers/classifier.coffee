@@ -242,17 +242,17 @@ class Classifier extends BaseController
     console.log 'Classifier: mark created' # STI
 
     @marks.push mark
-    #locate the surface this frame coresponds to
-    if mark.surface_master
-      theSurface = @markingSurfaceList[mark.frame]
-      mirroredTool = new theSurface.tool
-        surface: theSurface
-        mark: mark
-    else
-      theSurface = @masterMarkingSurface
-      mirroredTool = new theSurface.tool
-        surface: theSurface
-        mark: mark
+    # locate the surface this frame coresponds to
+
+    setTimeout =>
+      allSurfaces = [@masterMarkingSurface, @markingSurfaceList...]
+      for surface in allSurfaces
+        theSurface = surface if mark in surface.marks
+
+      for surface in allSurfaces when surface isnt theSurface
+        surface.addTool new theSurface.tool
+          surface: surface
+          mark: mark
 
   renderTemplate: =>
     super
@@ -351,7 +351,13 @@ class Classifier extends BaseController
     @el.find(".four-up").show()
     @el.find(".flicker").hide()
 
-    $(".marking-surface").css "width": "254px", "height": "254px" # image sizing for 4up view
+    setTimeout =>
+      for surface in @markingSurfaceList
+        for tool in surface.tools
+          tool.render()
+
+    markingSurfaces = document.getElementsByClassName("marking-surface")
+    @resizeElements(markingSurfaces, 254) # image sizing for 4up view
 
     @fourUpButton.attr 'disabled', true
     @flickerButton.attr 'disabled', false
@@ -361,12 +367,24 @@ class Classifier extends BaseController
     @el.find(".flicker").show()
     @el.find(".four-up").hide()
 
-    $(".marking-surface").css "width": "512px", "height": "512px" # image sizing for 4up view
+    setTimeout => 
+      for tool in @masterMarkingSurface.tools
+        tool.render()
+
+    markingSurfaces = document.getElementsByClassName("marking-surface")
+    @resizeElements(markingSurfaces, 512) # image sizing for 4up view
 
     @flickerButton.attr 'disabled', true
     @fourUpButton.attr 'disabled', false
 
-  setActiveAstFrame: (frame_idx) ->
+
+  resizeElements: (elements, newSize) ->
+    for element in elements
+      # element.style["-webkit-transform"] = "scale(0.5)"
+      element.style.width = newSize + "px"
+      element.style.height = newSize + "px"
+
+  setAsteroidFrame: (frame_idx) ->
     # return unless @state is 'asteroidTool'
 
     frameNum = frame_idx + 1
@@ -420,9 +438,9 @@ class Classifier extends BaseController
     iterator = [0...last].concat [last...-1]
 
     for index, i in iterator then do (index, i) =>
-      @playTimeouts.push setTimeout (=> @activateFrame index), i * 333
+      @playTimeouts.push setTimeout (=> @activateFrame index), i * 500
 
-    @playTimeouts.push setTimeout @pause, i * 333
+    @playTimeouts.push setTimeout @pause, i * 500
 
   pause: =>
     clearTimeout timeout for timeout in @playTimeouts
@@ -436,7 +454,7 @@ class Classifier extends BaseController
     @active = modulus +@active, @classification.subject.location.standard.length
     
     # update asteroid tracking
-    @setActiveAstFrame(@active)
+    @setAsteroidFrame(@active)
 
     # update artifact marking
     #

@@ -132,7 +132,7 @@
       <%- translate 'button', 'Play', name: 'play-frames' %>
 
       <div class="current-frame">
-        <input id="frame-slider" type="range" name="current-frame" min="0" max="3" value="0">
+        <input id="frame-slider" type="range" name="current-frame" min="0" max="3" value="0" data-ticks="true">
       </div>
     </div>
 

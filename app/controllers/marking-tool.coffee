@@ -1,5 +1,8 @@
 {Tool} = require 'marking-surface'
 
+FULL_SIZE = 512
+HALF_SIZE = 256
+
 class MarkingTool extends Tool
   @Controls: require './marking-tool-controls'
 
@@ -29,8 +32,11 @@ class MarkingTool extends Tool
     @['on *drag circle'] e
 
   'on *drag circle': (e) =>
-    offset = @pointerOffset e
-    @mark.set offset
+    surfaceSize = @surface.el.offsetWidth
+    {x, y} = @pointerOffset e
+    @mark.set
+      x: (x / surfaceSize) * FULL_SIZE
+      y: (y / surfaceSize) * FULL_SIZE
 
   render: ->
     return if not @visible
@@ -38,8 +44,13 @@ class MarkingTool extends Tool
     @hr.attr strokeWidth: 1 / @surface.zoomBy
     @vr.attr strokeWidth: 1 / @surface.zoomBy
 
-    @group.attr 'transform', "translate(#{@mark.x}, #{@mark.y})"
+    scale = @surface.el.offsetWidth
+
+    x = (@mark.x / 512) * scale
+    y = (@mark.y / 512) * scale
+
+    @group.attr 'transform', "translate(#{x}, #{y})"
     @group.attr 'class', "from-frame-#{@mark.frame}"
-    @controls.moveTo @mark.x, @mark.y
+    @controls.moveTo x, y
 
 module.exports = MarkingTool
