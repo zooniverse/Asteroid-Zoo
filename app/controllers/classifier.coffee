@@ -181,7 +181,6 @@ class Classifier extends BaseController
     @masterMarkingSurface = new MarkingSurface
       tool: MarkingTool
     @masterMarkingSurface.svgRoot.attr 'id', "classifier-svg-root-master"
-    console?.log "Creating marking surface"
     this.masterMarkingSurface.el.id = "surface-master"
     @flickerContainer.append @masterMarkingSurface.el
     @masterMarkingSurface.on 'create-tool', (tool) =>
@@ -350,7 +349,6 @@ class Classifier extends BaseController
 
     # frame numbers in view are not zero indexed
     for i in [1..asteroidFrames.length] 
-      console.log asteroidFrames[i]
       if i is frameNum
         classifier.el.find(".asteroid-frame-#{i}").addClass 'current-asteroid-frame'
       else

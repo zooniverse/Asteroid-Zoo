@@ -30,8 +30,9 @@ class MarkingToolControlsController extends BaseController
     'input[name="selected-artifact"]': 'selectedArtifactRadios'
   
   constructor: ->
-
     super
+
+    console.log 'inside MarkingToolControlsController constructor' # STI
     #this populates 4 image frames 
     @imageSet = new ImageSet()
     
@@ -200,6 +201,8 @@ class ImageFrame
 class MarkingToolControls extends ToolControls
   constructor: ->
     super
+
+    console.log 'inside MarkingToolControls controller' # STI
 
     @controller = new MarkingToolControlsController tool: @tool
     # @el.appendChild @controller.el.get 0

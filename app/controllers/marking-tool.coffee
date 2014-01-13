@@ -19,9 +19,11 @@ class MarkingTool extends Tool
     @circle = @addShape 'circle', cx: 0, cy: 0, r: @size, fill: 'rgba(255, 215, 0, 0)'
 
   onInitialClick: (e) ->
+    console.log 'MarkingTool: onInitialClick()' # STI
     @onInitialDrag e
 
   onInitialDrag: (e) ->
+    console.log 'MarkingTool: onInitialDrag()' # STI
     @['on *drag circle'] e
 
   'on *drag circle': (e) =>
