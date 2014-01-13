@@ -385,9 +385,9 @@ class Classifier extends BaseController
     iterator = [0...last].concat [last...-1]
 
     for index, i in iterator then do (index, i) =>
-      @playTimeouts.push setTimeout (=> @activateFrame index), i * 333
+      @playTimeouts.push setTimeout (=> @activateFrame index), i * 500
 
-    @playTimeouts.push setTimeout @pause, i * 333
+    @playTimeouts.push setTimeout @pause, i * 500
 
   pause: =>
     clearTimeout timeout for timeout in @playTimeouts
