@@ -32,7 +32,6 @@ class MarkingToolControlsController extends BaseController
   constructor: ->
     super
 
-    console.log 'inside MarkingToolControlsController constructor' # STI
     #this populates 4 image frames 
     @imageSet = new ImageSet()
     
@@ -51,28 +50,6 @@ class MarkingToolControlsController extends BaseController
     # @setState 'whatKind'
 
   events:
-    # 'click button[name="to-select"]': ->
-    #   @setState 'whatKind'
-
-    # 'change input[name="classifier-type"]': (e) ->
-
-    #   if e.currentTarget.value == 'asteroid' 
-    #     @setState 'asteroidTool'
-    #   else if  e.currentTarget.value == 'artifact'
-    #     @setState 'artifactTool'
-    #   else
-    #     console.log("Error: unknown classifier-type")
-
-    # 'change input[name="selected-artifact"]': ->      
-    #   @artifactSubtype = @selectedArtifactRadios.filter(':checked').val() 
-
-    # #'click button[name="done"]': ->
-      
-    # 'click button[name="delete"]': ->
-    #   @tool.mark.destroy()
-
-    # 'click button[name^="done"]': ->
-    #   @tool.deselect()
 
     #TODO With this setup we don't where we are until the classifier is created.
     'keydown': (e) ->
@@ -81,6 +58,7 @@ class MarkingToolControlsController extends BaseController
         when KEYS.esc then @el.find('footer button.cancel:visible').first().click()
 
   setMark: (frameIdx) =>
+    console.log 'MarkingToolControlsController: setMark()' # STI
     # if @state is "asteroidTool" or @state is "whatKind" 
     #   detection =  @getAsteroidDetection()
     # else if @state is "artifactTool"
@@ -105,49 +83,6 @@ class MarkingToolControlsController extends BaseController
     #TODO Sascha didn't like the sub-structure here
     @tool.mark.set 'detection', detection
 
-
-  # setState: (newState) ->
-  #   if @state
-  #     @states[@state]?.exit.call @
-  #   else
-  #     exit.call @ for state, {exit} of @states when state isnt newState
-
-  #   @state = newState
-  #   @states[@state]?.enter.call @
-  #   @el.attr 'data-state', @state
-
-  #   setTimeout =>
-  #     @el.find('a, button, input, textarea, select').filter('section *:visible').first().focus()
-
-  # states:
-  #   whatKind:
-  #     enter: ->
-  #       console.log "STATE: \'whatKind/enter\'"
-  #       @el.find('button[name="to-select"]').addClass 'hidden' 
-  #       @el.find('.what-kind').show()       
-
-  #     exit: ->
-  #       console.log "STATE: \'whatKind/exit\'"
-  #       @el.find('button[name="to-select"]').removeClass 'hidden'
-  #       @el.find('.what-kind').hide()
-
-  #   asteroidTool:
-  #     enter: ->
-  #       console.log "STATE: \'asteroidTool/enter\'"
-  #       @el.find('.asteroid-classifier').show()
-       
-  #     exit: ->
-  #       console.log "STATE: \'asteroidTool/exit\'"
-  #       @el.find('.asteroid-classifier').hide()  
-      
-  #   artifactTool:
-  #     enter: ->
-  #       console.log "STATE: \'artifactTool/enter\'"
-  #       @el.find('.artifact-classifier').show()
-  #     exit: ->
-  #       console.log "STATE: \'artifactTool/exit\'"
-  #       @el.find('.artifact-classifier').hide() 
-
   #TODO factor currentFrame determination up andor out, 
   # probably as paremter to this controller class
   getAsteroidDetection: =>
@@ -162,8 +97,6 @@ class MarkingToolControlsController extends BaseController
         frame:   @currentFrame.seqNumber
         subType: @artifactSubtype
     art_detection
-
-
 
   #ToDo move to model 
 class ImageSet
@@ -195,14 +128,11 @@ class ImageFrame
 
   constructor: (@elementId,@seqNumber,@url,@inversionUrl) ->
 
-   
   
 
 class MarkingToolControls extends ToolControls
   constructor: ->
     super
-
-    console.log 'inside MarkingToolControls controller' # STI
 
     @controller = new MarkingToolControlsController tool: @tool
     # @el.appendChild @controller.el.get 0

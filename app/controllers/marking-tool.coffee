@@ -23,7 +23,7 @@ class MarkingTool extends Tool
     @onInitialDrag e
 
   onInitialDrag: (e) ->
-    console.log 'MarkingTool: onInitialDrag()' # STI
+    # console.log 'MarkingTool: onInitialDrag()' # STI
     @['on *drag circle'] e
 
   'on *drag circle': (e) =>

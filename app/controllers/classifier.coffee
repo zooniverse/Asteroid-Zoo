@@ -37,7 +37,7 @@ class Classifier extends BaseController
   className: 'classifier'
   template: require '../views/classifier'
   marks: []
-  currentFrameIdx = 0 # keeps track of current (zero-indexed) frame
+  currFrameIdx = 0 # keeps track of current (zero-indexed) frame
 
   events:
     'click button[name="play-frames"]'    : 'onClickPlay'
@@ -52,11 +52,11 @@ class Classifier extends BaseController
     
     # state controller events
     'change input[name="classifier-type"]': (e) ->
-      if e.currentTarget.value == 'asteroid'
+      if e.currentTarget.value is 'asteroid'
         @setState 'asteroidTool'
-      else if  e.currentTarget.value == 'artifact'
+      else if  e.currentTarget.value is 'artifact'
         @setState 'artifactTool'
-      else if e.currentTarget.value == 'nothing'
+      else if e.currentTarget.value is 'nothing'
         # do nothing (yet?)
       else
         console.log("Error: unknown classifier-type")
@@ -102,6 +102,78 @@ class Classifier extends BaseController
         when KEYS.space
           @onClickPlay()
 
+  constructor: ->
+    @marks = []
+    super
+    @playTimeouts = []                   # for image_changer
+    @el.attr tabindex: 0                 # ...
+    # @setClassification @classification  # ...
+
+    artifactSubtype = "other" # not sure what this is for?
+    @setState 'whatKind'      # set initial state
+    @invert = false
+    @currFrameIdx = 0
+    window.classifier = @
+    @astMarkedInFrame = new Array
+
+    # default to flicker mode on initialization
+    @el.find('.four-up').hide()
+    @flickerButton.attr 'disabled', true
+
+    #######################################################
+    # create marking surfaces for frames
+    #######################################################
+    # create master surface -- "flicker view"
+    @masterMarkingSurface = new MarkingSurface
+      tool: MarkingTool
+    @masterMarkingSurface.svgRoot.attr 'id', "classifier-svg-root-master"
+    this.masterMarkingSurface.el.id = "surface-master"
+    @flickerContainer.append @masterMarkingSurface.el
+    @masterMarkingSurface.on 'create-tool', (tool) =>
+        if @state is 'asteroidTool' and @astMarkedInFrame[@currFrameIdx]
+          # remove latest mark to enforce one mark per asteroid frame
+          @masterMarkingSurface.marks[@masterMarkingSurface.marks.length-1].destroy()
+          return
+        else
+          @astMarkedInFrame[@currFrameIdx] = true
+        tool.controls.controller.setMark(@currFrameIdx)
+        
+    #create 4-up view surfaces
+    @numFrames = 4
+    @markingSurfaceList = new Array
+    for i in [0...@numFrames]
+      @markingSurfaceList[i] = new MarkingSurface
+        tool: MarkingTool
+      @markingSurfaceList[i].svgRoot.attr 'id', "classifier-svg-root-#{i}"
+      @fourUpContainer.append @markingSurfaceList[i].el
+      @markingSurfaceList[i].on 'create-tool', (tool) =>
+        tool.controls.controller.setMark(@currFrameIdx)
+
+        
+
+    #######################################################
+    #  API event bindings
+    #######################################################
+    User.on 'change', @onUserChange
+    Subject.on 'fetch', @onSubjectFetch
+    Subject.on 'select', @onSubjectSelect
+
+    #######################################################
+    #adding a listener for each marking surface
+    # on the master
+    @masterMarkingSurface.on "create-mark", @onCreateMark
+    # on the 4-up list
+    for surface in @markingSurfaceList
+      surface.on "create-mark", @onCreateMark
+
+    @disableMarkingSurfaces()
+
+  # activate: ->
+  #   # setTimeout @rescale, 100
+
+  classifierClick: =>
+    console.log 'classifier clicked' # STI
+
   #######################################################
   # FINITE STATE MACHINE CONTROLLER
   #######################################################
@@ -121,8 +193,11 @@ class Classifier extends BaseController
   states:
     whatKind:
       enter: ->
-        console.log "STATE: \'whatKind/enter\'"
+        # console.log "STATE: \'whatKind/enter\'"
         # reset checkboxes and radio buttons
+
+
+        @disableMarkingSurfaces()
 
         # this code is incorrect (e is an array) FIX!
         for e in @el.find('input[name="classifier-type"]')
@@ -132,88 +207,30 @@ class Classifier extends BaseController
         @el.find('.what-kind').show()       
 
       exit: ->
-        console.log "STATE: \'whatKind/exit\'"
+        # console.log "STATE: \'whatKind/exit\'"
         @el.find('button[name="to-select"]').removeClass 'hidden'
         @el.find('.what-kind').hide()
 
     asteroidTool:
       enter: ->
-        console.log "STATE: \'asteroidTool/enter\'"
+        # console.log "STATE: \'asteroidTool/enter\'"
+        @enableMarkingSurfaces()
         @el.find('.asteroid-classifier').show()
-       
+
       exit: ->
-        console.log "STATE: \'asteroidTool/exit\'"
+        # console.log "STATE: \'asteroidTool/exit\'"
+        @disableMarkingSurfaces()
         @el.find('.asteroid-classifier').hide()  
       
     artifactTool:
       enter: ->
         # console.log "STATE: \'artifactTool/enter\'"
+        @enableMarkingSurfaces()
         @el.find('.artifact-classifier').show()
       exit: ->
         # console.log "STATE: \'artifactTool/exit\'"
+        @disableMarkingSurfaces()
         @el.find('.artifact-classifier').hide() 
-
-  constructor: ->
-    @marks = []
-    super
-    @playTimeouts = []                   # for image_changer
-    @el.attr tabindex: 0                 # ...
-    # @setClassification @classification  # ...
-
-
-    artifactSubtype = "other" # not sure what this is for?
-    @setState 'whatKind'      # set initial state
-
-    @invert = false
-
-    @currentFrameIdx = 0
-
-    window.classifier = @
-
-    # default to flicker mode on initialization
-    @el.find('.four-up').hide()
-    @flickerButton.attr 'disabled', true
-
-    #######################################################
-    # create marking surfaces for frames
-    #######################################################
-    # create master surface -- "flicker view"
-    @masterMarkingSurface = new MarkingSurface
-      tool: MarkingTool
-    @masterMarkingSurface.svgRoot.attr 'id', "classifier-svg-root-master"
-    this.masterMarkingSurface.el.id = "surface-master"
-    @flickerContainer.append @masterMarkingSurface.el
-    @masterMarkingSurface.on 'create-tool', (tool) =>
-      tool.controls.controller.setMark(@currentFrameIdx)
-
-    #create 4-up view surfaces
-    @numFrames = 4
-    @markingSurfaceList = new Array
-    for i in [0...@numFrames]
-      @markingSurfaceList[i] = new MarkingSurface
-        tool: MarkingTool
-      @markingSurfaceList[i].svgRoot.attr 'id', "classifier-svg-root-#{i}"
-      @fourUpContainer.append @markingSurfaceList[i].el
-      @markingSurfaceList[i].on 'create-tool', (tool) =>
-        tool.controls.controller.setMark(@currentFrameIdx)
-
-    #######################################################
-    #  API event bindings
-    #######################################################
-    User.on 'change', @onUserChange
-    Subject.on 'fetch', @onSubjectFetch
-    Subject.on 'select', @onSubjectSelect
-
-    #######################################################
-    #adding a listener for each marking surface
-    # on the master
-    @masterMarkingSurface.on "create-mark", @onCreateMark
-    # on the 4-up list
-    for surface in @markingSurfaceList
-      surface.on "create-mark", @onCreateMark
-
-  # activate: ->
-  #   # setTimeout @rescale, 100
 
   onCreateMark:(mark) =>
     @marks.push mark
@@ -254,9 +271,9 @@ class Classifier extends BaseController
       @markingSurfaceList[i].reset()
 
   disableMarkingSurfaces: =>
-    @masterMarkingSurface.disable()
+    @masterMarkingSurface?.disable()
     for i in [0...@numFrames]
-      @markingSurfaceList[i].disable()
+      @markingSurfaceList[i]?.disable()
 
   enableMarkingSurfaces: =>
     @masterMarkingSurface.enable()
@@ -341,14 +358,14 @@ class Classifier extends BaseController
     @flickerButton.attr 'disabled', true
     @fourUpButton.attr 'disabled', false
 
-  setAsteroidFrame: (frame_idx) ->
+  setActiveAstFrame: (frame_idx) ->
     # return unless @state is 'asteroidTool'
 
     frameNum = frame_idx + 1
-    asteroidFrames = @el.find('.asteroid-frame')
+    astFrames = @el.find('.asteroid-frame')
 
     # frame numbers in view are not zero indexed
-    for i in [1..asteroidFrames.length] 
+    for i in [1..astFrames.length] 
       if i is frameNum
         classifier.el.find(".asteroid-frame-#{i}").addClass 'current-asteroid-frame'
       else
@@ -356,9 +373,9 @@ class Classifier extends BaseController
 
   onClickNextFrame: ->
 
-    # @currentFrameIdx++
-    @setCurrentFrameIdx(@currentFrameIdx+1)
-    @activateFrame(@currentFrameIdx)
+    # @currFrameIdx++
+    @setCurrentFrameIdx(@currFrameIdx+1)
+    @activateFrame(@currFrameIdx)
 
   onClickCancel: ->
     console.log 'CANCEL'
@@ -399,7 +416,7 @@ class Classifier extends BaseController
     @active = modulus +@active, @classification.subject.location.standard.length
     
     # update asteroid tracking
-    @setAsteroidFrame(@active)
+    @setActiveAstFrame(@active)
 
     # update artifact marking
     #
@@ -407,9 +424,9 @@ class Classifier extends BaseController
     @showFrame(@active)
 
   setCurrentFrameIdx: (frame_idx) ->
-    @currentFrameIdx = frame_idx
+    @currFrameIdx = frame_idx
     # find way to communicate current frame with marking tool
-    @el.attr 'data-on-frame', @currentFrameIdx
+    @el.attr 'data-on-frame', @currFrameIdx
 
   hideAllFrames: ->
     for i in [0...4]
@@ -445,7 +462,7 @@ class Classifier extends BaseController
       # #console.log "invert: true"
 
     @loadFrames()
-    @showFrame(@currentFrameIdx) # unless @currentFrameIdx is undefined
+    @showFrame(@currFrameIdx) # unless @currFrameIdx is undefined
 
     # bring tools back to front
     @el.find('.svg-root').append @el.find('.marking-tool-root')
