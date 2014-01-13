@@ -112,12 +112,15 @@
           <div class="button">
             <%- translate 'button', 'Cancel', name: 'cancel' %>
           </div>
+
+          <%- translate 'button.cancel', 'classifier.delete', name: 'asteroid-delete', type: 'button' %>
+          <%- translate 'button.default', 'classifier.done', name: 'asteroid-done', type: 'button' %>
+
         </section>
       </div>
 
       <footer>
-        <%- translate 'button.cancel', 'classifier.delete', name: 'delete', type: 'button' %>
-        <%- translate 'button.default', 'classifier.done', name: 'done', type: 'button' %>
+
       </footer>
     </div>
   </div><!-- end marking tool interface -->

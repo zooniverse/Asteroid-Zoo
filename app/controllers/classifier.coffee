@@ -46,6 +46,7 @@ class Classifier extends BaseController
     'click button[name="four-up"]'        : 'onClickFourUp'
     'click button[name="flicker"]'        : 'onClickFlicker'
     'click button[name="next-frame"]'     : 'onClickNextFrame'
+    'click button[name="asteroid-done"]'  : 'onClickAstDone'
     'click button[name="cancel"]'         : 'onClickCancel'
     # 'click input[name="current-frame"]'   : 'onClickRadioButton'
     'change input[name="current-frame"]'  : 'onChangeFrameSlider'
@@ -116,6 +117,10 @@ class Classifier extends BaseController
     window.classifier = @
     @astMarkedInFrame = new Array
 
+    # asteroid and artifact "containers"
+    @asteroids = []
+    @artifacts = []
+
     # default to flicker mode on initialization
     @el.find('.four-up').hide()
     @flickerButton.attr 'disabled', true
@@ -162,6 +167,7 @@ class Classifier extends BaseController
     #adding a listener for each marking surface
     # on the master
     @masterMarkingSurface.on "create-mark", @onCreateMark
+
     # on the 4-up list
     for surface in @markingSurfaceList
       surface.on "create-mark", @onCreateMark
@@ -233,6 +239,8 @@ class Classifier extends BaseController
         @el.find('.artifact-classifier').hide() 
 
   onCreateMark:(mark) =>
+    console.log 'Classifier: mark created' # STI
+
     @marks.push mark
     #locate the surface this frame coresponds to
     if mark.surface_master
@@ -368,8 +376,20 @@ class Classifier extends BaseController
     for i in [1..astFrames.length] 
       if i is frameNum
         classifier.el.find(".asteroid-frame-#{i}").addClass 'current-asteroid-frame'
+        # set "asteroid-frame-complete" checkmarks
       else
+        # set "asteroid-frame-complete" checkmarks
         classifier.el.find(".asteroid-frame-#{i}").removeClass 'current-asteroid-frame'
+
+    # set "asteroid-frame-complete" checkmarks
+
+  onClickAstDone: ->
+
+    console.log 'number of asteroid objects stored: ' + @asteroids.length
+
+    newAsteroid = new Asteroid @marks
+    @asteroids.push newAsteroid
+
 
   onClickNextFrame: ->
 
@@ -499,5 +519,29 @@ class Classifier extends BaseController
     @classification.set 'marks', [@marks...]
     console?.log JSON.stringify @classification
     @classification.send()
+
+
+
+
+
+
+# create classes for asteroids and artifacts
+class Asteroid
+  @marks = []
+  constructor: (marks) ->
+    @marks = marks 
+    @displaySummary()
+
+  displaySummary: ->
+    console.log '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-' 
+    console.log 'ASTEROID '
+    for i in [0...@marks.length]
+      console.log '  frame: ' + @marks[i].frame
+      console.log '      x: ' + @marks[i].x
+      console.log '      y: ' + @marks[i].y
+
+
+# class Artifact
+
 
 module.exports = Classifier

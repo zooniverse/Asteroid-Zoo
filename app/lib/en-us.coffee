@@ -25,7 +25,7 @@ module.exports =
 
   classifier:
     title: 'Classify'
-    done:  "Save"
+    done:  'Done'
     reset: 'Reset'
     delete: 'Delete'
     next: 'Next'

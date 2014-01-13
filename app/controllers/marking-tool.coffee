@@ -3,6 +3,8 @@
 class MarkingTool extends Tool
   @Controls: require './marking-tool-controls'
 
+  visible: true
+
   hr: null
   vr: null
   circle: null
@@ -31,6 +33,8 @@ class MarkingTool extends Tool
     @mark.set offset
 
   render: ->
+    return if not @visible
+
     @hr.attr strokeWidth: 1 / @surface.zoomBy
     @vr.attr strokeWidth: 1 / @surface.zoomBy
 
