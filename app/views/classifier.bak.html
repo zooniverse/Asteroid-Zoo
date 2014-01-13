@@ -92,7 +92,7 @@
           <h3><%- translate 'div', 'asteroids.heading' %></h3>
 
           <% for frameNum in [1..4]: %>
-            <div class= "<%= "asteroid-frame asteroid-frame-#{frameNum}" %>">
+            <div class="asteroid-frame">
               <label>
                 <input type="checkbox" name="asteroid-frame-complete" 
                 <%- #"checked" if artifact is "other" %> />

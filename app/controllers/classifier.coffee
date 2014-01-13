@@ -52,7 +52,7 @@ class Classifier extends BaseController
     
     # state controller events
     'change input[name="classifier-type"]': (e) ->
-      if e.currentTarget.value == 'asteroid' 
+      if e.currentTarget.value == 'asteroid'
         @setState 'asteroidTool'
       else if  e.currentTarget.value == 'artifact'
         @setState 'artifactTool'
@@ -86,8 +86,7 @@ class Classifier extends BaseController
     'button[name="finish-marking"]' : 'finishButton'
     'button[name="next-frame"]'     : 'nextFrame'
     'button[name="cancel"]'         : 'cancel'
-    'input[name="selected-artifact"]': 'selectedArtifactRadios'
-  
+    'input[name="selected-artifact"]': 'selectedArtifactRadios'  
 
     'keydown': (e) ->
       return if @el.hasClass 'playing'  # disable while playing
@@ -122,25 +121,28 @@ class Classifier extends BaseController
   states:
     whatKind:
       enter: ->
-        # console.log "STATE: \'whatKind/enter\'"
+        console.log "STATE: \'whatKind/enter\'"
         # reset checkboxes and radio buttons
+
+        # this code is incorrect (e is an array) FIX!
         for e in @el.find('input[name="classifier-type"]')
           e.checked = false
+
         @el.find('button[name="to-select"]').addClass 'hidden' 
         @el.find('.what-kind').show()       
 
       exit: ->
-        # console.log "STATE: \'whatKind/exit\'"
+        console.log "STATE: \'whatKind/exit\'"
         @el.find('button[name="to-select"]').removeClass 'hidden'
         @el.find('.what-kind').hide()
 
     asteroidTool:
       enter: ->
-        # console.log "STATE: \'asteroidTool/enter\'"
+        console.log "STATE: \'asteroidTool/enter\'"
         @el.find('.asteroid-classifier').show()
        
       exit: ->
-        # console.log "STATE: \'asteroidTool/exit\'"
+        console.log "STATE: \'asteroidTool/exit\'"
         @el.find('.asteroid-classifier').hide()  
       
     artifactTool:
@@ -233,7 +235,7 @@ class Classifier extends BaseController
 
   onChangeFrameSlider: =>
     frame = document.getElementById('frame-slider').value
-    @showFrame(frame)
+    @activateFrame(frame)
 
   onUserChange: (e, user) =>
     Subject.next() unless @classification?
@@ -263,7 +265,6 @@ class Classifier extends BaseController
       @markingSurfaceList[i].enable()
 
   loadFrames: =>
-    console.log("loadFrames")
     #TODO  this code could probably be cleaned up
     @destroyFrames()
     subject_info = @classification.subject.location
@@ -341,12 +342,28 @@ class Classifier extends BaseController
     @flickerButton.attr 'disabled', true
     @fourUpButton.attr 'disabled', false
 
+  setAsteroidFrame: (frame_idx) ->
+    # return unless @state is 'asteroidTool'
+
+    frameNum = frame_idx + 1
+    asteroidFrames = @el.find('.asteroid-frame')
+
+    # frame numbers in view are not zero indexed
+    for i in [1..asteroidFrames.length] 
+      console.log asteroidFrames[i]
+      if i is frameNum
+        classifier.el.find(".asteroid-frame-#{i}").addClass 'current-asteroid-frame'
+      else
+        classifier.el.find(".asteroid-frame-#{i}").removeClass 'current-asteroid-frame'
+
   onClickNextFrame: ->
-    @currentFrameIdx++
-    @setCurrentFrameIdx(@currentFrameIdx)
+
+    # @currentFrameIdx++
+    @setCurrentFrameIdx(@currentFrameIdx+1)
     @activateFrame(@currentFrameIdx)
 
   onClickCancel: ->
+    console.log 'CANCEL'
     @setState 'whatKind'  # return to initial state
 
   # onClickRadioButton: ->
@@ -382,6 +399,13 @@ class Classifier extends BaseController
 
   activateFrame: (@active) ->
     @active = modulus +@active, @classification.subject.location.standard.length
+    
+    # update asteroid tracking
+    @setAsteroidFrame(@active)
+
+    # update artifact marking
+    #
+
     @showFrame(@active)
 
   setCurrentFrameIdx: (frame_idx) ->
@@ -402,7 +426,6 @@ class Classifier extends BaseController
     document.getElementById("frame-slider").value = frame_idx
 
     @setCurrentFrameIdx(frame_idx)
-    console.log "show frame: " + frame_idx
 
   hideFrame: (frame_idx) ->
     # id="frame-id-#{frame_idx}"
