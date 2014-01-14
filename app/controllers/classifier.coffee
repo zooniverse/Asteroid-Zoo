@@ -108,7 +108,6 @@ class Classifier extends BaseController
     whatKind:
       enter: ->
         console.log "STATE: \'whatKind/enter\'"
-        # reset checkboxes and radio buttons
 
         @disableMarkingSurfaces()
 
@@ -165,7 +164,7 @@ class Classifier extends BaseController
     @invert = false
     @currFrameIdx = 0
     window.classifier = @
-    @astMarkedInFrame = new Array
+    @asteroidMarkedInFrame = new Array
 
     # asteroid and artifact "containers"
     @asteroids = []
@@ -186,18 +185,20 @@ class Classifier extends BaseController
     this.masterMarkingSurface.el.id = "surface-master"
     @flickerContainer.append @masterMarkingSurface.el
     @masterMarkingSurface.on 'create-tool', (tool) =>
-        if @state is 'asteroidTool' and @astMarkedInFrame[@currFrameIdx]
-          
-          # enforce one mark per asteroid frame
-          if not @currAsteroid
+        if @state is 'asteroidTool'
+
+          # enforce one mark per frame
+          if @asteroidMarkedInFrame[@currFrameIdx]
+            # undo last mark
             @masterMarkingSurface.marks[@masterMarkingSurface.marks.length-1].destroy()
-          
-          # replace first element to reflect marks on marking-surface
-          @marks.shift()
-          
-          return
-        else
-          @astMarkedInFrame[@currFrameIdx] = true
+            # replace first element to reflect marks on marking-surface
+            @marks.shift()
+            # return
+          else 
+            # new mark
+            @el.find(".asteroid-frame-complete-#{@currFrameIdx+1}").attr 'checked', true
+            @asteroidMarkedInFrame[@currFrameIdx] = true
+
         tool.controls.controller.setMark(@currFrameIdx)
         
     #create 4-up view surfaces
@@ -401,6 +402,7 @@ class Classifier extends BaseController
       element.style.height = newSize + "px"
 
   setAsteroidFrame: (frame_idx) ->
+
     # return unless @state is 'asteroidTool'
 
     frameNum = frame_idx + 1
@@ -410,6 +412,9 @@ class Classifier extends BaseController
     for i in [1..astFrames.length] 
       if i is frameNum
         classifier.el.find(".asteroid-frame-#{i}").addClass 'current-asteroid-frame'
+        # console.log 'asteroidMarkedInFrame[', i-1, ']: ', @asteroidMarkedInFrame[i-1]
+        # if @asteroidMarkedInFrame[i]
+        #   @el.find(".asteroid-frame-complete-#{frameNum}").attr 'checked', true
         # set "asteroid-frame-complete" checkmarks
       else
         # set "asteroid-frame-complete" checkmarks
@@ -424,23 +429,32 @@ class Classifier extends BaseController
   onClickAsteroidDone: ->
     
     console.log @currAsteroid
-    console.log 'number of asteroid objects stored: ' + @asteroids.length
     
     @currAsteroid.addMarks(@marks)
     @currAsteroid.displaySummary() 
     
     @asteroids.push @currAsteroid
+    @marks = []
+
+
+    # reset checkboxes and radio buttons
+    @asteroidMarkedInFrame = []
+    for i in [1..@numFrames]
+      @el.find(".asteroid-frame-complete-#{i}").attr 'checked', false
+
 
     # reset state for next asteroid
     @setState 'whatKind'
 
 
   onClickNextFrame: ->
+    return if @currFrameIdx is 3
 
     # @currFrameIdx++
     @setCurrentFrameIdx(@currFrameIdx+1)
     @activateFrame(@currFrameIdx)
 
+  # needs to be fixed!!!
   onClickCancel: ->
     if @state is 'asteroidTool'
       console.log 'deleting marks for current asteroid'
