@@ -36,8 +36,9 @@ NEXT_DEV_SUBJECT = ->
 class Classifier extends BaseController
   className: 'classifier'
   template: require '../views/classifier'
-  marks: []
   currFrameIdx = 0 # keeps track of current (zero-indexed) frame
+
+  marks: null # duplicate copy of all marks from marking-surface
 
   events:
     'click button[name="play-frames"]'    : 'onClickPlay'
@@ -46,7 +47,7 @@ class Classifier extends BaseController
     'click button[name="four-up"]'        : 'onClickFourUp'
     'click button[name="flicker"]'        : 'onClickFlicker'
     'click button[name="next-frame"]'     : 'onClickNextFrame'
-    'click button[name="asteroid-done"]'  : 'onClickAstDone'
+    'click button[name="asteroid-done"]'  : 'onClickAsteroidDone'
     'click button[name="cancel"]'         : 'onClickCancel'
     # 'click input[name="current-frame"]'   : 'onClickRadioButton'
     'change input[name="current-frame"]'  : 'onChangeFrameSlider'
@@ -103,6 +104,55 @@ class Classifier extends BaseController
         when KEYS.space
           @onClickPlay()
 
+  states:
+    whatKind:
+      enter: ->
+        console.log "STATE: \'whatKind/enter\'"
+        # reset checkboxes and radio buttons
+
+        @disableMarkingSurfaces()
+
+        # this code is incorrect (e is an array) FIX!
+        for e in @el.find('input[name="classifier-type"]')
+          e.checked = false
+
+        @el.find('button[name="to-select"]').addClass 'hidden' 
+        @el.find('.what-kind').show()       
+
+      exit: ->
+        console.log "STATE: \'whatKind/exit\'"
+        @el.find('button[name="to-select"]').removeClass 'hidden'
+        @el.find('.what-kind').hide()
+
+    asteroidTool:
+      enter: ->
+        console.log "STATE: \'asteroidTool/enter\'"
+
+        @activateFrame 0
+
+        
+        # create new asteroid
+        @currAsteroid = new Asteroid
+
+        @enableMarkingSurfaces()
+
+        @el.find('.asteroid-classifier').show()
+
+      exit: ->
+        console.log "STATE: \'asteroidTool/exit\'"
+        @disableMarkingSurfaces()
+        @el.find('.asteroid-classifier').hide() 
+
+    artifactTool:
+      enter: ->
+        # console.log "STATE: \'artifactTool/enter\'"
+        @enableMarkingSurfaces()
+        @el.find('.artifact-classifier').show()
+      exit: ->
+        # console.log "STATE: \'artifactTool/exit\'"
+        @disableMarkingSurfaces()
+        @el.find('.artifact-classifier').hide() 
+
   constructor: ->
     @marks = []
     super
@@ -119,7 +169,8 @@ class Classifier extends BaseController
 
     # asteroid and artifact "containers"
     @asteroids = []
-    @artifacts = []
+    @currAsteroid = null
+    # @artifacts = [] # not used yet!
 
     # default to flicker mode on initialization
     @el.find('.four-up').hide()
@@ -136,8 +187,14 @@ class Classifier extends BaseController
     @flickerContainer.append @masterMarkingSurface.el
     @masterMarkingSurface.on 'create-tool', (tool) =>
         if @state is 'asteroidTool' and @astMarkedInFrame[@currFrameIdx]
-          # remove latest mark to enforce one mark per asteroid frame
-          @masterMarkingSurface.marks[@masterMarkingSurface.marks.length-1].destroy()
+          
+          # enforce one mark per asteroid frame
+          if not @currAsteroid
+            @masterMarkingSurface.marks[@masterMarkingSurface.marks.length-1].destroy()
+          
+          # replace first element to reflect marks on marking-surface
+          @marks.shift()
+          
           return
         else
           @astMarkedInFrame[@currFrameIdx] = true
@@ -164,7 +221,7 @@ class Classifier extends BaseController
     Subject.on 'select', @onSubjectSelect
 
     #######################################################
-    #adding a listener for each marking surface
+    # adding a listener for each marking surface
     # on the master
     @masterMarkingSurface.on "create-mark", @onCreateMark
 
@@ -196,51 +253,10 @@ class Classifier extends BaseController
     setTimeout =>
       @el.find('a, button, input, textarea, select').filter('section *:visible').first().focus()
 
-  states:
-    whatKind:
-      enter: ->
-        # console.log "STATE: \'whatKind/enter\'"
-        # reset checkboxes and radio buttons
-
-
-        @disableMarkingSurfaces()
-
-        # this code is incorrect (e is an array) FIX!
-        for e in @el.find('input[name="classifier-type"]')
-          e.checked = false
-
-        @el.find('button[name="to-select"]').addClass 'hidden' 
-        @el.find('.what-kind').show()       
-
-      exit: ->
-        # console.log "STATE: \'whatKind/exit\'"
-        @el.find('button[name="to-select"]').removeClass 'hidden'
-        @el.find('.what-kind').hide()
-
-    asteroidTool:
-      enter: ->
-        # console.log "STATE: \'asteroidTool/enter\'"
-        @enableMarkingSurfaces()
-        @el.find('.asteroid-classifier').show()
-
-      exit: ->
-        # console.log "STATE: \'asteroidTool/exit\'"
-        @disableMarkingSurfaces()
-        @el.find('.asteroid-classifier').hide()  
-      
-    artifactTool:
-      enter: ->
-        # console.log "STATE: \'artifactTool/enter\'"
-        @enableMarkingSurfaces()
-        @el.find('.artifact-classifier').show()
-      exit: ->
-        # console.log "STATE: \'artifactTool/exit\'"
-        @disableMarkingSurfaces()
-        @el.find('.artifact-classifier').hide() 
-
   onCreateMark:(mark) =>
     console.log 'Classifier: mark created' # STI
 
+    # keep a copy of all marks in here
     @marks.push mark
     # locate the surface this frame coresponds to
 
@@ -401,12 +417,22 @@ class Classifier extends BaseController
 
     # set "asteroid-frame-complete" checkmarks
 
-  onClickAstDone: ->
+      
 
+
+
+  onClickAsteroidDone: ->
+    
+    console.log @currAsteroid
     console.log 'number of asteroid objects stored: ' + @asteroids.length
+    
+    @currAsteroid.addMarks(@marks)
+    @currAsteroid.displaySummary() 
+    
+    @asteroids.push @currAsteroid
 
-    newAsteroid = new Asteroid @marks
-    @asteroids.push newAsteroid
+    # reset state for next asteroid
+    @setState 'whatKind'
 
 
   onClickNextFrame: ->
@@ -416,9 +442,20 @@ class Classifier extends BaseController
     @activateFrame(@currFrameIdx)
 
   onClickCancel: ->
-    console.log 'CANCEL'
+    if @state is 'asteroidTool'
+      console.log 'deleting marks for current asteroid'
+      for i in [i...@masterMarkingSurface.marks.length]
+        console.log '   destroy mark ', i
+        @masterMarkingSurface.marks[i].destroy()
+
+    setTimeout => 
+      for tool in @masterMarkingSurface.tools
+        tool.render()
+
+    # reset to initial state
     @setState 'whatKind'  # return to initial state
 
+    
   # onClickRadioButton: ->
   #   for i in [0...@frameRadioButtons.length]
   #     if @frameRadioButtons[i].checked
@@ -452,7 +489,7 @@ class Classifier extends BaseController
 
   activateFrame: (@active) ->
     @active = modulus +@active, @classification.subject.location.standard.length
-    
+
     # update asteroid tracking
     @setAsteroidFrame(@active)
 
@@ -545,10 +582,14 @@ class Classifier extends BaseController
 
 # create classes for asteroids and artifacts
 class Asteroid
-  @marks = []
-  constructor: (marks) ->
-    @marks = marks 
-    @displaySummary()
+  # marks: null
+
+  constructor: ->
+    console.log 'inside Asteroid constructor'
+    marks = []
+
+  addMarks: (marks) ->
+    @marks = marks
 
   displaySummary: ->
     console.log '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-' 
