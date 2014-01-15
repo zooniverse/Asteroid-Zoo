@@ -59,6 +59,9 @@ class MarkingToolControlsController extends BaseController
 
   setMark: (frameIdx) =>
     console.log 'MarkingToolControlsController: setMark()' # STI
+
+    # debugger
+
     # if @state is "asteroidTool" or @state is "whatKind" 
     #   detection =  @getAsteroidDetection()
     # else if @state is "artifactTool"

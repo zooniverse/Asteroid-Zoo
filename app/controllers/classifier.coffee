@@ -548,9 +548,11 @@ class Classifier extends BaseController
     @loadFrames()
     @showFrame(@currFrameIdx) # unless @currFrameIdx is undefined
 
-    # bring tools back to front
-    @el.find('.svg-root').append @el.find('.marking-tool-root')
-
+    # bring tools back to front (for each marking surface)
+    for surface in [ @masterMarkingSurface, @markingSurfaceList... ]
+      for markingToolRootElement in surface.el.getElementsByClassName('marking-tool-root')
+        markingToolRootElement.parentElement.appendChild markingToolRootElement
+       
   onClickFinishMarking: ->
     @showSummary()
 
