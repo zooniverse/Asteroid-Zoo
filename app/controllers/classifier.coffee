@@ -548,10 +548,11 @@ class Classifier extends BaseController
     @loadFrames()
     @showFrame(@currFrameIdx) # unless @currFrameIdx is undefined
 
-    # bring tools back to front (for each marking surface)
+    # bring marking tools back to front for each surface
     for surface in [ @masterMarkingSurface, @markingSurfaceList... ]
-      for markingToolRootElement in surface.el.getElementsByClassName('marking-tool-root')
-        markingToolRootElement.parentElement.appendChild markingToolRootElement
+      markElements = surface.el.getElementsByClassName('marking-tool-root')
+      for i in [0...markElements.length]
+        markElements[0].parentElement.appendChild markElements[0] 
        
   onClickFinishMarking: ->
     @showSummary()
