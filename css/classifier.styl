@@ -12,7 +12,6 @@
     box-shadow:         0px 5px 6px 5px #c0c0c0;
 
   .subject
-    //background: MEDIUM_GRAY
     background-color #efeae9
     padding 20px
     width 512px
@@ -34,20 +33,17 @@
     background: black
     margin-left: auto
     margin-right: auto;
-    // width: 1028px
-    // height: 1028px
-
 
   .current-asteroid-frame
-    color: #319cae
-    border: 3px solid #319cae
+    color: MAIN_AQUA
+    border: 3px solid MAIN_AQUA
     border-radius: 10px
 
   .asteroid-frame
     color: #BBBBBB
 
   .asteroid-frame-complete
-    color: #319cae
+    color: MAIN_AQUA
 
   .marking-surface
     display: inline-block
@@ -68,9 +64,17 @@
     h2
       font-size 14px
       color #8b8b8b
-      margin-top 20px
+      margin 20px 0
     hr
       border 1px solid #d5d5d5
+    button
+      color #939393
+      font-size 14px
+      &:disabled
+        color #29afcd
+    svg
+      display block
+      margin 10px auto
 
   .right-panel
     width 178px
@@ -80,6 +84,20 @@
     h2
       font-size 14px
       color #8b8b8b
+    button
+      border none
+      height 40px
+      width 100%
+      margin 10px 0
+      &[name='next-frame']
+        color #fff
+        background-color #4fad76
+      &[name='cancel']
+        border 2px solid #e6e6e6
+        color #868686
+      &[name='asteroid-delete']
+      &[name='asteroid-done']
+        width 30%
 
   .bottom-row
     position relative
@@ -98,16 +116,20 @@
         background-color #343434
         border-radius 5px
         color white
-        width 120px
+        width 130px
         line-height 40px
+        vertical-align middles
         height 40px
+        svg
+          vertical-align middle
+          margin-right 20px
 
     #finished
       float left
       width 198px
       line-height 56px
       height 56px
-      background-color #319cae
+      background-color MAIN_AQUA
       button
         background-color #38b3c5
         color #fff
