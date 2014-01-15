@@ -191,7 +191,7 @@ class Classifier extends BaseController
             # undo last mark
             @masterMarkingSurface.marks[@masterMarkingSurface.marks.length-1].destroy()
             # replace first element to reflect marks on marking-surface
-            @marks.shift()
+            # @marks.shift()
             # return
           else 
             # new mark
@@ -257,6 +257,8 @@ class Classifier extends BaseController
     console.log 'Classifier: mark created' # STI
 
     # keep a copy of all marks in here
+    if @asteroidMarkedInFrame[ @currFrameIdx ]
+      @marks.pop()
     @marks.push mark
     # locate the surface this frame coresponds to
 
