@@ -49,7 +49,6 @@ class Classifier extends BaseController
     'click button[name="next-frame"]'     : 'onClickNextFrame'
     'click button[name="asteroid-done"]'  : 'onClickAsteroidDone'
     'click button[name="cancel"]'         : 'onClickCancel'
-    # 'click input[name="current-frame"]'   : 'onClickRadioButton'
     'change input[name="current-frame"]'  : 'onChangeFrameSlider'
     
     # state controller events
@@ -159,7 +158,7 @@ class Classifier extends BaseController
     @playTimeouts = []                   # for image_changer
     @el.attr tabindex: 0                 # ...
     # @setClassification @classification  # ...
-
+    @el.attr 'flicker', "true"
     artifactSubtype = "other" # not sure what this is for?
     @setState 'whatKind'      # set initial state
     @invert = false
@@ -377,6 +376,7 @@ class Classifier extends BaseController
 
     @fourUpButton.attr 'disabled', true
     @flickerButton.attr 'disabled', false
+    @el.attr 'flicker', "false"
 
   onClickFlicker: ->
     console.log "Flicker"
@@ -392,6 +392,8 @@ class Classifier extends BaseController
 
     @flickerButton.attr 'disabled', true
     @fourUpButton.attr 'disabled', false
+
+    @el.attr 'flicker', "true"
 
 
   resizeElements: (elements, newSize) ->
@@ -454,13 +456,6 @@ class Classifier extends BaseController
 
     # reset to initial state
     @setState 'whatKind'  # return to initial state
-
-    
-  # onClickRadioButton: ->
-  #   for i in [0...@frameRadioButtons.length]
-  #     if @frameRadioButtons[i].checked
-  #       @showFrame(i)
-
 
   onClickPlay: ->
     return if @el.hasClass 'playing'  # play only once at a time
