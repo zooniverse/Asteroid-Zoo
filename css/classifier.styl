@@ -12,7 +12,6 @@
     box-shadow:         0px 5px 6px 5px #c0c0c0;
 
   .subject
-    //background: MEDIUM_GRAY
     background-color #efeae9
     padding 20px
     width 512px
@@ -34,9 +33,6 @@
     background: black
     margin-left: auto
     margin-right: auto;
-    // width: 1028px
-    // height: 1028px
-
 
   .current-asteroid-frame
     color: #319cae
@@ -68,9 +64,16 @@
     h2
       font-size 14px
       color #8b8b8b
-      margin-top 20px
+      margin 20px 0
     hr
       border 1px solid #d5d5d5
+    button
+      color #939393
+      &:disabled
+        color #29afcd
+    svg
+      display block
+      margin 10px auto
 
   .right-panel
     width 178px
@@ -98,9 +101,13 @@
         background-color #343434
         border-radius 5px
         color white
-        width 120px
+        width 130px
         line-height 40px
+        vertical-align middles
         height 40px
+        svg
+          vertical-align middle
+          margin-right 20px
 
     #finished
       float left
