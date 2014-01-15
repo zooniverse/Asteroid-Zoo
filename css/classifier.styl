@@ -35,15 +35,15 @@
     margin-right: auto;
 
   .current-asteroid-frame
-    color: #319cae
-    border: 3px solid #319cae
+    color: MAIN_AQUA
+    border: 3px solid MAIN_AQUA
     border-radius: 10px
 
   .asteroid-frame
     color: #BBBBBB
 
   .asteroid-frame-complete
-    color: #319cae
+    color: MAIN_AQUA
 
   .marking-surface
     display: inline-block
@@ -62,7 +62,7 @@
     float left
     text-align center
     h2
-      font-size 14px
+      font-size 1px
       color #8b8b8b
       margin 20px 0
     hr
@@ -83,6 +83,20 @@
     h2
       font-size 14px
       color #8b8b8b
+    button
+      border none
+      height 40px
+      width 100%
+      margin 10px 0
+      &[name='next-frame']
+        color #fff
+        background-color #4fad76
+      &[name='cancel']
+        border 2px solid #e6e6e6
+        color #868686
+      &[name='asteroid-delete']
+      &[name='asteroid-done']
+        width 30%
 
   .bottom-row
     position relative
@@ -114,7 +128,7 @@
       width 198px
       line-height 56px
       height 56px
-      background-color #319cae
+      background-color MAIN_AQUA
       button
         background-color #38b3c5
         color #fff
