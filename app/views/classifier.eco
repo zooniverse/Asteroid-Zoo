@@ -95,13 +95,7 @@
   <div class="right-panel">
     <div class="answers">
       <header>
-        <!-- <button type="button" name="to-select">
-          <i class="icon-chevron-left"></i>
-        </button>
-        <%# TODO  What's this placeholder going to do? %>
-        <img src="//placehold.it/100.png" class="selected-animal-example" />
-
-        <span class="selected-artifact-label"></span> -->
+        <span class="selected-artifact-label"></span> 
       </header>
 
       <div class="what-kind">
@@ -161,11 +155,11 @@
               <label>
                 <form>
                 <input type="checkbox" class="<%= "asteroid-frame-complete-#{frameNum}" %>" 
-                <%- #"checked" if artifact is "other" %> />
+                <%- #"checked" if artifact is "other" %> disabled />
                 <%- translate 'span', "#{frameNum}" %>
               </label>
               <label>
-                <input type="checkbox" class="<%= "asteroid-visible-#{frameNum}" %>" 
+                <input type="checkbox" class="<%= "asteroid-visible asteroid-visible-#{frameNum}" %>" 
                 <%- #"checked" if artifact is "other" %> />
                 <%- translate 'span', "Not Visible?" %>
               </form>
