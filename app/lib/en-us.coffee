@@ -50,16 +50,6 @@ module.exports =
   asteroids:
     heading: "Asteroid Tracking"
 
-  #TODO condors reminant
-  classificationSummary:
-    title: 'Summary'
-    noTags: '(No tags visible)'
-    relativeAge: 'Relative age'
-    born: 'Born'
-    died: 'Died'
-    share: 'Share the story <br />of <small>No.</small> $tag'
-    readyForNext: 'Image classified! Ready for the next one?'
-    ready: 'Ready!'
 
   science:
     title: 'Science!'
