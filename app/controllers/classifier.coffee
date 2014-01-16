@@ -264,7 +264,9 @@ class Classifier extends BaseController
       when KEYS.two   then @activateFrame(1)
       when KEYS.three then @activateFrame(2)
       when KEYS.four  then @activateFrame(3)
-      when KEYS.space then @onClickPlay()
+      when KEYS.space
+        @onClickPlay()
+        e.preventDefault()
 
   onUserChange: (e, user) =>
     Subject.next() unless @classification?
