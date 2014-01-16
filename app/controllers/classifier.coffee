@@ -260,17 +260,11 @@ class Classifier extends BaseController
   onKeyDown: (e) =>
     return if @el.hasClass 'playing'  # disable while playing
     switch e.which
-      when KEYS.one
-        @activateFrame(0)
-      when KEYS.two
-        @activateFrame(1)
-      when KEYS.three
-        @activateFrame(2)
-      when KEYS.four
-        @activateFrame(3)
-      when KEYS.space  
-        @onClickPlay()
-    e.preventDefault()
+      when KEYS.one   then @activateFrame(0)
+      when KEYS.two   then @activateFrame(1)
+      when KEYS.three then @activateFrame(2)
+      when KEYS.four  then @activateFrame(3)
+      when KEYS.space then @onClickPlay()
 
   onUserChange: (e, user) =>
     Subject.next() unless @classification?
