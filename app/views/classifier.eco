@@ -177,8 +177,6 @@
           </div>
 
           <%- translate 'button.cancel', 'classifier.delete', name: 'asteroid-delete', type: 'button' %>
-          <%- translate 'button.default', 'classifier.done', name: 'asteroid-done', type: 'button' %>
-
         </section>
       </div>
 
@@ -210,6 +208,8 @@
 
     <div id="finished">
       <%- translate 'button', 'Finished', name: 'finish-marking' %>
+      <%- translate 'button', 'classifier.done', name: 'asteroid-done', type: 'button' %>
     </div>
+
   </div> <!-- end instructions -->
 </div>

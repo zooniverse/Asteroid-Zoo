@@ -85,6 +85,7 @@ class Classifier extends BaseController
     'button[name="flicker"]'        : 'flickerButton'
     'button[name="four-up"]'        : 'fourUpButton'
     'button[name="finish-marking"]' : 'finishButton'
+    'button[name="asteroid-done"]'   : 'doneButton'
     'button[name="next-frame"]'     : 'nextFrame'
     'button[name="cancel"]'         : 'cancel'
     'input[name="selected-artifact"]': 'selectedArtifactRadios'  
@@ -116,11 +117,15 @@ class Classifier extends BaseController
         @currAsteroid = new Asteroid
         @enableMarkingSurfaces()
         @el.find('.asteroid-classifier').show()
+        @finishButton.hide()
+        @doneButton.show()
 
       exit: ->
         # console.log "STATE: \'asteroidTool/exit\'"
         @disableMarkingSurfaces()
         @el.find('.asteroid-classifier').hide() 
+        @doneButton.hide()
+        @finishButton.show()
 
     artifactTool:
       enter: ->
