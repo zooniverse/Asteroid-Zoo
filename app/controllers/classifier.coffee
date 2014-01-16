@@ -8,7 +8,6 @@ Classification = require 'zooniverse/models/classification'
 MarkingSurface = require 'marking-surface'
 MarkingTool = require './marking-tool'
 MarkingToolControls = require './marking-tool-controls'
-ClassificationSummary = require './classification-summary'
 $ = window.jQuery
 
 # for keybindings
@@ -86,6 +85,7 @@ class Classifier extends BaseController
     'button[name="flicker"]'        : 'flickerButton'
     'button[name="four-up"]'        : 'fourUpButton'
     'button[name="finish-marking"]' : 'finishButton'
+    'button[name="asteroid-done"]'   : 'doneButton'
     'button[name="next-frame"]'     : 'nextFrame'
     'button[name="cancel"]'         : 'cancel'
     'input[name="selected-artifact"]': 'selectedArtifactRadios'  
@@ -117,11 +117,15 @@ class Classifier extends BaseController
         @currAsteroid = new Asteroid
         @enableMarkingSurfaces()
         @el.find('.asteroid-classifier').show()
+        @finishButton.hide()
+        @doneButton.show()
 
       exit: ->
         # console.log "STATE: \'asteroidTool/exit\'"
         @disableMarkingSurfaces()
         @el.find('.asteroid-classifier').hide() 
+        @doneButton.hide()
+        @finishButton.show()
 
     artifactTool:
       enter: ->
@@ -507,7 +511,12 @@ class Classifier extends BaseController
         markElements[0].parentElement.appendChild markElements[0] 
        
   onClickFinishMarking: ->
-    @showSummary()
+    @sendClassification()
+    @destroyFrames()
+    Subject.next()
+    document.getElementById('frame-slider').value = 0 #reset slider to first frame
+    #go back to the one up view
+    @onClickFlicker()
 
   rescale: =>
     setTimeout =>
@@ -520,28 +529,10 @@ class Classifier extends BaseController
   stopLoading: ->
     @el.removeClass 'loading'
 
-  showSummary: ->
-    @sendClassification()
-    classificationSummary = new ClassificationSummary {@classification}
-    classificationSummary.el.appendTo @el
-    @el.addClass 'showing-summary'
-    classificationSummary.on 'destroying', =>
-      @destroyFrames()
-      @el.removeClass 'showing-summary'
-      Subject.next()
-
-    setTimeout =>
-      classificationSummary.show()
-    document.getElementById('frame-slider').value = 0 #reset slider to first frame
-
   sendClassification: ->
     @classification.set 'marks', [@marks...]
     console?.log JSON.stringify @classification
     @classification.send()
-
-
-
-
 
 
 # create classes for asteroids and artifacts
