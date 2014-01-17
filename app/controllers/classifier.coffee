@@ -123,7 +123,7 @@ class Classifier extends BaseController
         @finishButton.hide()
         @doneButton.show()
 
-        # disable until asteroid complete
+        # disable until (asteroid complete)
         @doneButton.prop 'disabled', true
 
       exit: ->
@@ -189,6 +189,8 @@ class Classifier extends BaseController
           # new mark
           @el.find(".asteroid-frame-complete-#{@currFrameIdx+1}").prop 'checked', true
           @asteroidMarkedInFrame[@currFrameIdx] = true
+
+        console.log @asteroidMarkedInFrame
 
       tool.controls.controller.setMark(@currFrameIdx)
         
@@ -412,19 +414,11 @@ class Classifier extends BaseController
   setAsteroidFrame: (frame_idx) ->
     return unless @state is 'asteroidTool'
 
-    # 'done' only if all frames have been marked
-    if [@asteroidMarkedInFrame...] is false
-      @doneButton.prop 'disabled', true
-    else
-      @doneButton.prop 'disabled', false
-
-        
     # show asteroid-visibility only on current frame
-    console.log @el.find(".asteroid-visibility-#{frame_idx}") #.show() #unless frame_idx is not @currFrameIdx
     @el.find(".asteroid-visibility-#{frame_idx}").show()
 
+    # reminder: frame numbers not zero-indexed in view
     frameNum = frame_idx + 1
-    # frame numbers in view are not zero indexed
     for i in [1..@el.find('.asteroid-frame').length] 
       if i is frameNum
         classifier.el.find(".asteroid-frame-#{i}").addClass 'current-asteroid-frame'
@@ -520,8 +514,10 @@ class Classifier extends BaseController
   onClickInvert: ->
     if @invert is true
       @invert = false
+      @invertButton.removeClass 'colorme'
     else
       @invert = true
+      @invertButton.addClass 'colorme'
 
     @loadFrames()
     @showFrame(@currFrameIdx) # unless @currFrameIdx is undefined
