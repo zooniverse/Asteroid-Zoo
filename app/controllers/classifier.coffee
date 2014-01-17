@@ -391,6 +391,8 @@ class Classifier extends BaseController
   onClickAsteroidNotVisible: ->
     console.log 'onClickAsteroidNotVisible: '
 
+    @el.find(".asteroid-frame-complete-#{@currFrameIdx+1}").prop 'checked', true
+
     newMark =
       frame: @currFrameIdx
       x: null
@@ -401,6 +403,11 @@ class Classifier extends BaseController
 
   setAsteroidFrame: (frame_idx) ->
     # return unless @state is 'asteroidTool'
+
+    # show asteroid-visibility only on current frame
+    console.log @el.find(".asteroid-visibility-#{frame_idx}") #.show() #unless frame_idx is not @currFrameIdx
+    @el.find(".asteroid-visibility-#{frame_idx}").show()
+
     frameNum = frame_idx + 1
     # frame numbers in view are not zero indexed
     for i in [1..@el.find('.asteroid-frame').length] 
