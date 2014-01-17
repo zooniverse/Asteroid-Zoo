@@ -161,7 +161,7 @@
                 <%- translate 'span', "#{frameNum}" %>
               </label>
               <label>
-                <input type="checkbox" class="<%= "asteroid-visible asteroid-visible-#{frameNum}" %>" 
+                <input type="checkbox" class="<%= "asteroid-not-visible asteroid-not-visible-#{frameNum}" %>" 
                 <%- #"checked" if artifact is "other" %> />
                 <%- translate 'span', "Not Visible?" %>
               </form>

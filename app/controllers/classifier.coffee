@@ -1,6 +1,7 @@
 BaseController = require 'zooniverse/controllers/base-controller'
 User = require 'zooniverse/models/user'
 Subject = require 'zooniverse/models/subject'
+Sighting = require '../models/sighting'
 modulus = require '../lib/modulus'
 
 loadImage = require '../lib/load-image'
@@ -37,8 +38,6 @@ class Classifier extends BaseController
   template: require '../views/classifier'
   currFrameIdx = 0 # keeps track of current (zero-indexed) frame
 
-  marks: null # duplicate copy of all marks from marking-surface
-
   events:
     'click button[name="play-frames"]'    : 'onClickPlay'
     'click button[name="invert"]'         : 'onClickInvert'
@@ -50,6 +49,7 @@ class Classifier extends BaseController
     'click button[name="cancel"]'         : 'onClickCancel'
     'change input[name="current-frame"]'  : 'onChangeFrameSlider'
     'keydown'                             : 'onKeyDown'
+    'change .asteroid-not-visible'        : 'onClickAsteroidNotVisible'
     
     # state controller events
     'change input[name="classifier-type"]': (e) ->
@@ -94,7 +94,6 @@ class Classifier extends BaseController
     whatKind:
       enter: ->
         # console.log "STATE: \'whatKind/enter\'"
-
         @disableMarkingSurfaces()
         
         # reset asteroid/artifact selector
@@ -114,7 +113,7 @@ class Classifier extends BaseController
         # console.log "STATE: \'asteroidTool/enter\'"
         @activateFrame 0
         # create new asteroid
-        @currAsteroid = new Asteroid
+        @currAsteroid = new Sighting
         @enableMarkingSurfaces()
         @el.find('.asteroid-classifier').show()
         @finishButton.hide()
@@ -139,7 +138,6 @@ class Classifier extends BaseController
 
   constructor: ->
     super
-    @marks = []
     @allSurfaces = []
     @asteroidMarkedInFrame = []
     @playTimeouts = []                   # for image_changer
@@ -155,7 +153,7 @@ class Classifier extends BaseController
     window.classifier = @
 
     # asteroid and artifact "containers"
-    @asteroids = []
+    @setOfSightings = []
     @currAsteroid = null
     # @artifacts = [] # not used yet!
 
@@ -179,9 +177,6 @@ class Classifier extends BaseController
           console.log 'frame already marked!'
           # undo last mark
           @masterMarkingSurface.marks[@masterMarkingSurface.marks.length-1].destroy()
-          # replace first element to reflect marks on marking-surface
-          # @marks.shift()
-          # return
         else 
           console.log 'marked'
           # new mark
@@ -202,7 +197,6 @@ class Classifier extends BaseController
         tool.controls.controller.setMark(@currFrameIdx)
 
     @allSurfaces = [@masterMarkingSurface, @markingSurfaceList...]
-
 
     #######################################################
     #  API event bindings
@@ -228,6 +222,9 @@ class Classifier extends BaseController
   classifierClick: =>
     console.log 'classifier clicked' # STI
 
+  foo: ->
+    console.log 'marking surface clicked!'
+
   #######################################################
   # FINITE STATE MACHINE CONTROLLER
   #######################################################
@@ -249,10 +246,10 @@ class Classifier extends BaseController
 
     # keep a copy of all marks in here
     if @asteroidMarkedInFrame[ @currFrameIdx ]
-      @marks.pop()
-    @marks.push mark
-    # locate the surface this frame coresponds to
+      @currAsteroid.popSighting()
+    @currAsteroid.pushSighting mark
 
+    # locate the surface this frame coresponds to
     setTimeout =>
       for surface in @allSurfaces
         theSurface = surface if mark in surface.marks
@@ -392,12 +389,26 @@ class Classifier extends BaseController
 
     @el.attr 'flicker', "true"
 
-
   resizeElements: (elements, newSize) ->
     for element in elements
       # element.style["-webkit-transform"] = "scale(0.5)"
       element.style.width = newSize + "px"
       element.style.height = newSize + "px"
+
+  #######################################
+  # ASTEROID TRACKING METHODS
+  #######################################
+
+  onClickAsteroidNotVisible: ->
+    console.log 'onClickAsteroidNotVisible: '
+
+    newMark =
+      frame: @currFrameIdx
+      x: null
+      y: null
+      visible: false
+      inverted: @invert
+    @currAsteroid.pushSighting newMark
 
   setAsteroidFrame: (frame_idx) ->
     # return unless @state is 'asteroidTool'
@@ -410,21 +421,18 @@ class Classifier extends BaseController
         classifier.el.find(".asteroid-frame-#{i}").removeClass 'current-asteroid-frame'
 
   onClickAsteroidDone: ->
-    @currAsteroid.addMarks(@marks)
     @currAsteroid.displaySummary() 
 
     # this should check for 'not-visible' attributes too!!!
-    if @marks.length is 0
+    if @currAsteroid.sightingCount is 0
       @currAsteroid = null  # destroy asteroid
     else
-      @asteroids.push @currAsteroid
+      @setOfSightings.push @currAsteroid
     
     # reset
     @resetAsteroidFrameCheckboxes()
-    @marks = []
     @setState 'whatKind'
-    debugger
-
+    
   resetAsteroidFrameCheckboxes: ->
       # reset checkboxes and radio buttons
       @asteroidMarkedInFrame = []
@@ -439,7 +447,7 @@ class Classifier extends BaseController
   # needs to be fixed!!!
   onClickCancel: ->
     if @state is 'asteroidTool'
-      # destroy current asteroid marks
+      # still need to destroy current asteroid marks
       @resetAsteroidFrameCheckboxes()  
     @setState 'whatKind'  # return to initial state
 
@@ -530,32 +538,8 @@ class Classifier extends BaseController
     @el.removeClass 'loading'
 
   sendClassification: ->
-    @classification.set 'marks', [@marks...]
+    @classification.set 'setOfSightings', [@setOfSightings...]
     console?.log JSON.stringify @classification
     @classification.send()
-
-
-# create classes for asteroids and artifacts
-class Asteroid
-  # marks: null
-
-  constructor: ->
-    console.log 'inside Asteroid constructor'
-    marks = []
-
-  addMarks: (marks) ->
-    @marks = marks
-
-  displaySummary: ->
-    console.log '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-' 
-    console.log 'ASTEROID '
-    for i in [0...@marks.length]
-      console.log '  frame: ' + @marks[i].frame
-      console.log '      x: ' + @marks[i].x
-      console.log '      y: ' + @marks[i].y
-
-
-# class Artifact
-
 
 module.exports = Classifier
