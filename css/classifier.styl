@@ -103,9 +103,27 @@
       &[name='cancel']
         border 2px solid #e6e6e6
         color #868686
-      &[name='asteroid-delete']
       &[name='asteroid-done']
         width 30%
+
+    .classifier-type-menu-item
+      height 40px
+      vertical-align middle
+      svg
+        display inline-block
+        vertical-align middle
+        margin auto 0
+      label
+        color #7b7b7b
+        cursor pointer
+      input
+        &[name='classifier-type']
+          display none
+          &:checked
+            & + svg
+              path, circle
+                fill #29afcd
+
 
   .bottom-row
     position relative
@@ -163,7 +181,6 @@
   [class^="from-frame"]
     fill: red
     opacity: 0.4
-
 
   &[flicker="true"]
     &[data-on-frame="0"]
