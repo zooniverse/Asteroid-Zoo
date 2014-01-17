@@ -58,7 +58,7 @@ class Classifier extends BaseController
       else if  e.currentTarget.value is 'artifact'
         @setState 'artifactTool'
       else if e.currentTarget.value is 'nothing'
-        # do nothing (yet?)
+        @finishButton.prop 'disabled', false
       else
         console.log("Error: unknown classifier-type")
 
@@ -89,6 +89,7 @@ class Classifier extends BaseController
     'button[name="next-frame"]'     : 'nextFrame'
     'button[name="cancel"]'         : 'cancel'
     'input[name="selected-artifact"]': 'selectedArtifactRadios'  
+    'input[name="classifier-type"]' : 'classifierTypeRadios'
 
   states:
     whatKind:
@@ -101,16 +102,12 @@ class Classifier extends BaseController
           e.checked = false
 
         @el.find('button[name="to-select"]').addClass 'hidden' 
-        @el.find('.what-kind').show()     
-
-        # disable finished-marking button (until sighting is classified)
-        @finishButton.prop 'disabled', true  
+        @el.find('.what-kind').show()
 
       exit: ->
         # console.log "STATE: \'whatKind/exit\'"
         @el.find('button[name="to-select"]').removeClass 'hidden'
         @el.find('.what-kind').hide()
-        @finishButton.prop 'disabled', false
 
     asteroidTool:
       enter: ->
@@ -167,6 +164,7 @@ class Classifier extends BaseController
     # default to flicker mode on initialization
     @el.find('.four-up').hide()
     @flickerButton.attr 'disabled', true
+    @finishButton.prop 'disabled', true
 
     #######################################################
     # create marking surfaces for frames
@@ -241,6 +239,7 @@ class Classifier extends BaseController
 
   onCreateMark:(mark) =>
     # keep a copy of all marks in here
+    @finishButton.prop 'disabled', false
     if @asteroidMarkedInFrame[ @currFrameIdx ]
       @currAsteroid.popSighting()
     @currAsteroid.pushSighting mark
@@ -533,11 +532,13 @@ class Classifier extends BaseController
         markElements[0].parentElement.appendChild markElements[0] 
        
   onClickFinishMarking: ->
+    radio.checked = false for radio in @classifierTypeRadios
     @sendClassification()
     @destroyFrames()
     Subject.next()
     document.getElementById('frame-slider').value = 0 #reset slider to first frame
     #go back to the one up view
+    @finishButton.prop 'disabled', true
     @onClickFlicker()
 
   rescale: =>
@@ -552,6 +553,7 @@ class Classifier extends BaseController
     @el.removeClass 'loading'
 
   sendClassification: ->
+    @finishButton.prop 'disabled', true
     @classification.set 'setOfSightings', [@setOfSightings...]
     console?.log JSON.stringify @classification
     @classification.send()
