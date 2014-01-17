@@ -107,6 +107,7 @@ class Classifier extends BaseController
         # console.log "STATE: \'whatKind/exit\'"
         @el.find('button[name="to-select"]').removeClass 'hidden'
         @el.find('.what-kind').hide()
+        @finishButton.prop 'disabled', false
 
     asteroidTool:
       enter: ->
@@ -118,6 +119,9 @@ class Classifier extends BaseController
         @el.find('.asteroid-classifier').show()
         @finishButton.hide()
         @doneButton.show()
+
+        # disable until asteroid complete
+        @doneButton.prop 'disabled', true
 
       exit: ->
         # console.log "STATE: \'asteroidTool/exit\'"
@@ -149,6 +153,9 @@ class Classifier extends BaseController
     @setState 'whatKind'      # set initial state
     @invert = false
     @currFrameIdx = 0
+
+    # disable finished-marking button (until sighting is classified)
+    @finishButton.prop 'disabled', true
 
     window.classifier = @
 
@@ -280,6 +287,7 @@ class Classifier extends BaseController
 
   resetMarkingSurfaces: =>
     for surface in @allSurfaces
+      # @surface?.marks[0].destroy() until @surface?.marks.length is 0
       surface.reset()
 
   disableMarkingSurfaces: =>
@@ -402,8 +410,15 @@ class Classifier extends BaseController
     @currAsteroid.pushSighting newMark
 
   setAsteroidFrame: (frame_idx) ->
-    # return unless @state is 'asteroidTool'
+    return unless @state is 'asteroidTool'
 
+    # 'done' only if all frames have been marked
+    if [@asteroidMarkedInFrame...] is false
+      @doneButton.prop 'disabled', true
+    else
+      @doneButton.prop 'disabled', false
+
+        
     # show asteroid-visibility only on current frame
     console.log @el.find(".asteroid-visibility-#{frame_idx}") #.show() #unless frame_idx is not @currFrameIdx
     @el.find(".asteroid-visibility-#{frame_idx}").show()
@@ -443,6 +458,9 @@ class Classifier extends BaseController
   # needs to be fixed!!!
   onClickCancel: ->
     if @state is 'asteroidTool'
+
+      @resetMarkingSurfaces
+
       # still need to destroy current asteroid marks
       @resetAsteroidFrameCheckboxes()  
     @setState 'whatKind'  # return to initial state
