@@ -101,7 +101,10 @@ class Classifier extends BaseController
           e.checked = false
 
         @el.find('button[name="to-select"]').addClass 'hidden' 
-        @el.find('.what-kind').show()       
+        @el.find('.what-kind').show()     
+
+        # disable finished-marking button (until sighting is classified)
+        @finishButton.prop 'disabled', true  
 
       exit: ->
         # console.log "STATE: \'whatKind/exit\'"
@@ -153,9 +156,6 @@ class Classifier extends BaseController
     @setState 'whatKind'      # set initial state
     @invert = false
     @currFrameIdx = 0
-
-    # disable finished-marking button (until sighting is classified)
-    @finishButton.prop 'disabled', true
 
     window.classifier = @
 
