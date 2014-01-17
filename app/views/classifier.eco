@@ -156,12 +156,12 @@
             <div class= "<%= "asteroid-frame asteroid-frame-#{frameNum}" %>">
               <label>
                 <form>
-                <input type="checkbox" class="<%= "asteroid-frame-complete-#{frameNum}" %>" 
+                <input type="checkbox" class="<%= "asteroid-checkbox asteroid-frame-complete-#{frameNum}" %>" 
                 <%- #"checked" if artifact is "other" %> disabled />
                 <%- translate 'span', "#{frameNum}" %>
               </label>
               <label>
-                <input type="checkbox" class="<%= "asteroid-not-visible asteroid-not-visible-#{frameNum}" %>" 
+                <input type="checkbox" class="<%= "asteroid-checkbox asteroid-not-visible asteroid-not-visible-#{frameNum}" %>" 
                 <%- #"checked" if artifact is "other" %> />
                 <%- translate 'span', "Not Visible?" %>
               </form>

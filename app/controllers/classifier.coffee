@@ -180,7 +180,7 @@ class Classifier extends BaseController
         else 
           console.log 'marked'
           # new mark
-          @el.find(".asteroid-frame-complete-#{@currFrameIdx+1}").attr 'checked', true
+          @el.find(".asteroid-frame-complete-#{@currFrameIdx+1}").prop 'checked', true
           @asteroidMarkedInFrame[@currFrameIdx] = true
 
       tool.controls.controller.setMark(@currFrameIdx)
@@ -216,15 +216,6 @@ class Classifier extends BaseController
 
     @disableMarkingSurfaces()
 
-  # activate: ->
-  #   # setTimeout @rescale, 100
-
-  classifierClick: =>
-    console.log 'classifier clicked' # STI
-
-  foo: ->
-    console.log 'marking surface clicked!'
-
   #######################################################
   # FINITE STATE MACHINE CONTROLLER
   #######################################################
@@ -242,8 +233,6 @@ class Classifier extends BaseController
       @el.find('a, button, input, textarea, select').filter('section *:visible').first().focus()
 
   onCreateMark:(mark) =>
-    console.log 'Classifier: mark created' # STI
-
     # keep a copy of all marks in here
     if @asteroidMarkedInFrame[ @currFrameIdx ]
       @currAsteroid.popSighting()
@@ -437,7 +426,7 @@ class Classifier extends BaseController
       # reset checkboxes and radio buttons
       @asteroidMarkedInFrame = []
       for i in [1..@numFrames]
-        @el.find(".asteroid-frame-complete-#{i}").attr 'checked', false
+        @el.find(".asteroid-checkbox").prop 'checked', false
 
   onClickNextFrame: ->
     return if @currFrameIdx is 3
