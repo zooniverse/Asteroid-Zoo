@@ -114,7 +114,7 @@ class Classifier extends BaseController
         # console.log "STATE: \'asteroidTool/enter\'"
         @activateFrame 0
         # create new asteroid
-        @currAsteroid = new Sighting
+        @currAsteroid = new Sighting({type:"asteroid"})
         @enableMarkingSurfaces()
         @el.find('.asteroid-classifier').show()
         @finishButton.hide()
@@ -520,7 +520,6 @@ class Classifier extends BaseController
 
     @loadFrames()
     @showFrame(@currFrameIdx) # unless @currFrameIdx is undefined
-
     # bring marking tools back to front for each surface
     for surface in [ @masterMarkingSurface, @markingSurfaceList... ]
       markElements = surface.el.getElementsByClassName('marking-tool-root')
