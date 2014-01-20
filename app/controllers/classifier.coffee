@@ -246,6 +246,7 @@ class Classifier extends BaseController
       @currAsteroid.popSighting()
     @currAsteroid.pushSighting mark
 
+    @updateIconsForCreateMark()
     # locate the surface this frame coresponds to
     setTimeout =>
       for surface in @allSurfaces
@@ -255,6 +256,14 @@ class Classifier extends BaseController
         surface.addTool new theSurface.tool
           surface: surface
           mark: mark
+
+  updateIconsForCreateMark: =>
+    frameNum = @currFrameIdx+1
+    @el.find("#number-#{frameNum}").hide()
+    @el.find("#not-visible-icon-#{frameNum}").hide() # checked = false??
+    @el.find("#marked-icon-#{frameNum}").show()
+    @el.find(".asteroid-visible-#{frameNum}").hide()
+    @el.find("#marked-status-#{frameNum}").html("Marked!")
 
   renderTemplate: =>
     super
@@ -400,7 +409,7 @@ class Classifier extends BaseController
   onClickAsteroidNotVisible: ->
     console.log 'onClickAsteroidNotVisible: '
 
-    @el.find(".asteroid-frame-complete-#{@currFrameIdx+1}").prop 'checked', true
+    @updateIconsForNotVisible()
 
     newMark =
       frame: @currFrameIdx
@@ -409,6 +418,14 @@ class Classifier extends BaseController
       visible: false
       inverted: @invert
     @currAsteroid.pushSighting newMark
+
+  updateIconsForNotVisible: ->
+    frameNum = @currFrameIdx + 1
+    @el.find(".asteroid-frame-complete-#{frameNum}").prop 'checked', true
+    @el.find("#number-#{frameNum}").toggle()
+    @el.find("#not-visible-icon-#{frameNum}").show()
+    @el.find(".asteroid-visible-#{frameNum}").hide()
+    @el.find("#marked-status-#{frameNum}").html("Not Visible")
 
   setAsteroidFrame: (frame_idx) ->
     return unless @state is 'asteroidTool'
