@@ -34,23 +34,6 @@
     margin-left: auto
     margin-right: auto;
 
-  .asteroid-visible
-    display: inline
-    visibility: hidden
-
-  .current-asteroid-frame
-    color: MAIN_AQUA
-    border: 3px solid MAIN_AQUA
-    border-radius: 10px
-    .asteroid-visible
-      visibility: visible
-
-  .asteroid-frame
-    color: #BBBBBB
-
-  .asteroid-frame-complete
-    color: MAIN_AQUA
-
   .marking-surface
     display: inline-block
     outline none
@@ -111,6 +94,24 @@
       &[name='asteroid-done']
         width 30%
 
+    .asteroid-classifier
+      .asteroid-frame
+        color: #BBBBBB
+
+      .asteroid-frame-complete
+        color: MAIN_AQUA
+
+      .asteroid-visible
+        display: inline
+        visibility: hidden
+
+      .current-asteroid-frame
+        color: MAIN_AQUA
+        border: 3px solid MAIN_AQUA
+        border-radius: 10px
+        .asteroid-visible
+          visibility: visible
+
     .classifier-type-menu-item
       height 40px
       vertical-align middle
@@ -128,6 +129,7 @@
             & + svg
               path, circle
                 fill #29afcd
+
     .artifact-classifier
       input
         display none
