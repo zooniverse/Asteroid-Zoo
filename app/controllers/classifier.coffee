@@ -190,8 +190,19 @@ class Classifier extends BaseController
           @el.find(".asteroid-frame-complete-#{@currFrameIdx+1}").prop 'checked', true
           @asteroidMarkedInFrame[@currFrameIdx] = true
 
+        # enable 'done' button only if all frames marked
+        numFramesComplete = 0
+        for status in @asteroidMarkedInFrame
+          console.log status
+          if status is true
+            numFramesComplete++
+
+        if numFramesComplete is 4
+          @doneButton.prop 'disabled', false
+
         # DEBUG CODE
         # console.log @asteroidMarkedInFrame
+
 
       tool.controls.controller.setMark(@currFrameIdx)
         
