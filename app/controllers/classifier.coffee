@@ -400,7 +400,10 @@ class Classifier extends BaseController
   onClickAsteroidNotVisible: ->
     console.log 'onClickAsteroidNotVisible: '
 
-    @el.find(".asteroid-frame-complete-#{@currFrameIdx+1}").prop 'checked', true
+    frameNum = @currFrameIdx + 1
+    @el.find(".asteroid-frame-complete-#{frameNum}").prop 'checked', true
+    @el.find("#number-#{frameNum}").toggle()
+    @el.find("#not-visible-icon-#{frameNum}").toggle()
 
     newMark =
       frame: @currFrameIdx

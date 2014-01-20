@@ -248,8 +248,25 @@
                   <input type="checkbox" class="<%= "asteroid-checkbox asteroid-frame-complete-#{frameNum}" %>"
                   <%# "checked" if artifact is "other" %> disabled />
 
+                  <svg version="1.1" id="marked-icon" style="display: none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                     viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+                  <path style="fill:#3ABED2;" d="M11.978-0.01c-6.612,0-11.991,5.379-11.991,11.991s5.379,11.991,11.991,11.991
+                    c6.612,0,11.991-5.379,11.991-11.991S18.59-0.01,11.978-0.01z M11.881,14.785l-1.466,1.466l-1.466-1.466l-2.401-2.401l1.466-1.466
+                    l2.401,2.401l5.571-5.571l1.466,1.466L11.881,14.785z"/>
+                  </svg>
+
+                  <svg version="1.1" id="<%= "not-visible-icon-#{frameNum}" %>" style="display: none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                     viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+                  <g>
+                    <path style="fill:#3ABED2;" d="M11.978-0.01c-6.612,0-11.991,5.379-11.991,11.991s5.379,11.991,11.991,11.991
+                      c6.612,0,11.991-5.379,11.991-11.991S18.59-0.01,11.978-0.01z"/>
+                  </g>
+                  <polygon style="fill:#FFFFFF;" points="16.252,9.214 14.785,7.748 12,10.534 9.214,7.748 7.748,9.214 10.534,12 7.748,14.785 
+                    9.214,16.252 12,13.466 14.785,16.252 16.252,14.785 13.466,12 "/>
+                  </svg>
+
                   <% if frameNum is 1: %>
-                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    <svg version="1.1" id="number-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                        viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                     <g fill="#CBCBCB">
                       <path d="M11.978-0.01c-6.612,0-11.991,5.379-11.991,11.991s5.379,11.991,11.991,11.991
@@ -260,7 +277,7 @@
                     </g>
                     </svg>
                   <% else if frameNum is 2: %>
-                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    <svg version="1.1" id="number-2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                        viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                     <g fill="#CBCBCB">
                       <path d="M11.978-0.01c-6.612,0-11.991,5.379-11.991,11.991s5.379,11.991,11.991,11.991
@@ -275,7 +292,7 @@
                     </g>
                     </svg>
                   <% else if frameNum is 3: %>
-                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    <svg version="1.1" id="number-3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                        viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                     <g fill="#CBCBCB">
                       <path d="M11.978-0.01c-6.612,0-11.991,5.379-11.991,11.991s5.379,11.991,11.991,11.991
@@ -291,7 +308,7 @@
                     </g>
                     </svg>
                   <% else if frameNum is 4: %>
-                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    <svg version="1.1" id="number-4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                        viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                     <g fill="#CBCBCB">
                       <path d="M11.978-0.01c-6.612,0-11.991,5.379-11.991,11.991s5.379,11.991,11.991,11.991
@@ -307,8 +324,9 @@
                 </label>
                 <label>
                   <div class="asteroid-visible">
-                    <input type="checkbox" class="<%= "asteroid-checkbox asteroid-not-visible asteroid-not-visible-#{frameNum}" %>" 
+                    <input type="checkbox" name="visible" class="<%= "asteroid-checkbox asteroid-not-visible asteroid-not-visible-#{frameNum}" %>" 
                     />
+
                     <%- translate 'span', "Not Visible?" %>
                   </div>
                 </label>
