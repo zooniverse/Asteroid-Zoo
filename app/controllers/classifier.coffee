@@ -74,22 +74,24 @@ class Classifier extends BaseController
       @tool.deselect()
 
   elements:
-    '.subject'                      : 'subjectContainer'
-    '.flicker'                      : 'flickerContainer'
-    '.four-up'                      : 'fourUpContainer'
-    '.frame-image'                  : 'imageFrames'   # not being used (yet?)
-    '.current-frame input'          : 'frameRadioButtons'
-    'input[name="current-frame"]'   : 'currentFrameRadioButton'
-    'button[name="play-frames"]'    : 'playButton'
-    'button[name="invert"]'         : 'invertButton'
-    'button[name="flicker"]'        : 'flickerButton'
-    'button[name="four-up"]'        : 'fourUpButton'
-    'button[name="finish-marking"]' : 'finishButton'
+    '.subject'                       : 'subjectContainer'
+    '.flicker'                       : 'flickerContainer'
+    '.four-up'                       : 'fourUpContainer'
+    '.frame-image'                   : 'imageFrames'   # not being used (yet?)
+    '.current-frame input'           : 'frameRadioButtons'
+    'input[name="current-frame"]'    : 'currentFrameRadioButton'
+    'button[name="play-frames"]'     : 'playButton'
+    'button[name="invert"]'          : 'invertButton'
+    'button[name="flicker"]'         : 'flickerButton'
+    'button[name="four-up"]'         : 'fourUpButton'
+    'button[name="finish-marking"]'  : 'finishButton'
     'button[name="asteroid-done"]'   : 'doneButton'
-    'button[name="next-frame"]'     : 'nextFrame'
-    'button[name="cancel"]'         : 'cancel'
+    'button[name="next-frame"]'      : 'nextFrame'
+    'button[name="cancel"]'          : 'cancel'
     'input[name="selected-artifact"]': 'selectedArtifactRadios'  
-    'input[name="classifier-type"]' : 'classifierTypeRadios'
+    'input[name="classifier-type"]'  : 'classifierTypeRadios'
+    '.asteroid-not-visible'          : 'asteroidVisibilityCheckboxes'
+    '.asteroid-frame-complete'       : 'asteroidCompleteCheckboxes'
 
   states:
     whatKind:
@@ -181,14 +183,15 @@ class Classifier extends BaseController
         if @asteroidMarkedInFrame[@currFrameIdx]
           console.log 'frame already marked!'
           # undo last mark
-          @masterMarkingSurface.marks[@masterMarkingSurface.marks.length-1].destroy()
+          @masterMarkingSurface.marks.pop().destroy()
         else 
           console.log 'marked'
           # new mark
           @el.find(".asteroid-frame-complete-#{@currFrameIdx+1}").prop 'checked', true
           @asteroidMarkedInFrame[@currFrameIdx] = true
 
-        console.log @asteroidMarkedInFrame
+        # DEBUG CODE
+        # console.log @asteroidMarkedInFrame
 
       tool.controls.controller.setMark(@currFrameIdx)
         
@@ -396,19 +399,50 @@ class Classifier extends BaseController
   #######################################
   # ASTEROID TRACKING METHODS
   #######################################
+  destroyMarksInFrame: (frame_idx) ->
+    console.log "Destroy marks in frame: ", frame_idx
+    for surface in @allSurfaces
+      for foomark in surface.marks
+        if foomark.frame is frame_idx
+          foomark.destroy()
+        
 
   onClickAsteroidNotVisible: ->
+    console.log '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'
     console.log 'onClickAsteroidNotVisible: '
+    console.log 'completeChecked: ', @asteroidCompleteCheckboxes[@currFrameIdx].checked
+    console.log 'visibleChecked: ', @asteroidVisibilityCheckboxes[@currFrameIdx].checked
 
-    @el.find(".asteroid-frame-complete-#{@currFrameIdx+1}").prop 'checked', true
+    # get checkbox states
+    completeChecked   = @asteroidCompleteCheckboxes[@currFrameIdx].checked
+    visibilityChecked = @asteroidVisibilityCheckboxes[@currFrameIdx].checked
 
-    newMark =
+
+    if @asteroidMarkedInFrame[@currFrameIdx]
+      @currAsteroid.clearSightingsInFrame @currFrameIdx
+      @destroyMarksInFrame @currFrameIdx
+
+    # this needs work!
+    # handle checkmark behavior
+    if @asteroidMarkedInFrame[@currFrameIdx] and visibilityChecked
+      console.log 'case 1'
+      @asteroidVisibilityCheckboxes[@currFrameIdx].checked = true
+      @asteroidCompleteCheckboxes[@currFrameIdx].checked = true
+    else if @asteroidMarkedInFrame[@currFrameIdx] and not visibilityChecked
+      console.log 'case 2'
+      @currAsteroid.clearSightingsInFrame @currFrameIdx
+      @asteroidVisibilityCheckboxes[@currFrameIdx].checked = false
+      @asteroidCompleteCheckboxes[@currFrameIdx].checked = false
+      @currAsteroid.clearSightingsInFrame @currFrameIdx
+      @destroyMarksInFrame @currFrameIdx
+
+    newAnnotation =
       frame: @currFrameIdx
       x: null
       y: null
       visible: false
       inverted: @invert
-    @currAsteroid.pushSighting newMark
+    @currAsteroid.pushSighting newAnnotation
 
   setAsteroidFrame: (frame_idx) ->
     return unless @state is 'asteroidTool'

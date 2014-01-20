@@ -8,9 +8,6 @@ class Sighting
     @id = Sighting.nextId()
     @allSightings = []
 
-  addSightings: (sightings) ->
-    @allSightings = sightings
-
   pushSighting: (newSighting) ->
     console.log 'sighting pushed'
     newSighting.timeStamp = new Date()
@@ -23,10 +20,11 @@ class Sighting
   getSightingCount: ->
     return @allSightings.length
 
-  # addSighting: (sighting) ->
-  #   console.log 'inside Sighting::addSighting()'
-  #   @allSightings.push sighting
-  #   console.log @allSightings
+  clearSightingsInFrame: (frame_num) ->
+    for sighting, i in @allSightings
+      if sighting.frame is frame_num
+        console.log 'remove: ', sighting
+        @allSightings.splice i, 1
 
   displaySummary: ->
     console.log '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-' 

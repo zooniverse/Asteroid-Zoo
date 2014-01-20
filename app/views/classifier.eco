@@ -199,24 +199,24 @@
           <!-- ASTEROID TRACKING -->
           <h3><%- translate 'div', 'asteroids.heading' %></h3>
 
+          <form>
           <% for frameNum in [1..4]: %>
             <div class= "<%= "asteroid-frame asteroid-frame-#{frameNum}" %>">
               <label>
-                <form>
-                <input type="checkbox" class="<%= "asteroid-checkbox asteroid-frame-complete-#{frameNum}" %>" 
-                <%- #"checked" if artifact is "other" %> disabled />
-                <%- translate 'span', "#{frameNum}" %>
+                  <input type="checkbox" class="<%= "asteroid-frame-complete asteroid-frame-complete-#{frameNum}" %>" 
+                  <%- #"checked" if artifact is "other" %> disabled />
+                  <%- translate 'span', "#{frameNum}" %>
               </label>
               <label>
                 <div class="asteroid-visible">
-                  <input type="checkbox" class="<%= "asteroid-checkbox asteroid-not-visible asteroid-not-visible-#{frameNum}" %>" 
-                  />
-                  <%- translate 'span', "Not Visible?" %>
+                    <input type="checkbox" class="<%= "asteroid-not-visible asteroid-not-visible asteroid-not-visible-#{frameNum}" %>" 
+                    />
+                    <%- translate 'span', "Not Visible?" %>
                 </div>
-              </form>
               </label>
             </div>
           <% end %>
+          </form>
 
           <div class="button">
             <%- translate 'button', 'Next Frame', name: 'next-frame' %>
