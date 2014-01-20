@@ -91,7 +91,7 @@ class Classifier extends BaseController
     'input[name="selected-artifact"]': 'selectedArtifactRadios'  
     'input[name="classifier-type"]'  : 'classifierTypeRadios'
     '.asteroid-not-visible'          : 'asteroidVisibilityCheckboxes'
-    '.asteroid-frame-complete'       : 'asteroidCompleteCheckboxes'
+    '.asteroid-checkbox'             : 'asteroidCompleteCheckboxes'
 
   states:
     whatKind:
@@ -183,7 +183,8 @@ class Classifier extends BaseController
         if @asteroidMarkedInFrame[@currFrameIdx]
           console.log 'frame already marked!'
           # undo last mark
-          @masterMarkingSurface.marks.pop().destroy()
+          # @masterMarkingSurface.marks.pop().destroy()
+          @destroyMarksInFrame @currFrameIdx
         else 
           console.log 'marked'
           # new mark
@@ -200,6 +201,12 @@ class Classifier extends BaseController
         if numFramesComplete is 4
           @doneButton.prop 'disabled', false
       tool.controls.controller.setMark(@currFrameIdx)
+
+    @masterMarkingSurface.on 'destroy-mark', (tool) =>
+      console.log "MARK DESTROYED"
+      @resetAsteroidCompleteCheckboxes()
+      @resetAsteroidVisibilityCheckboxes()
+
         
     #create 4-up view surfaces
     @numFrames = 4
@@ -425,17 +432,18 @@ class Classifier extends BaseController
   onClickAsteroidNotVisible: ->
     console.log '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'
     console.log 'onClickAsteroidNotVisible: '
+
     # console.log 'completeChecked: ', @asteroidCompleteCheckboxes[@currFrameIdx].checked
     # console.log 'visibleChecked: ', @asteroidVisibilityCheckboxes[@currFrameIdx].checked
 
-    # # get checkbox states
-    # completeChecked   = @asteroidCompleteCheckboxes[@currFrameIdx].checked
-    # visibilityChecked = @asteroidVisibilityCheckboxes[@currFrameIdx].checked
+    # get checkbox states
+    completeChecked   = @asteroidCompleteCheckboxes[@currFrameIdx].checked
+    visibilityChecked = @asteroidVisibilityCheckboxes[@currFrameIdx].checked
 
 
-    # if @asteroidMarkedInFrame[@currFrameIdx]
-    #   @currAsteroid.clearSightingsInFrame @currFrameIdx
-    #   @destroyMarksInFrame @currFrameIdx
+    if @asteroidMarkedInFrame[@currFrameIdx]
+      @currAsteroid.clearSightingsInFrame @currFrameIdx
+      @destroyMarksInFrame @currFrameIdx
 
     # # this needs work!
     # # handle checkmark behavior
@@ -463,10 +471,11 @@ class Classifier extends BaseController
 
   updateIconsForNotVisible: ->
     frameNum = @currFrameIdx + 1
+    @asteroidMarkedInFrame[@currFrameIdx] = true # frame done ("Marked" is a bit misleading here. Fix later!)
     @el.find(".asteroid-frame-complete-#{frameNum}").prop 'checked', true
     @el.find("#number-#{frameNum}").toggle()
     @el.find("#not-visible-icon-#{frameNum}").show()
-    @el.find(".asteroid-visible-#{frameNum}").hide()
+    # @el.find(".asteroid-visible-#{frameNum}").hide()
     @el.find("#marked-status-#{frameNum}").html("Not Visible")
 
   setAsteroidFrame: (frame_idx) ->
@@ -493,14 +502,25 @@ class Classifier extends BaseController
       @setOfSightings.push @currAsteroid
     
     # reset
-    @resetAsteroidFrameCheckboxes()
+    @resetAsteroidCompleteCheckboxes()
+    @resetAsteroidVisibilityCheckboxes()
     @setState 'whatKind'
     
-  resetAsteroidFrameCheckboxes: ->
-      # reset checkboxes and radio buttons
+  resetAsteroidCompleteCheckboxes: ->
       @asteroidMarkedInFrame = []
       for i in [1..@numFrames]
         @el.find(".asteroid-checkbox").prop 'checked', false
+        @el.find("#marked-icon-#{i}").hide()
+        @el.find(".asteroid-checkbox").show()
+
+  resetAsteroidVisibilityCheckboxes: ->
+      for i in [1..@numFrames]
+        @el.find(".asteroid-not-visible").prop 'checked', false
+        @el.find(".asteroid-not-visible").show()
+        @el.find("#marked-status-#{i}").html("Not Visible?")
+        @el.find("#not-visible-icon-#{i}").hide()
+        @el.find("#number-#{i}").show()
+
 
   onClickNextFrame: ->
     return if @currFrameIdx is 3
@@ -514,7 +534,7 @@ class Classifier extends BaseController
       @resetMarkingSurfaces
 
       # still need to destroy current asteroid marks
-      @resetAsteroidFrameCheckboxes()  
+      @resetAsteroidCompleteCheckboxes()  
     @setState 'whatKind'  # return to initial state
 
   onClickPlay: ->
