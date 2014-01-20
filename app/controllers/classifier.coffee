@@ -191,19 +191,14 @@ class Classifier extends BaseController
           @asteroidMarkedInFrame[@currFrameIdx] = true
 
         # enable 'done' button only if all frames marked
+        # this could probably be cleaned up
         numFramesComplete = 0
         for status in @asteroidMarkedInFrame
           console.log status
           if status is true
             numFramesComplete++
-
         if numFramesComplete is 4
           @doneButton.prop 'disabled', false
-
-        # DEBUG CODE
-        # console.log @asteroidMarkedInFrame
-
-
       tool.controls.controller.setMark(@currFrameIdx)
         
     #create 4-up view surfaces
