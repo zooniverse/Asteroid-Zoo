@@ -95,6 +95,9 @@
         width 30%
 
     .asteroid-classifier
+      svg
+        width 18px
+        height 18px
       .asteroid-frame
         color: #BBBBBB
 
@@ -106,6 +109,9 @@
         visibility: hidden
 
       .current-asteroid-frame
+        svg
+          g
+            fill MAIN_AQUA
         color: MAIN_AQUA
         border: 3px solid MAIN_AQUA
         border-radius: 10px
@@ -127,7 +133,7 @@
           display none
           &:checked
             & + svg
-              path, circle
+              g
                 fill #29afcd
 
     .artifact-classifier
@@ -136,7 +142,7 @@
         &[name='selected-artifact']
           &:checked
             & + svg
-              path, circle
+              g
                 fill #29afcd
 
   .bottom-row
