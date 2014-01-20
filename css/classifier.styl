@@ -34,23 +34,6 @@
     margin-left: auto
     margin-right: auto;
 
-  .asteroid-visible
-    display: inline
-    visibility: hidden
-
-  .current-asteroid-frame
-    color: MAIN_AQUA
-    border: 3px solid MAIN_AQUA
-    border-radius: 10px
-    .asteroid-visible
-      visibility: visible
-
-  .asteroid-frame
-    color: #BBBBBB
-
-  .asteroid-frame-complete
-    color: MAIN_AQUA
-
   .marking-surface
     display: inline-block
     outline none
@@ -111,6 +94,30 @@
       &[name='asteroid-done']
         width 30%
 
+    .asteroid-classifier
+      svg
+        width 18px
+        height 18px
+      input
+        display none  // remove to view raw checkboxes
+      .asteroid-frame
+        color: MAIN_AQUA
+
+      .asteroid-visible
+        display: inline
+        visibility: hidden
+        text-decoration underline
+        cursor pointer
+
+      .current-asteroid-frame
+        svg
+          g
+            fill MAIN_AQUA
+        color: MAIN_AQUA
+        zoom 120%
+        .asteroid-visible
+          visibility: visible
+
     .classifier-type-menu-item
       height 40px
       vertical-align middle
@@ -126,7 +133,16 @@
           display none
           &:checked
             & + svg
-              path, circle
+              g
+                fill #29afcd
+
+    .artifact-classifier
+      input
+        display none
+        &[name='selected-artifact']
+          &:checked
+            & + svg
+              g
                 fill #29afcd
 
   .bottom-row

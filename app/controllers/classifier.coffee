@@ -260,6 +260,7 @@ class Classifier extends BaseController
       @currAsteroid.popSighting()
     @currAsteroid.pushSighting mark
 
+    @updateIconsForCreateMark()
     # locate the surface this frame coresponds to
     setTimeout =>
       for surface in @allSurfaces
@@ -269,6 +270,14 @@ class Classifier extends BaseController
         surface.addTool new theSurface.tool
           surface: surface
           mark: mark
+
+  updateIconsForCreateMark: =>
+    frameNum = @currFrameIdx+1
+    @el.find("#number-#{frameNum}").hide()
+    @el.find("#not-visible-icon-#{frameNum}").hide() # checked = false??
+    @el.find("#marked-icon-#{frameNum}").show()
+    @el.find(".asteroid-visible-#{frameNum}").hide()
+    @el.find("#marked-status-#{frameNum}").html("Marked!")
 
   renderTemplate: =>
     super
@@ -421,31 +430,33 @@ class Classifier extends BaseController
   onClickAsteroidNotVisible: ->
     console.log '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'
     console.log 'onClickAsteroidNotVisible: '
-    console.log 'completeChecked: ', @asteroidCompleteCheckboxes[@currFrameIdx].checked
-    console.log 'visibleChecked: ', @asteroidVisibilityCheckboxes[@currFrameIdx].checked
+    # console.log 'completeChecked: ', @asteroidCompleteCheckboxes[@currFrameIdx].checked
+    # console.log 'visibleChecked: ', @asteroidVisibilityCheckboxes[@currFrameIdx].checked
 
-    # get checkbox states
-    completeChecked   = @asteroidCompleteCheckboxes[@currFrameIdx].checked
-    visibilityChecked = @asteroidVisibilityCheckboxes[@currFrameIdx].checked
+    # # get checkbox states
+    # completeChecked   = @asteroidCompleteCheckboxes[@currFrameIdx].checked
+    # visibilityChecked = @asteroidVisibilityCheckboxes[@currFrameIdx].checked
 
 
-    if @asteroidMarkedInFrame[@currFrameIdx]
-      @currAsteroid.clearSightingsInFrame @currFrameIdx
-      @destroyMarksInFrame @currFrameIdx
+    # if @asteroidMarkedInFrame[@currFrameIdx]
+    #   @currAsteroid.clearSightingsInFrame @currFrameIdx
+    #   @destroyMarksInFrame @currFrameIdx
 
-    # this needs work!
-    # handle checkmark behavior
-    if @asteroidMarkedInFrame[@currFrameIdx] and visibilityChecked
-      console.log 'case 1'
-      @asteroidVisibilityCheckboxes[@currFrameIdx].checked = true
-      @asteroidCompleteCheckboxes[@currFrameIdx].checked = true
-    else if @asteroidMarkedInFrame[@currFrameIdx] and not visibilityChecked
-      console.log 'case 2'
-      @currAsteroid.clearSightingsInFrame @currFrameIdx
-      @asteroidVisibilityCheckboxes[@currFrameIdx].checked = false
-      @asteroidCompleteCheckboxes[@currFrameIdx].checked = false
-      @currAsteroid.clearSightingsInFrame @currFrameIdx
-      @destroyMarksInFrame @currFrameIdx
+    # # this needs work!
+    # # handle checkmark behavior
+    # if @asteroidMarkedInFrame[@currFrameIdx] and visibilityChecked
+    #   console.log 'case 1'
+    #   @asteroidVisibilityCheckboxes[@currFrameIdx].checked = true
+    #   @asteroidCompleteCheckboxes[@currFrameIdx].checked = true
+    # else if @asteroidMarkedInFrame[@currFrameIdx] and not visibilityChecked
+    #   console.log 'case 2'
+    #   @currAsteroid.clearSightingsInFrame @currFrameIdx
+    #   @asteroidVisibilityCheckboxes[@currFrameIdx].checked = false
+    #   @asteroidCompleteCheckboxes[@currFrameIdx].checked = false
+    #   @currAsteroid.clearSightingsInFrame @currFrameIdx
+    #   @destroyMarksInFrame @currFrameIdx
+
+    @updateIconsForNotVisible()
 
     newAnnotation =
       frame: @currFrameIdx
@@ -454,6 +465,14 @@ class Classifier extends BaseController
       visible: false
       inverted: @invert
     @currAsteroid.pushSighting newAnnotation
+
+  updateIconsForNotVisible: ->
+    frameNum = @currFrameIdx + 1
+    @el.find(".asteroid-frame-complete-#{frameNum}").prop 'checked', true
+    @el.find("#number-#{frameNum}").toggle()
+    @el.find("#not-visible-icon-#{frameNum}").show()
+    @el.find(".asteroid-visible-#{frameNum}").hide()
+    @el.find("#marked-status-#{frameNum}").html("Not Visible")
 
   setAsteroidFrame: (frame_idx) ->
     return unless @state is 'asteroidTool'
