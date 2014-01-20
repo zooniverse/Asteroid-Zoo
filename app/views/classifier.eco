@@ -176,11 +176,53 @@
         <section>
           <!-- WHAT TYPE OF ARTIFACT IS THIS? -->
           <h3><%- translate 'div', 'artifacts.heading' %></h3>
-          <%-# TODO this needs to be some kind of dynamic lookup %>
+          <%# TODO this needs to be some kind of dynamic lookup %>
           <% for artifact in ['starbleed', 'hotpixel', 'other']: %>
             <div class="artifact-menu-item">
               <label class="as-radio-button">
                 <input type="radio" name="selected-artifact" value="<%- artifact %>" <%- #"checked" if artifact is "other" %> />
+
+                <% if artifact is 'hotpixel': %>
+                  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                     width="20px" height="20px" viewBox="0 0 20 20" style="enable-background:new 0 0 20 20;" xml:space="preserve">
+                  <g fill="#CBCBCB">
+                    <path d="M9.876-0.005c-5.514,0-10,4.486-10,10s4.486,10,10,10s10-4.486,10-10S15.39-0.005,9.876-0.005z
+                       M10.874,2.13v2.866h-2V2.15C9.38,2.05,9.34,1.995,9.876,1.995C10.367,1.995,10.408,2.046,10.874,2.13z M8.874,10.965v-2h2v2H8.874z
+                       M10.874,11.965v2h-2v-2H10.874z M8.874,7.996V5.965h2v2.031H8.874z M1.876,9.995c0-3.52,2.839-6.503,5.998-7.572v1.637v1v3v1v3v1v3
+                      v1v0.508C4.715,16.497,1.876,13.515,1.876,9.995z M8.874,17.84v-2.874h2v2.894c-0.467,0.085-0.507,0.136-0.998,0.136
+                      C9.34,17.995,9.38,17.94,8.874,17.84z M11.874,17.614v-0.555v-1v-3v-1v-3v-1v-3v-1V2.375c3.227,1.031,6.002,3.385,6.002,7.62
+                      C17.876,13.563,15.101,16.584,11.874,17.614z"/>
+                  </g>
+                  </svg>
+                <% else if artifact is 'starbleed': %>
+                  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                     width="20px" height="20px" viewBox="0 0 20 20" style="enable-background:new 0 0 20 20;" xml:space="preserve">
+                    <g fill="#CBCBCB">
+                      <path d="M19.99,10c0-5.517-4.481-10.005-9.99-10.005S0.01,4.483,0.01,10c0,5.517,4.481,10.005,9.99,10.005
+                        S19.99,15.517,19.99,10z M11.989,17.83v-1.701c0-1.077,0.288-4.122,3.594-4.122h2.35C17.342,15.079,14.987,17.056,11.989,17.83z
+                         M17.939,7.972h-2.356c-3.306,0-3.562-3.047-3.562-4.144V2.17C15.032,2.947,17.362,4.881,17.939,7.972z M7.979,2.17v1.753
+                        c0,2.611-1.862,4.049-4.331,4.049H2.061C2.638,4.881,4.968,2.947,7.979,2.17z M1.941,8.984h1.707c2.995,0,5.341-1.926,5.341-5.061
+                        V1.974c0.332-0.041,0.668-0.07,1.01-0.07c0.343,0,0.679,0.028,1.01,0.07v1.854c0,3.508,1.752,5.156,4.573,5.156h2.475
+                        c0.01,0.161,0.024,0.852,0.024,1.016c0,0.178-0.015,0.821-0.027,0.996h-2.473c-2.821,0-4.604,1.678-4.604,5.134v1.896
+                        c-0.332,0.042-0.636,0.07-0.979,0.07c-0.343,0-0.647-0.028-0.979-0.07V16.12c0-3.136-2.378-5.124-5.373-5.124H1.944
+                        C1.932,10.821,1.917,10.178,1.917,10C1.917,9.836,1.932,9.145,1.941,8.984z M2.067,12.008h1.581c2.469,0,4.362,1.501,4.362,4.112
+                        v1.711C5.013,17.056,2.658,15.079,2.067,12.008z"/>
+                    </g>
+                  </svg>
+                <% else if artifact is 'other': %>
+                  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                     width="20px" height="20px" viewBox="0 0 20 20" style="enable-background:new 0 0 20 20;" xml:space="preserve">
+                  <g fill="#CBCBCB">
+                    <path d="M10,0.01c-5.508,0-9.99,4.481-9.99,9.99s4.481,9.99,9.99,9.99c5.508,0,9.99-4.481,9.99-9.99
+                      S15.508,0.01,10,0.01z M10,18.083c-4.464,0-8.083-3.619-8.083-8.083c0-4.464,3.619-8.083,8.083-8.083
+                      c4.464,0,8.083,3.619,8.083,8.083C18.083,14.464,14.464,18.083,10,18.083z"/>
+                    <circle cx="10.061" cy="10.058" r="1.258"/>
+                    <circle cx="6.061" cy="10.058" r="1.258"/>
+                    <circle cx="14.061" cy="10.058" r="1.258"/>
+                  </g>
+                  </svg>
+                <% end %>
+
                 <%- translate 'span', "artifacts.#{artifact}.label" %>
               </label>
             </div>
