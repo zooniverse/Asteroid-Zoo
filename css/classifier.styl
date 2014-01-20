@@ -98,27 +98,25 @@
       svg
         width 18px
         height 18px
+      input
+        display none  // remove to view raw checkboxes
       .asteroid-frame
-        color: #BBBBBB
-
-      .asteroid-frame-complete
         color: MAIN_AQUA
 
       .asteroid-visible
         display: inline
         visibility: hidden
+        text-decoration underline
+        cursor pointer
 
       .current-asteroid-frame
         svg
           g
             fill MAIN_AQUA
         color: MAIN_AQUA
-        border: 3px solid MAIN_AQUA
-        border-radius: 10px
+        zoom 120%
         .asteroid-visible
           visibility: visible
-          // input
-          //   display none
 
     .classifier-type-menu-item
       height 40px
