@@ -186,7 +186,7 @@ class Classifier extends BaseController
           console.log 'frame already marked!'
           # undo last mark
           # @masterMarkingSurface.marks.pop().destroy()
-          @destroyMarksInFrame @currFrameIdx
+          @destroyMarksInFrame @currFrameIdx, @currAsteroid.id
         else 
           console.log 'frame was empty'
           # new mark
@@ -202,7 +202,7 @@ class Classifier extends BaseController
             numFramesComplete++
         if numFramesComplete is 4
           @doneButton.prop 'disabled', false
-      tool.controls.controller.setMark(@currFrameIdx)
+      tool.controls.controller.setMark(@currFrameIdx, @currAsteroid.id)
 
     #create 4-up view surfaces
     @numFrames = 4
@@ -213,7 +213,7 @@ class Classifier extends BaseController
       @markingSurfaceList[i].svgRoot.attr 'id', "classifier-svg-root-#{i}"
       @fourUpContainer.append @markingSurfaceList[i].el
       @markingSurfaceList[i].on 'create-tool', (tool) =>
-        tool.controls.controller.setMark(@currFrameIdx)
+        tool.controls.controller.setMark(@currFrameIdx, @currAsteroid.id)
 
     @allSurfaces = [@masterMarkingSurface, @markingSurfaceList...]
 
@@ -420,15 +420,16 @@ class Classifier extends BaseController
   #######################################
   # ASTEROID TRACKING METHODS
   #######################################
-  destroyMarksInFrame: (frame_idx, asteroid_num) ->
+  destroyMarksInFrame: (frame_idx, curr_ast_id) ->
     # debugger
     console.log "Destroy marks in frame: ", frame_idx
     for surface in @allSurfaces
       for theMark in surface.marks
         # console.log 'current frame: ', frame_idx
         # console.log theMark.frame
-        if theMark?.frame is frame_idx and @currAsteroid.id is asteroid_num
+        if theMark?.frame is frame_idx and theMark?.asteroid_id is @currAsteroid.id
           theMark?.destroy()
+
 
   onClickAsteroidNotVisible: ->
     console.log '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'
@@ -444,7 +445,7 @@ class Classifier extends BaseController
 
     if @asteroidMarkedInFrame[@currFrameIdx]
       @currAsteroid.clearSightingsInFrame @currFrameIdx
-      @destroyMarksInFrame @currFrameIdx
+      @destroyMarksInFrame @currFrameIdx, @currAsteroid.id
 
     # # this needs work!
     # # handle checkmark behavior

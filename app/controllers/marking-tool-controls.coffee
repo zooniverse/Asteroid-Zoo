@@ -57,7 +57,7 @@ class MarkingToolControlsController extends BaseController
         when KEYS.return then @el.find('footer button.default:visible').first().click()
         when KEYS.esc then @el.find('footer button.cancel:visible').first().click()
 
-  setMark: (frameIdx) =>
+  setMark: (frameIdx, asteroid_id) =>
     # console.log 'MarkingToolControlsController: setMark()' # STI
 
     # debugger
@@ -73,6 +73,7 @@ class MarkingToolControlsController extends BaseController
 
     #TODO frameIdx not reliably being set anymore
     @tool.mark.frame = frameIdx
+    @tool.mark.asteroid_id = asteroid_id
 
     #TODO make integral hack which doesn't even work , GH issue on integral values GH#2
    
