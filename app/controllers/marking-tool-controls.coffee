@@ -58,7 +58,7 @@ class MarkingToolControlsController extends BaseController
         when KEYS.esc then @el.find('footer button.cancel:visible').first().click()
 
   setMark: (frameIdx) =>
-    console.log 'MarkingToolControlsController: setMark()' # STI
+    # console.log 'MarkingToolControlsController: setMark()' # STI
 
     # debugger
 

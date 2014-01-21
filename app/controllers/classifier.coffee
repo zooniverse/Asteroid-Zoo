@@ -38,6 +38,7 @@ class Classifier extends BaseController
   template: require '../views/classifier'
   currFrameIdx = 0 # keeps track of current (zero-indexed) frame
 
+
   events:
     'click button[name="play-frames"]'    : 'onClickPlay'
     'click button[name="invert"]'         : 'onClickInvert'
@@ -178,6 +179,7 @@ class Classifier extends BaseController
     this.masterMarkingSurface.el.id = "surface-master"
     @flickerContainer.append @masterMarkingSurface.el
     @masterMarkingSurface.on 'create-tool', (tool) =>
+      console.log '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'
       if @state is 'asteroidTool'
         # enforce one mark per frame
         if @asteroidMarkedInFrame[@currFrameIdx]
@@ -186,7 +188,7 @@ class Classifier extends BaseController
           # @masterMarkingSurface.marks.pop().destroy()
           @destroyMarksInFrame @currFrameIdx
         else 
-          console.log 'marked'
+          console.log 'frame was empty'
           # new mark
           @el.find(".asteroid-frame-complete-#{@currFrameIdx+1}").prop 'checked', true
           @asteroidMarkedInFrame[@currFrameIdx] = true
@@ -195,7 +197,7 @@ class Classifier extends BaseController
         # this could probably be cleaned up
         numFramesComplete = 0
         for status in @asteroidMarkedInFrame
-          console.log status
+          # console.log status
           if status is true
             numFramesComplete++
         if numFramesComplete is 4
@@ -250,6 +252,7 @@ class Classifier extends BaseController
       @el.find('a, button, input, textarea, select').filter('section *:visible').first().focus()
 
   onCreateMark:(mark) =>
+    console.log 'mark created'
     # keep a copy of all marks in here
     @finishButton.prop 'disabled', false
     if @asteroidMarkedInFrame[ @currFrameIdx ]
@@ -257,15 +260,17 @@ class Classifier extends BaseController
     @currAsteroid.pushSighting mark
 
     @updateIconsForCreateMark()
-    # locate the surface this frame coresponds to
-    setTimeout =>
-      for surface in @allSurfaces
-        theSurface = surface if mark in surface.marks
 
-      for surface in @allSurfaces when surface isnt theSurface
-        surface.addTool new theSurface.tool
-          surface: surface
-          mark: mark
+    # this was for 4-up (commented for now)
+    # locate the surface this frame coresponds to
+    # setTimeout =>
+    #   for surface in @allSurfaces
+    #     theSurface = surface if mark in surface.marks
+
+    #   for surface in @allSurfaces when surface isnt theSurface
+    #     surface.addTool new theSurface.tool
+    #       surface: surface
+    #       mark: mark
 
   updateIconsForCreateMark: =>
     frameNum = @currFrameIdx+1
@@ -415,12 +420,15 @@ class Classifier extends BaseController
   #######################################
   # ASTEROID TRACKING METHODS
   #######################################
-  destroyMarksInFrame: (frame_idx) ->
+  destroyMarksInFrame: (frame_idx, asteroid_num) ->
+    # debugger
     console.log "Destroy marks in frame: ", frame_idx
     for surface in @allSurfaces
-      for foomark in surface.marks
-        if foomark.frame is frame_idx
-          foomark.destroy()
+      for theMark in surface.marks
+        # console.log 'current frame: ', frame_idx
+        # console.log theMark.frame
+        if theMark?.frame is frame_idx and @currAsteroid.id is asteroid_num
+          theMark?.destroy()
 
   onClickAsteroidNotVisible: ->
     console.log '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'
@@ -493,6 +501,8 @@ class Classifier extends BaseController
       @currAsteroid = null  # destroy asteroid
     else
       @setOfSightings.push @currAsteroid
+    
+    @asteroid_num++
     
     # reset
     @resetAsteroidCompleteCheckboxes()
