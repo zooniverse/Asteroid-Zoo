@@ -50,7 +50,7 @@ class Classifier extends BaseController
     'change input[name="current-frame"]'  : 'onChangeFrameSlider'
     'keydown'                             : 'onKeyDown'
     'change .asteroid-not-visible'        : 'onClickAsteroidNotVisible'
-    
+
     # state controller events
     'change input[name="classifier-type"]': (e) ->
       if e.currentTarget.value is 'asteroid'
@@ -202,12 +202,6 @@ class Classifier extends BaseController
           @doneButton.prop 'disabled', false
       tool.controls.controller.setMark(@currFrameIdx)
 
-    @masterMarkingSurface.on 'destroy-mark', (tool) =>
-      console.log "MARK DESTROYED"
-      @resetAsteroidCompleteCheckboxes()
-      @resetAsteroidVisibilityCheckboxes()
-
-        
     #create 4-up view surfaces
     @numFrames = 4
     @markingSurfaceList = new Array
@@ -427,7 +421,6 @@ class Classifier extends BaseController
       for foomark in surface.marks
         if foomark.frame is frame_idx
           foomark.destroy()
-        
 
   onClickAsteroidNotVisible: ->
     console.log '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'
@@ -527,15 +520,13 @@ class Classifier extends BaseController
     @setCurrentFrameIdx(@currFrameIdx+1)
     @activateFrame(@currFrameIdx)
 
-  # needs to be fixed!!!
   onClickCancel: ->
     if @state is 'asteroidTool'
-
       @resetMarkingSurfaces
-
-      # still need to destroy current asteroid marks
-      @resetAsteroidCompleteCheckboxes()  
-    @setState 'whatKind'  # return to initial state
+      surface?.reset() for surface in @allSurfaces
+    @resetAsteroidVisibilityCheckboxes()
+    @resetAsteroidCompleteCheckboxes()
+    @setState 'whatKind' # return to initial state
 
   onClickPlay: ->
     return if @el.hasClass 'playing'  # play only once at a time
