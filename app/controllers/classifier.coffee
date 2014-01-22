@@ -114,7 +114,6 @@ class Classifier extends BaseController
 
     asteroidTool:
       enter: ->
-        # console.log "STATE: \'asteroidTool/enter\'"
         @activateFrame 0
         # create new asteroid
         @currAsteroid = new Sighting({type:"asteroid"})
@@ -127,7 +126,6 @@ class Classifier extends BaseController
         @doneButton.prop 'disabled', true
 
       exit: ->
-        # console.log "STATE: \'asteroidTool/exit\'"
         @disableMarkingSurfaces()
         @el.find('.asteroid-classifier').hide() 
         @doneButton.hide()
@@ -135,11 +133,9 @@ class Classifier extends BaseController
 
     artifactTool:
       enter: ->
-        # console.log "STATE: \'artifactTool/enter\'"
         @enableMarkingSurfaces()
         @el.find('.artifact-classifier').show()
       exit: ->
-        # console.log "STATE: \'artifactTool/exit\'"
         @disableMarkingSurfaces()
         @el.find('.artifact-classifier').hide() 
 
@@ -153,7 +149,7 @@ class Classifier extends BaseController
     @el.attr 'flicker', "true"
     artifactSubtype = "other" # not sure what this is for?
     
-    @setState 'whatKind'      # set initial state
+    @setState 'whatKind'
     @invert = false
     @currFrameIdx = 0
 
@@ -183,13 +179,10 @@ class Classifier extends BaseController
       if @state is 'asteroidTool'
         # enforce one mark per frame
         if @asteroidMarkedInFrame[@currFrameIdx]
-          console.log 'frame already marked!'
-          # undo last mark
-          # @masterMarkingSurface.marks.pop().destroy()
+          # console.log 'frame already marked!'
           @destroyMarksInFrame @currFrameIdx, @currAsteroid.id
         else 
-          console.log 'frame was empty'
-          # new mark
+          # console.log 'frame was empty'
           @el.find(".asteroid-frame-complete-#{@currFrameIdx+1}").prop 'checked', true
           @asteroidMarkedInFrame[@currFrameIdx] = true
 
@@ -197,7 +190,6 @@ class Classifier extends BaseController
         # this could probably be cleaned up
         numFramesComplete = 0
         for status in @asteroidMarkedInFrame
-          # console.log status
           if status is true
             numFramesComplete++
         if numFramesComplete is 4
@@ -305,7 +297,6 @@ class Classifier extends BaseController
     @startLoading()
 
   onSubjectSelect: (e, subject) =>
-    #reset the marking surface and load classifcation
     @resetMarkingSurfaces()
     @classification = new Classification {subject}
     @loadFrames()
@@ -435,31 +426,13 @@ class Classifier extends BaseController
     console.log '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'
     console.log 'onClickAsteroidNotVisible: '
 
-    # console.log 'completeChecked: ', @asteroidCompleteCheckboxes[@currFrameIdx].checked
-    # console.log 'visibleChecked: ', @asteroidVisibilityCheckboxes[@currFrameIdx].checked
-
     # get checkbox states
     completeChecked   = @asteroidCompleteCheckboxes[@currFrameIdx].checked
     visibilityChecked = @asteroidVisibilityCheckboxes[@currFrameIdx].checked
 
-
     if @asteroidMarkedInFrame[@currFrameIdx]
       @currAsteroid.clearSightingsInFrame @currFrameIdx
       @destroyMarksInFrame @currFrameIdx, @currAsteroid.id
-
-    # # this needs work!
-    # # handle checkmark behavior
-    # if @asteroidMarkedInFrame[@currFrameIdx] and visibilityChecked
-    #   console.log 'case 1'
-    #   @asteroidVisibilityCheckboxes[@currFrameIdx].checked = true
-    #   @asteroidCompleteCheckboxes[@currFrameIdx].checked = true
-    # else if @asteroidMarkedInFrame[@currFrameIdx] and not visibilityChecked
-    #   console.log 'case 2'
-    #   @currAsteroid.clearSightingsInFrame @currFrameIdx
-    #   @asteroidVisibilityCheckboxes[@currFrameIdx].checked = false
-    #   @asteroidCompleteCheckboxes[@currFrameIdx].checked = false
-    #   @currAsteroid.clearSightingsInFrame @currFrameIdx
-    #   @destroyMarksInFrame @currFrameIdx
 
     @updateIconsForNotVisible()
 
@@ -575,8 +548,7 @@ class Classifier extends BaseController
     @el.attr 'data-on-frame', @currFrameIdx
 
   hideAllFrames: ->
-    for i in [0...4]
-      @hideFrame(i)
+    @hideFrame(i) for i in [0...4]
 
   showFrame: (frame_idx) ->
     @hideAllFrames()
