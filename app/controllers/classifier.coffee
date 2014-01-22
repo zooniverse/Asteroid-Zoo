@@ -95,7 +95,7 @@ class Classifier extends BaseController
       enter: ->
         # console.log "STATE: \'whatKind/enter\'"
         @disableMarkingSurfaces()
-        
+
         # reset asteroid/artifact selector
         for e in @el.find('input[name="classifier-type"]')
           e.checked = false
@@ -118,7 +118,6 @@ class Classifier extends BaseController
         @finishButton.hide()
         @doneButton.show()
 
-        # disable until (asteroid complete)
         @doneButton.prop 'disabled', true
 
       exit: ->
@@ -137,14 +136,11 @@ class Classifier extends BaseController
 
   constructor: ->
     super
-    @allSurfaces = []
     @asteroidMarkedInFrame = []
     @playTimeouts = []
     @el.attr tabindex: 0
-    # @setClassification @classification
     @el.attr 'flicker', "true"
-    artifactSubtype = "other" # not sure what this is for?
-    
+
     @setState 'whatKind'
     @invert = false
     @currFrameIdx = 0
@@ -152,42 +148,11 @@ class Classifier extends BaseController
     window.classifier = @
     @setOfSightings = []
     @currAsteroid = null
-    # @artifacts = [] # not used yet!
 
-    # default to flicker mode
-    @el.find('.four-up').hide()
+    @el.find('.four-up').show()
     @flickerButton.attr 'disabled', true
     @finishButton.prop 'disabled', true
 
-    # create master surface -- "flicker view"
-    @masterMarkingSurface = new MarkingSurface
-      tool: MarkingTool
-    @masterMarkingSurface.svgRoot.attr 'id', "classifier-svg-root-master"
-    this.masterMarkingSurface.el.id = "surface-master"
-    @flickerContainer.append @masterMarkingSurface.el
-    @masterMarkingSurface.on 'create-tool', (tool) =>
-      console.log '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'
-      if @state is 'asteroidTool'
-        # enforce one mark per frame
-        if @asteroidMarkedInFrame[@currFrameIdx]
-          # console.log 'frame already marked!'
-          @destroyMarksInFrame @currFrameIdx, @currAsteroid.id
-        else 
-          # console.log 'frame was empty'
-          @el.find(".asteroid-frame-complete-#{@currFrameIdx+1}").prop 'checked', true
-          @asteroidMarkedInFrame[@currFrameIdx] = true
-
-        # enable 'done' button only if all frames marked
-        # this could probably be cleaned up
-        numFramesComplete = 0
-        for status in @asteroidMarkedInFrame
-          if status is true
-            numFramesComplete++
-        if numFramesComplete is 4
-          @doneButton.prop 'disabled', false
-      tool.controls.controller.setMark(@currFrameIdx, @currAsteroid.id)
-
-    #create 4-up view surfaces
     @numFrames = 4
     @markingSurfaceList = new Array
     for i in [0...@numFrames]
@@ -196,20 +161,35 @@ class Classifier extends BaseController
       @markingSurfaceList[i].svgRoot.attr 'id', "classifier-svg-root-#{i}"
       @fourUpContainer.append @markingSurfaceList[i].el
       @markingSurfaceList[i].on 'create-tool', (tool) =>
+        if @state is 'asteroidTool'
+          # enforce one mark per frame
+          if @asteroidMarkedInFrame[@currFrameIdx]
+            # console.log 'frame already marked!'
+            @destroyMarksInFrame @currFrameIdx, @currAsteroid.id
+          else 
+            # console.log 'frame was empty'
+            @el.find(".asteroid-frame-complete-#{@currFrameIdx+1}").prop 'checked', true
+            @asteroidMarkedInFrame[@currFrameIdx] = true
+          # enable 'done' button only if all frames marked
+          numFramesComplete = 0
+          for status in @asteroidMarkedInFrame
+            if status is true
+              numFramesComplete++
+          if numFramesComplete is 4
+            @doneButton.prop 'disabled', false
         tool.controls.controller.setMark(@currFrameIdx, @currAsteroid.id)
-
-    @allSurfaces = [@masterMarkingSurface, @markingSurfaceList...]
 
     User.on 'change', @onUserChange
     Subject.on 'fetch', @onSubjectFetch
     Subject.on 'select', @onSubjectSelect
 
-    @masterMarkingSurface.on "create-mark", @onCreateMark
-
     for surface in @markingSurfaceList
       surface.on "create-mark", @onCreateMark
 
     @disableMarkingSurfaces()
+
+  renderTemplate: =>
+    super
 
   setState: (newState) ->
     if @state
@@ -226,23 +206,11 @@ class Classifier extends BaseController
 
   onCreateMark:(mark) =>
     console.log 'mark created'
-    # keep a copy of all marks in here
     @finishButton.prop 'disabled', false
     if @asteroidMarkedInFrame[ @currFrameIdx ]
       @currAsteroid.popSighting()
     @currAsteroid.pushSighting mark
-
     @updateIconsForCreateMark()
-
-    #sync surfaces for 4up
-    setTimeout =>
-      for surface in @allSurfaces
-        theSurface = surface if mark in surface.marks
-
-      for surface in @allSurfaces when surface isnt theSurface
-        surface.addTool new theSurface.tool
-          surface: surface
-          mark: mark
 
   updateIconsForCreateMark: =>
     frameNum = @currFrameIdx+1
@@ -252,12 +220,10 @@ class Classifier extends BaseController
     @el.find(".asteroid-visible-#{frameNum}").hide()
     @el.find("#marked-status-#{frameNum}").html("Marked!")
 
-  renderTemplate: =>
-    super
-
   onChangeFrameSlider: =>
     frame = document.getElementById('frame-slider').value
     @activateFrame(frame)
+    @showFrame(frame)
 
   onKeyDown: (e) =>
     return if @el.hasClass 'playing'  # disable while playing
@@ -267,8 +233,8 @@ class Classifier extends BaseController
       when KEYS.three then @activateFrame(2)
       when KEYS.four  then @activateFrame(3)
       when KEYS.space
-        @onClickPlay()
         e.preventDefault()
+        @onClickPlay()
 
   onUserChange: (e, user) =>
     Subject.next() unless @classification?
@@ -282,62 +248,30 @@ class Classifier extends BaseController
     @loadFrames()
 
   resetMarkingSurfaces: =>
-    for surface in @allSurfaces
-      # @surface?.marks[0].destroy() until @surface?.marks.length is 0
-      surface.reset()
+    surface.reset() for surface in @markingSurfaceList
 
   disableMarkingSurfaces: =>
-    for surface in @allSurfaces
-      surface.disable()
+    console.log "disabled should have been called"
 
   enableMarkingSurfaces: =>
-    for surface in @allSurfaces
-      surface.enable()
+    surface.enable() for surface in @markingSurfaceList
 
   loadFrames: =>
-    #TODO  this code could probably be cleaned up
     @destroyFrames()
     subject_info = @classification.subject.location
-    frameImages = new Array()
 
-    # create image elements for "master" view
-    @frames = for i in [subject_info.standard.length-1..0]
-      frame_id = "frame-id-#{i}"
-      frameImage = @masterMarkingSurface.addShape 'image',
-        id:  frame_id
-        class: 'frame-image'
-        width: '100%'
-        height: '100%'
-        preserveAspectRatio: 'true'
-
-      if @invert is true
-        img_src = subject_info.inverted[i]
-      else
-        img_src = subject_info.standard[i]
-
-      #load the image for this frame
-      do (img_src, frameImage)  =>
-        loadImage img_src, (img) =>
-        frameImage.attr
-          'xlink:href': img_src          # get images from api
-          # 'xlink:href': DEV_SUBJECTS[i]   # use hardcoded static images
-
-    # create image elements for 4-up view
     numImages = subject_info.standard.length
     for i in [0...numImages]
       frame_id = "frame-id-#{i}"
       frameImage =
-          @markingSurfaceList[i].addShape 'image',
-          id:  frame_id
-          class:  'frame-image'
-          width:  '100%'
-          height: '100%'
-          preserveAspectRatio: 'true'
+        @markingSurfaceList[i].addShape 'image',
+        id:  frame_id
+        class:  'frame-image'
+        width:  '100%'
+        height: '100%'
+        preserveAspectRatio: 'true'
 
-      if @invert is true
-        img_src = subject_info.inverted[i]
-      else
-        img_src = subject_info.standard[i]
+      img_src = if @invert is true then subject_info.inverted[i] else subject_info.standard[i]
 
       do (img_src, frameImage)  =>
         loadImage img_src, (img) =>
@@ -349,60 +283,53 @@ class Classifier extends BaseController
     @stopLoading()
 
   onClickFourUp: ->
-    console.log "4-up"
-    @el.find(".four-up").show()
-    @el.find(".flicker").hide()
+    @el.find("#frame-id-#{i}").closest("div").show() for i in [0...4]
 
+    markingSurfaces = document.getElementsByClassName("marking-surface")
+    @resizeElements(markingSurfaces, 254) # image sizing for 4up view
+
+    @enableSliderControls true
+    @fourUpButton.attr 'disabled', true
+    @flickerButton.attr 'disabled', false
+    @el.attr 'flicker', "false"
+    @rerenderMarks()
+
+  onClickFlicker: ->
+    markingSurfaces = document.getElementsByClassName("marking-surface")
+    @resizeElements(markingSurfaces, 512) # image sizing for 4up view
+
+    @enableSliderControls false
+    @flickerButton.attr 'disabled', true
+    @fourUpButton.attr 'disabled', false
+    @el.attr 'flicker', "true"
+    @rerenderMarks()
+    setTimeout => @activateFrame 0
+
+  rerenderMarks: ->
     setTimeout =>
       for surface in @markingSurfaceList
         for tool in surface.tools
           tool.render()
 
-    markingSurfaces = document.getElementsByClassName("marking-surface")
-    @resizeElements(markingSurfaces, 254) # image sizing for 4up view
-
-    @fourUpButton.attr 'disabled', true
-    @flickerButton.attr 'disabled', false
-    @el.attr 'flicker', "false"
-
-  onClickFlicker: ->
-    console.log "Flicker"
-    @el.find(".flicker").show()
-    @el.find(".four-up").hide()
-
-    setTimeout => 
-      for tool in @masterMarkingSurface.tools
-        tool.render()
-
-    markingSurfaces = document.getElementsByClassName("marking-surface")
-    @resizeElements(markingSurfaces, 512) # image sizing for 4up view
-
-    @flickerButton.attr 'disabled', true
-    @fourUpButton.attr 'disabled', false
-
-    @el.attr 'flicker', "true"
+  enableSliderControls: (bool) ->
+    document.getElementById("frame-slider").disabled = bool
+    @playButton.attr 'disabled', bool
 
   resizeElements: (elements, newSize) ->
     for element in elements
-      # element.style["-webkit-transform"] = "scale(0.5)"
       element.style.width = newSize + "px"
       element.style.height = newSize + "px"
 
   destroyMarksInFrame: (frame_idx, curr_ast_id) ->
-    # debugger
     console.log "Destroy marks in frame: ", frame_idx
-    for surface in @allSurfaces
+    for surface in @markingSurfaceList
       for theMark in surface.marks
-        # console.log 'current frame: ', frame_idx
-        # console.log theMark.frame
         if theMark?.frame is frame_idx and theMark?.asteroid_id is @currAsteroid.id
           theMark?.destroy()
 
   onClickAsteroidNotVisible: ->
-    console.log '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'
     console.log 'onClickAsteroidNotVisible: '
 
-    # get checkbox states
     completeChecked   = @asteroidCompleteCheckboxes[@currFrameIdx].checked
     visibilityChecked = @asteroidVisibilityCheckboxes[@currFrameIdx].checked
 
@@ -426,16 +353,13 @@ class Classifier extends BaseController
     @el.find(".asteroid-frame-complete-#{frameNum}").prop 'checked', true
     @el.find("#number-#{frameNum}").toggle()
     @el.find("#not-visible-icon-#{frameNum}").show()
-    # @el.find(".asteroid-visible-#{frameNum}").hide()
     @el.find("#marked-status-#{frameNum}").html("Not Visible")
 
   setAsteroidFrame: (frame_idx) ->
     return unless @state is 'asteroidTool'
 
-    # show asteroid-visibility only on current frame
     @el.find(".asteroid-visibility-#{frame_idx}").show()
 
-    # reminder: frame numbers not zero-indexed in view
     frameNum = frame_idx + 1
     for i in [1..@el.find('.asteroid-frame').length] 
       if i is frameNum
@@ -446,17 +370,16 @@ class Classifier extends BaseController
   onClickAsteroidDone: ->
     @currAsteroid.displaySummary() 
 
-    # this should check for 'not-visible' attributes too!!!
     if @currAsteroid.sightingCount is 0
-      @currAsteroid = null  # destroy asteroid
+      @currAsteroid = null
     else
       @setOfSightings.push @currAsteroid
-    
+
     @asteroid_num++
     @resetAsteroidCompleteCheckboxes()
     @resetAsteroidVisibilityCheckboxes()
     @setState 'whatKind'
-    
+
   resetAsteroidCompleteCheckboxes: ->
     @asteroidMarkedInFrame = []
     for i in [1..@numFrames]
@@ -481,7 +404,7 @@ class Classifier extends BaseController
   onClickCancel: ->
     if @state is 'asteroidTool'
       @resetMarkingSurfaces
-      surface?.reset() for surface in @allSurfaces
+      surface?.reset() for surface in @markingSurfaceList
     @resetAsteroidVisibilityCheckboxes()
     @resetAsteroidCompleteCheckboxes()
     @setState 'whatKind' # return to initial state
@@ -491,8 +414,7 @@ class Classifier extends BaseController
     @disableMarkingSurfaces
     @playButton.attr 'disabled', true
     @el.addClass 'playing'
-    
-    # flip the images back and forth once
+
     last = @classification.subject.location.standard.length - 1
     iterator = [0...last].concat [last...-1]
 
@@ -504,7 +426,6 @@ class Classifier extends BaseController
     @enableMarkingSurfaces
 
   activateFrame: (@active) ->
-    @active = modulus +@active, @classification.subject.location.standard.length
     @setAsteroidFrame(@active)
     @showFrame(@active)
 
@@ -513,14 +434,13 @@ class Classifier extends BaseController
     @el.attr 'data-on-frame', @currFrameIdx
 
   showFrame: (frame_idx) ->
-    @el.find("#frame-id-#{i}").hide() for i in [0...4]
-    @el.find("#frame-id-#{frame_idx}").show()
+    @el.find("#frame-id-#{i}").closest("div").hide() for i in [0...4]
+    @el.find("#frame-id-#{frame_idx}").closest("div").show()
     @el.find("#frame-slider").val frame_idx
     @setCurrentFrameIdx(frame_idx)
 
   destroyFrames: ->
-    for image, i in @el.find('.frame-image')
-      image.remove()
+    image.remove() for image in @el.find('.frame-image')
 
   onClickInvert: ->
     if @invert is true
@@ -531,12 +451,12 @@ class Classifier extends BaseController
       @invertButton.addClass 'colorme'
 
     @loadFrames()
-    @showFrame(@currFrameIdx) # unless @currFrameIdx is undefined
+    @showFrame(@currFrameIdx)
     # bring marking tools back to front for each surface
-    for surface in [ @masterMarkingSurface, @markingSurfaceList... ]
+    for surface in @markingSurfaceList
       markElements = surface.el.getElementsByClassName('marking-tool-root')
       for i in [0...markElements.length]
-        markElements[0].parentElement.appendChild markElements[0] 
+        markElements[0].parentElement.appendChild markElements[0]
 
   onClickFinishMarking: ->
     radio.checked = false for radio in @classifierTypeRadios
