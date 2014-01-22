@@ -488,7 +488,7 @@ class Classifier extends BaseController
 
   onClickPlay: ->
     return if @el.hasClass 'playing'  # play only once at a time
-    @disableMarkingSurfaces
+    @disableMarkingSurfaces()
     @playButton.attr 'disabled', true
     @el.addClass 'playing'
     
