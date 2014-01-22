@@ -512,7 +512,7 @@ class Classifier extends BaseController
     @el.attr 'data-on-frame', @currFrameIdx
 
   showFrame: (frame_idx) ->
-    @el.find("#frame-id-#{frame_idx}").hide() for i in [0...4]
+    @el.find("#frame-id-#{i}").hide() for i in [0...4]
     @el.find("#frame-id-#{frame_idx}").show()
     @el.find("#frame-slider").val frame_idx
     @setCurrentFrameIdx(frame_idx)
