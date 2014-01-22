@@ -11,7 +11,6 @@ MarkingTool = require './marking-tool'
 MarkingToolControls = require './marking-tool-controls'
 $ = window.jQuery
 
-# for keybindings
 KEYS =
   space:  32
   return: 13
@@ -36,8 +35,7 @@ NEXT_DEV_SUBJECT = ->
 class Classifier extends BaseController
   className: 'classifier'
   template: require '../views/classifier'
-  currFrameIdx = 0 # keeps track of current (zero-indexed) frame
-
+  currFrameIdx = 0
 
   events:
     'click button[name="play-frames"]'    : 'onClickPlay'
@@ -65,8 +63,6 @@ class Classifier extends BaseController
 
     'change input[name="selected-artifact"]': ->      
       @artifactSubtype = @selectedArtifactRadios.filter(':checked').val() 
-
-    #'click button[name="done"]': ->
       
     'click button[name="delete"]': ->
       @tool.mark.destroy()
@@ -143,9 +139,9 @@ class Classifier extends BaseController
     super
     @allSurfaces = []
     @asteroidMarkedInFrame = []
-    @playTimeouts = []                   # for image_changer
-    @el.attr tabindex: 0                 # ...
-    # @setClassification @classification  # ...
+    @playTimeouts = []
+    @el.attr tabindex: 0
+    # @setClassification @classification
     @el.attr 'flicker', "true"
     artifactSubtype = "other" # not sure what this is for?
     
@@ -154,20 +150,15 @@ class Classifier extends BaseController
     @currFrameIdx = 0
 
     window.classifier = @
-
-    # asteroid and artifact "containers"
     @setOfSightings = []
     @currAsteroid = null
     # @artifacts = [] # not used yet!
 
-    # default to flicker mode on initialization
+    # default to flicker mode
     @el.find('.four-up').hide()
     @flickerButton.attr 'disabled', true
     @finishButton.prop 'disabled', true
 
-    #######################################################
-    # create marking surfaces for frames
-    #######################################################
     # create master surface -- "flicker view"
     @masterMarkingSurface = new MarkingSurface
       tool: MarkingTool
@@ -209,27 +200,17 @@ class Classifier extends BaseController
 
     @allSurfaces = [@masterMarkingSurface, @markingSurfaceList...]
 
-    #######################################################
-    #  API event bindings
-    #######################################################
     User.on 'change', @onUserChange
     Subject.on 'fetch', @onSubjectFetch
     Subject.on 'select', @onSubjectSelect
 
-    #######################################################
-    # adding a listener for each marking surface
-    # on the master
     @masterMarkingSurface.on "create-mark", @onCreateMark
 
-    # on the 4-up list
     for surface in @markingSurfaceList
       surface.on "create-mark", @onCreateMark
 
     @disableMarkingSurfaces()
 
-  #######################################################
-  # FINITE STATE MACHINE CONTROLLER
-  #######################################################
   setState: (newState) ->
     if @state
       @states[@state]?.exit.call @
@@ -253,16 +234,15 @@ class Classifier extends BaseController
 
     @updateIconsForCreateMark()
 
-    # this was for 4-up (commented for now)
-    # locate the surface this frame coresponds to
-    # setTimeout =>
-    #   for surface in @allSurfaces
-    #     theSurface = surface if mark in surface.marks
+    #sync surfaces for 4up
+    setTimeout =>
+      for surface in @allSurfaces
+        theSurface = surface if mark in surface.marks
 
-    #   for surface in @allSurfaces when surface isnt theSurface
-    #     surface.addTool new theSurface.tool
-    #       surface: surface
-    #       mark: mark
+      for surface in @allSurfaces when surface isnt theSurface
+        surface.addTool new theSurface.tool
+          surface: surface
+          mark: mark
 
   updateIconsForCreateMark: =>
     frameNum = @currFrameIdx+1
@@ -408,9 +388,6 @@ class Classifier extends BaseController
       element.style.width = newSize + "px"
       element.style.height = newSize + "px"
 
-  #######################################
-  # ASTEROID TRACKING METHODS
-  #######################################
   destroyMarksInFrame: (frame_idx, curr_ast_id) ->
     # debugger
     console.log "Destroy marks in frame: ", frame_idx
@@ -420,7 +397,6 @@ class Classifier extends BaseController
         # console.log theMark.frame
         if theMark?.frame is frame_idx and theMark?.asteroid_id is @currAsteroid.id
           theMark?.destroy()
-
 
   onClickAsteroidNotVisible: ->
     console.log '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'
@@ -477,27 +453,24 @@ class Classifier extends BaseController
       @setOfSightings.push @currAsteroid
     
     @asteroid_num++
-    
-    # reset
     @resetAsteroidCompleteCheckboxes()
     @resetAsteroidVisibilityCheckboxes()
     @setState 'whatKind'
     
   resetAsteroidCompleteCheckboxes: ->
-      @asteroidMarkedInFrame = []
-      for i in [1..@numFrames]
-        @el.find(".asteroid-checkbox").prop 'checked', false
-        @el.find("#marked-icon-#{i}").hide()
-        @el.find(".asteroid-checkbox").show()
+    @asteroidMarkedInFrame = []
+    for i in [1..@numFrames]
+      @el.find(".asteroid-checkbox").prop 'checked', false
+      @el.find("#marked-icon-#{i}").hide()
+      @el.find(".asteroid-checkbox").show()
 
   resetAsteroidVisibilityCheckboxes: ->
-      for i in [1..@numFrames]
-        @el.find(".asteroid-not-visible").prop 'checked', false
-        @el.find(".asteroid-not-visible").show()
-        @el.find("#marked-status-#{i}").html("Not Visible?")
-        @el.find("#not-visible-icon-#{i}").hide()
-        @el.find("#number-#{i}").show()
-
+    for i in [1..@numFrames]
+      @el.find(".asteroid-not-visible").prop 'checked', false
+      @el.find(".asteroid-not-visible").show()
+      @el.find("#marked-status-#{i}").html("Not Visible?")
+      @el.find("#not-visible-icon-#{i}").hide()
+      @el.find("#number-#{i}").show()
 
   onClickNextFrame: ->
     return if @currFrameIdx is 3
@@ -544,7 +517,6 @@ class Classifier extends BaseController
 
   setCurrentFrameIdx: (frame_idx) ->
     @currFrameIdx = frame_idx
-    # find way to communicate current frame with marking tool
     @el.attr 'data-on-frame', @currFrameIdx
 
   hideAllFrames: ->
@@ -578,14 +550,13 @@ class Classifier extends BaseController
       markElements = surface.el.getElementsByClassName('marking-tool-root')
       for i in [0...markElements.length]
         markElements[0].parentElement.appendChild markElements[0] 
-       
+
   onClickFinishMarking: ->
     radio.checked = false for radio in @classifierTypeRadios
     @sendClassification()
     @destroyFrames()
     Subject.next()
     document.getElementById('frame-slider').value = 0 #reset slider to first frame
-    #go back to the one up view
     @finishButton.prop 'disabled', true
     @onClickFlicker()
 
