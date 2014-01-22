@@ -487,11 +487,10 @@ class Classifier extends BaseController
 
   onClickPlay: ->
     return if @el.hasClass 'playing'  # play only once at a time
-
+    @disableMarkingSurfaces
     @playButton.attr 'disabled', true
     @el.addClass 'playing'
-    @disableMarkingSurfaces()
-    # @markingSurfaceList.disable()   # no marking while playing
+    
     # flip the images back and forth once
     last = @classification.subject.location.standard.length - 1
     iterator = [0...last].concat [last...-1]
@@ -499,37 +498,24 @@ class Classifier extends BaseController
     for index, i in iterator then do (index, i) =>
       @playTimeouts.push setTimeout (=> @activateFrame index), i * 500
 
-    @playTimeouts.push setTimeout @pause, i * 500
-
-  pause: =>
-    clearTimeout timeout for timeout in @playTimeouts
-    @playTimeouts.splice 0
-    @playButton.attr 'disabled', false
     @el.removeClass 'playing'
-    @enableMarkingSurfaces()
-    # @markingSurfaceList.enable()
+    @playButton.attr 'disabled', false
+    @enableMarkingSurfaces
 
   activateFrame: (@active) ->
     @active = modulus +@active, @classification.subject.location.standard.length
     @setAsteroidFrame(@active)
-    # update artifact marking
     @showFrame(@active)
 
   setCurrentFrameIdx: (frame_idx) ->
     @currFrameIdx = frame_idx
     @el.attr 'data-on-frame', @currFrameIdx
 
-  hideAllFrames: ->
-    @hideFrame(i) for i in [0...4]
-
   showFrame: (frame_idx) ->
-    @hideAllFrames()
-    document.getElementById("frame-id-#{frame_idx}").style.visibility = "visible"
-    document.getElementById("frame-slider").value = frame_idx
+    @el.find("#frame-id-#{frame_idx}").hide() for i in [0...4]
+    @el.find("#frame-id-#{frame_idx}").show()
+    @el.find("#frame-slider").val frame_idx
     @setCurrentFrameIdx(frame_idx)
-
-  hideFrame: (frame_idx) ->
-    document.getElementById("frame-id-#{frame_idx}").style.visibility = "hidden"
 
   destroyFrames: ->
     for image, i in @el.find('.frame-image')
