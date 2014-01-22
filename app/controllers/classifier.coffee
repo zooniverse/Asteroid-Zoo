@@ -463,6 +463,7 @@ class Classifier extends BaseController
       @el.find(".asteroid-checkbox").prop 'checked', false
       @el.find("#marked-icon-#{i}").hide()
       @el.find(".asteroid-checkbox").show()
+      @el.find(".asteroid-visible-#{i}").show()
 
   resetAsteroidVisibilityCheckboxes: ->
     for i in [1..@numFrames]
