@@ -95,7 +95,7 @@ class Classifier extends BaseController
     whatKind:
       enter: ->
         # console.log "STATE: \'whatKind/enter\'"
-        @disableMarkingSurfaces()
+        # @disableMarkingSurfaces()
 
         # reset asteroid/artifact selector
         for e in @el.find('input[name="classifier-type"]')
@@ -114,7 +114,7 @@ class Classifier extends BaseController
         @activateFrame 0
         # create new asteroid
         @currAsteroid = new Sighting({type:"asteroid"})
-        @enableMarkingSurfaces()
+        # @enableMarkingSurfaces()
         @el.find('.asteroid-classifier').show()
         @finishButton.hide()
         @doneButton.show()
@@ -122,22 +122,22 @@ class Classifier extends BaseController
         @doneButton.prop 'disabled', true
 
       exit: ->
-        @disableMarkingSurfaces()
+        # @disableMarkingSurfaces()
         @el.find('.asteroid-classifier').hide() 
         @doneButton.hide()
         @finishButton.show()
 
     artifactTool:
       enter: ->
-        @enableMarkingSurfaces()
+        # @enableMarkingSurfaces()
         @el.find('.artifact-classifier').show()
       exit: ->
-        @disableMarkingSurfaces()
+        # @disableMarkingSurfaces()
         @el.find('.artifact-classifier').hide() 
 
   constructor: ->
     super
-    @asteroidMarkedInFrame = []
+    @asteroidMarkedInFrame = [ null, null, null, null ]
     @playTimeouts = []
     @el.attr tabindex: 0
     @el.attr 'flicker', "true"
@@ -163,14 +163,17 @@ class Classifier extends BaseController
       @markingSurfaceList[i].svgRoot.attr 'id', "classifier-svg-root-#{i}"
       @fourUpContainer.append @markingSurfaceList[i].el
       @markingSurfaceList[i].on 'create-tool', (tool) =>
+        console.log 'tool created'
         if @state is 'asteroidTool'
           # enforce one mark per frame
           if @asteroidMarkedInFrame[@currFrameIdx]
-            # console.log 'frame already marked!'
+            console.log 'frame already marked!'
             @destroyMarksInFrame @currFrameIdx, @currAsteroid.id
           else 
             # console.log 'frame was empty'
             @el.find(".asteroid-frame-complete-#{@currFrameIdx}").prop 'checked', true
+            console.log 'frame was empty'
+            @el.find(".asteroid-frame-complete-#{@currFrameIdx+1}").prop 'checked', true
             @asteroidMarkedInFrame[@currFrameIdx] = true
           # enable 'done' button only if all frames marked
           numFramesComplete = 0
@@ -181,6 +184,7 @@ class Classifier extends BaseController
             @doneButton.prop 'disabled', false
         tool.controls.controller.setMark(@currFrameIdx, @currAsteroid.id)
 
+    @setState 'whatKind'
     User.on 'change', @onUserChange
     Subject.on 'fetch', @onSubjectFetch
     Subject.on 'select', @onSubjectSelect
@@ -188,7 +192,6 @@ class Classifier extends BaseController
     for surface in @markingSurfaceList
       surface.on "create-mark", @onCreateMark
 
-    @disableMarkingSurfaces()
 
   renderTemplate: =>
     super
@@ -257,8 +260,8 @@ class Classifier extends BaseController
     surface.reset() for surface in @markingSurfaceList
 
   disableMarkingSurfaces: =>
-    console.log "disabled should have been called" #TODO
-
+    surface.disable() for surface in @markingSurfaceList
+    
   enableMarkingSurfaces: =>
     surface.enable() for surface in @markingSurfaceList
 
@@ -327,11 +330,14 @@ class Classifier extends BaseController
       element.style.height = newSize + "px"
 
   destroyMarksInFrame: (frame_idx, curr_ast_id) ->
-    console.log "Destroy marks in frame: ", frame_idx
+    console.log "Destroy marks for current asteroid (", curr_ast_id, ") in frame: ", frame_idx
     for surface in @markingSurfaceList
       for theMark in surface.marks
-        if theMark?.frame is frame_idx and theMark?.asteroid_id is @currAsteroid.id
-          theMark?.destroy()
+        # console.log 'current mark: ', theMark, ' frame: ', theMark.frame, ' asteroid_id: ', theMark.asteroid_id 
+        if theMark.frame is frame_idx and theMark.asteroid_id is @currAsteroid.id
+          console.log 'BOOYAH'
+        #   console.log 'destroying mark: ', @theMark
+          theMark.destroy()
 
   onClickAsteroidNotVisible: ->
     console.log 'onClickAsteroidNotVisible: '
