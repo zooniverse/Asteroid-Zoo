@@ -167,8 +167,6 @@ class Classifier extends BaseController
           else 
             # console.log 'frame was empty'
             @el.find(".asteroid-frame-complete-#{@currFrameIdx}").prop 'checked', true
-            console.log 'frame was empty'
-            @el.find(".asteroid-frame-complete-#{@currFrameIdx+1}").prop 'checked', true
             @asteroidMarkedInFrame[@currFrameIdx] = true
           # enable 'done' button only if all frames marked
           numFramesComplete = 0
