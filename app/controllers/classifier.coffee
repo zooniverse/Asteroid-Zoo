@@ -293,6 +293,7 @@ class Classifier extends BaseController
 
   onClickFourUp: ->
     @el.find("#frame-id-#{i}").closest("div").show() for i in [0...4]
+    @nextFrame.hide()
 
     markingSurfaces = document.getElementsByClassName("marking-surface")
     @resizeElements(markingSurfaces, 254) # image sizing for 4up view
@@ -306,6 +307,7 @@ class Classifier extends BaseController
   onClickFlicker: ->
     markingSurfaces = document.getElementsByClassName("marking-surface")
     @resizeElements(markingSurfaces, 512) # image sizing for 4up view
+    @nextFrame.show()
 
     @enableSliderControls false
     @flickerButton.attr 'disabled', true
@@ -441,6 +443,7 @@ class Classifier extends BaseController
 
   activateFrame: (@active) ->
     @setAsteroidFrame(@active)
+    classifier.el.find(".asteroid-frame-#{@active}").addClass 'current-asteroid-frame'
     return if @el.attr('flicker') is "false"
     @showFrame(@active)
 
