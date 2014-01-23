@@ -468,6 +468,7 @@ class Classifier extends BaseController
     radio.checked = false for radio in @classifierTypeRadios
     @sendClassification()
     @destroyFrames()
+    @destroyMarksInFrame(i) for i in [0,1,2,3]
     Subject.next()
     document.getElementById('frame-slider').value = 0 #reset slider to first frame
     @finishButton.prop 'disabled', true
