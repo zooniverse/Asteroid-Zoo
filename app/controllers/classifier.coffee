@@ -94,45 +94,41 @@ class Classifier extends BaseController
   states:
     whatKind:
       enter: ->
-        # console.log "STATE: \'whatKind/enter\'"
-        # @disableMarkingSurfaces()
+        @disableMarkingSurfaces()
 
         # reset asteroid/artifact selector
         for e in @el.find('input[name="classifier-type"]')
           e.checked = false
-
         @el.find('button[name="to-select"]').addClass 'hidden' 
         @el.find('.what-kind').show()
 
       exit: ->
-        # console.log "STATE: \'whatKind/exit\'"
+        @enableMarkingSurfaces()
         @el.find('button[name="to-select"]').removeClass 'hidden'
         @el.find('.what-kind').hide()
 
     asteroidTool:
       enter: ->
         @activateFrame 0
-        # create new asteroid
+        @enableMarkingSurfaces()
         @currAsteroid = new Sighting({type:"asteroid"})
-        # @enableMarkingSurfaces()
         @el.find('.asteroid-classifier').show()
         @finishButton.hide()
         @doneButton.show()
-
         @doneButton.prop 'disabled', true
 
       exit: ->
-        # @disableMarkingSurfaces()
+        @disableMarkingSurfaces()
         @el.find('.asteroid-classifier').hide() 
         @doneButton.hide()
         @finishButton.show()
 
     artifactTool:
       enter: ->
-        # @enableMarkingSurfaces()
+        @enableMarkingSurfaces()
         @el.find('.artifact-classifier').show()
       exit: ->
-        # @disableMarkingSurfaces()
+        @disableMarkingSurfaces()
         @el.find('.artifact-classifier').hide() 
 
   constructor: ->
@@ -142,7 +138,6 @@ class Classifier extends BaseController
     @el.attr tabindex: 0
     @el.attr 'flicker', "true"
 
-    @setState 'whatKind'
     @invert = false
     @currFrameIdx = 0
 
@@ -191,7 +186,6 @@ class Classifier extends BaseController
 
     for surface in @markingSurfaceList
       surface.on "create-mark", @onCreateMark
-
 
   renderTemplate: =>
     super
