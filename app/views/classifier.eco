@@ -264,7 +264,7 @@
                     9.214,16.252 12,13.466 14.785,16.252 16.252,14.785 13.466,12 "/>
                   </svg>
 
-                  <% if frameNum is 1: %>
+                  <% if frameNum is 0: %>
                     <svg version="1.1" id="<%= "number-#{frameNum}" %>" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                        viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                     <g fill="#CBCBCB">
@@ -275,7 +275,7 @@
                         l-1.056,0.848L8.919,9.665l2.959-2.356h1.597V16.495z"/>
                     </g>
                     </svg>
-                  <% else if frameNum is 2: %>
+                  <% else if frameNum is 1: %>
                     <svg version="1.1" id="<%= "number-#{frameNum}" %>" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                        viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                     <g fill="#CBCBCB">
@@ -290,7 +290,7 @@
                         c-0.312,0.389-0.862,0.945-1.649,1.666l-1.182,1.112v0.088h4.003V16.495z"/>
                     </g>
                     </svg>
-                  <% else if frameNum is 3: %>
+                  <% else if frameNum is 2: %>
                     <svg version="1.1" id="<%= "number-#{frameNum}" %>" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                        viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                     <g fill="#CBCBCB">
@@ -306,7 +306,7 @@
                         c0.838-0.604,1.837-0.905,2.997-0.905c0.951,0,1.702,0.193,2.253,0.578C15.087,8.14,15.363,8.676,15.363,9.363z"/>
                     </g>
                     </svg>
-                  <% else if frameNum is 4: %>
+                  <% else if frameNum is 3: %>
                     <svg version="1.1" id="<%= "number-#{frameNum}" %>" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                        viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                     <g fill="#CBCBCB">
