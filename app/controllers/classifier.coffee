@@ -49,6 +49,7 @@ class Classifier extends BaseController
     'change input[name="current-frame"]'  : 'onChangeFrameSlider'
     'keydown'                             : 'onKeyDown'
     'change .asteroid-not-visible'        : 'onClickAsteroidNotVisible'
+    'click .marking-surface'              : 'onClickMarkingSurface'
 
     # state controller events
     'change input[name="classifier-type"]': (e) ->
@@ -191,6 +192,10 @@ class Classifier extends BaseController
   renderTemplate: =>
     super
 
+  onClickMarkingSurface: (e) =>
+    elementId = e.target.id #frame-id-(x)
+    @setAsteroidFrame(elementId.charAt elementId.length-1)
+
   setState: (newState) ->
     if @state
       @states[@state]?.exit.call @
@@ -251,7 +256,7 @@ class Classifier extends BaseController
     surface.reset() for surface in @markingSurfaceList
 
   disableMarkingSurfaces: =>
-    console.log "disabled should have been called"
+    console.log "disabled should have been called" #TODO
 
   enableMarkingSurfaces: =>
     surface.enable() for surface in @markingSurfaceList
@@ -413,7 +418,7 @@ class Classifier extends BaseController
 
   onClickPlay: ->
     return if @el.hasClass 'playing'  # play only once at a time
-    @disableMarkingSurfaces
+    @disableMarkingSurfaces()
     @playButton.attr 'disabled', true
     @el.addClass 'playing'
 
@@ -425,7 +430,7 @@ class Classifier extends BaseController
 
     @el.removeClass 'playing'
     @playButton.attr 'disabled', false
-    @enableMarkingSurfaces
+    @enableMarkingSurfaces()
 
   activateFrame: (@active) ->
     @setAsteroidFrame(@active)
@@ -452,7 +457,7 @@ class Classifier extends BaseController
       @invertButton.addClass 'colorme'
 
     @loadFrames()
-    @showFrame(@currFrameIdx)
+    @activateFrame(@currFrameIdx)
     # bring marking tools back to front for each surface
     for surface in @markingSurfaceList
       markElements = surface.el.getElementsByClassName('marking-tool-root')
