@@ -357,7 +357,9 @@ class Classifier extends BaseController
 
   setAsteroidFrame: (frame_idx) ->
     return unless @state is 'asteroidTool'
+    @setCurrentFrameIdx(frame_idx)
 
+    @el.find("#frame-slider").val frame_idx
     @el.find(".asteroid-visibility-#{frame_idx}").show()
 
     frameNum = frame_idx + 1
@@ -427,6 +429,7 @@ class Classifier extends BaseController
 
   activateFrame: (@active) ->
     @setAsteroidFrame(@active)
+    return if @el.attr('flicker') is "false"
     @showFrame(@active)
 
   setCurrentFrameIdx: (frame_idx) ->
@@ -436,8 +439,6 @@ class Classifier extends BaseController
   showFrame: (frame_idx) ->
     @el.find("#frame-id-#{i}").closest("div").hide() for i in [0...4]
     @el.find("#frame-id-#{frame_idx}").closest("div").show()
-    @el.find("#frame-slider").val frame_idx
-    @setCurrentFrameIdx(frame_idx)
 
   destroyFrames: ->
     image.remove() for image in @el.find('.frame-image')
