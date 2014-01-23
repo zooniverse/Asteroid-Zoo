@@ -405,7 +405,7 @@ class Classifier extends BaseController
 
   onClickNextFrame: ->
     return if @currFrameIdx is 3
-    @setCurrentFrameIdx(@currFrameIdx+1)
+    @currFrameIdx++
     @activateFrame(@currFrameIdx)
 
   onClickCancel: ->
