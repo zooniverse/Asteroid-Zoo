@@ -240,7 +240,7 @@
           <!-- ASTEROID TRACKING -->
           <h3><%- translate 'div', 'asteroids.heading' %></h3>
 
-          <% for frameNum in [1..4]: %>
+          <% for frameNum in [0..3]: %>
             <div class= "<%= "asteroid-frame asteroid-frame-#{frameNum}" %>">
               <form>
                 <label>
@@ -265,7 +265,7 @@
                   </svg>
 
                   <% if frameNum is 1: %>
-                    <svg version="1.1" id="number-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    <svg version="1.1" id="<%= "number-#{frameNum}" %>" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                        viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                     <g fill="#CBCBCB">
                       <path d="M11.978-0.01c-6.612,0-11.991,5.379-11.991,11.991s5.379,11.991,11.991,11.991
@@ -276,7 +276,7 @@
                     </g>
                     </svg>
                   <% else if frameNum is 2: %>
-                    <svg version="1.1" id="number-2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    <svg version="1.1" id="<%= "number-#{frameNum}" %>" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                        viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                     <g fill="#CBCBCB">
                       <path d="M11.978-0.01c-6.612,0-11.991,5.379-11.991,11.991s5.379,11.991,11.991,11.991
@@ -291,7 +291,7 @@
                     </g>
                     </svg>
                   <% else if frameNum is 3: %>
-                    <svg version="1.1" id="number-3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    <svg version="1.1" id="<%= "number-#{frameNum}" %>" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                        viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                     <g fill="#CBCBCB">
                       <path d="M11.978-0.01c-6.612,0-11.991,5.379-11.991,11.991s5.379,11.991,11.991,11.991
@@ -307,7 +307,7 @@
                     </g>
                     </svg>
                   <% else if frameNum is 4: %>
-                    <svg version="1.1" id="number-4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    <svg version="1.1" id="<%= "number-#{frameNum}" %>" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                        viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                     <g fill="#CBCBCB">
                       <path d="M11.978-0.01c-6.612,0-11.991,5.379-11.991,11.991s5.379,11.991,11.991,11.991

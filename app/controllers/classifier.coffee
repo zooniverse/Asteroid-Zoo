@@ -156,6 +156,7 @@ class Classifier extends BaseController
 
     @numFrames = 4
     @markingSurfaceList = new Array
+
     for i in [0...@numFrames]
       @markingSurfaceList[i] = new MarkingSurface
         tool: MarkingTool
@@ -169,7 +170,7 @@ class Classifier extends BaseController
             @destroyMarksInFrame @currFrameIdx, @currAsteroid.id
           else 
             # console.log 'frame was empty'
-            @el.find(".asteroid-frame-complete-#{@currFrameIdx+1}").prop 'checked', true
+            @el.find(".asteroid-frame-complete-#{@currFrameIdx}").prop 'checked', true
             @asteroidMarkedInFrame[@currFrameIdx] = true
           # enable 'done' button only if all frames marked
           numFramesComplete = 0
@@ -193,8 +194,9 @@ class Classifier extends BaseController
     super
 
   onClickMarkingSurface: (e) =>
+    e.preventDefault()
     elementId = e.target.id #frame-id-(x)
-    @setAsteroidFrame(elementId.charAt elementId.length-1)
+    @activateFrame(elementId.charAt elementId.length-1)
 
   setState: (newState) ->
     if @state
@@ -218,7 +220,7 @@ class Classifier extends BaseController
     @updateIconsForCreateMark()
 
   updateIconsForCreateMark: =>
-    frameNum = @currFrameIdx+1
+    frameNum = @currFrameIdx
     @el.find("#number-#{frameNum}").hide()
     @el.find("#not-visible-icon-#{frameNum}").hide() # checked = false??
     @el.find("#marked-icon-#{frameNum}").show()
@@ -228,7 +230,6 @@ class Classifier extends BaseController
   onChangeFrameSlider: =>
     frame = document.getElementById('frame-slider').value
     @activateFrame(frame)
-    @showFrame(frame)
 
   onKeyDown: (e) =>
     return if @el.hasClass 'playing'  # disable while playing
@@ -353,7 +354,7 @@ class Classifier extends BaseController
     @currAsteroid.pushSighting newAnnotation
 
   updateIconsForNotVisible: ->
-    frameNum = @currFrameIdx + 1
+    frameNum = @currFrameIdx
     @asteroidMarkedInFrame[@currFrameIdx] = true # frame done ("Marked" is a bit misleading here. Fix later!)
     @el.find(".asteroid-frame-complete-#{frameNum}").prop 'checked', true
     @el.find("#number-#{frameNum}").toggle()
@@ -367,8 +368,8 @@ class Classifier extends BaseController
     @el.find("#frame-slider").val frame_idx
     @el.find(".asteroid-visibility-#{frame_idx}").show()
 
-    frameNum = frame_idx + 1
-    for i in [1..@el.find('.asteroid-frame').length] 
+    frameNum = frame_idx
+    for i in [0...@el.find('.asteroid-frame').length]
       if i is frameNum
         classifier.el.find(".asteroid-frame-#{i}").addClass 'current-asteroid-frame'
       else
@@ -389,14 +390,14 @@ class Classifier extends BaseController
 
   resetAsteroidCompleteCheckboxes: ->
     @asteroidMarkedInFrame = []
-    for i in [1..@numFrames]
+    for i in [0...@numFrames]
       @el.find(".asteroid-checkbox").prop 'checked', false
       @el.find("#marked-icon-#{i}").hide()
       @el.find(".asteroid-checkbox").show()
       @el.find(".asteroid-visible-#{i}").show()
 
   resetAsteroidVisibilityCheckboxes: ->
-    for i in [1..@numFrames]
+    for i in [0...@numFrames]
       @el.find(".asteroid-not-visible").prop 'checked', false
       @el.find(".asteroid-not-visible").show()
       @el.find("#marked-status-#{i}").html("Not Visible?")
