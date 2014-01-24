@@ -149,41 +149,26 @@ class Classifier extends BaseController
     @flickerButton.attr 'disabled', true
     @finishButton.prop 'disabled', true
 
-    @numFrames = 4
-    @markingSurfaceList = new Array
-
-    for i in [0...@numFrames]
-      @markingSurfaceList[i] = new MarkingSurface
-        tool: MarkingTool
-      @markingSurfaceList[i].svgRoot.attr 'id', "classifier-svg-root-#{i}"
-      @fourUpContainer.append @markingSurfaceList[i].el
-      @markingSurfaceList[i].on 'create-tool', (tool) =>
-        console.log 'tool created'
-        if @state is 'asteroidTool'
-          # enforce one mark per frame
-          if @asteroidMarkedInFrame[@currFrameIdx]
-            console.log 'frame already marked!'
-            @destroyMarksInFrame @currFrameIdx, @currAsteroid.id
-          else 
-            # console.log 'frame was empty'
-            @el.find(".asteroid-frame-complete-#{@currFrameIdx}").prop 'checked', true
-            @asteroidMarkedInFrame[@currFrameIdx] = true
-          # enable 'done' button only if all frames marked
-          numFramesComplete = 0
-          for status in @asteroidMarkedInFrame
-            if status is true
-              numFramesComplete++
-          if numFramesComplete is 4
-            @doneButton.prop 'disabled', false
-        tool.controls.controller.setMark(@currFrameIdx, @currAsteroid.id)
+    @createMarkingSurfaces()
 
     @setState 'whatKind'
     User.on 'change', @onUserChange
     Subject.on 'fetch', @onSubjectFetch
     Subject.on 'select', @onSubjectSelect
 
+  createMarkingSurfaces: ->
+    @numFrames = 4
+    @markingSurfaceList = new Array
+    for i in [0...@numFrames]
+      @markingSurfaceList[i] = new MarkingSurface
+        tool: MarkingTool
+      @markingSurfaceList[i].svgRoot.attr 'id', "classifier-svg-root-#{i}"
+      @fourUpContainer.append @markingSurfaceList[i].el
+
     for surface in @markingSurfaceList
-      surface.on "create-mark", @onCreateMark
+      surface.on 'create-mark', @onCreateMark
+      surface.on 'create-tool', (tool) => 
+        @onCreateTool(tool)
 
   renderTemplate: =>
     super
@@ -206,13 +191,32 @@ class Classifier extends BaseController
     setTimeout =>
       @el.find('a, button, input, textarea, select').filter('section *:visible').first().focus()
 
-  onCreateMark:(mark) =>
-    console.log 'mark created'
+  onCreateMark: (mark) =>
     @finishButton.prop 'disabled', false
     if @asteroidMarkedInFrame[ @currFrameIdx ]
-      @currAsteroid.popSighting()
-    @currAsteroid.pushSighting mark
+      @currAsteroid.clearSightingsInFrame @currFrameIdx
+      @destroyMarksInFrame @currFrameIdx, @currAsteroid.id
+    else
+      @currAsteroid.pushSighting mark
     @updateIconsForCreateMark()
+
+  onCreateTool: (tool) =>
+      console.log 'tool created'
+      if @state is 'asteroidTool'
+        # enforce one mark per frame
+        if @asteroidMarkedInFrame[@currFrameIdx]
+          @destroyMarksInFrame @currFrameIdx, @currAsteroid.id
+        else 
+          @el.find(".asteroid-frame-complete-#{@currFrameIdx}").prop 'checked', true
+          @asteroidMarkedInFrame[@currFrameIdx] = true
+        # enable 'done' button only if all frames marked
+        numFramesComplete = 0
+        for status in @asteroidMarkedInFrame
+          if status is true
+            numFramesComplete++
+        if numFramesComplete is 4
+          @doneButton.prop 'disabled', false
+      tool.controls.controller.setMark(@currFrameIdx, @currAsteroid.id)
 
   updateIconsForCreateMark: =>
     frameNum = @currFrameIdx
@@ -260,7 +264,6 @@ class Classifier extends BaseController
   loadFrames: =>
     @destroyFrames()
     subject_info = @classification.subject.location
-
     numImages = subject_info.standard.length
     for i in [0...numImages]
       frame_id = "frame-id-#{i}"
@@ -280,8 +283,8 @@ class Classifier extends BaseController
           'xlink:href': img_src          # get images from api
           # 'xlink:href': DEV_SUBJECTS[i]   # use hardcoded static images
 
-    @activateFrame 0  # default to first frame after loading
     @stopLoading()
+    @activateFrame 0  # default to first frame after loading
 
   onClickFourUp: ->
     @el.find("#frame-id-#{i}").closest("div").show() for i in [0...4]
@@ -323,19 +326,12 @@ class Classifier extends BaseController
       element.style.width = newSize + "px"
       element.style.height = newSize + "px"
 
-  destroyMarksInFrame: (frame_idx, curr_ast_id) ->
-    console.log "Destroy marks for current asteroid (", curr_ast_id, ") in frame: ", frame_idx
+  destroyMarksInFrame: (frame_idx) ->
     for surface in @markingSurfaceList
       for theMark in surface.marks
-        # console.log 'current mark: ', theMark, ' frame: ', theMark.frame, ' asteroid_id: ', theMark.asteroid_id 
-        if theMark.frame is frame_idx and theMark.asteroid_id is @currAsteroid.id
-          console.log 'BOOYAH'
-        #   console.log 'destroying mark: ', @theMark
-          theMark.destroy()
+        theMark.destroy() if theMark.frame is frame_idx and theMark.asteroid_id is @currAsteroid.id
 
   onClickAsteroidNotVisible: ->
-    console.log 'onClickAsteroidNotVisible: '
-
     completeChecked   = @asteroidCompleteCheckboxes[@currFrameIdx].checked
     visibilityChecked = @asteroidVisibilityCheckboxes[@currFrameIdx].checked
 
@@ -389,7 +385,7 @@ class Classifier extends BaseController
     @setState 'whatKind'
 
   resetAsteroidCompleteCheckboxes: ->
-    @asteroidMarkedInFrame = []
+    @asteroidMarkedInFrame = [null, null, null, null]
     for i in [0...@numFrames]
       @el.find(".asteroid-checkbox").prop 'checked', false
       @el.find("#marked-icon-#{i}").hide()
@@ -434,6 +430,7 @@ class Classifier extends BaseController
 
   activateFrame: (@active) ->
     @setAsteroidFrame(@active)
+    @setCurrentFrameIdx(@active)
     classifier.el.find(".asteroid-frame-#{@active}").addClass 'current-asteroid-frame'
     return if @el.attr('flicker') is "false"
     @showFrame(@active)
@@ -469,7 +466,7 @@ class Classifier extends BaseController
     radio.checked = false for radio in @classifierTypeRadios
     @sendClassification()
     @destroyFrames()
-    @destroyMarksInFrame(i) for i in [0,1,2,3]
+    # @destroyMarksInFrame(i) for i in [0,1,2,3]
     Subject.next()
     document.getElementById('frame-slider').value = 0 #reset slider to first frame
     @finishButton.prop 'disabled', true
