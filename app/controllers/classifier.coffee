@@ -180,8 +180,8 @@ class Classifier extends BaseController
 
   onCreateMark: (mark) =>
     console.log 'mark created'
+    @currAsteroid.pushSighting mark
     @finishButton.prop 'disabled', false
-    @currAsteroid.pushSighting mark #TODO regulate
 
   onCreateTool: (tool) =>
     surfaceIndex = @markingSurfaceList.indexOf tool.surface

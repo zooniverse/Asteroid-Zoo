@@ -22,7 +22,7 @@ class Sighting
 
   clearSightingsInFrame: (frame_num) ->
     for sighting, i in @allSightings
-      if sighting.frame is frame_num
+      if sighting?.frame is frame_num
         console.log 'remove: ', sighting
         @allSightings.splice i, 1
 
