@@ -322,9 +322,8 @@
                   <%# translate 'span', "#{frameNum}" %>
                 </label>
                 <label>
-                  <div class="<%="asteroid-visible asteroid-visible-#{frameNum}" %>">
-                    <input type="checkbox" name="visible" class="<%= "asteroid-checkbox asteroid-not-visible asteroid-not-visible-#{frameNum}" %>" 
-                    />
+                  <div class="<%="asteroid-visible asteroid-visible-#{frameNum}"%>">
+                    <input type="checkbox" name="visible" class="<%= "asteroid-checkbox asteroid-not-visible asteroid-not-visible-#{frameNum}" %>" id="<%="asteroid-visible-#{frameNum}" %>"/>
                     <%- translate 'span', "Not Visible?" %>
                   </div>
                 </label>
@@ -366,7 +365,7 @@
       </button>
 
       <div class="current-frame">
-        <input id="frame-slider" type="range" name="current-frame" min="0" max="3" value="0" data-ticks="true">
+        <input id="frame-slider" type="range" name="frame-slider"  min="0" max="3" value="0" data-ticks="true">
       </div>
     </div>
 

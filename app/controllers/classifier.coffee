@@ -35,7 +35,6 @@ NEXT_DEV_SUBJECT = ->
 class Classifier extends BaseController
   className: 'classifier'
   template: require '../views/classifier'
-  currFrameIdx = 0
 
   events:
     'click button[name="play-frames"]'    : 'onClickPlay'
@@ -46,7 +45,7 @@ class Classifier extends BaseController
     'click button[name="next-frame"]'     : 'onClickNextFrame'
     'click button[name="asteroid-done"]'  : 'onClickAsteroidDone'
     'click button[name="cancel"]'         : 'onClickCancel'
-    'change input[name="current-frame"]'  : 'onChangeFrameSlider'
+    'change input[name="frame-slider"]'  : 'onChangeFrameSlider'
     'keydown'                             : 'onKeyDown'
     'change .asteroid-not-visible'        : 'onClickAsteroidNotVisible'
 
@@ -74,9 +73,7 @@ class Classifier extends BaseController
     '.subject'                       : 'subjectContainer'
     '.flicker'                       : 'flickerContainer'
     '.four-up'                       : 'fourUpContainer'
-    '.frame-image'                   : 'imageFrames'   # not being used (yet?)
-    '.current-frame input'           : 'frameRadioButtons'
-    'input[name="current-frame"]'    : 'currentFrameRadioButton'
+    '.frame-image'                   : 'imageFrames'
     'button[name="play-frames"]'     : 'playButton'
     'button[name="invert"]'          : 'invertButton'
     'button[name="flicker"]'         : 'flickerButton'
@@ -87,6 +84,7 @@ class Classifier extends BaseController
     'button[name="cancel"]'          : 'cancel'
     'input[name="selected-artifact"]': 'selectedArtifactRadios'  
     'input[name="classifier-type"]'  : 'classifierTypeRadios'
+    'input[name="frame-slider"]'     : 'frameSlider'
     '.asteroid-not-visible'          : 'asteroidVisibilityCheckboxes'
     '.asteroid-checkbox'             : 'asteroidCompleteCheckboxes'
 
@@ -94,7 +92,6 @@ class Classifier extends BaseController
     whatKind:
       enter: ->
         @disableMarkingSurfaces()
-
         # reset asteroid/artifact selector
         for e in @el.find('input[name="classifier-type"]')
           e.checked = false
@@ -102,7 +99,6 @@ class Classifier extends BaseController
         @el.find('.what-kind').show()
 
       exit: ->
-        @enableMarkingSurfaces()
         @el.find('button[name="to-select"]').removeClass 'hidden'
         @el.find('.what-kind').hide()
 
@@ -136,9 +132,7 @@ class Classifier extends BaseController
     @playTimeouts = []
     @el.attr tabindex: 0
     @el.attr 'flicker', "true"
-
     @invert = false
-    @currFrameIdx = 0
 
     window.classifier = @
     @setOfSightings = []
@@ -185,21 +179,24 @@ class Classifier extends BaseController
       @el.find('a, button, input, textarea, select').filter('section *:visible').first().focus()
 
   onCreateMark: (mark) =>
-    console.log 'mark created', mark
+    console.log 'mark created'
     @finishButton.prop 'disabled', false
-    if @asteroidMarkedInFrame[@currFrameIdx]
-      console.log 'clearing'
-      @currAsteroid.clearSightingsInFrame @currFrameIdx
-      @destroyMarksInFrame(@currFrameIdx)
-    else
-      console.log 'pushing'
-      @el.find(".asteroid-frame-complete-#{@currFrameIdx}").prop 'checked', true
-      @asteroidMarkedInFrame[@currFrameIdx] = true
-      @currAsteroid.pushSighting mark
-    @updateIconsForCreateMark()
+    @currAsteroid.pushSighting mark #TODO regulate
 
   onCreateTool: (tool) =>
-    console.log 'tool created', tool
+    surfaceIndex = @markingSurfaceList.indexOf tool.surface
+    console.log 'tool created', tool, 'on surface', surfaceIndex
+
+    if @asteroidMarkedInFrame[surfaceIndex]
+      console.log 'clearing'
+      @currAsteroid.clearSightingsInFrame surfaceIndex
+      @destroyMarksInFrame(surfaceIndex)
+    else
+      console.log 'pushing'
+      @el.find(".asteroid-frame-complete-#{surfaceIndex}").prop 'checked', true
+      @asteroidMarkedInFrame[surfaceIndex] = true
+    @updateIconsForCreateMark(surfaceIndex)
+
     if @state is 'asteroidTool'
       numFramesComplete = 0
       for status in @asteroidMarkedInFrame
@@ -207,16 +204,10 @@ class Classifier extends BaseController
           numFramesComplete++
       if numFramesComplete is 4
         @doneButton.prop 'disabled', false
-    surfaceIndex = @markingSurfaceList.indexOf tool.surface
-    tool.controls.controller.setMark(surfaceIndex, @currAsteroid.id)
+    console.log 'numFramesComplete', numFramesComplete
+    console.log @asteroidMarkedInFrame
 
-  updateIconsForCreateMark: =>
-    frameNum = @currFrameIdx
-    @el.find("#number-#{frameNum}").hide()
-    @el.find("#not-visible-icon-#{frameNum}").hide() # checked = false??
-    @el.find("#marked-icon-#{frameNum}").show()
-    @el.find(".asteroid-visible-#{frameNum}").hide()
-    @el.find("#marked-status-#{frameNum}").html("Marked!")
+    tool.controls.controller.setMark(surfaceIndex, @currAsteroid.id)
 
   onChangeFrameSlider: =>
     frame = document.getElementById('frame-slider').value
@@ -323,40 +314,45 @@ class Classifier extends BaseController
       for theMark in surface.marks
         theMark.destroy() if theMark.frame is frame_idx and theMark.asteroid_id is @currAsteroid.id
 
-  onClickAsteroidNotVisible: ->
-    completeChecked   = @asteroidCompleteCheckboxes[@currFrameIdx].checked
-    visibilityChecked = @asteroidVisibilityCheckboxes[@currFrameIdx].checked
+  onClickAsteroidNotVisible: (e) ->
+    frameNum = e.target.id.slice(-1)
+    visibilityChecked = @asteroidVisibilityCheckboxes[frameNum].checked
 
-    if @asteroidMarkedInFrame[@currFrameIdx]
-      @currAsteroid.clearSightingsInFrame @currFrameIdx
-      @destroyMarksInFrame @currFrameIdx
+    if @asteroidMarkedInFrame[frameNum]
+      @currAsteroid.clearSightingsInFrame frameNum
+      @destroyMarksInFrame frameNum
 
-    @updateIconsForNotVisible()
+    @updateIconsForNotVisible(frameNum)
 
     newAnnotation =
-      frame: @currFrameIdx
+      frame: frameNum
       x: null
       y: null
       visible: false
       inverted: @invert
     @currAsteroid.pushSighting newAnnotation
 
-  updateIconsForNotVisible: ->
-    frameNum = @currFrameIdx
-    @asteroidMarkedInFrame[@currFrameIdx] = true # frame done ("Marked" is a bit misleading here. Fix later!)
+  updateIconsForCreateMark: (frameNum) =>
+    @el.find("#number-#{frameNum}").hide()
+    @el.find("#not-visible-icon-#{frameNum}").hide() # checked = false??
+    @el.find("#marked-icon-#{frameNum}").show()
+    # @el.find(".asteroid-visible-#{frameNum}").hide()
+    @el.find("#marked-status-#{frameNum}").show().html("Marked!")
+
+  updateIconsForNotVisible: (frameNum) ->
+    @asteroidMarkedInFrame[frameNum] = true # frame done ("Marked" is a bit misleading here. Fix later!)
     @el.find(".asteroid-frame-complete-#{frameNum}").prop 'checked', true
     @el.find("#number-#{frameNum}").toggle()
     @el.find("#not-visible-icon-#{frameNum}").show()
-    @el.find("#marked-status-#{frameNum}").html("Not Visible")
+    # @el.find(".asteroid-visible-#{frameNum}").hide()
+    @el.find("#marked-status-#{frameNum}").show().html("Not Visible")
 
-  setAsteroidFrame: (frame_idx) ->
+  setAsteroidFrame: (frameNum) ->
     return unless @state is 'asteroidTool'
-    @setCurrentFrameIdx(frame_idx)
 
-    @el.find("#frame-slider").val frame_idx
-    @el.find(".asteroid-visibility-#{frame_idx}").show()
+    @el.find("#frame-slider").val frameNum
+    @el.find(".asteroid-visibility-#{frameNum}").show()
 
-    frameNum = frame_idx
     for i in [0...@el.find('.asteroid-frame').length]
       if i is frameNum
         classifier.el.find(".asteroid-frame-#{i}").addClass 'current-asteroid-frame'
@@ -364,44 +360,35 @@ class Classifier extends BaseController
         classifier.el.find(".asteroid-frame-#{i}").removeClass 'current-asteroid-frame'
 
   onClickAsteroidDone: ->
-    @currAsteroid.displaySummary() 
-
+    @currAsteroid.displaySummary()
     if @currAsteroid.sightingCount is 0
       @currAsteroid = null
     else
       @setOfSightings.push @currAsteroid
 
     @asteroid_num++
-    @resetAsteroidCompleteCheckboxes()
-    @resetAsteroidVisibilityCheckboxes()
+    @resetAsteroidCheckboxes()
     @setState 'whatKind'
 
-  resetAsteroidCompleteCheckboxes: ->
+  resetAsteroidCheckboxes: ->
     @asteroidMarkedInFrame = [null, null, null, null]
     for i in [0...@numFrames]
       @el.find(".asteroid-checkbox").prop 'checked', false
       @el.find("#marked-icon-#{i}").hide()
-      @el.find(".asteroid-checkbox").show()
-      @el.find(".asteroid-visible-#{i}").show()
-
-  resetAsteroidVisibilityCheckboxes: ->
-    for i in [0...@numFrames]
-      @el.find(".asteroid-not-visible").prop 'checked', false
-      @el.find(".asteroid-not-visible").show()
-      @el.find("#marked-status-#{i}").html("Not Visible?")
+      @el.find("#marked-status-#{i}").hide()
       @el.find("#not-visible-icon-#{i}").hide()
       @el.find("#number-#{i}").show()
+      @el.find(".asteroid-visible").show()
 
   onClickNextFrame: ->
-    return if @currFrameIdx is 3
-    @currFrameIdx++
-    @activateFrame(@currFrameIdx)
+    sliderValue = document.getElementById('frame-slider').value
+    return if sliderValue is 3
+    sliderValue++
+    @activateFrame(sliderValue)
 
   onClickCancel: ->
-    if @state is 'asteroidTool'
-      @resetMarkingSurfaces()
-    @resetAsteroidVisibilityCheckboxes()
-    @resetAsteroidCompleteCheckboxes()
+    @resetMarkingSurfaces() if @state is 'asteroidTool'
+    @resetAsteroidCheckboxes()
     @setState 'whatKind' # return to initial state
 
   onClickPlay: ->
@@ -420,16 +407,12 @@ class Classifier extends BaseController
     @playButton.attr 'disabled', false
     @enableMarkingSurfaces()
 
-  activateFrame: (@active) ->
-    @setAsteroidFrame(@active)
-    @setCurrentFrameIdx(@active)
-    classifier.el.find(".asteroid-frame-#{@active}").addClass 'current-asteroid-frame'
+  activateFrame: (frame) ->
+    @setAsteroidFrame(frame)
+    classifier.el.find(".asteroid-frame-#{frame}").addClass 'current-asteroid-frame'
     return if @el.attr('flicker') is "false"
-    @showFrame(@active)
-
-  setCurrentFrameIdx: (frame_idx) ->
-    @currFrameIdx = frame_idx
-    @el.attr 'data-on-frame', @currFrameIdx
+    @showFrame(frame)
+    @el.attr 'data-on-frame', frame
 
   showFrame: (frame_idx) ->
     @el.find("#frame-id-#{i}").closest("div").hide() for i in [0...4]
@@ -447,7 +430,6 @@ class Classifier extends BaseController
       @invertButton.addClass 'colorme'
 
     @loadFrames()
-    @activateFrame(@currFrameIdx)
     # bring marking tools back to front for each surface
     for surface in @markingSurfaceList
       markElements = surface.el.getElementsByClassName('marking-tool-root')
@@ -458,7 +440,6 @@ class Classifier extends BaseController
     radio.checked = false for radio in @classifierTypeRadios
     @sendClassification()
     @destroyFrames()
-    # @destroyMarksInFrame(i) for i in [0,1,2,3]
     Subject.next()
     document.getElementById('frame-slider').value = 0 #reset slider to first frame
     @finishButton.prop 'disabled', true
