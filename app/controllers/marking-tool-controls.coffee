@@ -78,11 +78,6 @@ class MarkingToolControlsController extends BaseController
    
     @tool.mark.x = Math.floor(@tool.mark.x) 
     @tool.mark.y = Math.floor(@tool.mark.y)
-    # pass the what surface this mark came from back to the classifier.  
-    if this.tool.surface.el.id  is "surface-master"
-      @tool.mark.surface_master = true
-    else
-      @tool.mark.surface_master = false
     #TODO Sascha didn't like the sub-structure here
     @tool.mark.set 'detection', detection
 

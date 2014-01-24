@@ -275,7 +275,7 @@ class Classifier extends BaseController
         height: '100%'
         preserveAspectRatio: 'true'
 
-      img_src = if @invert is true then subject_info.inverted[i] else subject_info.standard[i]
+      img_src = if @invert then subject_info.inverted[i] else subject_info.standard[i]
 
       do (img_src, frameImage)  =>
         loadImage img_src, (img) =>
@@ -471,11 +471,6 @@ class Classifier extends BaseController
     document.getElementById('frame-slider').value = 0 #reset slider to first frame
     @finishButton.prop 'disabled', true
     @onClickFlicker()
-
-  rescale: =>
-    setTimeout =>
-      over = innerHeight - document.body.clientHeight
-      @subjectContainer.height parseFloat(@subjectContainer.height()) + over
 
   startLoading: ->
     @el.addClass 'loading'
