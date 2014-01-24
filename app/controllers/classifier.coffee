@@ -49,7 +49,6 @@ class Classifier extends BaseController
     'change input[name="current-frame"]'  : 'onChangeFrameSlider'
     'keydown'                             : 'onKeyDown'
     'change .asteroid-not-visible'        : 'onClickAsteroidNotVisible'
-    'click .marking-surface'              : 'onClickMarkingSurface'
 
     # state controller events
     'change input[name="classifier-type"]': (e) ->
@@ -167,16 +166,10 @@ class Classifier extends BaseController
 
     for surface in @markingSurfaceList
       surface.on 'create-mark', @onCreateMark
-      surface.on 'create-tool', (tool) => 
-        @onCreateTool(tool)
+      surface.on 'create-tool', @onCreateTool
 
   renderTemplate: =>
     super
-
-  onClickMarkingSurface: (e) =>
-    e.preventDefault()
-    elementId = e.target.id #frame-id-(x)
-    @activateFrame(elementId.charAt elementId.length-1)
 
   setState: (newState) ->
     if @state
@@ -192,31 +185,30 @@ class Classifier extends BaseController
       @el.find('a, button, input, textarea, select').filter('section *:visible').first().focus()
 
   onCreateMark: (mark) =>
+    console.log 'mark created', mark
     @finishButton.prop 'disabled', false
-    if @asteroidMarkedInFrame[ @currFrameIdx ]
+    if @asteroidMarkedInFrame[@currFrameIdx]
+      console.log 'clearing'
       @currAsteroid.clearSightingsInFrame @currFrameIdx
-      @destroyMarksInFrame @currFrameIdx, @currAsteroid.id
+      @destroyMarksInFrame(@currFrameIdx)
     else
+      console.log 'pushing'
+      @el.find(".asteroid-frame-complete-#{@currFrameIdx}").prop 'checked', true
+      @asteroidMarkedInFrame[@currFrameIdx] = true
       @currAsteroid.pushSighting mark
     @updateIconsForCreateMark()
 
   onCreateTool: (tool) =>
-      console.log 'tool created'
-      if @state is 'asteroidTool'
-        # enforce one mark per frame
-        if @asteroidMarkedInFrame[@currFrameIdx]
-          @destroyMarksInFrame @currFrameIdx, @currAsteroid.id
-        else 
-          @el.find(".asteroid-frame-complete-#{@currFrameIdx}").prop 'checked', true
-          @asteroidMarkedInFrame[@currFrameIdx] = true
-        # enable 'done' button only if all frames marked
-        numFramesComplete = 0
-        for status in @asteroidMarkedInFrame
-          if status is true
-            numFramesComplete++
-        if numFramesComplete is 4
-          @doneButton.prop 'disabled', false
-      tool.controls.controller.setMark(@currFrameIdx, @currAsteroid.id)
+    console.log 'tool created', tool
+    if @state is 'asteroidTool'
+      numFramesComplete = 0
+      for status in @asteroidMarkedInFrame
+        if status is true
+          numFramesComplete++
+      if numFramesComplete is 4
+        @doneButton.prop 'disabled', false
+    surfaceIndex = @markingSurfaceList.indexOf tool.surface
+    tool.controls.controller.setMark(surfaceIndex, @currAsteroid.id)
 
   updateIconsForCreateMark: =>
     frameNum = @currFrameIdx
@@ -337,7 +329,7 @@ class Classifier extends BaseController
 
     if @asteroidMarkedInFrame[@currFrameIdx]
       @currAsteroid.clearSightingsInFrame @currFrameIdx
-      @destroyMarksInFrame @currFrameIdx, @currAsteroid.id
+      @destroyMarksInFrame @currFrameIdx
 
     @updateIconsForNotVisible()
 

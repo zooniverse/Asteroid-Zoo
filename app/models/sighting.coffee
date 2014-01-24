@@ -1,23 +1,20 @@
 class Sighting
 
-  id           = null
-  type         = null
-  subType      = null
-  allSightings = null
+  Sighting.id = 0
 
   constructor: (params) ->
-    @id           = 0
-    @type         = params.type
-    @subType      = params.subType if subType?
+    @type = params.type
+    @subType =  params.subType if subType?
+    @id = Sighting.nextId()
     @allSightings = []
 
   pushSighting: (newSighting) ->
-    console.log '  [sighting pushed]'
+    console.log 'sighting pushed'
     newSighting.timeStamp = new Date()
     @allSightings.push newSighting
 
   popSighting: ->
-    console.log '  [sighting popped]'
+    console.log 'sighting popped'
     @allSightings.pop()
 
   getSightingCount: ->
@@ -26,6 +23,7 @@ class Sighting
   clearSightingsInFrame: (frame_num) ->
     for sighting, i in @allSightings
       if sighting.frame is frame_num
+        console.log 'remove: ', sighting
         @allSightings.splice i, 1
 
   displaySummary: ->
@@ -44,6 +42,6 @@ class Sighting
 
   @nextId: ->
     Sighting.id += 1
-    Sighting.id    
+    Sighting.id
 
 module.exports = Sighting
