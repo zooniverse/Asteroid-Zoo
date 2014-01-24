@@ -411,8 +411,7 @@ class Classifier extends BaseController
 
   onClickCancel: ->
     if @state is 'asteroidTool'
-      @resetMarkingSurfaces
-      surface?.reset() for surface in @markingSurfaceList
+      @resetMarkingSurfaces()
     @resetAsteroidVisibilityCheckboxes()
     @resetAsteroidCompleteCheckboxes()
     @setState 'whatKind' # return to initial state
