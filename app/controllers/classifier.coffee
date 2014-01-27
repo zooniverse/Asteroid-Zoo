@@ -60,9 +60,9 @@ class Classifier extends BaseController
       else
         console.log("Error: unknown classifier-type")
 
-    'change input[name="selected-artifact"]': ->      
-      @artifactSubtype = @selectedArtifactRadios.filter(':checked').val() 
-      
+    'change input[name="selected-artifact"]': ->
+      @artifactSubtype = @selectedArtifactRadios.filter(':checked').val()
+
     'click button[name="delete"]': ->
       @tool.mark.destroy()
 
@@ -82,7 +82,7 @@ class Classifier extends BaseController
     'button[name="asteroid-done"]'   : 'doneButton'
     'button[name="next-frame"]'      : 'nextFrame'
     'button[name="cancel"]'          : 'cancel'
-    'input[name="selected-artifact"]': 'selectedArtifactRadios'  
+    'input[name="selected-artifact"]': 'selectedArtifactRadios'
     'input[name="classifier-type"]'  : 'classifierTypeRadios'
     'input[name="frame-slider"]'     : 'frameSlider'
     '.asteroid-not-visible'          : 'asteroidVisibilityCheckboxes'
@@ -95,7 +95,7 @@ class Classifier extends BaseController
         # reset asteroid/artifact selector
         for e in @el.find('input[name="classifier-type"]')
           e.checked = false
-        @el.find('button[name="to-select"]').addClass 'hidden' 
+        @el.find('button[name="to-select"]').addClass 'hidden'
         @el.find('.what-kind').show()
 
       exit: ->
@@ -114,7 +114,7 @@ class Classifier extends BaseController
 
       exit: ->
         @disableMarkingSurfaces()
-        @el.find('.asteroid-classifier').hide() 
+        @el.find('.asteroid-classifier').hide()
         @doneButton.hide()
         @finishButton.show()
 
@@ -124,7 +124,7 @@ class Classifier extends BaseController
         @el.find('.artifact-classifier').show()
       exit: ->
         @disableMarkingSurfaces()
-        @el.find('.artifact-classifier').hide() 
+        @el.find('.artifact-classifier').hide()
 
   constructor: ->
     super
@@ -240,7 +240,7 @@ class Classifier extends BaseController
 
   disableMarkingSurfaces: =>
     surface.disable() for surface in @markingSurfaceList
-    
+
   enableMarkingSurfaces: =>
     surface.enable() for surface in @markingSurfaceList
 
@@ -381,10 +381,8 @@ class Classifier extends BaseController
       @el.find(".asteroid-visible").show()
 
   onClickNextFrame: ->
-    sliderValue = document.getElementById('frame-slider').value
-    return if sliderValue is 3
-    sliderValue++
-    @activateFrame(sliderValue)
+    nextFrame = parseInt(document.getElementById('frame-slider').value) + 1
+    @activateFrame(nextFrame) unless nextFrame is 4
 
   onClickCancel: ->
     @resetMarkingSurfaces() if @state is 'asteroidTool'
