@@ -92,6 +92,7 @@ class Classifier extends BaseController
     whatKind:
       enter: ->
         @disableMarkingSurfaces()
+
         # reset asteroid/artifact selector
         for e in @el.find('input[name="classifier-type"]')
           e.checked = false
@@ -348,8 +349,6 @@ class Classifier extends BaseController
     @el.find("#marked-status-#{frameNum}").show().html("Not Visible")
 
   setAsteroidFrame: (frameNum) ->
-    return unless @state is 'asteroidTool'
-
     @el.find("#frame-slider").val frameNum
     @el.find(".asteroid-visibility-#{frameNum}").show()
 
