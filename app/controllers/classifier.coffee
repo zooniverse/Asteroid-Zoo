@@ -395,15 +395,16 @@ class Classifier extends BaseController
     @playButton.attr 'disabled', true
     @el.addClass 'playing'
 
-    last = @classification.subject.location.standard.length - 1
-    iterator = [0...last].concat [last...-1]
-
+    iterator = [0...@numFrames].concat [@numFrames-2..0]
     for index, i in iterator then do (index, i) =>
       @playTimeouts.push setTimeout (=> @activateFrame index), i * 500
 
-    @el.removeClass 'playing'
-    @playButton.attr 'disabled', false
-    @enableMarkingSurfaces()
+    # reset after animation complete
+    setTimeout (=>
+      @el.removeClass 'playing'
+      @playButton.attr 'disabled', false
+      @enableMarkingSurfaces()
+    ), iterator.length * 500
 
   activateFrame: (frame) ->
     @setAsteroidFrame(frame)
