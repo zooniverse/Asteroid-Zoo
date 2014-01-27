@@ -31,6 +31,8 @@
 
   .four-up
     background: black
+    height 512px
+    overflow hidden
     margin-left: auto
     margin-right: auto;
 
@@ -41,8 +43,6 @@
     height: 512px
     width: 512px
     padding: 1px 1px
-    max-height: 100%
-    max-width: 100%
     background-color #000
 
   .left-panel
@@ -67,7 +67,6 @@
       svg
         path, circle
           fill #29afcd
-
     svg
       display block
       margin 10px auto
@@ -172,7 +171,6 @@
         &:disabled
           opacity: 0.5
           pointer-events none
-          
 
     #finished
       float left
