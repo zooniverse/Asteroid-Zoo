@@ -182,10 +182,9 @@ class Classifier extends BaseController
   onCreateMark: (mark) =>
     console.log 'mark created'
     @currAsteroid.pushSighting mark
-    @finishButton.prop 'disabled', false
 
   onCreateTool: (tool) =>
-    surfaceIndex = @markingSurfaceList.indexOf tool.surface
+    surfaceIndex = +@markingSurfaceList.indexOf tool.surface
     console.log 'tool created', tool, 'on surface', surfaceIndex
 
     if @asteroidMarkedInFrame[surfaceIndex]
@@ -198,14 +197,9 @@ class Classifier extends BaseController
       @asteroidMarkedInFrame[surfaceIndex] = true
     @updateIconsForCreateMark(surfaceIndex)
 
-    if @state is 'asteroidTool'
-      numFramesComplete = 0
-      for status in @asteroidMarkedInFrame
-        if status is true
-          numFramesComplete++
-      if numFramesComplete is 4
-        @doneButton.prop 'disabled', false
-    console.log 'numFramesComplete', numFramesComplete
+    if @state is 'asteroidTool' and @currAsteroid.allSightings.length is 4
+      @doneButton.prop 'disabled', false
+
     console.log @asteroidMarkedInFrame
 
     tool.controls.controller.setMark(surfaceIndex, @currAsteroid.id)
@@ -316,7 +310,7 @@ class Classifier extends BaseController
         theMark.destroy() if theMark.frame is frame_idx and theMark.asteroid_id is @currAsteroid.id
 
   onClickAsteroidNotVisible: (e) ->
-    frameNum = e.target.id.slice(-1)
+    frameNum = +e.target.id.slice(-1)
     visibilityChecked = @asteroidVisibilityCheckboxes[frameNum].checked
 
     if @asteroidMarkedInFrame[frameNum]
@@ -333,17 +327,21 @@ class Classifier extends BaseController
       inverted: @invert
     @currAsteroid.pushSighting newAnnotation
 
+    if @state is 'asteroidTool' and @currAsteroid.allSightings.length is 4
+      @doneButton.prop 'disabled', false
+
   updateIconsForCreateMark: (frameNum) =>
     @el.find("#number-#{frameNum}").hide()
     @el.find("#not-visible-icon-#{frameNum}").hide() # checked = false??
     @el.find("#marked-icon-#{frameNum}").show()
+    @el.find("#asteroid-visible-#{frameNum}").prop 'checked', false
     # @el.find(".asteroid-visible-#{frameNum}").hide()
     @el.find("#marked-status-#{frameNum}").show().html("Marked!")
 
   updateIconsForNotVisible: (frameNum) ->
     @asteroidMarkedInFrame[frameNum] = true # frame done ("Marked" is a bit misleading here. Fix later!)
     @el.find(".asteroid-frame-complete-#{frameNum}").prop 'checked', true
-    @el.find("#number-#{frameNum}").toggle()
+    @el.find("#number-#{frameNum}").hide()
     @el.find("#not-visible-icon-#{frameNum}").show()
     # @el.find(".asteroid-visible-#{frameNum}").hide()
     @el.find("#marked-status-#{frameNum}").show().html("Not Visible")
@@ -360,12 +358,12 @@ class Classifier extends BaseController
 
   onClickAsteroidDone: ->
     @currAsteroid.displaySummary()
-    if @currAsteroid.sightingCount is 0
+    if @currAsteroid.allSightings.length is 0
       @currAsteroid = null
     else
+      @finishButton.prop 'disabled', false
       @setOfSightings.push @currAsteroid
 
-    @asteroid_num++
     @resetAsteroidCheckboxes()
     @setState 'whatKind'
 

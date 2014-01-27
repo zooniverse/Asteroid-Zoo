@@ -27,10 +27,10 @@ class Sighting
         @allSightings.splice i, 1
 
   displaySummary: ->
-    console.log '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-' 
+    console.log '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'
     console.log '      type : ' + @type
     console.log '      subtype: ' + @subType if @subType?
-    console.log '      id : ' + @id 
+    console.log '      id : ' + @id
     for sighting in @allSightings
       console.log '    -:-:-:-:-:-:-:-'
       console.log '      frame : ' + sighting.frame
