@@ -354,6 +354,7 @@ class Classifier extends BaseController
     @el.find("#number-#{frameNum}").show()
     @el.find(".asteroid-frame-complete-#{frameNum}").prop 'checked', false
     @el.find("#marked-icon-#{frameNum}").hide()
+    @el.find(".asteroid-visible-#{frameNum}").show()
     # @el.find("#asteroid-visible-#{frameNum}").prop 'checked', false
     @el.find("#marked-status-#{frameNum}").hide()
 
