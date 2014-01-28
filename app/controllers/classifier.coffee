@@ -105,7 +105,7 @@ class Classifier extends BaseController
 
     asteroidTool:
       enter: ->
-        @activateFrame 0
+        if @el.attr('flicker') is 'true' then @activateFrame 0 else @showAllTrackingIcons()
         @enableMarkingSurfaces()
         @currAsteroid = new Sighting({type:"asteroid"})
         @el.find('.asteroid-classifier').show()
@@ -276,6 +276,7 @@ class Classifier extends BaseController
     @flickerButton.attr 'disabled', false
     @el.attr 'flicker', "false"
     @rerenderMarks()
+    @showAllTrackingIcons()
 
   onClickFlicker: ->
     markingSurfaces = document.getElementsByClassName("marking-surface")
@@ -345,6 +346,10 @@ class Classifier extends BaseController
     @el.find("#not-visible-icon-#{frameNum}").show()
     @el.find(".asteroid-visible-#{frameNum}").hide()
     @el.find("#marked-status-#{frameNum}").show().html("Not Visible")
+
+  showAllTrackingIcons: ->
+    for frameNum in [0...4]
+      classifier.el.find(".asteroid-frame-#{frameNum}").addClass 'current-asteroid-frame'
 
   setAsteroidFrame: (frameNum) ->
     console.log 'next frame: ', frameNum+1
