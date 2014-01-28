@@ -347,13 +347,14 @@ class Classifier extends BaseController
     @el.find("#not-visible-icon-#{frameNum}").hide() # checked = false??
     @el.find("#marked-icon-#{frameNum}").show()
     @el.find("#asteroid-visible-#{frameNum}").prop 'checked', false
-    # @el.find(".asteroid-visible-#{frameNum}").hide()
+    @el.find(".asteroid-visible-#{frameNum}").hide()
     @el.find("#marked-status-#{frameNum}").show().html("Marked!")
 
   updateIconsForDestroyMark: (frameNum) =>
     @el.find("#number-#{frameNum}").show()
     @el.find(".asteroid-frame-complete-#{frameNum}").prop 'checked', false
     @el.find("#marked-icon-#{frameNum}").hide()
+    @el.find(".asteroid-visible-#{frameNum}").show()
     # @el.find("#asteroid-visible-#{frameNum}").prop 'checked', false
     @el.find("#marked-status-#{frameNum}").hide()
 
@@ -362,7 +363,7 @@ class Classifier extends BaseController
     @el.find(".asteroid-frame-complete-#{frameNum}").prop 'checked', true
     @el.find("#number-#{frameNum}").hide()
     @el.find("#not-visible-icon-#{frameNum}").show()
-    # @el.find(".asteroid-visible-#{frameNum}").hide()
+    @el.find(".asteroid-visible-#{frameNum}").hide()
     @el.find("#marked-status-#{frameNum}").show().html("Not Visible")
 
   showAllTrackingIcons: ->
