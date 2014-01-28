@@ -180,12 +180,12 @@ class Classifier extends BaseController
       @el.find('a, button, input, textarea, select').filter('section *:visible').first().focus()
 
   onCreateMark: (mark) =>
-    console.log 'mark created'
+    # console.log 'mark created'
     @currAsteroid.pushSighting mark
 
   onCreateTool: (tool) =>
     surfaceIndex = +@markingSurfaceList.indexOf tool.surface
-    console.log 'tool created', tool, 'on surface', surfaceIndex
+    console.log 'tool created on surface', surfaceIndex
 
     if @asteroidMarkedInFrame[surfaceIndex]
       console.log 'clearing'
@@ -307,7 +307,7 @@ class Classifier extends BaseController
   destroyMarksInFrame: (frame_idx) ->
     for surface in @markingSurfaceList
       for theMark in surface.marks
-        theMark.destroy() if theMark.frame is frame_idx and theMark.asteroid_id is @currAsteroid.id
+        theMark?.destroy() if theMark?.frame is frame_idx and theMark?.asteroid_id is @currAsteroid.id
 
   onClickAsteroidNotVisible: (e) ->
     frameNum = +e.target.id.slice(-1)
@@ -335,7 +335,7 @@ class Classifier extends BaseController
     @el.find("#not-visible-icon-#{frameNum}").hide() # checked = false??
     @el.find("#marked-icon-#{frameNum}").show()
     @el.find("#asteroid-visible-#{frameNum}").prop 'checked', false
-    # @el.find(".asteroid-visible-#{frameNum}").hide()
+    @el.find(".asteroid-visible-#{frameNum}").hide()
     @el.find("#marked-status-#{frameNum}").show().html("Marked!")
 
   updateIconsForNotVisible: (frameNum) ->
@@ -343,10 +343,15 @@ class Classifier extends BaseController
     @el.find(".asteroid-frame-complete-#{frameNum}").prop 'checked', true
     @el.find("#number-#{frameNum}").hide()
     @el.find("#not-visible-icon-#{frameNum}").show()
-    # @el.find(".asteroid-visible-#{frameNum}").hide()
+    @el.find(".asteroid-visible-#{frameNum}").hide()
     @el.find("#marked-status-#{frameNum}").show().html("Not Visible")
 
   setAsteroidFrame: (frameNum) ->
+    console.log 'next frame: ', frameNum+1
+    if frameNum < @numFrames - 1
+      @nextFrame.show()
+    else
+      @nextFrame.hide()
     @el.find("#frame-slider").val frameNum
     @el.find(".asteroid-visibility-#{frameNum}").show()
 
