@@ -209,7 +209,7 @@ class Classifier extends BaseController
     @activateFrame(frame)
 
   onKeyDown: (e) =>
-    return if @el.hasClass 'playing'  # disable while playing
+    return if @el.hasClass 'playing' or @el.attr('flicker') is 'false' # disable while playing or in 4up
     switch e.which
       when KEYS.one   then @activateFrame(0)
       when KEYS.two   then @activateFrame(1)
