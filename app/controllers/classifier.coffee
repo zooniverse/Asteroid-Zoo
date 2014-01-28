@@ -181,8 +181,14 @@ class Classifier extends BaseController
       @el.find('a, button, input, textarea, select').filter('section *:visible').first().focus()
 
   onCreateMark: (mark) =>
-    # console.log 'mark created'
     @currAsteroid.pushSighting mark
+    
+    setTimeout => # otherwise mark properties undefined
+      # remove unworthy ghosts
+      ghostMark.remove() for ghostMark in [ @el.find(".ghost-mark-from-frame-#{mark.frame}")... ]
+      for surface, i in @markingSurfaceList
+        if i isnt parseInt @el.find('#frame-slider').val()
+          surface.addShape 'circle', class: "ghost-mark-from-frame-#{mark.frame}", opacity: 0.50, cx: mark.x, cy: mark.y, r: 2, fill: "rgb(255,0,0)", stroke: "none"
 
   onDestroyMark: (mark) =>
     @destroyMarksInFrame mark.frame
@@ -371,7 +377,6 @@ class Classifier extends BaseController
       classifier.el.find(".asteroid-frame-#{frameNum}").addClass 'current-asteroid-frame'
 
   setAsteroidFrame: (frameNum) ->
-    console.log 'next frame: ', frameNum+1
     if frameNum < @numFrames - 1
       @nextFrame.show()
     else

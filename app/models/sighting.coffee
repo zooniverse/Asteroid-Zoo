@@ -42,6 +42,7 @@ class Sighting
 
   @nextId: ->
     Sighting.id += 1
+    console.log "   [ sighting id incremented ]"
     Sighting.id
 
 module.exports = Sighting
