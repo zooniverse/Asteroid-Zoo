@@ -1,13 +1,14 @@
 BaseController = require 'zooniverse/controllers/base-controller'
-User = require 'zooniverse/models/user'
-Subject = require 'zooniverse/models/subject'
-Sighting = require '../models/sighting'
-modulus = require '../lib/modulus'
+User           = require 'zooniverse/models/user'
+Subject        = require 'zooniverse/models/subject'
+Sighting       = require '../models/sighting'
+# GhostMark      = require '..models/ghost-mark'
+modulus        = require '../lib/modulus'
 
-loadImage = require '../lib/load-image'
+loadImage      = require '../lib/load-image'
 Classification = require 'zooniverse/models/classification'
 MarkingSurface = require 'marking-surface'
-MarkingTool = require './marking-tool'
+MarkingTool    = require './marking-tool'
 MarkingToolControls = require './marking-tool-controls'
 $ = window.jQuery
 
@@ -184,11 +185,18 @@ class Classifier extends BaseController
     @currAsteroid.pushSighting mark
     
     setTimeout => # otherwise mark properties undefined
-      # remove unworthy ghosts
-      ghostMark.remove() for ghostMark in [ @el.find(".ghost-mark-from-frame-#{mark.frame}")... ]
-      for surface, i in @markingSurfaceList
-        if i isnt parseInt @el.find('#frame-slider').val()
-          surface.addShape 'circle', class: "ghost-mark-from-frame-#{mark.frame}", opacity: 0.50, cx: mark.x, cy: mark.y, r: 2, fill: "rgb(255,0,0)", stroke: "none"
+      # new GhostMark(mark, @currAsteroid.id)
+      @updateGhostMark(mark) # remove unworthy ghosts
+      @addGhostMark(mark)
+
+  updateGhostMark: (mark) ->
+    ghostMark.remove() for ghostMark in [ @el.find(".ghost-mark-from-frame-#{mark.frame}")... ]
+
+  addGhostMark: (mark) ->
+    for surface, i in @markingSurfaceList
+      if i isnt parseInt @el.find('#frame-slider').val()
+        surface.addShape 'circle', class: "ghost-mark ghost-mark-from-frame-#{mark.frame}", opacity: 0.50, cx: mark.x, cy: mark.y, r: 2, fill: "rgb(255,0,0)", stroke: "none"
+
 
   onDestroyMark: (mark) =>
     @destroyMarksInFrame mark.frame
@@ -281,10 +289,8 @@ class Classifier extends BaseController
   onClickFourUp: ->
     @el.find("#frame-id-#{i}").closest("div").show() for i in [0...4]
     @nextFrame.hide()
-
     markingSurfaces = document.getElementsByClassName("marking-surface")
     @resizeElements(markingSurfaces, 254) # image sizing for 4up view
-
     @enableSliderControls true
     @fourUpButton.attr 'disabled', true
     @flickerButton.attr 'disabled', false
@@ -292,12 +298,12 @@ class Classifier extends BaseController
     @deleteButton.hide()
     @rerenderMarks()
     @showAllTrackingIcons()
+    ghostMark.setAttribute 'visibility', 'hidden' for ghostMark in [ @el.find('.ghost-mark')... ]
 
   onClickFlicker: ->
     markingSurfaces = document.getElementsByClassName("marking-surface")
     @resizeElements(markingSurfaces, 512) # image sizing for 4up view
     @nextFrame.show()
-
     @enableSliderControls false
     @flickerButton.attr 'disabled', true
     @fourUpButton.attr 'disabled', false
@@ -305,6 +311,7 @@ class Classifier extends BaseController
     @deleteButton.show()
     @rerenderMarks()
     setTimeout => @activateFrame 0
+    ghostMark.setAttribute 'visibility', 'visible' for ghostMark in [ @el.find('.ghost-mark')... ]
 
   rerenderMarks: ->
     setTimeout =>
