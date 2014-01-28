@@ -45,7 +45,7 @@ class Classifier extends BaseController
     'click button[name="next-frame"]'     : 'onClickNextFrame'
     'click button[name="asteroid-done"]'  : 'onClickAsteroidDone'
     'click button[name="cancel"]'         : 'onClickCancel'
-    'change input[name="frame-slider"]'  : 'onChangeFrameSlider'
+    'change input[name="frame-slider"]'   : 'onChangeFrameSlider'
     'keydown'                             : 'onKeyDown'
     'change .asteroid-not-visible'        : 'onClickAsteroidNotVisible'
 
@@ -63,8 +63,10 @@ class Classifier extends BaseController
     'change input[name="selected-artifact"]': ->
       @artifactSubtype = @selectedArtifactRadios.filter(':checked').val()
 
-    'click button[name="delete"]': ->
-      @tool.mark.destroy()
+    'click button[name="asteroid-delete"]': ->
+      currentFrame = +document.getElementById('frame-slider').value
+      @updateIconsForDestroyMark(currentFrame)
+      @destroyMarksInFrame(currentFrame)
 
     'click button[name^="done"]': ->
       @tool.deselect()
@@ -79,6 +81,7 @@ class Classifier extends BaseController
     'button[name="four-up"]'         : 'fourUpButton'
     'button[name="finish-marking"]'  : 'finishButton'
     'button[name="asteroid-done"]'   : 'doneButton'
+    'button[name="asteroid-delete"]' : 'deleteButton'
     'button[name="next-frame"]'      : 'nextFrame'
     'button[name="cancel"]'          : 'cancel'
     'input[name="selected-artifact"]': 'selectedArtifactRadios'
@@ -138,7 +141,6 @@ class Classifier extends BaseController
     @setOfSightings = []
     @currAsteroid = null
 
-    @el.find('.four-up').show()
     @flickerButton.attr 'disabled', true
     @finishButton.prop 'disabled', true
 
@@ -161,6 +163,7 @@ class Classifier extends BaseController
     for surface in @markingSurfaceList
       surface.on 'create-mark', @onCreateMark
       surface.on 'create-tool', @onCreateTool
+      surface.on 'destroy-mark', @onDestroyMark
 
   renderTemplate: =>
     super
@@ -181,6 +184,10 @@ class Classifier extends BaseController
   onCreateMark: (mark) =>
     console.log 'mark created'
     @currAsteroid.pushSighting mark
+
+  onDestroyMark: (mark) =>
+    @destroyMarksInFrame(mark.frame)
+    @updateIconsForDestroyMark(mark.frame)
 
   onCreateTool: (tool) =>
     surfaceIndex = +@markingSurfaceList.indexOf tool.surface
@@ -274,6 +281,7 @@ class Classifier extends BaseController
     @fourUpButton.attr 'disabled', true
     @flickerButton.attr 'disabled', false
     @el.attr 'flicker', "false"
+    @deleteButton.hide()
     @rerenderMarks()
     @showAllTrackingIcons()
 
@@ -286,6 +294,7 @@ class Classifier extends BaseController
     @flickerButton.attr 'disabled', true
     @fourUpButton.attr 'disabled', false
     @el.attr 'flicker', "true"
+    @deleteButton.show()
     @rerenderMarks()
     setTimeout => @activateFrame 0
 
@@ -337,6 +346,13 @@ class Classifier extends BaseController
     @el.find("#asteroid-visible-#{frameNum}").prop 'checked', false
     # @el.find(".asteroid-visible-#{frameNum}").hide()
     @el.find("#marked-status-#{frameNum}").show().html("Marked!")
+
+  updateIconsForDestroyMark: (frameNum) =>
+    @el.find("#number-#{frameNum}").show()
+    @el.find(".asteroid-frame-complete-#{frameNum}").prop 'checked', false
+    @el.find("#marked-icon-#{frameNum}").hide()
+    # @el.find("#asteroid-visible-#{frameNum}").prop 'checked', false
+    @el.find("#marked-status-#{frameNum}").hide()
 
   updateIconsForNotVisible: (frameNum) ->
     @asteroidMarkedInFrame[frameNum] = true # frame done ("Marked" is a bit misleading here. Fix later!)
