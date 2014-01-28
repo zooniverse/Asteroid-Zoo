@@ -71,8 +71,7 @@ class Classifier extends BaseController
 
   elements:
     '.subject'                       : 'subjectContainer'
-    '.flicker'                       : 'flickerContainer'
-    '.four-up'                       : 'fourUpContainer'
+    '.surfaces-container'            : 'surfacesContainer'
     '.frame-image'                   : 'imageFrames'
     'button[name="play-frames"]'     : 'playButton'
     'button[name="invert"]'          : 'invertButton'
@@ -157,7 +156,7 @@ class Classifier extends BaseController
       @markingSurfaceList[i] = new MarkingSurface
         tool: MarkingTool
       @markingSurfaceList[i].svgRoot.attr 'id', "classifier-svg-root-#{i}"
-      @fourUpContainer.append @markingSurfaceList[i].el
+      @surfacesContainer.append @markingSurfaceList[i].el
 
     for surface in @markingSurfaceList
       surface.on 'create-mark', @onCreateMark

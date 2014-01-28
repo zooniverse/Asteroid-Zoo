@@ -90,13 +90,13 @@
   </div>
 
   <div class="subject">
-    <div class="four-up"></div>
+    <div class="surfaces-container"></div>
   </div>
 
   <div class="right-panel">
     <div class="answers">
       <header>
-        <span class="selected-artifact-label"></span> 
+        <span class="selected-artifact-label"></span>
       </header>
 
       <div class="what-kind">
@@ -260,7 +260,7 @@
                     <path style="fill:#3ABED2;" d="M11.978-0.01c-6.612,0-11.991,5.379-11.991,11.991s5.379,11.991,11.991,11.991
                       c6.612,0,11.991-5.379,11.991-11.991S18.59-0.01,11.978-0.01z"/>
                   </g>
-                  <polygon style="fill:#FFFFFF;" points="16.252,9.214 14.785,7.748 12,10.534 9.214,7.748 7.748,9.214 10.534,12 7.748,14.785 
+                  <polygon style="fill:#FFFFFF;" points="16.252,9.214 14.785,7.748 12,10.534 9.214,7.748 7.748,9.214 10.534,12 7.748,14.785
                     9.214,16.252 12,13.466 14.785,16.252 16.252,14.785 13.466,12 "/>
                   </svg>
 
