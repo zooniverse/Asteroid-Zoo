@@ -189,15 +189,18 @@ class Classifier extends BaseController
       @updateGhostMark(mark) # remove unworthy ghosts
       @addGhostMark(mark)
 
-  updateGhostMark: (mark) ->
-    ghostMark.remove() for ghostMark in [ @el.find(".ghost-mark-from-frame-#{mark.frame}")... ]
-
   addGhostMark: (mark) ->
+    svgElement = null
     for surface, i in @markingSurfaceList
       if i isnt parseInt @el.find('#frame-slider').val()
-        surface.addShape 'circle', class: "ghost-mark ghost-mark-from-frame-#{mark.frame}", opacity: 0.50, cx: mark.x, cy: mark.y, r: 2, fill: "rgb(255,0,0)", stroke: "none"
+        svgElement = surface.addShape 'circle', class: "ghost-mark", opacity: 0.50, cx: mark.x, cy: mark.y, r: 2, fill: "rgb(255,0,0)", stroke: "none"
+        svgElement.el.setAttribute 'from-frame', mark.frame
+        svgElement.el.setAttribute 'from-asteroid', @currAsteroid.id
 
-
+  updateGhostMark: (mark) ->
+    for ghostMark in [ @el.find(".ghost-mark")... ]
+      ghostMark.remove() if ghostMark.getAttribute 'from-frame' is mark.frame and ghostMark.getAttribute 'from-asteroid' is @currAsteroid.id
+        
   onDestroyMark: (mark) =>
     @destroyMarksInFrame mark.frame
     @updateIconsForDestroyMark mark.frame
