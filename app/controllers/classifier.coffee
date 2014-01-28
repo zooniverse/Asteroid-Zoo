@@ -65,8 +65,7 @@ class Classifier extends BaseController
 
     'click button[name="asteroid-delete"]': ->
       currentFrame = +document.getElementById('frame-slider').value
-      @updateIconsForDestroyMark(currentFrame)
-      @destroyMarksInFrame(currentFrame)
+      @destroyMarksInFrame currentFrame
 
     'click button[name^="done"]': ->
       @tool.deselect()
@@ -186,8 +185,11 @@ class Classifier extends BaseController
     @currAsteroid.pushSighting mark
 
   onDestroyMark: (mark) =>
-    @destroyMarksInFrame(mark.frame)
-    @updateIconsForDestroyMark(mark.frame)
+    @destroyMarksInFrame mark.frame
+    @updateIconsForDestroyMark mark.frame
+    @currAsteroid.clearSightingsInFrame mark.frame
+    if @state is 'asteroidTool' and @currAsteroid.allSightings.length < 4
+      @doneButton.prop 'disabled', true
 
   onCreateTool: (tool) =>
     surfaceIndex = +@markingSurfaceList.indexOf tool.surface
@@ -341,6 +343,7 @@ class Classifier extends BaseController
 
   updateIconsForCreateMark: (frameNum) =>
     @el.find("#number-#{frameNum}").hide()
+    @el.find(".asteroid-frame-complete-#{frameNum}").prop 'checked', true
     @el.find("#not-visible-icon-#{frameNum}").hide() # checked = false??
     @el.find("#marked-icon-#{frameNum}").show()
     @el.find("#asteroid-visible-#{frameNum}").prop 'checked', false
