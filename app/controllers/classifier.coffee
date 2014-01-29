@@ -203,10 +203,11 @@ class Classifier extends BaseController
 
   updateGhostMark: (mark) ->
     for ghostMark in [ @el.find(".ghost-mark")... ]
-      ghostMark.remove() if ghostMark.getAttribute 'from-frame' is mark.frame and ghostMark.getAttribute 'from-asteroid' is @currAsteroid.id
-        
+      if parseInt(ghostMark.getAttribute 'from-frame') is (parseInt mark.frame) \
+        and parseInt(ghostMark.getAttribute 'from-asteroid') is parseInt @currAsteroid.id
+          ghostMark.remove()
+
   onDestroyMark: (mark) =>
-    console.log 'mark destroyed'
     console.log 'mark.frame = ', mark.frame
     @destroyMarksInFrame mark.frame
     @updateIconsForDestroyMark mark.frame
@@ -216,14 +217,11 @@ class Classifier extends BaseController
 
   onCreateTool: (tool) =>
     surfaceIndex = +@markingSurfaceList.indexOf tool.surface
-    console.log 'tool created on surface', surfaceIndex
 
     if @asteroidMarkedInFrame[surfaceIndex]
-      console.log 'clearing'
       @currAsteroid.clearSightingsInFrame surfaceIndex
       @destroyMarksInFrame(surfaceIndex)
     else
-      console.log 'pushing'
       @el.find(".asteroid-frame-complete-#{surfaceIndex}").prop 'checked', true
       @asteroidMarkedInFrame[surfaceIndex] = true
     @updateIconsForCreateMark(surfaceIndex)
@@ -232,7 +230,6 @@ class Classifier extends BaseController
       @doneButton.prop 'disabled', false
 
     console.log @asteroidMarkedInFrame
-
     tool.controls.controller.setMark(surfaceIndex, @currAsteroid.id)
 
   onChangeFrameSlider: =>
@@ -273,8 +270,7 @@ class Classifier extends BaseController
   loadFrames: =>
     @destroyFrames()
     subject_info = @classification.subject.location
-    numImages = subject_info.standard.length
-    for i in [0...numImages]
+    for i in [0...@numFrames]
       frame_id = "frame-id-#{i}"
       frameImage =
         @markingSurfaceList[i].addShape 'image',
