@@ -208,10 +208,10 @@ class Classifier extends BaseController
           ghostMark.remove()
 
   onDestroyMark: (mark) =>
-    console.log 'mark.frame = ', mark.frame
     @destroyMarksInFrame mark.frame
     @updateIconsForDestroyMark mark.frame
     @currAsteroid.clearSightingsInFrame mark.frame
+    @updateGhostMark(mark)
     if @state is 'asteroidTool' and @currAsteroid.allSightings.length < @numFrames
       @doneButton.prop 'disabled', true
 
