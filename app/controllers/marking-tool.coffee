@@ -19,16 +19,20 @@ class MarkingTool extends Tool
     circle: 'move'
 
   initialize: ->
-    @hr = @addShape 'line', x1: 0, y1: -@size, x2: 0, y2: @size, stroke: "rgb(#{@color})", strokeWidth: 1
-    @vr = @addShape 'line', x1: -@size, y1: 0, x2: @size, y2: 0, stroke: "rgb(#{@color})", strokeWidth: 1
+    # @hr = @addShape 'line', x1: 0, y1: -@size, x2: 0, y2: @size, stroke: "rgb(#{@color})", strokeWidth: 1
+    @hr = @addShape 'line', x1: 0, y1: -@size, x2: 0, y2: -4, stroke: "rgb(255,215,0)", strokeWidth: 1
+    @hr = @addShape 'line', x1: 0, y1: 4, x2: 0, y2: @size, stroke: "rgb(255,215,0)", strokeWidth: 1
+
+    # @vr = @addShape 'line', x1: -@size, y1: 0, x2: @size, y2: 0, stroke: "rgb(#{@color})", strokeWidth: 1
+    @vr = @addShape 'line', x1: -@size, y1: 0, x2: -4, y2: 0, stroke: "rgb(#{@color})", strokeWidth: 1
+    @vr = @addShape 'line', x1: 4, y1: 0, x2: @size, y2: 0, stroke: "rgb(#{@color})", strokeWidth: 1
+    
     @circle = @addShape 'circle', cx: 0, cy: 0, r: @size, fill: 'rgba(255, 215, 0, 0)'
 
   onInitialClick: (e) ->
-    # console.log 'MarkingTool: onInitialClick()' # STI
     @onInitialDrag e
 
   onInitialDrag: (e) ->
-    # console.log 'MarkingTool: onInitialDrag()' # STI
     @['on *drag circle'] e
 
   'on *drag circle': (e) =>
