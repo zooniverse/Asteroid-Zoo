@@ -51,14 +51,16 @@
     float left
     text-align center
     h2
-      font-size 14px
-      color #8b8b8b
-      margin 20px 0
+      font-size 12px
+      font-weight bold
+      color #8d8a8a
+      margin 18px 0 5px 0
     hr
       border 1px solid #d5d5d5
     button
-      color #939393
-      font-size 14px
+      color #8d8a8a
+      font-size 12px
+      margin-bottom 10px
       &:disabled
         svg
           path, circle
@@ -69,38 +71,49 @@
           fill #29afcd
     svg
       display block
-      margin 10px auto
+      margin 10px auto 8px auto
 
   .right-panel
     width 178px
     height 532px
     padding 10px
     float left
-    h2
+    color #8d8a8a
+
+    svg
+      width 20px
+      height 20px
+      margin 0 10px
+      display inline-block
+      vertical-align middle
+    h3
       font-size 14px
-      color #8b8b8b
+      font-weight bold
+      color #4a4a4a
     button
       border none
+      font-size 14px
       height 40px
+      line-height 20px
       width 100%
       margin 10px 0
       &[name='next-frame']
         color #fff
         background-color #4fad76
+        font-weight bold
       &[name='cancel']
         border 2px solid #e6e6e6
-        color #868686
-      &[name='asteroid-done']
-        width 30%
+      &[name='asteroid-delete']
+        border 2px solid #c09792
 
     .asteroid-classifier
-      svg
-        width 18px
-        height 18px
       input
         display none  // remove to view raw checkboxes
       .asteroid-frame
         color: MAIN_AQUA
+        font-size 14px
+        height 40px
+        line-height 40px
 
       .asteroid-visible
         display: inline
@@ -110,22 +123,20 @@
 
       .current-asteroid-frame
         svg
+          height 24px
+          width 24px
           g
             fill MAIN_AQUA
         color: MAIN_AQUA
-        zoom 120%
         .asteroid-visible
           visibility: visible
 
     .classifier-type-menu-item
+      font-size 14px
       height 40px
-      vertical-align middle
-      svg
-        display inline-block
-        vertical-align middle
-        margin auto 0
+      line-height 40px
       label
-        color #7b7b7b
+        margin auto 0
         cursor pointer
       input
         &[name='classifier-type']
@@ -136,11 +147,18 @@
                 fill #29afcd
 
     .artifact-classifier
+      font-size 14px
+      height 40px
+      line-height 40px
+      label
+        margin auto 0
+        cursor pointer
       input
         display none
         &[name='selected-artifact']
           &:checked
-            & + svg
+            & ~ *
+              color #29afcd
               g
                 fill #29afcd
 
@@ -148,6 +166,16 @@
     position relative
     float left
     width: 820px
+    button
+      font-size 14px
+      font-weight bold
+      border-radius 5px
+      color #fff
+      height 40px
+      line-height 40px
+      &:disabled
+        opacity: 0.5
+        pointer-events none
 
     #play
       background-color #181818
@@ -159,18 +187,10 @@
       button
         margin-left 90px
         background-color #343434
-        border-radius 5px
-        color white
         width 130px
-        line-height 40px
-        vertical-align middles
-        height 40px
         svg
           vertical-align middle
           margin-right 20px
-        &:disabled
-          opacity: 0.5
-          pointer-events none
 
     #finished
       float left
@@ -180,14 +200,8 @@
       background-color MAIN_AQUA
       button
         background-color #38b3c5
-        color #fff
-        border-radius 5px
-        height 40px
-        line-height 40px
         margin-left 10px
         width 178px
-        &:disabled
-          opacity 0.5
 
   .button
     display: block

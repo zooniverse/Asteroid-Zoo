@@ -20,9 +20,12 @@
 
   .links
     a
+      font-size 12px
       display: inline-block
       padding: 0 10px
       position: relative
+      &.active
+        font-weight bold
 
       &:after
         background: transparent
@@ -33,9 +36,6 @@
         position: absolute
         top: 67%
         width: 100%
-        // transition:
-        //   background 1.4s ease-in-out 0.125s,
-        //   top 0.25s ease-in-out 0.125s
 
       &:hover:after
         height 4px
@@ -50,7 +50,6 @@
 .zooniverse-top-bar
   background: transparent
   font-weight: 300
-  margin-top: 15px
   margin-right: unit((100 - SITE_WIDTH) / 2, '%')
 
   .corner
