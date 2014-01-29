@@ -22,14 +22,14 @@ KEYS =
   four:   52
 
 DEV_SUBJECTS = [ 
-  # './dev-subjects-images/01_12DEC02_N04066_0001-45-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0002-45-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0003-45-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0004-45-scaled.png'
-  './dev-subjects-images/01_12DEC02_N04066_0001-50-scaled.png'
-  './dev-subjects-images/01_12DEC02_N04066_0002-50-scaled.png'
-  './dev-subjects-images/01_12DEC02_N04066_0003-50-scaled.png'
-  './dev-subjects-images/01_12DEC02_N04066_0004-50-scaled.png' 
+  './dev-subjects-images/01_12DEC02_N04066_0001-45-scaled.png'
+  './dev-subjects-images/01_12DEC02_N04066_0002-45-scaled.png'
+  './dev-subjects-images/01_12DEC02_N04066_0003-45-scaled.png'
+  './dev-subjects-images/01_12DEC02_N04066_0004-45-scaled.png'
+  # './dev-subjects-images/01_12DEC02_N04066_0001-50-scaled.png'
+  # './dev-subjects-images/01_12DEC02_N04066_0002-50-scaled.png'
+  # './dev-subjects-images/01_12DEC02_N04066_0003-50-scaled.png'
+  # './dev-subjects-images/01_12DEC02_N04066_0004-50-scaled.png' 
 ]
 
 NEXT_DEV_SUBJECT = ->
@@ -196,15 +196,15 @@ class Classifier extends BaseController
   addGhostMark: (mark) ->
     svgElement = null
     for surface, i in @markingSurfaceList
-      if i isnt parseInt @el.find('#frame-slider').val()
+      if i isnt +@el.find('#frame-slider').val()
         svgElement = surface.addShape 'circle', class: "ghost-mark", opacity: 1, cx: mark.x, cy: mark.y, r: 16, fill: "none", stroke: "#25b4c5", strokewidth: 1
         svgElement.el.setAttribute 'from-frame', mark.frame
         svgElement.el.setAttribute 'from-asteroid', @currAsteroid.id
 
   updateGhostMark: (mark) ->
     for ghostMark in [ @el.find(".ghost-mark")... ]
-      if parseInt(ghostMark.getAttribute 'from-frame') is (parseInt mark.frame) \
-        and parseInt(ghostMark.getAttribute 'from-asteroid') is parseInt @currAsteroid.id
+      if +ghostMark.getAttribute('from-frame') is +mark.frame \
+        and +ghostMark.getAttribute('from-asteroid') is +@currAsteroid.id
           ghostMark.remove()
 
   onDestroyMark: (mark) =>
@@ -424,7 +424,7 @@ class Classifier extends BaseController
       @el.find(".asteroid-visible").show()
 
   onClickNextFrame: ->
-    nextFrame = parseInt(document.getElementById('frame-slider').value) + 1
+    nextFrame = +(document.getElementById('frame-slider').value) + 1
     @activateFrame(nextFrame) unless nextFrame is @numFrames
 
   onClickCancel: ->
