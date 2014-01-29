@@ -206,10 +206,12 @@ class Classifier extends BaseController
       ghostMark.remove() if ghostMark.getAttribute 'from-frame' is mark.frame and ghostMark.getAttribute 'from-asteroid' is @currAsteroid.id
         
   onDestroyMark: (mark) =>
+    console.log 'mark destroyed'
+    console.log 'mark.frame = ', mark.frame
     @destroyMarksInFrame mark.frame
     @updateIconsForDestroyMark mark.frame
     @currAsteroid.clearSightingsInFrame mark.frame
-    if @state is 'asteroidTool' and @currAsteroid.allSightings.length < 4
+    if @state is 'asteroidTool' and @currAsteroid.allSightings.length < @numFrames
       @doneButton.prop 'disabled', true
 
   onCreateTool: (tool) =>
@@ -226,7 +228,7 @@ class Classifier extends BaseController
       @asteroidMarkedInFrame[surfaceIndex] = true
     @updateIconsForCreateMark(surfaceIndex)
 
-    if @state is 'asteroidTool' and @currAsteroid.allSightings.length is 4
+    if @state is 'asteroidTool' and @currAsteroid.allSightings.length is @numFrames
       @doneButton.prop 'disabled', false
 
     console.log @asteroidMarkedInFrame
@@ -294,7 +296,7 @@ class Classifier extends BaseController
     @activateFrame 0  # default to first frame after loading
 
   onClickFourUp: ->
-    @el.find("#frame-id-#{i}").closest("div").show() for i in [0...4]
+    @el.find("#frame-id-#{i}").closest("div").show() for i in [0...@numFrames]
     @nextFrame.hide()
     markingSurfaces = document.getElementsByClassName("marking-surface")
     @resizeElements(markingSurfaces, 254) # image sizing for 4up view
@@ -358,7 +360,7 @@ class Classifier extends BaseController
       inverted: @invert
     @currAsteroid.pushSighting newAnnotation
 
-    if @state is 'asteroidTool' and @currAsteroid.allSightings.length is 4
+    if @state is 'asteroidTool' and @currAsteroid.allSightings.length is @numFrames
       @doneButton.prop 'disabled', false
 
   updateIconsForCreateMark: (frameNum) =>
@@ -387,7 +389,7 @@ class Classifier extends BaseController
     @el.find("#marked-status-#{frameNum}").show().html("Not Visible")
 
   showAllTrackingIcons: ->
-    for frameNum in [0...4]
+    for frameNum in [0...@numFrames]
       classifier.el.find(".asteroid-frame-#{frameNum}").addClass 'current-asteroid-frame'
 
   setAsteroidFrame: (frameNum) ->
@@ -427,7 +429,7 @@ class Classifier extends BaseController
 
   onClickNextFrame: ->
     nextFrame = parseInt(document.getElementById('frame-slider').value) + 1
-    @activateFrame(nextFrame) unless nextFrame is 4
+    @activateFrame(nextFrame) unless nextFrame is @numFrames
 
   onClickCancel: ->
     @resetMarkingSurfaces() if @state is 'asteroidTool'
@@ -459,7 +461,7 @@ class Classifier extends BaseController
     @el.attr 'data-on-frame', frame
 
   showFrame: (frame_idx) ->
-    @el.find("#frame-id-#{i}").closest("div").hide() for i in [0...4]
+    @el.find("#frame-id-#{i}").closest("div").hide() for i in [0...@numFrames]
     @el.find("#frame-id-#{frame_idx}").closest("div").show()
 
   destroyFrames: ->

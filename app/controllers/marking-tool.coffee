@@ -53,4 +53,5 @@ class MarkingTool extends Tool
     @group.attr 'class', "from-frame-#{@mark.frame}"
     @controls.moveTo x, y
 
+
 module.exports = MarkingTool
