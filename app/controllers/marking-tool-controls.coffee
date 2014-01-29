@@ -32,7 +32,7 @@ class MarkingToolControlsController extends BaseController
   constructor: ->
     super
 
-    #this populates 4 image frames 
+    #this populates 4 image frames
     @imageSet = new ImageSet()
     
     #TODO dubious, broke, wrong way    
@@ -44,7 +44,6 @@ class MarkingToolControlsController extends BaseController
     fauxRangeInputs = FauxRangeInput.find @el.get 0
     @on 'destroy', -> fauxRangeInputs.shift().destroy() until fauxRangeInputs.length is 0
 
-    
     @tool.mark.on 'change', (property, value) =>
       @setMark
     # @setState 'whatKind'
@@ -79,11 +78,6 @@ class MarkingToolControlsController extends BaseController
    
     @tool.mark.x = Math.floor(@tool.mark.x) 
     @tool.mark.y = Math.floor(@tool.mark.y)
-    # pass the what surface this mark came from back to the classifier.  
-    if this.tool.surface.el.id  is "surface-master"
-      @tool.mark.surface_master = true
-    else
-      @tool.mark.surface_master = false
     #TODO Sascha didn't like the sub-structure here
     @tool.mark.set 'detection', detection
 
@@ -104,7 +98,6 @@ class MarkingToolControlsController extends BaseController
 
   #ToDo move to model 
 class ImageSet
-
   imageFrames: null
 
   constructor: ->
@@ -132,8 +125,6 @@ class ImageFrame
 
   constructor: (@elementId,@seqNumber,@url,@inversionUrl) ->
 
-  
-
 class MarkingToolControls extends ToolControls
   constructor: ->
     super
@@ -141,8 +132,6 @@ class MarkingToolControls extends ToolControls
     @controller = new MarkingToolControlsController tool: @tool
     # @el.appendChild @controller.el.get 0
     @on 'destroy', -> @controller.destroy()
-
-  
 
 #module.exports = ImageFrame
 #module.exports = ImageSet
