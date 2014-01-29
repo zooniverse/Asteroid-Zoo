@@ -21,11 +21,15 @@ KEYS =
   three:  51
   four:   52
 
-DEV_SUBJECTS = [
-  './dev-subjects-images/registered_1.png'
-  './dev-subjects-images/registered_2.png'
-  './dev-subjects-images/registered_3.png'
-  './dev-subjects-images/registered_4.png'
+DEV_SUBJECTS = [ 
+  # './dev-subjects-images/01_12DEC02_N04066_0001-45-scaled.png'
+  # './dev-subjects-images/01_12DEC02_N04066_0002-45-scaled.png'
+  # './dev-subjects-images/01_12DEC02_N04066_0003-45-scaled.png'
+  # './dev-subjects-images/01_12DEC02_N04066_0004-45-scaled.png'
+  './dev-subjects-images/01_12DEC02_N04066_0001-50-scaled.png'
+  './dev-subjects-images/01_12DEC02_N04066_0002-50-scaled.png'
+  './dev-subjects-images/01_12DEC02_N04066_0003-50-scaled.png'
+  './dev-subjects-images/01_12DEC02_N04066_0004-50-scaled.png' 
 ]
 
 NEXT_DEV_SUBJECT = ->
@@ -193,7 +197,7 @@ class Classifier extends BaseController
     svgElement = null
     for surface, i in @markingSurfaceList
       if i isnt parseInt @el.find('#frame-slider').val()
-        svgElement = surface.addShape 'circle', class: "ghost-mark", opacity: 0.50, cx: mark.x, cy: mark.y, r: 2, fill: "rgb(255,0,0)", stroke: "none"
+        svgElement = surface.addShape 'circle', class: "ghost-mark", opacity: 1, cx: mark.x, cy: mark.y, r: 16, fill: "none", stroke: "#25b4c5", strokewidth: 1
         svgElement.el.setAttribute 'from-frame', mark.frame
         svgElement.el.setAttribute 'from-asteroid', @currAsteroid.id
 
@@ -283,8 +287,8 @@ class Classifier extends BaseController
       do (img_src, frameImage)  =>
         loadImage img_src, (img) =>
         frameImage.attr
-          'xlink:href': img_src          # get images from api
-          # 'xlink:href': DEV_SUBJECTS[i]   # use hardcoded static images
+          # 'xlink:href': img_src          # get images from api
+          'xlink:href': DEV_SUBJECTS[i]   # use hardcoded static images
 
     @stopLoading()
     @activateFrame 0  # default to first frame after loading
