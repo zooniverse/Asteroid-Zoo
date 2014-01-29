@@ -22,20 +22,6 @@
     <hr>
     <h2>VIEW</h2>
     <div class="answers">
-      <button name="four-up">
-        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-           width="22px" height="22px" viewBox="0 0 22 22" style="enable-background:new 0 0 22 22;" xml:space="preserve">
-        <g fill="#CBCBCB">
-          <path d="M12,0v10h10V0H12z M20,8h-6V2h6V8z"/>
-          <path d="M12,22h10V12H12V22z M14,14h6v6h-6V14z"/>
-          <path d="M0,10h10V0H0V10z M2,2h6v6H2V2z"/>
-          <path d="M0,22h10V12H0V22z M2,14h6v6H2V14z"/>
-        </g>
-        </svg>
-        4-up
-      </button>
-    </div>
-    <div class="answers">
       <button name="flicker">
         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
            width="25px" height="11px" viewBox="0 0 25 11" style="enable-background:new 0 0 25 11;" xml:space="preserve">
@@ -50,6 +36,20 @@
         </g>
         </svg>
         Flicker
+      </button>
+    </div>
+    <div class="answers">
+      <button name="four-up">
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           width="22px" height="22px" viewBox="0 0 22 22" style="enable-background:new 0 0 22 22;" xml:space="preserve">
+        <g fill="#CBCBCB">
+          <path d="M12,0v10h10V0H12z M20,8h-6V2h6V8z"/>
+          <path d="M12,22h10V12H12V22z M14,14h6v6h-6V14z"/>
+          <path d="M0,10h10V0H0V10z M2,2h6v6H2V2z"/>
+          <path d="M0,22h10V12H0V22z M2,14h6v6H2V14z"/>
+        </g>
+        </svg>
+        4-up
       </button>
     </div>
     <hr>
