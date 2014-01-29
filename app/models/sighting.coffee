@@ -9,12 +9,10 @@ class Sighting
     @allSightings = []
 
   pushSighting: (newSighting) ->
-    console.log '   [sighting pushed]'
     newSighting.timeStamp = new Date()
     @allSightings.push newSighting
 
   popSighting: ->
-    console.log '   [sighting popped]'
     @allSightings.pop()
 
   getSightingCount: ->
@@ -23,7 +21,6 @@ class Sighting
   clearSightingsInFrame: (frame_num) ->
     for sighting, i in @allSightings
       if sighting?.frame is frame_num
-        console.log '   [remove]: ', sighting
         @allSightings.splice i, 1
 
   displaySummary: ->
@@ -42,7 +39,6 @@ class Sighting
 
   @nextId: ->
     Sighting.id += 1
-    console.log "   [ sighting id incremented ]"
     Sighting.id
 
 module.exports = Sighting

@@ -33,7 +33,6 @@ DEV_SUBJECTS = [
 ]
 
 NEXT_DEV_SUBJECT = ->
-  #console.log "In NEXT_DEV_SUBJECT()"
   DEV_SUBJECTS.push DEV_SUBJECTS.shift()
   DEV_SUBJECTS[0]
 
@@ -229,7 +228,6 @@ class Classifier extends BaseController
     if @state is 'asteroidTool' and @currAsteroid.allSightings.length is @numFrames
       @doneButton.prop 'disabled', false
 
-    console.log @asteroidMarkedInFrame
     tool.controls.controller.setMark(surfaceIndex, @currAsteroid.id)
 
   onChangeFrameSlider: =>

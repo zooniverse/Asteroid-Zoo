@@ -31,72 +31,20 @@ class MarkingToolControlsController extends BaseController
   
   constructor: ->
     super
-
-    #this populates 4 image frames
     @imageSet = new ImageSet()
-    
-    #TODO dubious, broke, wrong way    
-    @currentFrame  =  @imageSet.getFrameFromElement('frame-id-1')
-
-    # provisional default case of artifact subtype
-    artifactSubtype = "other"
-
-    fauxRangeInputs = FauxRangeInput.find @el.get 0
-    @on 'destroy', -> fauxRangeInputs.shift().destroy() until fauxRangeInputs.length is 0
-
-    @tool.mark.on 'change', (property, value) =>
-      @setMark
-    # @setState 'whatKind'
 
   events:
-
-    #TODO With this setup we don't where we are until the classifier is created.
     'keydown': (e) ->
       switch e.which
         when KEYS.return then @el.find('footer button.default:visible').first().click()
         when KEYS.esc then @el.find('footer button.cancel:visible').first().click()
 
   setMark: (frameIdx, asteroid_id) =>
-    # console.log 'MarkingToolControlsController: setMark()' # STI
-
-    # debugger
-
-    # if @state is "asteroidTool" or @state is "whatKind" 
-    #   detection =  @getAsteroidDetection()
-    # else if @state is "artifactTool"
-    #   detection =  @getArtifactDetection()
-    # else
-    #   console?.log("Error: marking tool not specified")
-
-    detection = '' # temporary 'fix' while we figure out how to bring this back
-
-    #TODO frameIdx not reliably being set anymore
     @tool.mark.frame = frameIdx
     @tool.mark.asteroid_id = asteroid_id
-
-    #TODO make integral hack which doesn't even work , GH issue on integral values GH#2
-   
     @tool.mark.x = Math.floor(@tool.mark.x) 
     @tool.mark.y = Math.floor(@tool.mark.y)
-    #TODO Sascha didn't like the sub-structure here
-    @tool.mark.set 'detection', detection
 
-  #TODO factor currentFrame determination up andor out, 
-  # probably as paremter to this controller class
-  getAsteroidDetection: =>
-    asteroid_detection= 
-      type: "asteroid" 
-      frame: @currentFrame.seqNumber
-    asteroid_detection
-
-  getArtifactDetection: =>
-    art_detection = 
-        type: "artifact" 
-        frame:   @currentFrame.seqNumber
-        subType: @artifactSubtype
-    art_detection
-
-  #ToDo move to model 
 class ImageSet
   imageFrames: null
 
