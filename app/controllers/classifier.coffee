@@ -45,17 +45,18 @@ class Classifier extends BaseController
   template: require '../views/classifier'
 
   events:
-    'click button[name="play-frames"]'    : 'onClickPlay'
-    'click button[name="invert"]'         : 'onClickInvert'
-    'click button[name="finish-marking"]' : 'onClickFinishMarking'
-    'click button[name="four-up"]'        : 'onClickFourUp'
-    'click button[name="flicker"]'        : 'onClickFlicker'
-    'click button[name="next-frame"]'     : 'onClickNextFrame'
-    'click button[name="asteroid-done"]'  : 'onClickAsteroidDone'
-    'click button[name="cancel"]'         : 'onClickCancel'
-    'change input[name="frame-slider"]'   : 'onChangeFrameSlider'
-    'keydown'                             : 'onKeyDown'
-    'change .asteroid-not-visible'        : 'onClickAsteroidNotVisible'
+    'click button[name="play-frames"]'      : 'onClickPlay'
+    'click button[name="invert"]'           : 'onClickInvert'
+    'click button[name="finish-marking"]'   : 'onClickFinishMarking'
+    'click button[name="four-up"]'          : 'onClickFourUp'
+    'click button[name="flicker"]'          : 'onClickFlicker'
+    'click button[name="next-frame"]'       : 'onClickNextFrame'
+    'click button[name="asteroid-done"]'    : 'onClickAsteroidDone'
+    'click button[name="cancel"]'           : 'onClickCancel'
+    'change input[name="frame-slider"]'     : 'onChangeFrameSlider'
+    'change input[name="selected-artifact"]': 'onSelectArtifact'
+    'change .asteroid-not-visible'          : 'onClickAsteroidNotVisible'
+    'keydown'                               : 'onKeyDown'
 
     # state controller events
     'change input[name="classifier-type"]': (e) ->
@@ -67,9 +68,6 @@ class Classifier extends BaseController
         @finishButton.prop 'disabled', false
       else
         console.log("Error: unknown classifier-type")
-
-    'change input[name="selected-artifact"]': ->
-      @artifactSubtype = @selectedArtifactRadios.filter(':checked').val()
 
     'click button[name="asteroid-delete"]': ->
       currentFrame = +document.getElementById('frame-slider').value
@@ -91,9 +89,8 @@ class Classifier extends BaseController
     'button[name="asteroid-delete"]' : 'deleteButton'
     'button[name="next-frame"]'      : 'nextFrame'
     'button[name="cancel"]'          : 'cancel'
-    'input[name="selected-artifact"]': 'selectedArtifactRadios'
+    'input[name="selected-artifact"]': 'artifactSelector'
     'input[name="classifier-type"]'  : 'classifierTypeRadios'
-    # 'input[name="frame-slider"]'     : 'frameSlider'
     '.asteroid-not-visible'          : 'asteroidVisibilityCheckboxes'
     '.asteroid-checkbox'             : 'asteroidCompleteCheckboxes'
     '.current-frame'                 : 'frameSlider'
@@ -117,7 +114,7 @@ class Classifier extends BaseController
       enter: ->
         if @el.attr('flicker') is 'true' then @activateFrame 0 else @showAllTrackingIcons()
         @enableMarkingSurfaces()
-        @currAsteroid = new Sighting({type:"asteroid"})
+        @currSighting = new Sighting({type:"asteroid"})
         @el.find('.asteroid-classifier').show()
         @finishButton.hide()
         @doneButton.show()
@@ -132,10 +129,16 @@ class Classifier extends BaseController
     artifactTool:
       enter: ->
         @enableMarkingSurfaces()
+        @currSighting = new Sighting({type:"artifact"})
         @el.find('.artifact-classifier').show()
+        @finishButton.hide()
+        @doneButton.show()
+        @doneButton.prop 'disabled', true
       exit: ->
         @disableMarkingSurfaces()
         @el.find('.artifact-classifier').hide()
+        @doneButton.hide()
+        @finishButton.show()
 
   constructor: ->
     super
@@ -147,7 +150,7 @@ class Classifier extends BaseController
 
     window.classifier = @
     @setOfSightings = []
-    @currAsteroid = null
+    @currSighting = null
 
     @flickerButton.attr 'disabled', true
     @finishButton.prop 'disabled', true
@@ -158,6 +161,9 @@ class Classifier extends BaseController
     User.on 'change', @onUserChange
     Subject.on 'fetch', @onSubjectFetch
     Subject.on 'select', @onSubjectSelect
+
+  onSelectArtifact: ->
+    @currSighting?.subType = @artifactSelector.filter(':checked').val()
 
   createMarkingSurfaces: ->
     @numFrames = 4
@@ -190,7 +196,7 @@ class Classifier extends BaseController
       @el.find('a, button, input, textarea, select').filter('section *:visible').first().focus()
 
   onCreateMark: (mark) =>
-    @currAsteroid.pushSighting mark
+    @currSighting.pushSighting mark
     
     setTimeout => # otherwise mark properties undefined
       @removeGhostMarks() # remove unworthy ghosts
@@ -202,7 +208,7 @@ class Classifier extends BaseController
       if i isnt +mark.frame
         svgElement = surface.addShape 'circle', class: "ghost-mark", opacity: 1, cx: mark.x, cy: mark.y, r: 16, fill: "none", stroke: "#25b4c5", strokewidth: 1
         svgElement.el.setAttribute 'from-frame', mark.frame
-        svgElement.el.setAttribute 'from-asteroid', @currAsteroid.id
+        svgElement.el.setAttribute 'from-asteroid', @currSighting.id
 
   removeGhostMarks: ->
     for ghostMark in [ @el.find(".ghost-mark")... ]
@@ -211,26 +217,27 @@ class Classifier extends BaseController
   onDestroyMark: (mark) =>
     @destroyMarksInFrame mark.frame
     @updateIconsForDestroyMark mark.frame
-    @currAsteroid.clearSightingsInFrame mark.frame
+    @currSighting.clearSightingsInFrame mark.frame
     @removeGhostMarks()
-    if @state is 'asteroidTool' and @currAsteroid.allSightings.length < @numFrames
+    if @state is 'asteroidTool' and @currSighting.allSightings.length < @numFrames
       @doneButton.prop 'disabled', true
 
   onCreateTool: (tool) =>
     surfaceIndex = +@markingSurfaceList.indexOf tool.surface
 
     if @asteroidMarkedInFrame[surfaceIndex]
-      @currAsteroid.clearSightingsInFrame surfaceIndex
+      @currSighting.clearSightingsInFrame surfaceIndex
       @destroyMarksInFrame(surfaceIndex)
     else
       @el.find(".asteroid-frame-complete-#{surfaceIndex}").prop 'checked', true
       @asteroidMarkedInFrame[surfaceIndex] = true
     @updateIconsForCreateMark(surfaceIndex)
 
-    if @state is 'asteroidTool' and @currAsteroid.allSightings.length is @numFrames
-      @doneButton.prop 'disabled', false
+    if @state is 'asteroidTool' and @currSighting.allSightings.length is @numFrames \
+      or @state is 'artifactTool' and @currSighting.allSightings.length > 0
+        @doneButton.prop 'disabled', false
 
-    tool.controls.controller.setMark(surfaceIndex, @currAsteroid.id)
+    tool.controls.controller.setMark(surfaceIndex, @currSighting.id)
 
   onChangeFrameSlider: =>
     frame = document.getElementById('frame-slider').value
@@ -340,14 +347,14 @@ class Classifier extends BaseController
   destroyMarksInFrame: (frame_idx) ->
     for surface in @markingSurfaceList
       for theMark in surface.marks
-        theMark?.destroy() if theMark?.frame is frame_idx and theMark?.asteroid_id is @currAsteroid.id
+        theMark?.destroy() if theMark?.frame is frame_idx and theMark?.asteroid_id is @currSighting.id
 
   onClickAsteroidNotVisible: (e) ->
     frameNum = +e.target.id.slice(-1)
     visibilityChecked = @asteroidVisibilityCheckboxes[frameNum].checked
 
     if @asteroidMarkedInFrame[frameNum]
-      @currAsteroid.clearSightingsInFrame frameNum
+      @currSighting.clearSightingsInFrame frameNum
       @destroyMarksInFrame frameNum
 
     @updateIconsForNotVisible(frameNum)
@@ -358,9 +365,9 @@ class Classifier extends BaseController
       y: null
       visible: false
       inverted: @invert
-    @currAsteroid.pushSighting newAnnotation
+    @currSighting.pushSighting newAnnotation
 
-    if @state is 'asteroidTool' and @currAsteroid.allSightings.length is @numFrames
+    if @state is 'asteroidTool' and @currSighting.allSightings.length is @numFrames
       @doneButton.prop 'disabled', false
 
   updateIconsForCreateMark: (frameNum) =>
@@ -408,12 +415,12 @@ class Classifier extends BaseController
 
   onClickAsteroidDone: ->
     @removeGhostMarks()
-    @currAsteroid.displaySummary()
-    if @currAsteroid.allSightings.length is 0
-      @currAsteroid = null
+    @currSighting.displaySummary()
+    if @currSighting.allSightings.length is 0
+      @currSighting = null
     else
       @finishButton.prop 'disabled', false
-      @setOfSightings.push @currAsteroid
+      @setOfSightings.push @currSighting
 
     @resetAsteroidCheckboxes()
     @setState 'whatKind'
@@ -433,7 +440,7 @@ class Classifier extends BaseController
     @activateFrame(nextFrame) unless nextFrame is @numFrames
 
   onClickCancel: ->
-    @resetMarkingSurfaces() if @state is 'asteroidTool'
+    @resetMarkingSurfaces() if @state is 'asteroidTool' or 'artifactTool'
     @resetAsteroidCheckboxes()
     @setState 'whatKind' # return to initial state
 
