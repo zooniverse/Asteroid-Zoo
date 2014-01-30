@@ -19,7 +19,6 @@
         Invert
      </button>
     </div>
-    <hr>
     <h2>VIEW</h2>
     <div class="answers">
       <button name="flicker">
@@ -52,7 +51,6 @@
         4-up
       </button>
     </div>
-    <hr>
 
     <h2>HELP</h2>
     <div class="answers">
