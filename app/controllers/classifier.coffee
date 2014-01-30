@@ -141,7 +141,8 @@ class Classifier extends BaseController
         @el.find('.artifact-classifier').hide()
         @doneButton.hide()
         @finishButton.show()
-
+        el.checked = false for el in [ @artifactSelector ... ] # reset artifact selector
+          
   constructor: ->
     super
     @asteroidMarkedInFrame = [ null, null, null, null ]
@@ -165,7 +166,6 @@ class Classifier extends BaseController
     Subject.on 'select', @onSubjectSelect
 
   onSelectArtifact: ->
-    console.log "ARTIFACT TYPE: ", @artifactSelector.filter(':checked').val()
     @currSighting.subType = @artifactSelector.filter(':checked').val()
 
   createMarkingSurfaces: ->
