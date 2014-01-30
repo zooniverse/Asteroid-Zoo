@@ -132,6 +132,7 @@ class Classifier extends BaseController
         @enableMarkingSurfaces()
         @currSighting = new Sighting({type:"artifact"})
         @el.find('.artifact-classifier').show()
+        @nextFrame.hide()
         @finishButton.hide()
         @doneButton.show()
         @doneButton.prop 'disabled', true
@@ -164,7 +165,8 @@ class Classifier extends BaseController
     Subject.on 'select', @onSubjectSelect
 
   onSelectArtifact: ->
-    @currSighting?.subType = @artifactSelector.filter(':checked').val()
+    console.log "ARTIFACT TYPE: ", @artifactSelector.filter(':checked').val()
+    @currSighting.subType = @artifactSelector.filter(':checked').val()
 
   createMarkingSurfaces: ->
     @numFrames = 4
@@ -346,7 +348,7 @@ class Classifier extends BaseController
   destroyMarksInFrame: (frame_idx) ->
     for surface in @markingSurfaceList
       for theMark in surface.marks
-        theMark?.destroy() if theMark?.frame is frame_idx and theMark?.asteroid_id is @currSighting.id
+        theMark?.destroy() if theMark?.frame is frame_idx and theMark?.id is @currSighting.id
 
   onClickAsteroidNotVisible: (e) ->
     frameNum = +e.target.id.slice(-1)
