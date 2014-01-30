@@ -22,14 +22,18 @@ KEYS =
   four:   52
 
 DEV_SUBJECTS = [ 
-  './dev-subjects-images/01_12DEC02_N04066_0001-45-scaled.png'
-  './dev-subjects-images/01_12DEC02_N04066_0002-45-scaled.png'
-  './dev-subjects-images/01_12DEC02_N04066_0003-45-scaled.png'
-  './dev-subjects-images/01_12DEC02_N04066_0004-45-scaled.png'
+  # './dev-subjects-images/01_12DEC02_N04066_0001-45-scaled.png'
+  # './dev-subjects-images/01_12DEC02_N04066_0002-45-scaled.png'
+  # './dev-subjects-images/01_12DEC02_N04066_0003-45-scaled.png'
+  # './dev-subjects-images/01_12DEC02_N04066_0004-45-scaled.png'
   # './dev-subjects-images/01_12DEC02_N04066_0001-50-scaled.png'
   # './dev-subjects-images/01_12DEC02_N04066_0002-50-scaled.png'
   # './dev-subjects-images/01_12DEC02_N04066_0003-50-scaled.png'
   # './dev-subjects-images/01_12DEC02_N04066_0004-50-scaled.png' 
+  './dev-subjects-images/01_12DEC02_N04066_0001-51-scaled.png'
+  './dev-subjects-images/01_12DEC02_N04066_0002-51-scaled.png'
+  './dev-subjects-images/01_12DEC02_N04066_0003-51-scaled.png'
+  './dev-subjects-images/01_12DEC02_N04066_0004-51-scaled.png' 
 ]
 
 NEXT_DEV_SUBJECT = ->
