@@ -294,7 +294,7 @@ class Classifier extends BaseController
     @el.find("#frame-id-#{i}").closest("div").show() for i in [0...@numFrames]
     @nextFrame.hide()
     markingSurfaces = document.getElementsByClassName("marking-surface")
-    @resizeElements(markingSurfaces, 254) # image sizing for 4up view
+    @resizeElements(markingSurfaces, 255) # image sizing for 4up view
     @enableSliderControls true
     @fourUpButton.attr 'disabled', true
     @flickerButton.attr 'disabled', false
