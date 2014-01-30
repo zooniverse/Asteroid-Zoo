@@ -43,8 +43,6 @@
     float: left
     height: 512px
     width: 512px
-    padding: 1px 1px
-    background-color #000
 
   .left-panel
     width 70px
@@ -239,6 +237,12 @@
         opacity: 1
 
   &[flicker="false"]
+    .marking-surface
+      &:nth-child(odd)
+        border-right 2px solid #000
+       &:nth-child(-n+2)
+        border-bottom 2px solid #000
+
     #classifier-svg-root-0
       .from-frame-0
         opacity: 1

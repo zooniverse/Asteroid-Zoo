@@ -304,7 +304,7 @@ class Classifier extends BaseController
     @playButton.hide()
     @frameSlider.hide()
     markingSurfaces = document.getElementsByClassName("marking-surface")
-    @resizeElements(markingSurfaces, 254) # image sizing for 4up view
+    @resizeElements(markingSurfaces, 255) # image sizing for 4up view
     @enableSliderControls true
     @fourUpButton.attr 'disabled', true
     @flickerButton.attr 'disabled', false
