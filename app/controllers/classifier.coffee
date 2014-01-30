@@ -192,8 +192,7 @@ class Classifier extends BaseController
     @currAsteroid.pushSighting mark
     
     setTimeout => # otherwise mark properties undefined
-      # new GhostMark(mark, @currAsteroid.id)
-      @updateGhostMark(mark) # remove unworthy ghosts
+      @removeGhostMarks() # remove unworthy ghosts
       @addGhostMark(mark)
 
   addGhostMark: (mark) ->
@@ -204,17 +203,15 @@ class Classifier extends BaseController
         svgElement.el.setAttribute 'from-frame', mark.frame
         svgElement.el.setAttribute 'from-asteroid', @currAsteroid.id
 
-  updateGhostMark: (mark) ->
+  removeGhostMarks: ->
     for ghostMark in [ @el.find(".ghost-mark")... ]
-      if +ghostMark.getAttribute('from-frame') is +mark.frame \
-        and +ghostMark.getAttribute('from-asteroid') is +@currAsteroid.id
-          ghostMark.remove()
+      ghostMark.remove()
 
   onDestroyMark: (mark) =>
     @destroyMarksInFrame mark.frame
     @updateIconsForDestroyMark mark.frame
     @currAsteroid.clearSightingsInFrame mark.frame
-    @updateGhostMark(mark)
+    @removeGhostMarks()
     if @state is 'asteroidTool' and @currAsteroid.allSightings.length < @numFrames
       @doneButton.prop 'disabled', true
 
@@ -405,6 +402,7 @@ class Classifier extends BaseController
         classifier.el.find(".asteroid-frame-#{i}").removeClass 'current-asteroid-frame'
 
   onClickAsteroidDone: ->
+    @removeGhostMarks()
     @currAsteroid.displaySummary()
     if @currAsteroid.allSightings.length is 0
       @currAsteroid = null
