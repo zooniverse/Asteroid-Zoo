@@ -22,18 +22,18 @@ KEYS =
   four:   52
 
 DEV_SUBJECTS = [ 
-  # './dev-subjects-images/01_12DEC02_N04066_0001-45-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0002-45-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0003-45-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0004-45-scaled.png'
+  './dev-subjects-images/01_12DEC02_N04066_0001-45-scaled.png'
+  './dev-subjects-images/01_12DEC02_N04066_0002-45-scaled.png'
+  './dev-subjects-images/01_12DEC02_N04066_0003-45-scaled.png'
+  './dev-subjects-images/01_12DEC02_N04066_0004-45-scaled.png'
   # './dev-subjects-images/01_12DEC02_N04066_0001-50-scaled.png'
   # './dev-subjects-images/01_12DEC02_N04066_0002-50-scaled.png'
   # './dev-subjects-images/01_12DEC02_N04066_0003-50-scaled.png'
   # './dev-subjects-images/01_12DEC02_N04066_0004-50-scaled.png' 
-  './dev-subjects-images/01_12DEC02_N04066_0001-51-scaled.png'
-  './dev-subjects-images/01_12DEC02_N04066_0002-51-scaled.png'
-  './dev-subjects-images/01_12DEC02_N04066_0003-51-scaled.png'
-  './dev-subjects-images/01_12DEC02_N04066_0004-51-scaled.png'
+  # './dev-subjects-images/01_12DEC02_N04066_0001-51-scaled.png'
+  # './dev-subjects-images/01_12DEC02_N04066_0002-51-scaled.png'
+  # './dev-subjects-images/01_12DEC02_N04066_0003-51-scaled.png'
+  # './dev-subjects-images/01_12DEC02_N04066_0004-51-scaled.png'
 ]
 
 NEXT_DEV_SUBJECT = ->
@@ -230,7 +230,14 @@ class Classifier extends BaseController
       @doneButton.prop 'disabled', true
 
   onCreateTool: (tool) =>
+    console.log 'tool created'
     surfaceIndex = +@markingSurfaceList.indexOf tool.surface
+
+    if @state is 'asteroidTool'
+      tool.setMarkType 'asteroid'
+
+    if @state is 'artifactTool'
+      tool.setMarkType 'artifact'
 
     if @asteroidMarkedInFrame[surfaceIndex]
       @currSighting.clearSightingsInFrame surfaceIndex
