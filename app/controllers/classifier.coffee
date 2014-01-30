@@ -195,7 +195,7 @@ class Classifier extends BaseController
   addGhostMark: (mark) ->
     svgElement = null
     for surface, i in @markingSurfaceList
-      if i isnt +@el.find('#frame-slider').val()
+      if i isnt +mark.frame
         svgElement = surface.addShape 'circle', class: "ghost-mark", opacity: 1, cx: mark.x, cy: mark.y, r: 16, fill: "none", stroke: "#25b4c5", strokewidth: 1
         svgElement.el.setAttribute 'from-frame', mark.frame
         svgElement.el.setAttribute 'from-asteroid', @currAsteroid.id
