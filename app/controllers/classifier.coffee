@@ -139,6 +139,7 @@ class Classifier extends BaseController
       exit: ->
         @disableMarkingSurfaces()
         @el.find('.artifact-classifier').hide()
+        @nextFrame.show()
         @doneButton.hide()
         @finishButton.show()
         el.checked = false for el in [ @artifactSelector ... ] # reset artifact selector
