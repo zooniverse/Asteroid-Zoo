@@ -125,6 +125,7 @@ class Classifier extends BaseController
         @el.find('.asteroid-classifier').hide()
         @doneButton.hide()
         @finishButton.show()
+        @onClickFlicker() unless @el.attr('flicker') is 'true'
 
     artifactTool:
       enter: ->
@@ -206,7 +207,11 @@ class Classifier extends BaseController
     svgElement = null
     for surface, i in @markingSurfaceList
       if i isnt +mark.frame
-        svgElement = surface.addShape 'circle', class: "ghost-mark", opacity: 1, cx: mark.x, cy: mark.y, r: 16, fill: "none", stroke: "#25b4c5", strokewidth: 1
+        if @el.attr('flicker') is 'true'
+          [xVal, yVal] = [mark.x, mark.y]
+        else
+          [xVal, yVal] = [mark.x / 2, mark.y / 2]
+        svgElement = surface.addShape 'circle', class: "ghost-mark", opacity: 1, cx: xVal, cy: yVal, r: 16, fill: "none", stroke: "#25b4c5", strokewidth: 1
         svgElement.el.setAttribute 'from-frame', mark.frame
         svgElement.el.setAttribute 'from-asteroid', @currSighting.id
 
@@ -394,10 +399,6 @@ class Classifier extends BaseController
       classifier.el.find(".asteroid-frame-#{frameNum}").addClass 'current-asteroid-frame'
 
   setAsteroidFrame: (frameNum) ->
-    if frameNum < @numFrames - 1
-      @nextFrame.show()
-    else
-      @nextFrame.hide()
     @el.find("#frame-slider").val frameNum
     @el.find(".asteroid-visibility-#{frameNum}").show()
 
@@ -431,7 +432,7 @@ class Classifier extends BaseController
 
   onClickNextFrame: ->
     nextFrame = +(document.getElementById('frame-slider').value) + 1
-    @activateFrame(nextFrame) unless nextFrame is @numFrames
+    if nextFrame is @numFrames then @onClickFourUp() else @activateFrame(nextFrame) 
 
   onClickCancel: ->
     @resetMarkingSurfaces() if @state is 'asteroidTool' or 'artifactTool'
