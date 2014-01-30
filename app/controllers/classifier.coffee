@@ -305,7 +305,6 @@ class Classifier extends BaseController
     @frameSlider.hide()
     markingSurfaces = document.getElementsByClassName("marking-surface")
     @resizeElements(markingSurfaces, 255) # image sizing for 4up view
-    @enableSliderControls true
     @fourUpButton.attr 'disabled', true
     @flickerButton.attr 'disabled', false
     @el.attr 'flicker', "false"
@@ -320,7 +319,6 @@ class Classifier extends BaseController
     @nextFrame.show()
     @playButton.show()
     @frameSlider.show()
-    @enableSliderControls false
     @flickerButton.attr 'disabled', true
     @fourUpButton.attr 'disabled', false
     @el.attr 'flicker', "true"
@@ -334,10 +332,6 @@ class Classifier extends BaseController
       for surface in @markingSurfaceList
         for tool in surface.tools
           tool.render()
-
-  enableSliderControls: (bool) ->
-    document.getElementById("frame-slider").disabled = bool
-    @playButton.attr 'disabled', bool
 
   resizeElements: (elements, newSize) ->
     for element in elements
