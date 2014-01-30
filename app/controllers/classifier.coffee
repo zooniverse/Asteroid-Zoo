@@ -93,9 +93,10 @@ class Classifier extends BaseController
     'button[name="cancel"]'          : 'cancel'
     'input[name="selected-artifact"]': 'selectedArtifactRadios'
     'input[name="classifier-type"]'  : 'classifierTypeRadios'
-    'input[name="frame-slider"]'     : 'frameSlider'
+    # 'input[name="frame-slider"]'     : 'frameSlider'
     '.asteroid-not-visible'          : 'asteroidVisibilityCheckboxes'
     '.asteroid-checkbox'             : 'asteroidCompleteCheckboxes'
+    '.current-frame'                 : 'frameSlider'
 
   states:
     whatKind:
@@ -293,6 +294,8 @@ class Classifier extends BaseController
   onClickFourUp: ->
     @el.find("#frame-id-#{i}").closest("div").show() for i in [0...@numFrames]
     @nextFrame.hide()
+    @playButton.hide()
+    @frameSlider.hide()
     markingSurfaces = document.getElementsByClassName("marking-surface")
     @resizeElements(markingSurfaces, 254) # image sizing for 4up view
     @enableSliderControls true
@@ -308,6 +311,8 @@ class Classifier extends BaseController
     markingSurfaces = document.getElementsByClassName("marking-surface")
     @resizeElements(markingSurfaces, 512) # image sizing for 4up view
     @nextFrame.show()
+    @playButton.show()
+    @frameSlider.show()
     @enableSliderControls false
     @flickerButton.attr 'disabled', true
     @fourUpButton.attr 'disabled', false
