@@ -473,12 +473,8 @@ class Classifier extends BaseController
     image.remove() for image in @el.find('.frame-image')
 
   onClickInvert: ->
-    if @invert is true
-      @invert = false
-      @invertButton.removeClass 'colorme'
-    else
-      @invert = true
-      @invertButton.addClass 'colorme'
+    @invert = !@invert
+    @invertButton.toggleClass 'colorme'
 
     @loadFrames()
     # bring marking tools back to front for each surface
