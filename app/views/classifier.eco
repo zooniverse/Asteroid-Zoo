@@ -352,15 +352,29 @@
       <% action = translate 'span', "classifier.#{ifTouch 'tapping', 'clicking'}" %><!--TODO: Translate these.-->
 
       <button name="play-frames">
-        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-           width="14px" height="17px" viewBox="0 0 14 17" style="enable-background:new 0 0 14 17;" xml:space="preserve">
-        <g>
-          <path style="fill:#CBCBCB;" d="M13.998,8.5c0-0.684-0.378-1.271-0.929-1.573L2.685,0.275L2.682,0.279
-            c-0.27-0.173-0.586-0.277-0.928-0.277c-0.968,0-1.753,0.803-1.753,1.793v13.41c0,0.99,0.785,1.793,1.753,1.793
-            c0.342,0,0.658-0.104,0.928-0.277l0.002,0.004l10.385-6.651C13.62,9.771,13.998,9.184,13.998,8.5z"/>
-        </g>
-        </svg>
-        Play
+        <span id="play-content">
+          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+             width="14px" height="17px" viewBox="0 0 14 17" style="enable-background:new 0 0 14 17;" xml:space="preserve">
+          <g>
+            <path style="fill:#CBCBCB;" d="M13.998,8.5c0-0.684-0.378-1.271-0.929-1.573L2.685,0.275L2.682,0.279
+              c-0.27-0.173-0.586-0.277-0.928-0.277c-0.968,0-1.753,0.803-1.753,1.793v13.41c0,0.99,0.785,1.793,1.753,1.793
+              c0.342,0,0.658-0.104,0.928-0.277l0.002,0.004l10.385-6.651C13.62,9.771,13.998,9.184,13.998,8.5z"/>
+          </g>
+          </svg>
+          Play
+        </span>
+        <span id="pause-content">
+          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+             width="13px" height="15px" viewBox="0 0 13 15" style="enable-background:new 0 0 13 15;" xml:space="preserve">
+          <g fill="#CBCBCB">
+            <path d="M1.952,0.002c-1.113,0-2.015,0.898-2.015,2.005v10.986c0,1.107,0.902,2.005,2.015,2.005
+              c1.113,0,2.015-0.897,2.015-2.005V2.007C3.967,0.9,3.065,0.002,1.952,0.002z"/>
+            <path d="M10.908,0.002c-1.113,0-2.015,0.898-2.015,2.005v10.986c0,1.107,0.902,2.005,2.015,2.005
+              s2.015-0.897,2.015-2.005V2.007C12.923,0.9,12.021,0.002,10.908,0.002z"/>
+          </g>
+          </svg>
+          Pause
+        </span>
       </button>
 
       <div class="current-frame">

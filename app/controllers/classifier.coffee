@@ -450,7 +450,9 @@ class Classifier extends BaseController
     @setState 'whatKind' # return to initial state
 
   onClickPlay: ->
-    if @playingFrames then @stopPlayingFrames() else @startPlayingFrames()
+    currentFrame = +document.getElementById('frame-slider').value
+    if @playingFrames then @stopPlayingFrames(currentFrame) else @startPlayingFrames(currentFrame)
+    @togglePausePlayIcons()
 
   stopPlayingFrames: (pauseFrame) -> # pauseFrame optional to stop on a specific frame
     clearInterval @playingFrames
@@ -458,13 +460,17 @@ class Classifier extends BaseController
     @playingFrames = undefined
     @activateFrame pauseFrame ? 0
 
-  startPlayingFrames: ->
+  startPlayingFrames: (startingFrame) -> # pauseFrame optional to start on a specific frame
     @disableMarkingSurfaces()
-    frame = 0
+    frame = startingFrame ? 0
     @playingFrames = setInterval (=>
       @activateFrame frame
       if frame is @numFrames-1 then frame = 0 else frame += 1
     ), 500
+
+  togglePausePlayIcons: ->
+    @el.find("#play-content").toggle()
+    @el.find("#pause-content").toggle()
 
   activateFrame: (frame) ->
     @setAsteroidFrame(frame)
