@@ -259,7 +259,7 @@ class Classifier extends BaseController
     @activateFrame(frame)
 
   onKeyDown: (e) =>
-    return if @playingFrames or @el.attr('flicker') is 'false' # disable while playing or in 4up
+    return if @playTimeout? or @el.attr('flicker') is 'false' # disable while playing or in 4up
     switch e.which
       when KEYS.one   then @activateFrame(0)
       when KEYS.two   then @activateFrame(1)
@@ -451,22 +451,17 @@ class Classifier extends BaseController
 
   onClickPlay: ->
     currentFrame = +document.getElementById('frame-slider').value
-    if @playingFrames then @stopPlayingFrames(currentFrame) else @startPlayingFrames(currentFrame)
+    if @playTimeout? then @stopPlayingFrames(currentFrame) else @startPlayingFrames(currentFrame)
     @togglePausePlayIcons()
 
-  stopPlayingFrames: (pauseFrame) -> # pauseFrame optional to stop on a specific frame
-    clearInterval @playingFrames
-    @enableMarkingSurfaces()
-    @playingFrames = undefined
-    @activateFrame pauseFrame ? 0
+  startPlayingFrames: (startingFrame) ->
+    startingFrame %= @markingSurfaceList.length
+    @activateFrame startingFrame
+    @playTimeout = setTimeout (=> @startPlayingFrames startingFrame + 1), 500
 
-  startPlayingFrames: (startingFrame) -> # startingFrame optional to start on a specific frame
-    @disableMarkingSurfaces()
-    frame = startingFrame ? 0
-    @playingFrames = setInterval (=>
-      @activateFrame frame
-      if frame is @numFrames-1 then frame = 0 else frame += 1
-    ), 500
+  stopPlayingFrames: ->
+    clearTimeout @playTimeout
+    @playTimeout = null
 
   togglePausePlayIcons: ->
     @el.find("#play-content").toggle()
