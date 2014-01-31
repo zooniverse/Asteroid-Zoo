@@ -49,10 +49,10 @@ class MarkingTool extends Tool
       @hr1.attr stroke: 'rgb(200,200,0)'
       @hr2.attr stroke: 'rgb(200,200,0)'
     else
-      @vr1.attr stroke: 'rgb(200,0,0)'
-      @vr2.attr stroke: 'rgb(200,0,0)'
-      @hr1.attr stroke: 'rgb(200,0,0)'
-      @hr2.attr stroke: 'rgb(200,0,0)'
+      @vr1.attr stroke: 'rgb(200,0,0)', transform: 'rotate(45)'
+      @vr2.attr stroke: 'rgb(200,0,0)', transform: 'rotate(45)'
+      @hr1.attr stroke: 'rgb(200,0,0)', transform: 'rotate(45)'
+      @hr2.attr stroke: 'rgb(200,0,0)', transform: 'rotate(45)'
       
     # @hr.attr strokeWidth: 1 / @surface.zoomBy
     # @vr.attr strokeWidth: 1 / @surface.zoomBy
