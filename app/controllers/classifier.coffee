@@ -259,7 +259,7 @@ class Classifier extends BaseController
     @activateFrame(frame)
 
   onKeyDown: (e) =>
-    return if @el.hasClass 'playing' or @el.attr('flicker') is 'false' # disable while playing or in 4up
+    return if @playingFrames or @el.attr('flicker') is 'false' # disable while playing or in 4up
     switch e.which
       when KEYS.one   then @activateFrame(0)
       when KEYS.two   then @activateFrame(1)
@@ -450,21 +450,21 @@ class Classifier extends BaseController
     @setState 'whatKind' # return to initial state
 
   onClickPlay: ->
-    return if @el.hasClass 'playing'  # play only once at a time
+    if @playingFrames then @stopPlayingFrames() else @startPlayingFrames()
+
+  stopPlayingFrames: (pauseFrame) -> # pauseFrame optional to stop on a specific frame
+    clearInterval @playingFrames
+    @enableMarkingSurfaces()
+    @playingFrames = undefined
+    @activateFrame pauseFrame ? 0
+
+  startPlayingFrames: ->
     @disableMarkingSurfaces()
-    @playButton.attr 'disabled', true
-    @el.addClass 'playing'
-
-    iterator = [0...@numFrames].concat [@numFrames-2..0]
-    for index, i in iterator then do (index, i) =>
-      @playTimeouts.push setTimeout (=> @activateFrame index), i * 500
-
-    # reset after animation complete
-    setTimeout (=>
-      @el.removeClass 'playing'
-      @playButton.attr 'disabled', false
-      @enableMarkingSurfaces()
-    ), iterator.length * 500
+    frame = 0
+    @playingFrames = setInterval (=>
+      @activateFrame frame
+      if frame is @numFrames-1 then frame = 0 else frame += 1
+    ), 500
 
   activateFrame: (frame) ->
     @setAsteroidFrame(frame)
