@@ -8,12 +8,14 @@ class MarkingTool extends Tool
 
   visible: true
   markType: null
-
-  lines = []
-  circle: null
-
   size: if !!~navigator.userAgent.indexOf 'iO' then 40 else 20
-  color: 'rgb(200, 0, 0)'
+  color: null
+
+  @hr1: null
+  @hr2: null
+  @vr1: null
+  @vr2: null
+  circle: null
 
   cursors:
     circle: 'move'
@@ -41,19 +43,14 @@ class MarkingTool extends Tool
 
   render: ->
     return if not @visible
+    svgLines = [@hr1, @hr2, @vr1, @vr2]
 
-    # update colors
-    if @markType is 'asteroid'
-      @vr1.attr stroke: 'rgb(200,200,0)'
-      @vr2.attr stroke: 'rgb(200,200,0)'
-      @hr1.attr stroke: 'rgb(200,200,0)'
-      @hr2.attr stroke: 'rgb(200,200,0)'
-    else
-      @vr1.attr stroke: 'rgb(200,0,0)', transform: 'rotate(45)'
-      @vr2.attr stroke: 'rgb(200,0,0)', transform: 'rotate(45)'
-      @hr1.attr stroke: 'rgb(200,0,0)', transform: 'rotate(45)'
-      @hr2.attr stroke: 'rgb(200,0,0)', transform: 'rotate(45)'
-      
+    for line in svgLines
+      if @markType is 'asteroid'
+        line.attr stroke: 'rgb(255,215,0)'
+      else
+        line.attr stroke: 'rgb(200,0,20)', transform: 'rotate(45)'
+
     # @hr.attr strokeWidth: 1 / @surface.zoomBy
     # @vr.attr strokeWidth: 1 / @surface.zoomBy
     scale = @surface.el.offsetWidth
