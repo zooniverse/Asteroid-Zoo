@@ -460,7 +460,7 @@ class Classifier extends BaseController
     @playingFrames = undefined
     @activateFrame pauseFrame ? 0
 
-  startPlayingFrames: (startingFrame) -> # pauseFrame optional to start on a specific frame
+  startPlayingFrames: (startingFrame) -> # startingFrame optional to start on a specific frame
     @disableMarkingSurfaces()
     frame = startingFrame ? 0
     @playingFrames = setInterval (=>
