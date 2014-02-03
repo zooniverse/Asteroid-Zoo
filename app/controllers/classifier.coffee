@@ -151,16 +151,12 @@ class Classifier extends BaseController
     @el.attr tabindex: 0
     @el.attr 'flicker', "true"
     @invert = false
-
     window.classifier = @
     @setOfSightings = []
     @currSighting = null
-
     @flickerButton.attr 'disabled', true
     @finishButton.prop 'disabled', true
-
     @createMarkingSurfaces()
-
     @setState 'whatKind'
     User.on 'change', @onUserChange
     Subject.on 'fetch', @onSubjectFetch
@@ -199,27 +195,24 @@ class Classifier extends BaseController
     setTimeout =>
       @el.find('a, button, input, textarea, select').filter('section *:visible').first().focus()
 
-  onCreateMark: (mark) =>
-    @currSighting.pushSighting mark
-    setTimeout => # otherwise mark properties undefined
-      @removeGhostMarks() # remove unworthy ghosts
-      @addGhostMark(mark)
 
   addGhostMark: (mark) ->
     svgElement = null
-    for surface, i in @markingSurfaceList
-      if i isnt +mark.frame
-        if @el.attr('flicker') is 'true'
-          [xVal, yVal] = [mark.x, mark.y]
-        else
-          [xVal, yVal] = [mark.x / 2, mark.y / 2]
-        svgElement = surface.addShape 'circle', class: "ghost-mark", opacity: 1, cx: xVal, cy: yVal, r: 16, fill: "none", stroke: "#25b4c5", strokewidth: 1
-        svgElement.el.setAttribute 'from-frame', mark.frame
-        svgElement.el.setAttribute 'from-asteroid', @currSighting.id
+    for surface, i in @markingSurfaceList when i isnt +mark.frame
+      if @el.attr('flicker') is 'true'
+        [xVal, yVal] = [mark.x, mark.y]
+      else
+        [xVal, yVal] = [mark.x / 2, mark.y / 2]
+      svgElement = surface.addShape 'circle', class: "ghost-mark", opacity: 1, cx: xVal, cy: yVal, r: 16, fill: "none", stroke: "#25b4c5", strokewidth: 1
+      svgElement.el.setAttribute 'from-frame', mark.frame
+      svgElement.el.setAttribute 'from-asteroid', @currSighting.id
 
   removeGhostMarks: ->
     for ghostMark in [ @el.find(".ghost-mark")... ]
       ghostMark.remove()
+
+  onCreateMark: (mark) =>
+    @currSighting.pushSighting mark
 
   onDestroyMark: (mark) =>
     @destroyMarksInFrame mark.frame
@@ -252,6 +245,9 @@ class Classifier extends BaseController
         @doneButton.prop 'disabled', false
 
     tool.mark.id = @currSighting.id
+    tool.mark.on 'change', =>
+      @removeGhostMarks() # remove unworthy ghosts
+      @addGhostMark(tool.mark)
 
   onChangeFrameSlider: =>
     frame = document.getElementById('frame-slider').value
