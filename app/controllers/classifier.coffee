@@ -9,8 +9,7 @@ loadImage      = require '../lib/load-image'
 Classification = require 'zooniverse/models/classification'
 MarkingSurface = require 'marking-surface'
 MarkingTool    = require './marking-tool'
-MarkingToolControls = require './marking-tool-controls'
-$ = window.jQuery
+# MarkingToolControls = require './marking-tool-controls'
 
 KEYS =
   space:  32
@@ -29,7 +28,7 @@ DEV_SUBJECTS = [
   # './dev-subjects-images/01_12DEC02_N04066_0001-50-scaled.png'
   # './dev-subjects-images/01_12DEC02_N04066_0002-50-scaled.png'
   # './dev-subjects-images/01_12DEC02_N04066_0003-50-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0004-50-scaled.png' 
+  # './dev-subjects-images/01_12DEC02_N04066_0004-50-scaled.png'
   # './dev-subjects-images/01_12DEC02_N04066_0001-51-scaled.png'
   # './dev-subjects-images/01_12DEC02_N04066_0002-51-scaled.png'
   # './dev-subjects-images/01_12DEC02_N04066_0003-51-scaled.png'
@@ -201,7 +200,6 @@ class Classifier extends BaseController
 
   onCreateMark: (mark) =>
     @currSighting.pushSighting mark
-    
     setTimeout => # otherwise mark properties undefined
       @removeGhostMarks() # remove unworthy ghosts
       @addGhostMark(mark)
@@ -252,7 +250,7 @@ class Classifier extends BaseController
       or @state is 'artifactTool' and @currSighting.allSightings.length > 0
         @doneButton.prop 'disabled', false
 
-    tool.controls.controller.setMark(surfaceIndex, @currSighting.id)
+    tool.mark.id = @currSighting.id
 
   onChangeFrameSlider: =>
     frame = document.getElementById('frame-slider').value

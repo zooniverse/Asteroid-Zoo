@@ -38,8 +38,9 @@ class MarkingTool extends Tool
     surfaceSize = @surface.el.offsetWidth
     {x, y} = @pointerOffset e
     @mark.set
-      x: (x / surfaceSize) * FULL_SIZE
-      y: (y / surfaceSize) * FULL_SIZE
+      x: Math.floor((x / surfaceSize) * FULL_SIZE)
+      y: Math.floor((y / surfaceSize) * FULL_SIZE)
+      frame: +e.target.id.slice(-1)
 
   render: ->
     return if not @visible
