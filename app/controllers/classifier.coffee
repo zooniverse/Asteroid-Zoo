@@ -10,6 +10,7 @@ Classification = require 'zooniverse/models/classification'
 MarkingSurface = require 'marking-surface'
 MarkingTool    = require './marking-tool'
 # MarkingToolControls = require './marking-tool-controls'
+InvertSvg      = require '../lib/invert-svg-image'
 
 KEYS =
   space:  32
@@ -483,12 +484,8 @@ class Classifier extends BaseController
     @invert = !@invert
     @invertButton.toggleClass 'colorme'
 
-    @loadFrames()
-    # bring marking tools back to front for each surface
-    for surface in @markingSurfaceList
-      markElements = surface.el.getElementsByClassName('marking-tool-root')
-      for i in [0...markElements.length]
-        markElements[0].parentElement.appendChild markElements[0]
+    images = document.getElementsByClassName('frame-image')
+    InvertSvg(image) for image in images
 
   onClickFinishMarking: ->
     radio.checked = false for radio in @classifierTypeRadios

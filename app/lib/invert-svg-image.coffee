@@ -8,11 +8,9 @@ invertSvgImage = (image, callback) ->
 
   img = new Image
   img.onload = ->
-    console.log 'LOADED'
     canvas.width = img.width
     canvas.height = img.height
     context.drawImage img, 0, 0
-    console.log 'DRAWN'
 
     imageData = context.getImageData 0, 0, img.width, img.height
     data = imageData.data
@@ -21,10 +19,8 @@ invertSvgImage = (image, callback) ->
       data[i + 1] = 255 - data[i + 1]
       data[i + 2] = 255 - data[i + 2]
     context.putImageData imageData, 0, 0
-    console.log 'INVERTED'
 
     image.setAttributeNS XLINK_NS, 'href', canvas.toDataURL()
-    console.log 'RESET'
 
     callback? canvas.toDataURL()
 
