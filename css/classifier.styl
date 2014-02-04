@@ -79,7 +79,6 @@
     padding 10px
     float left
     color #8d8a8a
-
     svg
       width 20px
       height 20px
@@ -95,16 +94,18 @@
       font-size 14px
       height 40px
       line-height 20px
+      font-weight bold
       width 100%
       margin 10px 0
+      color #fff
       &[name='next-frame']
-        color #fff
         background-color #4fad76
-        font-weight bold
       &[name='cancel']
         border 2px solid #e6e6e6
+        color #787878
+        font-weight normal
       &[name='asteroid-delete']
-        border 2px solid #c09792
+        background-color #E17F7F
 
     .asteroid-classifier
       input
@@ -144,7 +145,8 @@
         &[name='classifier-type']
           display none
           &:checked
-            & + svg
+            & ~ *
+              color #29afcd
               g
                 fill #29afcd
 

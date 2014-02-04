@@ -3,8 +3,6 @@ User           = require 'zooniverse/models/user'
 Subject        = require 'zooniverse/models/subject'
 Sighting       = require '../models/sighting'
 # GhostMark      = require '..models/ghost-mark'
-modulus        = require '../lib/modulus'
-
 loadImage      = require '../lib/load-image'
 Classification = require 'zooniverse/models/classification'
 MarkingSurface = require 'marking-surface'
@@ -59,7 +57,6 @@ class Classifier extends BaseController
     'change input[name="selected-artifact"]': 'onSelectArtifact'
     'change .asteroid-not-visible'          : 'onClickAsteroidNotVisible'
     'keydown'                               : 'onKeyDown'
-
     # state controller events
     'change input[name="classifier-type"]': (e) ->
       if e.currentTarget.value is 'asteroid'
@@ -77,6 +74,11 @@ class Classifier extends BaseController
 
     'click button[name^="done"]': ->
       @tool.deselect()
+
+    'click .right-panel': ->
+      if @playTimeout?
+        @stopPlayingFrames()
+        @togglePausePlayIcons()
 
   elements:
     '.subject'                       : 'subjectContainer'
@@ -96,6 +98,7 @@ class Classifier extends BaseController
     '.asteroid-not-visible'          : 'asteroidVisibilityCheckboxes'
     '.asteroid-checkbox'             : 'asteroidCompleteCheckboxes'
     '.current-frame'                 : 'frameSlider'
+    '.right-panel'                   : 'rightPanel'
 
   states:
     whatKind:
@@ -312,15 +315,12 @@ class Classifier extends BaseController
 
   onClickFourUp: ->
     @el.find("#frame-id-#{i}").closest("div").show() for i in [0...@numFrames]
-    @nextFrame.hide()
-    @playButton.hide()
-    @frameSlider.hide()
+    element.hide() for element in [@nextFrame, @playButton, @frameSlider, @deleteButton]
     markingSurfaces = document.getElementsByClassName("marking-surface")
     @resizeElements(markingSurfaces, 255) # image sizing for 4up view
     @fourUpButton.attr 'disabled', true
     @flickerButton.attr 'disabled', false
     @el.attr 'flicker', "false"
-    @deleteButton.hide()
     @rerenderMarks()
     @showAllTrackingIcons()
     ghostMark.setAttribute 'visibility', 'hidden' for ghostMark in [ @el.find('.ghost-mark')... ]
@@ -328,13 +328,10 @@ class Classifier extends BaseController
   onClickFlicker: ->
     markingSurfaces = document.getElementsByClassName("marking-surface")
     @resizeElements(markingSurfaces, 512) # image sizing for 4up view
-    @nextFrame.show()
-    @playButton.show()
-    @frameSlider.show()
+    element.show() for element in [@nextFrame, @playButton, @frameSlider, @deleteButton]
     @flickerButton.attr 'disabled', true
     @fourUpButton.attr 'disabled', false
     @el.attr 'flicker', "true"
-    @deleteButton.show()
     @rerenderMarks()
     setTimeout => @activateFrame 0
     ghostMark.setAttribute 'visibility', 'visible' for ghostMark in [ @el.find('.ghost-mark')... ]
@@ -448,7 +445,7 @@ class Classifier extends BaseController
 
   onClickPlay: ->
     currentFrame = +document.getElementById('frame-slider').value
-    if @playTimeout? then @stopPlayingFrames(currentFrame) else @startPlayingFrames(currentFrame)
+    if @playTimeout? then @stopPlayingFrames() else @startPlayingFrames(currentFrame)
     @togglePausePlayIcons()
 
   startPlayingFrames: (startingFrame) ->
@@ -481,7 +478,6 @@ class Classifier extends BaseController
   onClickInvert: ->
     @invert = !@invert
     @invertButton.toggleClass 'colorme'
-
     images = document.getElementsByClassName('frame-image')
     InvertSvg(image) for image in images
 

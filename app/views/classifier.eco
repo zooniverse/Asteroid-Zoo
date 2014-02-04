@@ -91,7 +91,7 @@
     <div class="surfaces-container"></div>
   </div>
 
-  <div class="right-panel">
+  <div class="right-panel" id="right-panel">
     <div class="answers">
       <header>
         <span class="selected-artifact-label"></span>
