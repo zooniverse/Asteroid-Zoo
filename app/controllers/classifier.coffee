@@ -12,6 +12,8 @@ MarkingTool    = require './marking-tool'
 # MarkingToolControls = require './marking-tool-controls'
 InvertSvg      = require '../lib/invert-svg-image'
 
+BIG_MODE = !!~location.search.indexOf 'big=1'
+
 KEYS =
   space:  32
   return: 13
@@ -22,14 +24,14 @@ KEYS =
   four:   52
 
 DEV_SUBJECTS = [ 
-  './dev-subjects-images/01_12DEC02_N04066_0001-45-scaled.png'
-  './dev-subjects-images/01_12DEC02_N04066_0002-45-scaled.png'
-  './dev-subjects-images/01_12DEC02_N04066_0003-45-scaled.png'
-  './dev-subjects-images/01_12DEC02_N04066_0004-45-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0001-50-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0002-50-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0003-50-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0004-50-scaled.png'
+  # './dev-subjects-images/01_12DEC02_N04066_0001-45-scaled.png'
+  # './dev-subjects-images/01_12DEC02_N04066_0002-45-scaled.png'
+  # './dev-subjects-images/01_12DEC02_N04066_0003-45-scaled.png'
+  # './dev-subjects-images/01_12DEC02_N04066_0004-45-scaled.png'
+  './dev-subjects-images/01_12DEC02_N04066_0001-50-scaled.png'
+  './dev-subjects-images/01_12DEC02_N04066_0002-50-scaled.png'
+  './dev-subjects-images/01_12DEC02_N04066_0003-50-scaled.png'
+  './dev-subjects-images/01_12DEC02_N04066_0004-50-scaled.png'
   # './dev-subjects-images/01_12DEC02_N04066_0001-51-scaled.png'
   # './dev-subjects-images/01_12DEC02_N04066_0002-51-scaled.png'
   # './dev-subjects-images/01_12DEC02_N04066_0003-51-scaled.png'
@@ -171,6 +173,7 @@ class Classifier extends BaseController
     for i in [0...@numFrames]
       @markingSurfaceList[i] = new MarkingSurface
         tool: MarkingTool
+      @markingSurfaceList[i].svg.attr 'viewBox', '256 0 256 256' if BIG_MODE
       @markingSurfaceList[i].svgRoot.attr 'id', "classifier-svg-root-#{i}"
       @surfacesContainer.append @markingSurfaceList[i].el
 
@@ -194,7 +197,6 @@ class Classifier extends BaseController
 
     setTimeout =>
       @el.find('a, button, input, textarea, select').filter('section *:visible').first().focus()
-
 
   addGhostMark: (mark) ->
     svgElement = null
@@ -293,8 +295,8 @@ class Classifier extends BaseController
         @markingSurfaceList[i].addShape 'image',
         id:  frame_id
         class:  'frame-image'
-        width:  '100%'
-        height: '100%'
+        width:  '512'
+        height: '512'
         preserveAspectRatio: 'true'
 
       img_src = if @invert then subject_info.inverted[i] else subject_info.standard[i]
