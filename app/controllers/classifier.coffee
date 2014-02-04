@@ -317,7 +317,6 @@ class Classifier extends BaseController
     @el.find("#frame-id-#{i}").closest("div").show() for i in [0...@numFrames]
     element.hide() for element in [@nextFrame, @playButton, @frameSlider, @deleteButton]
     markingSurfaces = document.getElementsByClassName("marking-surface")
-    @resizeElements(markingSurfaces, 255) # image sizing for 4up view
     @fourUpButton.attr 'disabled', true
     @flickerButton.attr 'disabled', false
     @el.attr 'flicker', "false"
@@ -327,7 +326,6 @@ class Classifier extends BaseController
 
   onClickFlicker: ->
     markingSurfaces = document.getElementsByClassName("marking-surface")
-    @resizeElements(markingSurfaces, 512) # image sizing for 4up view
     element.show() for element in [@nextFrame, @playButton, @frameSlider, @deleteButton]
     @flickerButton.attr 'disabled', true
     @fourUpButton.attr 'disabled', false
@@ -342,11 +340,6 @@ class Classifier extends BaseController
         for tool in surface.tools
           tool.render()
 
-  resizeElements: (elements, newSize) ->
-    for element in elements
-      element.style.width = newSize + "px"
-      element.style.height = newSize + "px"
-
   destroyMarksInFrame: (frame_idx) ->
     for surface in @markingSurfaceList
       for theMark in surface.marks
@@ -355,6 +348,7 @@ class Classifier extends BaseController
   onClickAsteroidNotVisible: (e) ->
     frameNum = +e.target.id.slice(-1)
     visibilityChecked = @asteroidVisibilityCheckboxes[frameNum].checked
+    @asteroidMarkedInFrame[frameNum] = true
 
     if @asteroidMarkedInFrame[frameNum]
       @currSighting.clearSightingsInFrame frameNum
@@ -391,7 +385,6 @@ class Classifier extends BaseController
     @el.find("#marked-status-#{frameNum}").hide()
 
   updateIconsForNotVisible: (frameNum) ->
-    @asteroidMarkedInFrame[frameNum] = true # frame done ("Marked" is a bit misleading here. Fix later!)
     @el.find(".asteroid-frame-complete-#{frameNum}").prop 'checked', true
     @el.find("#number-#{frameNum}").hide()
     @el.find("#not-visible-icon-#{frameNum}").show()

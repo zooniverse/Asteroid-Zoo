@@ -37,6 +37,7 @@ class MarkingTool extends Tool
   'on *drag circle': (e) =>
     surfaceSize = @surface.el.offsetWidth
     {x, y} = @pointerOffset e
+    console.log surfaceSize
     @mark.set
       x: Math.round((x / surfaceSize) * FULL_SIZE)
       y: Math.round((y / surfaceSize) * FULL_SIZE)

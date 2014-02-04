@@ -226,6 +226,9 @@
     opacity: 0.4
 
   &[flicker="true"]
+    .marking-surface
+      width 512px
+      height 512px
     &[data-on-frame="0"]
       .from-frame-0
         opacity: 1
@@ -244,10 +247,12 @@
 
   &[flicker="false"]
     .marking-surface
+      width 255px
+      height 255px
       &:nth-child(odd)
-        border-right 2px solid #000
+        margin-right 2px
       &:nth-child(-n+2)
-        border-bottom 2px solid #000
+        margin-bottom 2px
 
     #classifier-svg-root-0
       .from-frame-0
