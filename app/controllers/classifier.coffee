@@ -95,6 +95,7 @@ class Classifier extends BaseController
       exit: ->
         @el.find('button[name="to-select"]').removeClass 'hidden'
         @el.find('.what-kind').hide()
+        @removePriorAsteroids()
 
     asteroidTool:
       enter: ->
@@ -502,11 +503,17 @@ class Classifier extends BaseController
   stopLoading: ->
     @el.removeClass 'loading'
 
+  removePriorAsteroids: ->
+    console.log "removing prior asteroids"
+    for priorAsteroid in [@el.find('.prior-asteroid')...]
+      priorAsteroid.remove() 
+
   showExistingAsteroids: ->
     return if @TRAINING_SUBJECT is null
     xs = []
     ys = []
-    x_sum = y_sum = null
+    x_sum = null
+    y_sum = null
     for priorAsteroid, i in [@TRAINING_SUBJECT.metadata.asteroids...]
       xs[i] = priorAsteroid.x
       ys[i] = priorAsteroid.y
@@ -516,7 +523,7 @@ class Classifier extends BaseController
     y_avg = Math.round(y_sum/@numFrames)
     rad_x = Math.abs( (Math.max.apply null, [xs...]) - (Math.min.apply null, [xs...]) ) * 4
     rad_y = Math.abs( (Math.max.apply null, [ys...]) - (Math.min.apply null, [ys...]) )* 4
-    
+
     for surface in [@markingSurfaceList...]
       svgElement = surface.addShape 'ellipse', class: "prior-asteroid", opacity: 0.75, cx: x_avg, cy: y_avg, rx: rad_x, ry: rad_y, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 4
 
