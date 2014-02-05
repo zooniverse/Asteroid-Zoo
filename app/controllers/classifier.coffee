@@ -298,8 +298,8 @@ class Classifier extends BaseController
         @markingSurfaceList[i].addShape 'image',
         id:  frame_id
         class:  'frame-image'
-        width:  '512'
-        height: '512'
+        width:  if BIG_MODE then '512' else '100%'
+        height: if BIG_MODE then '512' else '100%'
         preserveAspectRatio: 'true'
 
       img_src = if @invert then subject_info.inverted[i] else subject_info.standard[i]
@@ -398,7 +398,6 @@ class Classifier extends BaseController
   setAsteroidFrame: (frameNum) ->
     @el.find("#frame-slider").val frameNum
     @el.find(".asteroid-visibility-#{frameNum}").show()
-
     for i in [0...@el.find('.asteroid-frame').length]
       if i is frameNum
         classifier.el.find(".asteroid-frame-#{i}").addClass 'current-asteroid-frame'
