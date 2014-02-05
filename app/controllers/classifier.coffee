@@ -234,7 +234,7 @@ class Classifier extends BaseController
     @updateIconsForDestroyMark mark.frame
     @currSighting.clearSightingsInFrame mark.frame
     @removeGhostMarks()
-    if @state is 'asteroidTool' and @currSighting.allSightings.length < @numFrames
+    if @state is 'asteroidTool' and @currSighting.allAnnotations.length < @numFrames
       @doneButton.prop 'disabled', true
 
   onCreateTool: (tool) =>
@@ -255,8 +255,8 @@ class Classifier extends BaseController
       @asteroidMarkedInFrame[surfaceIndex] = true
     @updateIconsForCreateMark(surfaceIndex)
 
-    if @state is 'asteroidTool' and @currSighting.allSightings.length is @numFrames \
-      or @state is 'artifactTool' and @currSighting.allSightings.length > 0
+    if @state is 'asteroidTool' and @currSighting.allAnnotations.length is @numFrames \
+      or @state is 'artifactTool' and @currSighting.allAnnotations.length > 0
         @doneButton.prop 'disabled', false
 
     tool.mark.id = @currSighting.id
@@ -373,7 +373,7 @@ class Classifier extends BaseController
       inverted: @invert
     @currSighting.pushSighting newAnnotation
 
-    if @state is 'asteroidTool' and @currSighting.allSightings.length is @numFrames
+    if @state is 'asteroidTool' and @currSighting.allAnnotations.length is @numFrames
       @doneButton.prop 'disabled', false
 
   updateIconsForCreateMark: (frameNum) =>
@@ -416,7 +416,7 @@ class Classifier extends BaseController
   onClickAsteroidDone: ->
     @removeGhostMarks()
     @currSighting.displaySummary()
-    if @currSighting.allSightings.length is 0
+    if @currSighting.allAnnotations.length is 0
       @currSighting = null
     else
       @finishButton.prop 'disabled', false
