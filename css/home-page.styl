@@ -52,7 +52,7 @@
     min-height 1500px
     background-color #fff
     margin 0 auto
-    width 960px
+    max-width 960px
     .centered-container
       width 400px
       display block
@@ -85,6 +85,8 @@
         @extends #_HOME_BUTTON
         background-color #0d2d38
         border none
+      @media screen and (max-width: 760px)
+        box-shadow none
 
 .footer-container
   line-height 1.5em
@@ -94,8 +96,7 @@
   .zooniverse-footer
     color #2d7e86
     margin 50px auto
-    width 880px
-
+    max-width 690px
     .heading
       font-size 16px
       margin-bottom 40px
