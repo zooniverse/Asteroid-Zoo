@@ -12,11 +12,13 @@ module.exports =
 
   home:
     header:
-      title: 'Asteroid Zoo'
+      title: 'Identify Near-Earth Objects in Asteroid Zoo'
       content: '''
-       Asteroid Zoo Asteroid Zoo Asteroid Zoo Asteroid Zoo 
+       Help scientists identify objects that are flying out in space. Perhaps you will find the rock that will end all lide on Earth! 
       '''
-      start: 'Get started!'
+      start: 'Start Classifying'
+      getClassifying: 'Get Classifying!'
+      learnMore: 'Learn More'
     whatDo:
       title: 'What can you do?'
       content: '''

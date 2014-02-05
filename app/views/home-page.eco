@@ -2,9 +2,34 @@
 
 <!--Looking for the home page header? It's in the site navigation!-->
 
-<section class="content-block">
-  <div class="content-container">
-    <%- translate 'h2', 'home.whatDo.title' %>
-    <%- translate 'p', 'home.whatDo.content' %>
+<div class="light-bg">
+  <div class="white-sheet" id="home-main-content">
+
+    <div class="centered-container">
+      <img src="./images/rock.png">
+      <h2>There are objects out there, right now!</h2>
+      <p>There are and estimated 500,000 asteroids in the inner Solar system alone.</p>
+    </div>
+
+    <div class="centered-container">
+      <img src="./images/rock.png">
+      <h2>You might be the one to find the next N.E.O</h2>
+      <p>With every image set that gets analyzed you could find an actual asteroid.</p>
+    </div>
+
+    <div class="centered-container">
+      <img src="./images/rock.png">
+      <h2>We need to know where they are</h2>
+      <p>The sooner we find them, the sooner we can plan for the future. We'll usse the results of this project to find NEO candidates that will be used in scientific papers and research.</p>
+    </div>
+
+
+    <div class="blue-overlay">
+      <div class="centered-container">
+        <h2>Ready to Classify?</h2>
+        <p>What are you waiting for? Get started!</p>
+        <%- translate 'a.call-to-action', 'home.header.getClassifying', href: '#/classify' %>
+      </div>
+    </div>
   </div>
-</section>
+</div>

@@ -4,7 +4,6 @@
   <%- translate 'a.logo', 'siteNavigation.projectName', href: '#/' %>
 
   <div class="links">
-    <%- translate 'a', 'siteNavigation.home', href: '#/' %>
     <%- translate 'a', 'siteNavigation.classify', href: '#/classify' %>
     <%- translate 'a', 'siteNavigation.science', href: '#/science' %>
     <%- translate 'a', 'siteNavigation.about', href: '#/about' %>
@@ -16,17 +15,16 @@
 </div>
 
 <div class="for-home-page">
-  <div class="content-block">
-    <%- translate 'h1', 'home.header.title' %>
-    <%- translate 'p', 'home.header.content' %>
+  <div class="asteroid-bg">
+    <div class="content-block">
+      <%- translate 'h1', 'home.header.title' %>
+      <%- translate 'p', 'home.header.content' %>
 
-    <p class="action">
-      <%- translate 'a.call-to-action', 'home.header.start', href: '#/classify' %>
-
-      <span class="social-links">
-        <a href="#_TODO_TWITTER"><i class="social-icon icon-twitter"></i></a>
-        <a href="#_TODO_FACEBOOK"><i class="social-icon icon-facebook-sign"></i></a>
-      </span>
-    </p>
+      <p class="action">
+        <%- translate 'a.call-to-action', 'home.header.start', href: '#/classify' %>
+        <%- translate 'a.learn-more', 'home.header.learnMore', href: '#/' %>
+      </p>
+    </div>
   </div>
 </div>
+
