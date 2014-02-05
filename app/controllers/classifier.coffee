@@ -21,28 +21,11 @@ KEYS =
   three:  51
   four:   52
 
-DEV_SUBJECTS = [ 
-  # './dev-subjects-images/01_12DEC02_N04066_0001-45-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0002-45-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0003-45-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0004-45-scaled.png'
-  './dev-subjects-images/01_12DEC02_N04066_0001-50-scaled.png'
-  './dev-subjects-images/01_12DEC02_N04066_0002-50-scaled.png'
-  './dev-subjects-images/01_12DEC02_N04066_0003-50-scaled.png'
-  './dev-subjects-images/01_12DEC02_N04066_0004-50-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0001-51-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0002-51-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0003-51-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0004-51-scaled.png'
-]
-
-NEXT_DEV_SUBJECT = ->
-  DEV_SUBJECTS.push DEV_SUBJECTS.shift()
-  DEV_SUBJECTS[0]
-
 class Classifier extends BaseController
   className: 'classifier'
   template: require '../views/classifier'
+
+  TRAINING_SUBJECT = null
 
   events:
     'click button[name="play-frames"]'      : 'onClickPlay'
@@ -151,6 +134,35 @@ class Classifier extends BaseController
           
   constructor: ->
     super
+
+    @TRAINING_SUBJECT = new Subject
+      location:
+        standard: [
+          "./dev-subjects-images/01_12DEC02_N04066_0001-50-scaled.png",
+          "./dev-subjects-images/01_12DEC02_N04066_0002-50-scaled.png",
+          "./dev-subjects-images/01_12DEC02_N04066_0003-50-scaled.png",
+          "./dev-subjects-images/01_12DEC02_N04066_0004-50-scaled.png"
+        ]
+        inverted: []
+      metadata: 
+        id: "01_12DEC02_N04066"
+        cutout:
+          x: [
+            1367.04,
+            1879.0400000000002
+          ]
+          y: [
+            1822.72,
+            2334.7200000000003
+          ]
+        
+        asteroids: [
+          {x: 435, y: 39}
+          {x: 432, y: 40}
+          {x: 430, y: 40}
+          {x: 428, y: 42}
+        ]
+
     @asteroidMarkedInFrame = [ null, null, null, null ]
     @playTimeouts = []
     @el.attr tabindex: 0
@@ -276,7 +288,14 @@ class Classifier extends BaseController
     @startLoading()
 
   onSubjectSelect: (e, subject) =>
+    # console.log subject
     @resetMarkingSurfaces()
+
+    if @TRAINING_SUBJECT isnt null
+      console.log "YES"
+    else
+      console.log "NO"
+
     @classification = new Classification {subject}
     @loadFrames()
 
@@ -307,8 +326,8 @@ class Classifier extends BaseController
       do (img_src, frameImage)  =>
         loadImage img_src, (img) =>
         frameImage.attr
-          # 'xlink:href': img_src          # get images from api
-          'xlink:href': DEV_SUBJECTS[i]   # use hardcoded static images
+          'xlink:href': img_src          # get images from api
+          # 'xlink:href': DEV_SUBJECTS[i]   # use hardcoded static images
 
     @stopLoading()
     @activateFrame 0  # default to first frame after loading
@@ -428,7 +447,11 @@ class Classifier extends BaseController
 
   onClickNextFrame: ->
     nextFrame = +(document.getElementById('frame-slider').value) + 1
-    if nextFrame is @numFrames then @onClickFourUp() else @activateFrame(nextFrame) 
+    if nextFrame is @numFrames
+      @onClickFourUp() 
+      @showExistingAsteroids()
+    else 
+      @activateFrame(nextFrame) 
 
   onClickCancel: ->
     @resetMarkingSurfaces() if @state is 'asteroidTool' or 'artifactTool'
@@ -481,12 +504,19 @@ class Classifier extends BaseController
     document.getElementById('frame-slider').value = 0 #reset slider to first frame
     @finishButton.prop 'disabled', true
     @onClickFlicker()
+    @showExistingAsteroids()
 
   startLoading: ->
     @el.addClass 'loading'
 
   stopLoading: ->
     @el.removeClass 'loading'
+
+  showExistingAsteroids: ->
+    return if @TRAINING_SUBJECT is null
+    for priorAsteroid in [ @TRAINING_SUBJECT.metadata.asteroids... ]
+      for surface in @markingSurfaceList
+        svgElement = surface.addShape 'circle', class: "ghost-mark", opacity: 1, cx: priorAsteroid.x, cy: priorAsteroid.y, r: 16, fill: "none", stroke: "rgb(200,20,20)", strokewidth: 1
 
   sendClassification: ->
     @finishButton.prop 'disabled', true
