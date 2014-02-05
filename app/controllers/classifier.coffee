@@ -224,9 +224,8 @@ class Classifier extends BaseController
       svgElement.el.setAttribute 'from-asteroid', @currSighting.id
 
   removeGhostMarks: ->
-    for ghostMark in [ @el.find(".ghost-mark")... ]
-      ghostMark.remove()
-
+    ghostMark.remove() for ghostMark in [ @el.find(".ghost-mark")... ]
+      
   onCreateMark: (mark) =>
     @currSighting.pushSighting mark
 
@@ -504,10 +503,8 @@ class Classifier extends BaseController
     @el.removeClass 'loading'
 
   removePriorAsteroids: ->
-    console.log "removing prior asteroids"
-    for priorAsteroid in [@el.find('.prior-asteroid')...]
-      priorAsteroid.remove() 
-
+    priorAsteroid.remove() for priorAsteroid in [@el.find('.prior-asteroid')...]
+      
   showExistingAsteroids: ->
     return if @TRAINING_SUBJECT is null
     xs = []
