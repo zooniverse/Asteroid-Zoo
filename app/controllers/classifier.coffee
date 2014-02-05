@@ -2,12 +2,10 @@ BaseController = require 'zooniverse/controllers/base-controller'
 User           = require 'zooniverse/models/user'
 Subject        = require 'zooniverse/models/subject'
 Sighting       = require '../models/sighting'
-# GhostMark      = require '..models/ghost-mark'
 loadImage      = require '../lib/load-image'
 Classification = require 'zooniverse/models/classification'
 MarkingSurface = require 'marking-surface'
 MarkingTool    = require './marking-tool'
-# MarkingToolControls = require './marking-tool-controls'
 InvertSvg      = require '../lib/invert-svg-image'
 
 BIG_MODE = !!~location.search.indexOf 'big=1'
@@ -288,14 +286,7 @@ class Classifier extends BaseController
     @startLoading()
 
   onSubjectSelect: (e, subject) =>
-    # console.log subject
     @resetMarkingSurfaces()
-
-    if @TRAINING_SUBJECT isnt null
-      console.log "YES"
-    else
-      console.log "NO"
-
     @classification = new Classification {subject}
     @loadFrames()
 
@@ -326,8 +317,7 @@ class Classifier extends BaseController
       do (img_src, frameImage)  =>
         loadImage img_src, (img) =>
         frameImage.attr
-          'xlink:href': img_src          # get images from api
-          # 'xlink:href': DEV_SUBJECTS[i]   # use hardcoded static images
+          'xlink:href': img_src
 
     @stopLoading()
     @activateFrame 0  # default to first frame after loading
@@ -434,6 +424,7 @@ class Classifier extends BaseController
 
     @resetAsteroidCheckboxes()
     @setState 'whatKind'
+    @showExistingAsteroids()  # this will have to go somewhere else, like onClickFinishedMarking() 
 
   resetAsteroidCheckboxes: ->
     @asteroidMarkedInFrame = [null, null, null, null]
@@ -504,7 +495,6 @@ class Classifier extends BaseController
     document.getElementById('frame-slider').value = 0 #reset slider to first frame
     @finishButton.prop 'disabled', true
     @onClickFlicker()
-    @showExistingAsteroids()
 
   startLoading: ->
     @el.addClass 'loading'
@@ -514,9 +504,21 @@ class Classifier extends BaseController
 
   showExistingAsteroids: ->
     return if @TRAINING_SUBJECT is null
-    for priorAsteroid in [ @TRAINING_SUBJECT.metadata.asteroids... ]
-      for surface in @markingSurfaceList
-        svgElement = surface.addShape 'circle', class: "ghost-mark", opacity: 1, cx: priorAsteroid.x, cy: priorAsteroid.y, r: 16, fill: "none", stroke: "rgb(200,20,20)", strokewidth: 1
+    xs = []
+    ys = []
+    x_sum = y_sum = null
+    for priorAsteroid, i in [@TRAINING_SUBJECT.metadata.asteroids...]
+      xs[i] = priorAsteroid.x
+      ys[i] = priorAsteroid.y
+      x_sum += xs[i]
+      y_sum += ys[i]
+    x_avg = Math.round(x_sum/@numFrames)
+    y_avg = Math.round(y_sum/@numFrames)
+    rad_x = Math.abs( (Math.max.apply null, [xs...]) - (Math.min.apply null, [xs...]) ) * 4
+    rad_y = Math.abs( (Math.max.apply null, [ys...]) - (Math.min.apply null, [ys...]) )* 4
+    
+    for surface in [@markingSurfaceList...]
+      svgElement = surface.addShape 'ellipse', class: "prior-asteroid", opacity: 0.75, cx: x_avg, cy: y_avg, rx: rad_x, ry: rad_y, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 4
 
   sendClassification: ->
     @finishButton.prop 'disabled', true
