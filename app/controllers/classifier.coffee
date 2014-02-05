@@ -1,14 +1,18 @@
-BaseController = require 'zooniverse/controllers/base-controller'
-User           = require 'zooniverse/models/user'
-Subject        = require 'zooniverse/models/subject'
-Sighting       = require '../models/sighting'
-# GhostMark      = require '..models/ghost-mark'
-loadImage      = require '../lib/load-image'
-Classification = require 'zooniverse/models/classification'
-MarkingSurface = require 'marking-surface'
-MarkingTool    = require './marking-tool'
+BaseController        = require 'zooniverse/controllers/base-controller'
+User                  = require 'zooniverse/models/user'
+Subject               = require 'zooniverse/models/subject'
+Sighting              = require '../models/sighting'
+# GhostMark             = require '..models/ghost-mark'
+loadImage             = require '../lib/load-image'
+Classification        = require 'zooniverse/models/classification'
+MarkingSurface        = require 'marking-surface'
+MarkingTool           = require './marking-tool'
 # MarkingToolControls = require './marking-tool-controls'
-InvertSvg      = require '../lib/invert-svg-image'
+InvertSvg             = require '../lib/invert-svg-image'
+tutorialSteps         = require '../lib/tutorial-steps'
+createTutorialSubject = require '../lib/create-tutorial-subject'
+{ Tutorial }          = require 'zootorial'
+translate             = require 't7e'
 
 BIG_MODE = !!~location.search.indexOf 'big=1'
 
@@ -53,6 +57,7 @@ class Classifier extends BaseController
     'click button[name="next-frame"]'       : 'onClickNextFrame'
     'click button[name="asteroid-done"]'    : 'onClickAsteroidDone'
     'click button[name="cancel"]'           : 'onClickCancel'
+    'click button[name="start-tutorial"]'   : 'onStartTutorial'
     'change input[name="frame-slider"]'     : 'onChangeFrameSlider'
     'change input[name="selected-artifact"]': 'onSelectArtifact'
     'change .asteroid-not-visible'          : 'onClickAsteroidNotVisible'
@@ -163,6 +168,14 @@ class Classifier extends BaseController
     @finishButton.prop 'disabled', true
     @createMarkingSurfaces()
     @setState 'whatKind'
+
+    @tutorial = new Tutorial
+      steps: tutorialSteps
+      firstStep: 'welcome'
+
+    @tutorial.el.on 'start-tutorial enter-tutorial-step', =>
+      translate.refresh @tutorial.el.get 0
+
     User.on 'change', @onUserChange
     Subject.on 'fetch', @onSubjectFetch
     Subject.on 'select', @onSubjectSelect
@@ -279,6 +292,12 @@ class Classifier extends BaseController
     @resetMarkingSurfaces()
     @classification = new Classification {subject}
     @loadFrames()
+
+  onStartTutorial: =>
+    tutorialSubject = createTutorialSubject()
+    tutorialSubject.select()
+
+    @tutorial.start()
 
   resetMarkingSurfaces: =>
     surface.reset() for surface in @markingSurfaceList
