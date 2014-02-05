@@ -509,6 +509,7 @@ class Classifier extends BaseController
     return if @TRAINING_SUBJECT is null
     xs = []
     ys = []
+    P = null
     x_sum = null
     y_sum = null
     for priorAsteroid, i in [@TRAINING_SUBJECT.metadata.asteroids...]
@@ -518,13 +519,41 @@ class Classifier extends BaseController
       y_sum += ys[i]
     x_avg = Math.round(x_sum/@numFrames)
     y_avg = Math.round(y_sum/@numFrames)
+    P = {x: x_sum, y: y_sum}
     rad_x = Math.abs( (Math.max.apply null, [xs...]) - (Math.min.apply null, [xs...]) ) * 4
     rad_y = Math.abs( (Math.max.apply null, [ys...]) - (Math.min.apply null, [ys...]) )* 4
 
     for surface in [@markingSurfaceList...]
       svgElement = surface.addShape 'ellipse', class: "prior-asteroid", opacity: 0.75, cx: x_avg, cy: y_avg, rx: rad_x, ry: rad_y, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 4
 
-    
+    @evaluateAnnotations(P)
+
+  evaluateAnnotations: (P_ref) ->
+    xs = []
+    ys = []
+    P = null
+    d = null
+    x_sum = null
+    y_sum = null
+    for sighting in [@setOfSightings...] when sighting.type is "asteroid"
+      for annotation, i in sighting.annotations
+        xs[i] = annotation.x
+        ys[i] = annotation.y
+        x_sum += xs[i]
+        y_sum += ys[i]
+      x_avg = Math.round(x_sum/sighting.annotations.length)
+      y_avg = Math.round(y_sum/sighting.annotations.length)
+      P = {x: x_sum, y: y_sum}
+      d = @dist(P,P_ref)
+
+      if d <= 20
+        console.log 'Awesome job!'
+      else
+        console.log 'You disappoint me.'
+
+  dist: (P1,P2) ->
+    Math.sqrt ( Math.pow(P1.x-P2.x,2) + Math.pow(P1.y-P2.y,2) )
+
 
   sendClassification: ->
     @finishButton.prop 'disabled', true
