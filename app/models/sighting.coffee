@@ -6,29 +6,29 @@ class Sighting
     @type = params.type
     @subType =  params.subType if subType?
     @id = Sighting.nextId()
-    @allAnnotations = []
+    @annotations = []
 
   pushSighting: (newAnnotation) ->
     newAnnotation.timeStamp = new Date()
-    @allAnnotations.push newAnnotation
+    @annotations.push newAnnotation
 
   popSighting: ->
-    @allAnnotations.pop()
+    @annotations.pop()
 
   getSightingCount: ->
-    return @allAnnotations.length
+    return @annotations.length
 
   clearSightingsInFrame: (frame_num) ->
-    for annoattion, i in @allAnnotations
+    for annoattion, i in @annotations
       if annoattion?.frame is frame_num
-        @allAnnotations.splice i, 1
+        @annotations.splice i, 1
 
   displaySummary: ->
     console.log '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'
     console.log '      type : ' + @type
     console.log '      subtype: ' + @subType if @subType?
     console.log '      id : ' + @id
-    for annoattion in @allAnnotations
+    for annoattion in @annotations
       console.log '    -:-:-:-:-:-:-:-'
       console.log '      frame : ' + annoattion.frame
       console.log '          x : ' + annoattion.x

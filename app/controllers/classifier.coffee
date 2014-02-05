@@ -234,7 +234,7 @@ class Classifier extends BaseController
     @updateIconsForDestroyMark mark.frame
     @currSighting.clearSightingsInFrame mark.frame
     @removeGhostMarks()
-    if @state is 'asteroidTool' and @currSighting.allAnnotations.length < @numFrames
+    if @state is 'asteroidTool' and @currSighting.annotations.length < @numFrames
       @doneButton.prop 'disabled', true
 
   onCreateTool: (tool) =>
@@ -255,8 +255,8 @@ class Classifier extends BaseController
       @asteroidMarkedInFrame[surfaceIndex] = true
     @updateIconsForCreateMark(surfaceIndex)
 
-    if @state is 'asteroidTool' and @currSighting.allAnnotations.length is @numFrames \
-      or @state is 'artifactTool' and @currSighting.allAnnotations.length > 0
+    if @state is 'asteroidTool' and @currSighting.annotations.length is @numFrames \
+      or @state is 'artifactTool' and @currSighting.annotations.length > 0
         @doneButton.prop 'disabled', false
 
     tool.mark.id = @currSighting.id
@@ -373,7 +373,7 @@ class Classifier extends BaseController
       inverted: @invert
     @currSighting.pushSighting newAnnotation
 
-    if @state is 'asteroidTool' and @currSighting.allAnnotations.length is @numFrames
+    if @state is 'asteroidTool' and @currSighting.annotations.length is @numFrames
       @doneButton.prop 'disabled', false
 
   updateIconsForCreateMark: (frameNum) =>
@@ -416,7 +416,7 @@ class Classifier extends BaseController
   onClickAsteroidDone: ->
     @removeGhostMarks()
     @currSighting.displaySummary()
-    if @currSighting.allAnnotations.length is 0
+    if @currSighting.annotations.length is 0
       @currSighting = null
     else
       @finishButton.prop 'disabled', false
@@ -523,6 +523,8 @@ class Classifier extends BaseController
 
     for surface in [@markingSurfaceList...]
       svgElement = surface.addShape 'ellipse', class: "prior-asteroid", opacity: 0.75, cx: x_avg, cy: y_avg, rx: rad_x, ry: rad_y, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 4
+
+    
 
   sendClassification: ->
     @finishButton.prop 'disabled', true
