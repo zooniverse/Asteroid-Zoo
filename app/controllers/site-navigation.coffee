@@ -1,4 +1,5 @@
 BaseController = require 'zooniverse/controllers/base-controller'
+$ = window.jQuery
 
 class SiteNavigation extends BaseController
   tagName: 'nav'
@@ -9,6 +10,10 @@ class SiteNavigation extends BaseController
 
   elements:
     'a': 'links'
+    '.learn-more': 'learnMore'
+
+  events:
+    'click .learn-more': 'onClickLearnMore'
 
   constructor: ->
     super
@@ -18,5 +23,8 @@ class SiteNavigation extends BaseController
   onHashChange: =>
     @links.removeClass @activeClass
     @links.filter("[href='#{location.hash}']").addClass @activeClass
+
+  onClickLearnMore: =>
+    $("html, body").animate scrollTop: $("#home-main-content").offset().top, 350
 
 module.exports = SiteNavigation

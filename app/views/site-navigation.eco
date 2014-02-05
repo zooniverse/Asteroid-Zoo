@@ -22,7 +22,7 @@
 
       <p class="action">
         <%- translate 'a.call-to-action', 'home.header.start', href: '#/classify' %>
-        <%- translate 'a.learn-more', 'home.header.learnMore', href: '#/about' %>
+        <%- translate 'a.learn-more', 'home.header.learnMore', href: '#/' %>
       </p>
     </div>
   </div>
