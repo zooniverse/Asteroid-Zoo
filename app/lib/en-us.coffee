@@ -81,3 +81,37 @@ module.exports =
     content: '''
       <p>Includes links to other resources, links to ZooTeach, etc.</p>
     '''
+
+  tutorial:
+    welcome:
+      header: 'Welcome to PROJECT NAME'
+      details: 'Welcome to Asteroid Hunt! In this project, you are on the lookout for asteroids in a sequence of images from the Catalina Sky Survey. There are also images artifacts we’d like you to call out along the way.'
+    overview:
+      header: 'Playback basics'
+      details: 'Each sequence is composed of up to four images. You can view the different images by clicking the numbers below, or by clicking “Play” to have them played out automatically. Your goal is to find the moving dots in the images. These are the asteroids!<br><br>Try playing around with the playback. When you are done, click Next'
+    beginWorkflow:
+      header: 'begin workflow'
+      details: 'Hey look, an asteroid!'
+    selectAsteroid:
+      header: 'sa'
+      details: 'We are asking you to mark where the asteroid is in each frame. To start the process, click “Asteroid”'
+    markAsteroid:
+      header: 'ma'
+      details: 'Now click the asteroid in the frame.'
+    explainMarking:
+      header: 'em'
+      details: 'Feel free to adjust where you put the mark. If you are happy with the location of your mark, click “Next Frame”'
+    repeatSteps:
+      header: 'rs'
+      details: 'Repeat the process until you have marked the asteroid in all four frames.'
+    summary:
+      header: 's'
+      details: 'When you have marked all available frames, you are shown a summary of your marks for that asteroid. You can make any final adjustments at this time. When you are done, click “Done” below'
+    artifacts:
+      header: 'artifacts'
+      details: 'You will occasionally spot different “artifacts”, or anomalies within each sequence. Refer to the guide for help on what each of them look like.'
+    sendOff:
+      header: 'Happy Hunting'
+      details: 'That\'s it! Join the discussion on Talk for additional information and guidance. Happy Hunting!'
+
+
