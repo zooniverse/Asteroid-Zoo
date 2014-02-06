@@ -2,12 +2,10 @@ BaseController        = require 'zooniverse/controllers/base-controller'
 User                  = require 'zooniverse/models/user'
 Subject               = require 'zooniverse/models/subject'
 Sighting              = require '../models/sighting'
-# GhostMark             = require '..models/ghost-mark'
 loadImage             = require '../lib/load-image'
 Classification        = require 'zooniverse/models/classification'
 MarkingSurface        = require 'marking-surface'
 MarkingTool           = require './marking-tool'
-# MarkingToolControls = require './marking-tool-controls'
 InvertSvg             = require '../lib/invert-svg-image'
 tutorialSteps         = require '../lib/tutorial-steps'
 createTutorialSubject = require '../lib/create-tutorial-subject'
@@ -24,25 +22,6 @@ KEYS =
   two:    50
   three:  51
   four:   52
-
-DEV_SUBJECTS = [ 
-  # './dev-subjects-images/01_12DEC02_N04066_0001-45-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0002-45-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0003-45-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0004-45-scaled.png'
-  './dev-subjects-images/01_12DEC02_N04066_0001-50-scaled.png'
-  './dev-subjects-images/01_12DEC02_N04066_0002-50-scaled.png'
-  './dev-subjects-images/01_12DEC02_N04066_0003-50-scaled.png'
-  './dev-subjects-images/01_12DEC02_N04066_0004-50-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0001-51-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0002-51-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0003-51-scaled.png'
-  # './dev-subjects-images/01_12DEC02_N04066_0004-51-scaled.png'
-]
-
-NEXT_DEV_SUBJECT = ->
-  DEV_SUBJECTS.push DEV_SUBJECTS.shift()
-  DEV_SUBJECTS[0]
 
 class Classifier extends BaseController
   className: 'classifier'
@@ -119,6 +98,7 @@ class Classifier extends BaseController
       exit: ->
         @el.find('button[name="to-select"]').removeClass 'hidden'
         @el.find('.what-kind').hide()
+        @removePriorAsteroids()
 
     asteroidTool:
       enter: ->
@@ -180,6 +160,8 @@ class Classifier extends BaseController
     Subject.on 'fetch', @onSubjectFetch
     Subject.on 'select', @onSubjectSelect
 
+    @Subject = Subject
+
   onSelectArtifact: ->
     @currSighting.subType = @artifactSelector.filter(':checked').val()
 
@@ -226,9 +208,8 @@ class Classifier extends BaseController
       svgElement.el.setAttribute 'from-asteroid', @currSighting.id
 
   removeGhostMarks: ->
-    for ghostMark in [ @el.find(".ghost-mark")... ]
-      ghostMark.remove()
-
+    ghostMark.remove() for ghostMark in [ @el.find(".ghost-mark")... ]
+      
   onCreateMark: (mark) =>
     @currSighting.pushSighting mark
 
@@ -237,7 +218,7 @@ class Classifier extends BaseController
     @updateIconsForDestroyMark mark.frame
     @currSighting.clearSightingsInFrame mark.frame
     @removeGhostMarks()
-    if @state is 'asteroidTool' and @currSighting.allSightings.length < @numFrames
+    if @state is 'asteroidTool' and @currSighting.annotations.length < @numFrames
       @doneButton.prop 'disabled', true
 
   onCreateTool: (tool) =>
@@ -258,8 +239,8 @@ class Classifier extends BaseController
       @asteroidMarkedInFrame[surfaceIndex] = true
     @updateIconsForCreateMark(surfaceIndex)
 
-    if @state is 'asteroidTool' and @currSighting.allSightings.length is @numFrames \
-      or @state is 'artifactTool' and @currSighting.allSightings.length > 0
+    if @state is 'asteroidTool' and @currSighting.annotations.length is @numFrames \
+      or @state is 'artifactTool' and @currSighting.annotations.length > 0
         @doneButton.prop 'disabled', false
 
     tool.mark.id = @currSighting.id
@@ -326,8 +307,7 @@ class Classifier extends BaseController
       do (img_src, frameImage)  =>
         loadImage img_src, (img) =>
         frameImage.attr
-          # 'xlink:href': img_src          # get images from api
-          'xlink:href': DEV_SUBJECTS[i]   # use hardcoded static images
+          'xlink:href': img_src
 
     @stopLoading()
     @activateFrame 0  # default to first frame after loading
@@ -383,7 +363,7 @@ class Classifier extends BaseController
       inverted: @invert
     @currSighting.pushSighting newAnnotation
 
-    if @state is 'asteroidTool' and @currSighting.allSightings.length is @numFrames
+    if @state is 'asteroidTool' and @currSighting.annotations.length is @numFrames
       @doneButton.prop 'disabled', false
 
   updateIconsForCreateMark: (frameNum) =>
@@ -426,7 +406,7 @@ class Classifier extends BaseController
   onClickAsteroidDone: ->
     @removeGhostMarks()
     @currSighting.displaySummary()
-    if @currSighting.allSightings.length is 0
+    if @currSighting.annotations.length is 0
       @currSighting = null
     else
       @finishButton.prop 'disabled', false
@@ -434,6 +414,7 @@ class Classifier extends BaseController
 
     @resetAsteroidCheckboxes()
     @setState 'whatKind'
+    @showExistingAsteroids()  # this will have to go somewhere else, like onClickFinishedMarking() 
 
   resetAsteroidCheckboxes: ->
     @asteroidMarkedInFrame = [null, null, null, null]
@@ -447,7 +428,11 @@ class Classifier extends BaseController
 
   onClickNextFrame: ->
     nextFrame = +(document.getElementById('frame-slider').value) + 1
-    if nextFrame is @numFrames then @onClickFourUp() else @activateFrame(nextFrame) 
+    if nextFrame is @numFrames
+      @onClickFourUp() 
+      @showExistingAsteroids()
+    else 
+      @activateFrame(nextFrame) 
 
   onClickCancel: ->
     @resetMarkingSurfaces() if @state is 'asteroidTool' or 'artifactTool'
@@ -506,6 +491,61 @@ class Classifier extends BaseController
 
   stopLoading: ->
     @el.removeClass 'loading'
+
+  removePriorAsteroids: ->
+    priorAsteroid.remove() for priorAsteroid in [@el.find('.prior-asteroid')...]
+
+  # FIX: lots of redundant code  
+  showExistingAsteroids: ->
+    @removePriorAsteroids()
+    return if @Subject.current.metadata.asteroids is undefined
+    xs = []
+    ys = []
+    P = null
+    x_sum = null
+    y_sum = null
+    for priorAsteroid, i in [@Subject.current.metadata.asteroids...]
+      xs[i] = priorAsteroid.x
+      ys[i] = priorAsteroid.y
+      x_sum += xs[i]
+      y_sum += ys[i]
+    x_avg = Math.round(x_sum/@numFrames)
+    y_avg = Math.round(y_sum/@numFrames)
+    P = {x: x_sum, y: y_sum}
+    rad_x = Math.abs( (Math.max.apply null, [xs...]) - (Math.min.apply null, [xs...]) ) * 4
+    rad_y = Math.abs( (Math.max.apply null, [ys...]) - (Math.min.apply null, [ys...]) ) * 4
+
+    console.log "(x_avg,y_avg) = (", x_avg, ",", y_avg, ")"
+    for surface in [@markingSurfaceList...]
+      svgElement = surface.addShape 'ellipse', class: "prior-asteroid", opacity: 0.75, cx: x_avg, cy: y_avg, rx: rad_x, ry: rad_y, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 4
+
+    @evaluateAnnotations(P)
+
+  evaluateAnnotations: (P_ref) ->
+    xs = []
+    ys = []
+    P = null
+    d = null
+    x_sum = null
+    y_sum = null
+    for sighting in [@setOfSightings...] when sighting.type is "asteroid"
+      for annotation, i in sighting.annotations
+        xs[i] = annotation.x
+        ys[i] = annotation.y
+        x_sum += xs[i]
+        y_sum += ys[i]
+      x_avg = Math.round(x_sum/sighting.annotations.length)
+      y_avg = Math.round(y_sum/sighting.annotations.length)
+      P = {x: x_sum, y: y_sum}
+      d = @dist(P,P_ref)
+
+      if d <= 20
+        console.log 'Awesome job!'
+      else
+        console.log 'You disappoint me.'
+
+  dist: (P1,P2) ->
+    Math.sqrt ( Math.pow(P1.x-P2.x,2) + Math.pow(P1.y-P2.y,2) )
 
   sendClassification: ->
     @finishButton.prop 'disabled', true
