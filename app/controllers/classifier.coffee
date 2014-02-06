@@ -23,8 +23,6 @@ class Classifier extends BaseController
   className: 'classifier'
   template: require '../views/classifier'
 
-  TRAINING_SUBJECT = null
-
   events:
     'click button[name="play-frames"]'      : 'onClickPlay'
     'click button[name="invert"]'           : 'onClickInvert'
@@ -134,33 +132,8 @@ class Classifier extends BaseController
   constructor: ->
     super
 
-    @TRAINING_SUBJECT = new Subject
-      location:
-        standard: [
-          "./dev-subjects-images/01_12DEC02_N04066_0001-50-scaled.png",
-          "./dev-subjects-images/01_12DEC02_N04066_0002-50-scaled.png",
-          "./dev-subjects-images/01_12DEC02_N04066_0003-50-scaled.png",
-          "./dev-subjects-images/01_12DEC02_N04066_0004-50-scaled.png"
-        ]
-        inverted: []
-      metadata: 
-        id: "01_12DEC02_N04066"
-        cutout:
-          x: [
-            1367.04,
-            1879.0400000000002
-          ]
-          y: [
-            1822.72,
-            2334.7200000000003
-          ]
-        
-        asteroids: [
-          {x: 435, y: 39}
-          {x: 432, y: 40}
-          {x: 430, y: 40}
-          {x: 428, y: 42}
-        ]
+    # replace with real subjects + prior asteroid meta data
+    @trainingSubjects = @loadTrainingSubjects()
 
     @asteroidMarkedInFrame = [ null, null, null, null ]
     @playTimeouts = []
@@ -504,15 +477,18 @@ class Classifier extends BaseController
 
   removePriorAsteroids: ->
     priorAsteroid.remove() for priorAsteroid in [@el.find('.prior-asteroid')...]
-      
+  
+  # REQUIRES: 
+  # 1) markingSurfaceList
+  # 2) setOfSightings    
   showExistingAsteroids: ->
-    return if @TRAINING_SUBJECT is null
+    return if @trainingSubjects is null
     xs = []
     ys = []
     P = null
     x_sum = null
     y_sum = null
-    for priorAsteroid, i in [@TRAINING_SUBJECT.metadata.asteroids...]
+    for priorAsteroid, i in [@trainingSubjects.metadata.asteroids...]
       xs[i] = priorAsteroid.x
       ys[i] = priorAsteroid.y
       x_sum += xs[i]
@@ -560,5 +536,69 @@ class Classifier extends BaseController
     @classification.set 'setOfSightings', [@setOfSightings...]
     console?.log JSON.stringify @classification
     @classification.send()
+
+  loadTrainingSubjects: ->
+    @trainingSubjects = new Subject
+      location:
+        standard: [
+          "./dev-subjects-images/01_12DEC02_N04066_0001-45-scaled.png",
+          "./dev-subjects-images/01_12DEC02_N04066_0002-45-scaled.png",
+          "./dev-subjects-images/01_12DEC02_N04066_0003-45-scaled.png",
+          "./dev-subjects-images/01_12DEC02_N04066_0004-45-scaled.png"
+        ]
+        inverted: []
+      metadata: 
+        id: "01_12DEC02_N04066"
+        cutout:
+          x: []
+          y: []
+        asteroids: [
+          {x: 460, y: 89}
+          {x: 458, y: 89}
+          {x: 457, y: 88}
+          {x: 466, y: 90}
+        ]
+
+    @trainingSubjects = new Subject
+      location:
+        standard: [
+          "./dev-subjects-images/01_12DEC02_N04066_0001-51-scaled.png",
+          "./dev-subjects-images/01_12DEC02_N04066_0002-51-scaled.png",
+          "./dev-subjects-images/01_12DEC02_N04066_0003-51-scaled.png",
+          "./dev-subjects-images/01_12DEC02_N04066_0004-51-scaled.png"
+        ]
+        inverted: []
+      metadata: 
+        id: "01_12DEC02_N04066"
+        cutout:
+          x: []
+          y: []
+        asteroids: [
+          {x: 434, y: 495}
+          {x: 431, y: 496}
+          {x: 429, y: 497}
+          {x: 427, y: 496}
+        ]
+
+    @trainingSubjects = new Subject
+      location:
+        standard: [
+          "./dev-subjects-images/01_12DEC02_N04066_0001-50-scaled.png",
+          "./dev-subjects-images/01_12DEC02_N04066_0002-50-scaled.png",
+          "./dev-subjects-images/01_12DEC02_N04066_0003-50-scaled.png",
+          "./dev-subjects-images/01_12DEC02_N04066_0004-50-scaled.png"
+        ]
+        inverted: []
+      metadata: 
+        id: "01_12DEC02_N04066"
+        cutout:
+          x: [1367.04, 1879.0400000000002]
+          y: [1822.72, 2334.7200000000003]
+        asteroids: [
+          {x: 435, y: 39}
+          {x: 432, y: 40}
+          {x: 430, y: 40}
+          {x: 428, y: 42}
+        ]
 
 module.exports = Classifier
