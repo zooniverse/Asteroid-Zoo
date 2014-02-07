@@ -10,17 +10,20 @@ tutorialSteps =
   overview: new Step
     header: t 'span', 'tutorial.overview.header'
     details: t 'span', 'tutorial.overview.details'
-    attachment: 'center center #classify-box center center'
+    className: "arrow-bottom"
+    attachment: 'center bottom #play-button center top'
     next: 'beginWorkflow'
   beginWorkflow: new Step
     header: t 'span', 'tutorial.beginWorkflow.header'
     details: t 'span', 'tutorial.beginWorkflow.details'
-    attachment: 'center center #classify-box center center'
+    className: "arrow-right"
+    attachment: '200px 10px #classify-box 10px 200px'
     next: 'selectAsteroid'
   selectAsteroid: new Step
     header: t 'span', 'tutorial.selectAsteroid.header'
     details: t 'span', 'tutorial.selectAsteroid.details'
-    attachment: 'center center #classify-box center center'
+    className: "arrow-right"
+    attachment: 'right center #asteroid-button left center'
     next: 'markAsteroid'
   markAsteroid: new Step
     header: t 'span', 'tutorial.markAsteroid.header'
