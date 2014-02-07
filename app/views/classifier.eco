@@ -88,7 +88,18 @@
   </div>
 
   <div class="subject">
-    <div class="surfaces-container"></div>
+    <div class="summary-container">
+      <h2>Subject Summary</h2>
+      <h3>Metadata Title</h3>
+      <div class="your-results">
+        <h3 id="results-title">Your Results</h3>
+        <div class="summary-data" id="asteroid-count"></div>
+        <div class="summary-data" id="starbleed-count"></div>
+        <div class="summary-data" id="hotpixel-count"></div>
+      </div>
+      <h4>SHARE THIS</h4>
+    </div>
+    <div class="surfaces-container"><!-- marking surfaces --></div>
   </div>
 
   <div class="right-panel" id="right-panel">
@@ -337,7 +348,7 @@
             <%- translate 'button.cancel', 'classifier.delete', name: 'asteroid-delete', type: 'button' %>
           </div>
           <div class="button">
-            <%- translate 'button', 'Cancel', name: 'cancel' %>
+            <%- translate 'button', 'Restart', name: 'cancel' %>
           </div>
         </section>
       </div>
@@ -385,6 +396,7 @@
     <div id="finished">
       <%- translate 'button', 'Finished', name: 'finish-marking' %>
       <%- translate 'button', 'classifier.done', name: 'asteroid-done', type: 'button' %>
+      <%- translate 'button', 'Next Subject', name: 'next-asteroid', type: 'button' %>
     </div>
 
   </div> <!-- end instructions -->

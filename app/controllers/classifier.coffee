@@ -36,6 +36,7 @@ class Classifier extends BaseController
     'click button[name="next-frame"]'       : 'onClickNextFrame'
     'click button[name="asteroid-done"]'    : 'onClickAsteroidDone'
     'click button[name="cancel"]'           : 'onClickCancel'
+    'click button[name="next-asteroid"]'    : 'onClickNextAsteroid'
     'click button[name="start-tutorial"]'   : 'onStartTutorial'
     'change input[name="frame-slider"]'     : 'onChangeFrameSlider'
     'change input[name="selected-artifact"]': 'onSelectArtifact'
@@ -67,6 +68,7 @@ class Classifier extends BaseController
   elements:
     '.subject'                       : 'subjectContainer'
     '.surfaces-container'            : 'surfacesContainer'
+    '.summary-container'             : 'summaryContainer'
     '.frame-image'                   : 'imageFrames'
     'button[name="play-frames"]'     : 'playButton'
     'button[name="invert"]'          : 'invertButton'
@@ -77,18 +79,22 @@ class Classifier extends BaseController
     'button[name="asteroid-delete"]' : 'deleteButton'
     'button[name="next-frame"]'      : 'nextFrame'
     'button[name="cancel"]'          : 'cancel'
+    'button[name="next-asteroid"]'   : 'nextAsteroidButton'
     'input[name="selected-artifact"]': 'artifactSelector'
     'input[name="classifier-type"]'  : 'classifierTypeRadios'
     '.asteroid-not-visible'          : 'asteroidVisibilityCheckboxes'
     '.asteroid-checkbox'             : 'asteroidCompleteCheckboxes'
     '.current-frame'                 : 'frameSlider'
     '.right-panel'                   : 'rightPanel'
+    "#asteroid-count"                : 'asteroidCount'
+    '#starbleed-count'               : 'starbleedCount'
+    '#hotpixel-count'                : 'hotpixelCount'
 
   states:
     whatKind:
       enter: ->
         @disableMarkingSurfaces()
-
+        @summaryContainer.hide()
         # reset asteroid/artifact selector
         for e in @el.find('input[name="classifier-type"]')
           e.checked = false
@@ -148,6 +154,8 @@ class Classifier extends BaseController
     @finishButton.prop 'disabled', true
     @createMarkingSurfaces()
     @setState 'whatKind'
+    @summaryContainer.hide()
+    @nextAsteroidButton.hide()
 
     @tutorial = new Tutorial
       steps: tutorialSteps
@@ -487,6 +495,29 @@ class Classifier extends BaseController
     @finishButton.prop 'disabled', true
     @onClickFlicker()
 
+  showSummary: ->
+    @surfacesContainer.hide()
+    @finishButton.hide()
+    @populateSummary()
+    @summaryContainer.show()
+    @nextAsteroidButton.show()
+
+  populateSummary: ->
+    sightings = @classification.get 'setOfSightings'
+    asteroidCount = (sightings.filter (s) -> s.type is 'asteroid').length
+    starbleedCount = (sightings.filter (s) -> s.subType is 'starbleed').length
+    hotpixelCount = (sightings.filter (s) -> s.subType is 'hotpixel').length
+
+    @asteroidCount.html("<span class='big-num'>#{asteroidCount}</span>"+ "<br>" + "Asteroid#{if asteroidCount is 1 then 's' else ''}")
+    @starbleedCount.html("<span class='big-num'>#{starbleedCount}</span>" + "<br>" + "Blip#{if asteroidCount is 1 then 's' else ''}")
+    @hotpixelCount.html("<span class='big-num'>#{hotpixelCount}</span>"+ "<br>" + "Line#{if asteroidCount is 1 then 's' else ''}")
+
+  onClickNextAsteroid: -> 
+    @summaryContainer.hide()
+    @surfacesContainer.show()
+    @nextAsteroidButton.hide()
+    @finishButton.show()
+
   startLoading: ->
     @el.addClass 'loading'
 
@@ -557,6 +588,7 @@ class Classifier extends BaseController
   sendClassification: ->
     @finishButton.prop 'disabled', true
     @classification.set 'setOfSightings', [@setOfSightings...]
+    @showSummary()
     console?.log JSON.stringify @classification
     @classification.send()
 
