@@ -89,6 +89,7 @@ class Classifier extends BaseController
     "#asteroid-count"                : 'asteroidCount'
     '#starbleed-count'               : 'starbleedCount'
     '#hotpixel-count'                : 'hotpixelCount'
+    '.summary-image-container'       : 'summaryImageContainer'
 
   states:
     whatKind:
@@ -499,6 +500,7 @@ class Classifier extends BaseController
     @surfacesContainer.hide()
     @finishButton.hide()
     @populateSummary()
+    @summaryImageContainer.append()
     @summaryContainer.show()
     @nextAsteroidButton.show()
 

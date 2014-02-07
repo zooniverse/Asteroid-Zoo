@@ -91,13 +91,14 @@
     <div class="summary-container">
       <h2>Subject Summary</h2>
       <h3>Metadata Title</h3>
+      <div class="summary-image-container"></div>
       <div class="your-results">
-        <h3 id="results-title">Your Results</h3>
+        <h4 id="results-title">Your Results</h4>
         <div class="summary-data" id="asteroid-count"></div>
         <div class="summary-data" id="starbleed-count"></div>
         <div class="summary-data" id="hotpixel-count"></div>
       </div>
-      <h4>SHARE THIS</h4>
+      <h5>SHARE THIS</h5>
     </div>
     <div class="surfaces-container"><!-- marking surfaces --></div>
   </div>
