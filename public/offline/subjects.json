@@ -27,10 +27,97 @@
         ]
       },
       "known_asteroids": [
-        [ {"x":460,"y":89},
-          {"x":458,"y":89},
-          {"x":457,"y":88},
-          {"x":466,"y":90}  ]
+        [ {"x": 460,"y": 89},
+          {"x": 458,"y": 89},
+          {"x": 457,"y": 88},
+          {"x": 466,"y": 90}  ]
+      ]
+    },
+    "project_id": "528ceac53ae7409ca0000001",
+    "random": 0.563900406327995,
+    "state": "active",
+    "updated_at": "2014-02-03T20:39:38Z",
+    "workflow_ids": [
+      "528ceac53ae7409ca0000002"
+    ],
+    "zooniverse_id": "AAZ0000010"
+  }
+,
+  {
+    "id": "52effbed3ae7405f910000eb",
+    "activated_at": "2014-02-03T20:40:33Z",
+    "classification_count": 2,
+    "coords": [],
+    "created_at": "2014-02-03T20:39:38Z",
+    "location": {
+      "standard": [
+        "./dev-subjects-images/01_12DEC02_N04066_0001-50-scaled.png",
+        "./dev-subjects-images/01_12DEC02_N04066_0002-50-scaled.png",
+        "./dev-subjects-images/01_12DEC02_N04066_0003-50-scaled.png",
+        "./dev-subjects-images/01_12DEC02_N04066_0004-50-scaled.png"
+      ],
+      "inverted": []
+    },
+    "metadata": {
+      "id": "01_12DEC02_N04066",
+      "cutout": {
+        "x": [
+          2734.08,
+          3246.08
+        ],
+        "y": [
+          1822.72,
+          2334.7200000000003
+        ]
+      },
+      "known_asteroids": [
+        [ {"x": 435, "y": 39},
+          {"x": 432, "y": 40},
+          {"x": 430, "y": 40},
+          {"x": 428, "y": 42} ]
+      ]
+    },
+    "project_id": "528ceac53ae7409ca0000001",
+    "random": 0.563900406327995,
+    "state": "active",
+    "updated_at": "2014-02-03T20:39:38Z",
+    "workflow_ids": [
+      "528ceac53ae7409ca0000002"
+    ],
+    "zooniverse_id": "AAZ0000010"
+  },
+    {
+    "id": "52effbed3ae7405f910000eb",
+    "activated_at": "2014-02-03T20:40:33Z",
+    "classification_count": 2,
+    "coords": [],
+    "created_at": "2014-02-03T20:39:38Z",
+    "location": {
+      "standard": [
+        "./dev-subjects-images/01_12DEC02_N04066_0001-51-scaled.png",
+        "./dev-subjects-images/01_12DEC02_N04066_0002-51-scaled.png",
+        "./dev-subjects-images/01_12DEC02_N04066_0003-51-scaled.png",
+        "./dev-subjects-images/01_12DEC02_N04066_0004-51-scaled.png"
+      ],
+      "inverted": []
+    },
+    "metadata": {
+      "id": "01_12DEC02_N04066",
+      "cutout": {
+        "x": [
+          2734.08,
+          3246.08
+        ],
+        "y": [
+          1822.72,
+          2334.7200000000003
+        ]
+      },
+      "known_asteroids": [
+        [ {"x": 434, "y": 495},
+          {"x": 431, "y": 496},
+          {"x": 429, "y": 497},
+          {"x": 427, "y": 496} ]
       ]
     },
     "project_id": "528ceac53ae7409ca0000001",
