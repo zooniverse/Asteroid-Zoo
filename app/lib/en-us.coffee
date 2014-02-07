@@ -14,7 +14,7 @@ module.exports =
     header:
       title: 'Identify Near-Earth Objects in Asteroid Zoo'
       content: '''
-       Help scientists identify objects that are flying out in space. Perhaps you will find the rock that will end all lide on Earth! 
+       Help scientists identify objects that are flying out in space. Perhaps you will find the rock that will end all life on Earth!
       '''
       start: 'Start Classifying'
       getClassifying: 'Get Classifying!'
