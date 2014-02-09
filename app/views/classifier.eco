@@ -357,6 +357,10 @@
       <footer>
       </footer>
     </div>
+    <div class="right-panel-summary">
+      <h3><%- translate 'span', 'classifier.rightPanel.summaryHeader' %></h3>
+      <p><%- translate 'span', 'classifier.rightPanel.summaryBody' %></p>
+    </div>
   </div><!-- end marking tool interface / right-panel-->
 
   <div class="bottom-row">
@@ -397,7 +401,7 @@
     <div id="finished">
       <%- translate 'button', 'Finished', name: 'finish-marking' %>
       <%- translate 'button', 'classifier.done', name: 'asteroid-done', type: 'button' %>
-      <%- translate 'button', 'Next Subject', name: 'next-asteroid', type: 'button' %>
+      <%- translate 'button', 'Next Subject', name: 'next-subject', type: 'button' %>
     </div>
 
   </div> <!-- end instructions -->

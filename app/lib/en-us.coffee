@@ -22,7 +22,7 @@ module.exports =
     whatDo:
       title: 'What can you do?'
       content: '''
-	 Asteroid Zoo Asteroid  Asteroid Zoo Asteroid Zoo 
+	 Asteroid Zoo Asteroid  Asteroid Zoo Asteroid Zoo
       '''
 
   classifier:
@@ -38,8 +38,11 @@ module.exports =
         label: 'Asteroid'
       artifact:
         label: 'Artifact'
-      nothing: 
+      nothing:
         label: 'Nothing'
+    rightPanel:
+      summaryHeader: "Nice Work!"
+      summaryBody: "Check your progress in the subject summary. You can discuss this on Talk, share it, or add it to your favorites!"
 
   artifacts:
     heading: 'What type of artifact is this?'
@@ -48,7 +51,7 @@ module.exports =
     hotpixel:
       label: 'Hot Pixel'
     other:
-      label: 'Other' 
+      label: 'Other'
   asteroids:
     heading: "Asteroid Tracking"
 
