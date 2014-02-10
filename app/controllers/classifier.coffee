@@ -495,6 +495,7 @@ class Classifier extends BaseController
     @showSummary()
 
   showSummary: ->
+    @el.attr 'flicker', 'true'
     @surfacesContainer.children().clone().appendTo(@summaryImageContainer)
     element.hide() for element in [@surfacesContainer, @playButton, @frameSlider, @finishButton, @rightPanel.find('.answers')]
     @startPlayingFrames(0)
