@@ -491,7 +491,6 @@ class Classifier extends BaseController
 
   onClickFinishMarking: ->
     radio.checked = false for radio in @classifierTypeRadios
-    # @showKnownAsteroids()  # this will have to go somewhere else, like onClickFinishedMarking()
     @sendClassification()
     @showSummary()
 
@@ -504,11 +503,9 @@ class Classifier extends BaseController
     element.show() for element in [@rightPanelSummary, @summaryContainer, @nextSubjectButton]
 
   populateSummary: ->
-    sightings = @setOfSightings
-    console.log "sightngs: ", sightings
-    asteroidCount = (sightings.filter (s) -> s.type is 'asteroid').length
-    starbleedCount = (sightings.filter (s) -> s.subType is 'starbleed').length
-    hotpixelCount = (sightings.filter (s) -> s.subType is 'hotpixel').length
+    asteroidCount = (@setOfSightings.filter (s) -> s.type is 'asteroid').length
+    starbleedCount = (@setOfSightings.filter (s) -> s.subType is 'starbleed').length
+    hotpixelCount = (@setOfSightings.filter (s) -> s.subType is 'hotpixel').length
 
     @asteroidCount.html("<span class='big-num'>#{asteroidCount}</span>"+ "<br>" + "Asteroid#{if asteroidCount is 1 then '' else 's'}")
     @starbleedCount.html("<span class='big-num'>#{starbleedCount}</span>" + "<br>" + "Blip#{if starbleedCount is 1 then '' else 's'}")
@@ -517,15 +514,16 @@ class Classifier extends BaseController
   onClickNextSubject: ->
     element.hide() for element in [@summaryContainer, @nextSubjectButton, @rightPanelSummary]
     @summaryImageContainer.empty()
-    @leftPanel.find(".answers:lt(4)").css 'pointer-events', 'auto' #enable everything but guide
+    @leftPanel.find(".answers:lt(4)").css 'pointer-events', 'auto'
     @stopPlayingFrames()
     element.show() for element in [@surfacesContainer, @finishButton, @rightPanel.find('.answers')]
 
     @destroyFrames()
     Subject.next()
-    document.getElementById('frame-slider').value = 0 #reset slider to first frame
+    document.getElementById('frame-slider').value = 0
     @finishButton.prop 'disabled', true
     @onClickFlicker()
+    @setOfSightings = []
 
   startLoading: ->
     @el.addClass 'loading'
