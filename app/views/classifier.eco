@@ -2,9 +2,9 @@
 <% ifTouch = require '../lib/if-touch' %>
 
 <div id="classify-box">
-  <div class="left-panel">
+  <div id="left-panel" class="left-panel">
     <h2>TOOLS</h2>
-    <div class="answers">
+    <div id="invert-button" class="answers">
      <button name="invert">
         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
            width="24px" height="24px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
@@ -20,7 +20,7 @@
      </button>
     </div>
     <h2>VIEW</h2>
-    <div class="answers">
+    <div id="view" class="answers">
       <button name="flicker">
         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
            width="25px" height="11px" viewBox="0 0 25 11" style="enable-background:new 0 0 25 11;" xml:space="preserve">
@@ -88,7 +88,7 @@
   </div>
 
   <div class="subject">
-    <div class="surfaces-container"></div>
+    <div id="surfaces-container" class="surfaces-container"></div>
   </div>
 
   <div class="right-panel" id="right-panel">
@@ -124,7 +124,7 @@
             </label>
           </div>
           <div class="classifier-type-menu-item">
-            <label class="as-radio-button">
+            <label id="artifact-button" class="as-radio-button">
               <input type="radio" name="classifier-type" value="artifact" />
               <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                  width="20px" height="20px" viewBox="0 0 20 20" style="enable-background:new 0 0 20 20;" xml:space="preserve">
