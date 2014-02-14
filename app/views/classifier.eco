@@ -98,7 +98,8 @@
         <div class="summary-data" id="starbleed-count"></div>
         <div class="summary-data" id="hotpixel-count"></div>
       </div>
-      <h5>SHARE THIS</h5>
+      <!-- <h5>SHARE THIS</h5> -->
+      <!-- social media icons -->
     </div>
     <div class="surfaces-container"><!-- marking surfaces --></div>
   </div>
