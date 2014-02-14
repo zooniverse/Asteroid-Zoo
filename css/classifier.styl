@@ -8,9 +8,9 @@
     height 608px
     background #ffffff
     margin 0 auto
-    -moz-box-shadow:    0px 5px 6px 5px #c0c0c0;
-    -webkit-box-shadow: 0px 5px 6px 5px #c0c0c0;
-    box-shadow:         0px 5px 6px 5px #c0c0c0;
+    box-shadow         0px 5px 6px 5px #c0c0c0
+    -moz-box-shadow    0px 5px 6px 5px #c0c0c0
+    -webkit-box-shadow 0px 5px 6px 5px #c0c0c0
 
   .subject
     background-color #efeae9
@@ -33,10 +33,58 @@
     cursor: url("./images/cursor-crosshair.png") 15 15, auto
     background: black
     height 512px
+    max-height 512px
     overflow hidden
     margin-left: auto
     margin-right: auto;
 
+  .summary-container
+    height 512px
+    overflow scroll
+    background-color #efeae9
+    text-align center
+    padding 0 20px
+    color #818181
+    h2
+      font-size 14px
+      color #4a4a4a
+    h3
+      font-size 14px
+      font-weight 300
+      margin-bottom 15px
+    .your-results
+      width 100%
+      border 2px solid #818181
+      border-radius 5px
+      #results-title
+        margin-top -14px
+        width 115px
+        background-color #efeae9
+        margin-left auto
+        margin-right auto
+      .summary-data
+        width columns(5)
+        display inline-block
+        height 130px
+        margin 25px 0 5px 0
+        .big-num
+          font-size 70px
+          line-height 75px
+          font-weight bold
+    .summary-image-container
+      height 250px
+      .marking-surface
+        margin-left auto
+        margin-right auto
+        height 190px
+        width 190px
+        border 10px solid #fff
+        float none
+        box-shadow         0px 2px 6px 2px #c0c0c0
+        -moz-box-shadow    0px 2px 6px 2px #c0c0c0
+        -webkit-box-shadow 0px 2px 6px 2px #c0c0c0
+        .marking-tool-root, .ghost-mark
+          display none
   .marking-surface
     display: inline-block
     outline none
@@ -89,6 +137,7 @@
       font-size 14px
       font-weight bold
       color #4a4a4a
+      margin 5px 0 10px 0
     button
       border none
       font-size 14px
@@ -165,6 +214,8 @@
               color BRIGHT_AQUA
               g
                 fill BRIGHT_AQUA
+    .right-panel-summary
+      margin-top 190px
 
   .bottom-row
     position relative
