@@ -176,6 +176,7 @@ class Classifier extends BaseController
 
   onSelectArtifact: ->
     @currSighting.subType = @artifactSelector.filter(':checked').val()
+    if @currSighting.annotations.length > 0 then @doneButton.prop 'disabled', false
 
   createMarkingSurfaces: ->
     @numFrames = 4
@@ -234,14 +235,9 @@ class Classifier extends BaseController
       @doneButton.prop 'disabled', true
 
   onCreateTool: (tool) =>
-    console.log 'tool created'
     surfaceIndex = +@markingSurfaceList.indexOf tool.surface
-
-    if @state is 'asteroidTool'
-      tool.setMarkType 'asteroid'
-
-    if @state is 'artifactTool'
-      tool.setMarkType 'artifact'
+    if @state is 'asteroidTool' then tool.setMarkType 'asteroid'
+    if @state is 'artifactTool' then tool.setMarkType 'artifact'
 
     if @asteroidMarkedInFrame[surfaceIndex]
       @currSighting.clearSightingsInFrame surfaceIndex
@@ -252,7 +248,7 @@ class Classifier extends BaseController
     @updateIconsForCreateMark(surfaceIndex)
 
     if @state is 'asteroidTool' and @currSighting.annotations.length is @numFrames \
-      or @state is 'artifactTool' and @currSighting.annotations.length > 0
+      or @state is 'artifactTool' and @currSighting.annotations.length > 0 and @artifactSelector.filter(':checked').length > 0
         @doneButton.prop 'disabled', false
 
     tool.mark.id = @currSighting.id
@@ -289,7 +285,6 @@ class Classifier extends BaseController
   onStartTutorial: =>
     tutorialSubject = createTutorialSubject()
     tutorialSubject.select()
-
     @tutorial.start()
 
   resetMarkingSurfaces: =>
@@ -565,7 +560,7 @@ class Classifier extends BaseController
       for surface in [@markingSurfaceList...]
         svgElement = surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: x_avg, cy: y_avg, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 4
 
-    @evaluateAnnotations(P)
+    # @evaluateAnnotations(P)
 
   evaluateAnnotations: (P_ref) ->
     xs = []
