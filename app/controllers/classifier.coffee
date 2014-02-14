@@ -61,7 +61,7 @@ class Classifier extends BaseController
       @tool.deselect()
 
     'click .right-panel': ->
-      if @playTimeout?
+      if @playTimeout? and @summaryImageContainer.is(':empty')
         @stopPlayingFrames()
         @togglePausePlayIcons()
 
