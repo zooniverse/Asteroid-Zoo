@@ -7,31 +7,52 @@ tutorialSteps =
     details: t 'span', 'tutorial.welcome.details'
     attachment: 'center center #surfaces-container center center'
     next: 'overview'  
+
   overview: new Step
     header: t 'span', 'tutorial.overview.header'
     details: t 'span', 'tutorial.overview.details'
-    className: "arrow-left"
     focus: '#left-panel'
     attachment: 'left center #left-panel right center'
+    next: 'guide'
+
+  guide: new Step
+    header: t 'span', 'tutorial.guide.header'
+    details: t 'span', 'tutorial.guide.details'
+    className: "arrow-left"
+    focus: '#guide-button'
+    attachment: 'left center #guide-button right center'
     next: 'tools'
+
+  # TODO: allow multiple focus (add surfaces-container to focus)
   tools: new Step
     header: t 'span', 'tutorial.tools.header'
     details: t 'span', 'tutorial.tools.details'
     className: "arrow-left"
-    attachment: 'left center #invert-button right center'
+    focus: '#tools'
+    attachment: 'left center #tools right center'
     next: 'view'
+
 
   view: new Step
     header: t 'span', 'tutorial.view.header'
     details: t 'span', 'tutorial.view.details'
     className: "arrow-left"
-    attachment: 'left center #view right center'
+    focus: '#views'
+    attachment: 'left center #views right center'
     next: 'beginWorkflow'
 
   beginWorkflow: new Step
     header: t 'span', 'tutorial.beginWorkflow.header'
     details: t 'span', 'tutorial.beginWorkflow.details'
     attachment: 'center center #surfaces-container center center'
+    next: 'play'
+
+  play: new Step
+    header: t 'span', 'tutorial.play.header'
+    details: t 'span', 'tutorial.play.details'
+    className: "arrow-bottom"
+    focus: '#play-button'
+    attachment: 'center bottom #play-button center top'
     next: 'selectAsteroid'
 
   selectAsteroid: new Step
@@ -51,7 +72,9 @@ tutorialSteps =
   finished: new Step
     header: t 'span', 'tutorial.finished.header'
     details: t 'span', 'tutorial.finished.details'
-    attachment: 'center center #surfaces-container center center'
+    className: "arrow-bottom"
+    focus: '#finished'
+    attachment: 'center bottom #finished center top'
 
 # UNUSED
   

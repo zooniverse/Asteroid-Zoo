@@ -87,13 +87,20 @@ module.exports =
       <p>Includes links to other resources, links to ZooTeach, etc.</p>
     '''
 
+  ######################
+  # TUTORIAL
+  ######################
   tutorial:
     welcome:
       header: 'Welcome to Asteroid Hunt!'
-      details: 'In this project, you are on the lookout for asteroids in a sequence of images from the Catalina Sky Survey. Your goal is to find the moving dots in the images. These are the asteroids! You may also find other objects we’d like you to identify along the way, we call these artifacts.'
+      details: 'In this project, you are on the lookout for asteroids in a sequence of images from the Catalina Sky Survey. Your goal is to find the moving dots in the images. These could be asteroids no one has ever seen before! You may also find other objects we’d like you to identify along the way, we call these artifacts.'
     overview:
       header: 'First, an introduction to the features'
-      details: 'There are different ways to view the images to help you find asteroids and artifacts. We have constructed a guide to help you determine whether an object is an asteroid or an artifact. You may want to take time to explore the guide before classifying.' 
+      details: 'There are different ways to view the images to help you find asteroids and artifacts.' 
+    
+    guide:
+      header: 'The guide'
+      details: 'We have constructed a guide to help you determine whether an object is an asteroid or an artifact. You may want to take time to explore the guide before classifying.'
     tools:
       header: 'Tools'
       details: 'Invert gives you a way to examine the images by reversing the black and white of the image. Play around with this tool, when you are done click Continue.'
@@ -103,6 +110,9 @@ module.exports =
     beginWorkflow:
       header: 'Now on to Asteroid Hunting!'
       details: 'Now that you know how to view the frames, start looking for moving objects (don\'t see anything?). When you see something you believe may be an asteroid, click “Asteroid.” (show me)'
+    play:
+      header: 'Play frames'
+      details: 'The Flicker view is a great way to find moving objects. Click play to get started'
     selectAsteroid:
       header: 'You\'e spotted your first asteroid!'
       details: 'Click on "Asteroid" to begin marking the asteroid in each frame of the sequence.'
