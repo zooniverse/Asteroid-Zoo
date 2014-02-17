@@ -42,6 +42,7 @@ module.exports =
         label: 'Nothing'
     rightPanel:
       summaryHeader: "Nice Work!"
+      knownAsteroid: "This subject contains at least one known asteroid (circled in green)."
       summaryBody: "Check your progress in the subject summary. You can discuss this on Talk, share it, or add it to your favorites!"
 
   artifacts:
