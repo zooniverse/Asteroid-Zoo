@@ -492,10 +492,12 @@ class Classifier extends BaseController
 
   showSummary: ->
     @resetMarkingSurfaces() # remove previous marks
-    @knownAsteroidMessage.hide()
     @removeKnownAsteroids()
-    return if @Subject.current.metadata.known_asteroids is undefined
-    @knownAsteroidMessage.show()
+    console.log "known asteroids: ", @Subject.current.metadata.known_asteroids
+    if @Subject.current.metadata.known_asteroids.length isnt 0
+      @knownAsteroidMessage.show() 
+    else
+      @knownAsteroidMessage.hide()
     for knownAsteroid in [@Subject.current.metadata.known_asteroids...]
       xs = []
       ys = []
@@ -510,6 +512,8 @@ class Classifier extends BaseController
         x_sum += xs[frame]
         y_sum += ys[frame]
       console.log "frame image: ", @summaryImageContainer.find("frame-image")
+      # TODO: remove hardwired width
+      # should be changed to @surface.el.offsetWidth, as in marking-tool
       x_avg = Math.round(x_sum/@numFrames)/512 * 190
       y_avg = Math.round(y_sum/@numFrames)/512 * 190
       P = {x: x_sum, y: y_sum}
