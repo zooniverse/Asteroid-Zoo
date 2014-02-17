@@ -92,6 +92,7 @@ class Classifier extends BaseController
     '#starbleed-count'               : 'starbleedCount'
     '#hotpixel-count'                : 'hotpixelCount'
     '.summary-image-container'       : 'summaryImageContainer'
+    '.known-asteroid-message'        : 'knownAsteroidMessage'
 
   states:
     whatKind:
@@ -490,12 +491,11 @@ class Classifier extends BaseController
     @showSummary()
 
   showSummary: ->
-    # remove previous marks
-    @resetMarkingSurfaces()
-
-    # show known asteroids
+    @resetMarkingSurfaces() # remove previous marks
+    @knownAsteroidMessage.hide()
     @removeKnownAsteroids()
     return if @Subject.current.metadata.known_asteroids is undefined
+    @knownAsteroidMessage.show()
     for knownAsteroid in [@Subject.current.metadata.known_asteroids...]
       xs = []
       ys = []
@@ -528,7 +528,6 @@ class Classifier extends BaseController
     @populateSummary()
     @leftPanel.find(".answers:lt(4)").css 'pointer-events', 'none' #disable everything but guide
     element.show() for element in [@rightPanelSummary, @summaryContainer, @nextSubjectButton]
-
 
   populateSummary: ->
     asteroidCount = (@setOfSightings.filter (s) -> s.type is 'asteroid').length
