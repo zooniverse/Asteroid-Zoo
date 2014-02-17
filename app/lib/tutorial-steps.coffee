@@ -23,20 +23,22 @@ tutorialSteps =
     attachment: 'left center #guide-button right center'
     next: 'tools'
 
+  # TODO: allow multiple focus (add surfaces-container to focus)
   tools: new Step
     header: t 'span', 'tutorial.tools.header'
     details: t 'span', 'tutorial.tools.details'
     className: "arrow-left"
-    focus: '#invert-button'
-    attachment: 'left center #invert-button right center'
+    focus: '#tools'
+    attachment: 'left center #tools right center'
     next: 'view'
+
 
   view: new Step
     header: t 'span', 'tutorial.view.header'
     details: t 'span', 'tutorial.view.details'
     className: "arrow-left"
-    focus: '#view'
-    attachment: 'left center #view right center'
+    focus: '#views'
+    attachment: 'left center #views right center'
     next: 'beginWorkflow'
 
   beginWorkflow: new Step
