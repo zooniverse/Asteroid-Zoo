@@ -237,8 +237,20 @@ class Classifier extends BaseController
 
   onCreateTool: (tool) =>
     surfaceIndex = +@markingSurfaceList.indexOf tool.surface
-    if @state is 'asteroidTool' then tool.setMarkType 'asteroid'
-    if @state is 'artifactTool' then tool.setMarkType 'artifact'
+    tool.mark.id = @currSighting.id
+    tool.mark.on 'change', =>
+      @removeGhostMarks()
+      @addGhostMark(tool.mark)
+
+    switch @state
+      when 'asteroidTool'
+        tool.setMarkType 'asteroid'
+        @doneButton.prop 'disabled', false if @currSighting.annotations.length is @numFrames
+      when 'artifactTool'
+        tool.setMarkType 'artifact'
+        otherFrames = [0...@numFrames].filter (num) -> num isnt surfaceIndex
+        @destroyMarksInFrame(frame) for frame in otherFrames
+        @doneButton.prop 'disabled', false if @currSighting.annotations
 
     if @asteroidMarkedInFrame[surfaceIndex]
       @currSighting.clearSightingsInFrame surfaceIndex
@@ -247,15 +259,6 @@ class Classifier extends BaseController
       @el.find(".asteroid-frame-complete-#{surfaceIndex}").prop 'checked', true
       @asteroidMarkedInFrame[surfaceIndex] = true
     @updateIconsForCreateMark(surfaceIndex)
-
-    if @state is 'asteroidTool' and @currSighting.annotations.length is @numFrames \
-      or @state is 'artifactTool' and @currSighting.annotations.length > 0 and @artifactSelector.filter(':checked').length > 0
-        @doneButton.prop 'disabled', false
-
-    tool.mark.id = @currSighting.id
-    tool.mark.on 'change', =>
-      @removeGhostMarks() # remove unworthy ghosts
-      @addGhostMark(tool.mark)
 
   onChangeFrameSlider: =>
     frame = document.getElementById('frame-slider').value
