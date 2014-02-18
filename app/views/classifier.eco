@@ -366,7 +366,7 @@
     </div>
     <div class="right-panel-summary">
       <h3><%- translate 'span', 'classifier.rightPanel.summaryHeader' %></h3>
-      <p class="known-asteroid-message"><%- translate 'span', 'classifier.rightPanel.knownAsteroid' %></p><br>      
+      <p class="known-asteroid-message"><%- translate 'span', 'classifier.rightPanel.knownAsteroid' %></p>
       <p><%- translate 'span', 'classifier.rightPanel.summaryBody' %></p>
     </div>
   </div><!-- end marking tool interface / right-panel-->
