@@ -13,14 +13,6 @@ tutorialSteps =
     details: t 'span', 'tutorial.overview.details'
     focus: '#left-panel'
     attachment: 'left center #left-panel right center'
-    next: 'guide'
-
-  guide: new Step
-    header: t 'span', 'tutorial.guide.header'
-    details: t 'span', 'tutorial.guide.details'
-    className: "arrow-left"
-    focus: '#guide-button'
-    attachment: 'left center #guide-button right center'
     next: 'tools'
 
   # TODO: allow multiple focus (add surfaces-container to focus)
@@ -32,15 +24,24 @@ tutorialSteps =
     attachment: 'left center #tools right center'
     next: 'view'
 
-
+  # TODO: allow multiple focus (add surfaces-container to focus)
   view: new Step
     header: t 'span', 'tutorial.view.header'
     details: t 'span', 'tutorial.view.details'
     className: "arrow-left"
     focus: '#views'
     attachment: 'left center #views right center'
+    next: 'guide'
+
+  guide: new Step
+    header: t 'span', 'tutorial.guide.header'
+    details: t 'span', 'tutorial.guide.details'
+    className: "arrow-left"
+    focus: '#guide-button'
+    attachment: 'left center #guide-button right center'
     next: 'beginWorkflow'
 
+  # TODO: add a hint to show asteroid, (on click "show me") move fake cursor to asteroid button
   beginWorkflow: new Step
     header: t 'span', 'tutorial.beginWorkflow.header'
     details: t 'span', 'tutorial.beginWorkflow.details'
@@ -55,6 +56,7 @@ tutorialSteps =
     attachment: 'center bottom #play-button center top'
     next: 'selectAsteroid'
 
+  # add intermediate step: play frames, move textbox to right panel, add "Don't see an asteroid? Hint."
   selectAsteroid: new Step
     header: t 'span', 'tutorial.selectAsteroid.header'
     details: t 'span', 'tutorial.selectAsteroid.details'
