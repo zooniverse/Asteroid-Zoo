@@ -1,10 +1,5 @@
 {Step} = require 'zootorial'
 t = require 't7e'
-GhostMouse = require 'ghost-mouse'
-
-ghostMouse = new GhostMouse
-    events: true
-    inverted: true
 
 tutorialSteps =
   welcome: new Step
@@ -56,10 +51,6 @@ tutorialSteps =
     className: "arrow-left"
     next: 'play'
 
-    # demo: ->
-    #   ghostMouse.run ->
-    #     @move '.surfaces-container', (210 / 800), (290 / 400)
-
   play: new Step
     header: t 'span', 'tutorial.play.header'
     details: t 'span', 'tutorial.play.details'
@@ -91,10 +82,6 @@ tutorialSteps =
 
     onExit: ->
       window.classifier.removeElementsOfClass('.tutorial-demo-mark')
-
-      # ghostMouse.run ->
-      #   @move '.surfaces-container', (210 / 800), (290 / 400)
-
 
   # add intermediate step: play frames, move textbox to right panel, add "Don't see an asteroid? Hint."
   selectAsteroid: new Step
@@ -144,6 +131,5 @@ tutorialSteps =
     header: t 'span', 'tutorial.sendOff.header'
     details: t 'span', 'tutorial.sendOff.details'
     attachment: 'center center #surfaces-container center center'
-
 
 module.exports = tutorialSteps
