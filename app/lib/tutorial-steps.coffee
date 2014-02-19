@@ -4,7 +4,6 @@ t = require 't7e'
 tutorialSteps =
   welcome: new Step
     onEnter: -> # why doesn't this work?
-      alert "BLAH!"
       window.classifier.onClickCancel()
 
     header: t 'span', 'tutorial.welcome.header'
@@ -111,6 +110,7 @@ tutorialSteps =
 
   continueMarkingAsteroids: new Step
     header: t 'span', 'tutorial.continueMarkingAsteroids.header'
+    details: t 'span', 'tutorial.continueMarkingAsteroids.details'
     instruction: t 'span', 'tutorial.continueMarkingAsteroids.instruction'
     attachment: 'center center #surfaces-container center center'
     next: 'asteroidDone'

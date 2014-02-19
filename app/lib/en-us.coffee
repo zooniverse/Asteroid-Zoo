@@ -145,6 +145,7 @@ module.exports =
 
     continueMarkingAsteroids:
       header: 'Continue Marking'
+      details: 'The blue mark shows the location of your previous mark. In addition, it let\'s you know you\'ve yet to mark an asteroid in this frame.'
       instruction: 'Continue marking the asteroids on each frame.'
 
     asteroidDone:
