@@ -1,5 +1,10 @@
 {Step} = require 'zootorial'
 t = require 't7e'
+GhostMouse = require 'ghost-mouse'
+
+ghostMouse = new GhostMouse
+    events: true
+    inverted: true
 
 tutorialSteps =
   welcome: new Step
@@ -13,14 +18,6 @@ tutorialSteps =
     details: t 'span', 'tutorial.overview.details'
     focus: '#left-panel'
     attachment: 'left center #left-panel right center'
-    next: 'guide'
-
-  guide: new Step
-    header: t 'span', 'tutorial.guide.header'
-    details: t 'span', 'tutorial.guide.details'
-    className: "arrow-left"
-    focus: '#guide-button'
-    attachment: 'left center #guide-button right center'
     next: 'tools'
 
   # TODO: allow multiple focus (add surfaces-container to focus)
@@ -32,29 +29,74 @@ tutorialSteps =
     attachment: 'left center #tools right center'
     next: 'view'
 
-
+  # TODO: allow multiple focus (add surfaces-container to focus)
   view: new Step
     header: t 'span', 'tutorial.view.header'
     details: t 'span', 'tutorial.view.details'
     className: "arrow-left"
     focus: '#views'
     attachment: 'left center #views right center'
+    next: 'guide'
+
+  guide: new Step
+    header: t 'span', 'tutorial.guide.header'
+    details: t 'span', 'tutorial.guide.details'
+    className: "arrow-left"
+    focus: '#guide-button'
+    attachment: 'left center #guide-button right center'
     next: 'beginWorkflow'
 
+  # TODO: add a hint to show asteroid, (on click "show me") move fake cursor to asteroid button
   beginWorkflow: new Step
     header: t 'span', 'tutorial.beginWorkflow.header'
     details: t 'span', 'tutorial.beginWorkflow.details'
     attachment: 'center center #surfaces-container center center'
+    instruction: t 'span', 'tutorial.beginWorkflow.instruction'
+    attachment: 'left center #flicker-button right center'
+    className: "arrow-left"
     next: 'play'
+
+    # demo: ->
+    #   ghostMouse.run ->
+    #     @move '.surfaces-container', (210 / 800), (290 / 400)
 
   play: new Step
     header: t 'span', 'tutorial.play.header'
     details: t 'span', 'tutorial.play.details'
+    instruction: t 'span', 'tutorial.play.instruction'
     className: "arrow-bottom"
-    focus: '#play-button'
+    # focus: '#play-button'
+    # actionable: '[name="play-frames"][value="play"]'
     attachment: 'center bottom #play-button center top'
+    next: 'click [name="play-frames"]': 'observe'
+
+  observe: new Step
+    header: t 'span', 'tutorial.observe.header'
+    details: t 'span', 'tutorial.observe.details'
+    instruction: t 'span', 'tutorial.observe.instruction'
+    # focus: '#play-button'
+    attachment: 'center center #right-panel center center'
     next: 'selectAsteroid'
 
+    demo: ->
+      for surface in [window.classifier.markingSurfaceList...]
+        console.log surface
+        surface.addShape 'circle',
+        class: 'tutorial-demo-mark'
+        r: 20
+        fill: 'none'
+        stroke: 'green'
+        'stroke-width': 4
+        transform: 'translate(430,40)'
+
+    onExit: ->
+      window.classifier.removeElementsOfClass('.tutorial-demo-mark')
+
+      # ghostMouse.run ->
+      #   @move '.surfaces-container', (210 / 800), (290 / 400)
+
+
+  # add intermediate step: play frames, move textbox to right panel, add "Don't see an asteroid? Hint."
   selectAsteroid: new Step
     header: t 'span', 'tutorial.selectAsteroid.header'
     details: t 'span', 'tutorial.selectAsteroid.details'
@@ -73,7 +115,7 @@ tutorialSteps =
     header: t 'span', 'tutorial.finished.header'
     details: t 'span', 'tutorial.finished.details'
     className: "arrow-bottom"
-    focus: '#finished'
+    # focus: '#finished'
     attachment: 'center bottom #finished center top'
 
 # UNUSED
@@ -102,5 +144,6 @@ tutorialSteps =
     header: t 'span', 'tutorial.sendOff.header'
     details: t 'span', 'tutorial.sendOff.details'
     attachment: 'center center #surfaces-container center center'
+
 
 module.exports = tutorialSteps
