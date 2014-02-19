@@ -92,9 +92,11 @@ module.exports =
   # TUTORIAL
   ######################
   tutorial:
+    
     welcome:
       header: 'Welcome to Asteroid Hunt!'
       details: 'In this project, you are on the lookout for asteroids in a sequence of images from the Catalina Sky Survey. Your goal is to find the moving dots in the images. These could be asteroids no one has ever seen before! You may also find other objects we’d like you to identify along the way, we call these artifacts.'
+    
     overview:
       header: 'First, an introduction to the features'
       details: 'There are different ways to view the images to help you find asteroids and artifacts.' 
@@ -102,24 +104,40 @@ module.exports =
     guide:
       header: 'The guide'
       details: 'We have constructed a guide to help you determine whether an object is an asteroid or an artifact. You may want to take time to explore the guide before classifying.'
+    
     tools:
       header: 'Tools'
       details: 'Invert gives you a way to examine the images by reversing the black and white of the image. Play around with this tool, when you are done click Continue.'
+    
     view: 
       header: 'Viewing the images'
       details: 'There are 2 ways to look at the sequence of images for each classification, either by the “Flicker” or “4-up” options. Flicker allows you to select each frame in the sequence or to play through. 4-up displays all 4 frames at once. Test out each option, and when you are ready click Continue.'
+    
     beginWorkflow:
       header: 'Now on to Asteroid Hunting!'
-      details: 'Now that you know how to view the frames, start looking for moving objects (don\'t see anything?). When you see something you believe may be an asteroid, click “Asteroid.” (show me)'
+      details: 'Now that you know how to view the frames, let\'s start looking for moving objects.'
+      instruction: 'Begin by selecting the Flicker view.'
+
+       # (don\'t see anything?). When you see something you believe may be an asteroid, click “Asteroid.” (show me)
+    
     play:
       header: 'Play frames'
-      details: 'The Flicker view is a great way to find moving objects. Click play to get started'
+      details: 'The Flicker view is a great way to find moving objects.'
+      instruction: 'Click play to get started.'
+
+    observe:
+      header: 'Observe'
+      details: 'If you look carefully, you may find moving objects in the image.'
+      instruction: 'See if you can spot the asteroid in this picture.'
+    
     selectAsteroid:
       header: 'You\'e spotted your first asteroid!'
       details: 'Click on "Asteroid" to begin marking the asteroid in each frame of the sequence.'
+    
     markArtifacts:
       header: 'Marking Artifacts'
       details: 'You may see other objects in the images that are not asteroids, but are unique in the image, these may be artifacts. Artifacts typically appear in one frame of the sequence. \nSelecting artifacts is similar to marking asteroids, but there are 3 options for you to select: Star Bleed, Hot Pixel, and Other. \nSelect which artifacts you see and center it in your marker. Check out examples of each artifact in the (guide).'
+    
     finished:
       header: 'Done Classifying?'
       details: 'Once you have completed classifying a sequence of images, select "Finished."'
