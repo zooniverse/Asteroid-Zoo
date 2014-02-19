@@ -525,6 +525,7 @@ class Classifier extends BaseController
       radius = Math.max( dx, dy, 5)
 
       for surface in [@markingSurfaceList...]
+        console.log "Adding known asteroid marker."
         surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: x_avg, cy: y_avg, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
 
 
@@ -546,6 +547,7 @@ class Classifier extends BaseController
     @hotpixelCount.html("<span class='big-num'>#{hotpixelCount}</span>"+ "<br>" + "Line#{if hotpixelCount is 1 then '' else 's'}")
 
   onClickNextSubject: ->
+    @removeKnownAsteroids()
     element.hide() for element in [@summaryContainer, @nextSubjectButton, @rightPanelSummary]
     @summaryImageContainer.empty()
     @leftPanel.find(".answers:lt(4)").css 'pointer-events', 'auto'
@@ -566,6 +568,7 @@ class Classifier extends BaseController
     @el.removeClass 'loading'
 
   removeKnownAsteroids: ->
+    console.log 'removing known-asteroid'
     knownAsteroid.remove() for knownAsteroid in [@el.find('.known-asteroid')...]
 
   # FIX: lots of redundant code
