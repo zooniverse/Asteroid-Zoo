@@ -115,25 +115,42 @@ module.exports =
     
     beginWorkflow:
       header: 'Now on to Asteroid Hunting!'
-      details: 'Now that you know how to view the frames, let\'s start looking for moving objects.'
-      instruction: 'Begin by selecting the Flicker view.'
-
-       # (don\'t see anything?). When you see something you believe may be an asteroid, click “Asteroid.” (show me)
-    
+      details: 'Now that you know how to view the frames, let\'s start looking for moving objects. We\'ll begin using the default Flicker view.'
+      
     play:
       header: 'Play frames'
-      details: 'The Flicker view is a great way to find moving objects.'
+      details: 'The Flicker view is a great way to find moving objects because it lets you play the frames.'
       instruction: 'Click play to get started.'
 
     observe:
       header: 'Observe'
-      details: 'If you look carefully, you may find moving objects in the image.'
+      details: 'If you look carefully, you\'ll find moving objects in the image.'
       instruction: 'See if you can spot the asteroid in this picture.'
     
-    selectAsteroid:
-      header: 'You\'e spotted your first asteroid!'
-      details: 'Click on "Asteroid" to begin marking the asteroid in each frame of the sequence.'
+    firstAsteroid:
+      header: 'You\'ve spotted your first asteroid!'
+      details: 'We\'ll now begin marking it across each frame.'
     
+    selectAsteroid:
+      header: 'Tracking Asteroids'
+      instruction: 'Click on Asteroid to begin marking the asteroid.'
+
+    asteroid_1:
+      header: 'Mark Asteroid'
+      instruction: 'Carefully click on the asteroid in the image to mark it.'
+
+    nextFrame:
+      header: 'Next, please!'
+      instruction: 'Click on "Next Frame" to advance to the next frame. Alternatively, you may use the frame selection slider below.'
+
+    continueMarkingAsteroids:
+      header: 'Continue Marking'
+      instruction: 'Continue marking the asteroids on each frame.'
+
+    asteroidDone:
+      header: 'Finished marking the asteroid?'
+      instruction: 'Once you have completed marking a sequence of asteroids click "Done."'
+
     markArtifacts:
       header: 'Marking Artifacts'
       details: 'You may see other objects in the images that are not asteroids, but are unique in the image, these may be artifacts. Artifacts typically appear in one frame of the sequence. \nSelecting artifacts is similar to marking asteroids, but there are 3 options for you to select: Star Bleed, Hot Pixel, and Other. \nSelect which artifacts you see and center it in your marker. Check out examples of each artifact in the (guide).'

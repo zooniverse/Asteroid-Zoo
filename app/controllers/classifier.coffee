@@ -164,7 +164,8 @@ class Classifier extends BaseController
 
     @tutorial = new Tutorial
       steps: tutorialSteps
-      firstStep: 'welcome' # firstStep: 'play'
+      # firstStep: 'welcome'
+      firstStep: 'firstAsteroid'
 
     @tutorial.el.on 'start-tutorial enter-tutorial-step', =>
       translate.refresh @tutorial.el.get 0
@@ -565,7 +566,6 @@ class Classifier extends BaseController
     @el.removeClass 'loading'
 
   removeElementsOfClass: (class_name) ->
-    console.log 'removing class: ', class_name
     element.remove() for element in [@el.find(class_name)...]
 
   # FIX: lots of redundant code

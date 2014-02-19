@@ -3,6 +3,10 @@ t = require 't7e'
 
 tutorialSteps =
   welcome: new Step
+    onEnter: -> # why doesn't this work?
+      alert "BLAH!"
+      window.classifier.onClickCancel()
+
     header: t 'span', 'tutorial.welcome.header'
     details: t 'span', 'tutorial.welcome.details'
     attachment: 'center center #surfaces-container center center'
@@ -46,8 +50,6 @@ tutorialSteps =
     header: t 'span', 'tutorial.beginWorkflow.header'
     details: t 'span', 'tutorial.beginWorkflow.details'
     attachment: 'center center #surfaces-container center center'
-    instruction: t 'span', 'tutorial.beginWorkflow.instruction'
-    attachment: 'left center #flicker-button right center'
     className: "arrow-left"
     next: 'play'
 
@@ -56,8 +58,6 @@ tutorialSteps =
     details: t 'span', 'tutorial.play.details'
     instruction: t 'span', 'tutorial.play.instruction'
     className: "arrow-bottom"
-    # focus: '#play-button'
-    # actionable: '[name="play-frames"][value="play"]'
     attachment: 'center bottom #play-button center top'
     next: 'click [name="play-frames"]': 'observe'
 
@@ -65,9 +65,8 @@ tutorialSteps =
     header: t 'span', 'tutorial.observe.header'
     details: t 'span', 'tutorial.observe.details'
     instruction: t 'span', 'tutorial.observe.instruction'
-    # focus: '#play-button'
     attachment: 'center center #right-panel center center'
-    next: 'selectAsteroid'
+    next: 'firstAsteroid'
 
     demo: ->
       for surface in [window.classifier.markingSurfaceList...]
@@ -83,53 +82,44 @@ tutorialSteps =
     onExit: ->
       window.classifier.removeElementsOfClass('.tutorial-demo-mark')
 
+  firstAsteroid: new Step
+    header: t 'span', 'tutorial.firstAsteroid.header'
+    details: t 'span', 'tutorial.firstAsteroid.details'
+    attachment: 'center center #surfaces-container center center'
+    next: 'selectAsteroid'
+
   # add intermediate step: play frames, move textbox to right panel, add "Don't see an asteroid? Hint."
   selectAsteroid: new Step
     header: t 'span', 'tutorial.selectAsteroid.header'
-    details: t 'span', 'tutorial.selectAsteroid.details'
+    instruction: t 'span', 'tutorial.selectAsteroid.instruction'
     className: "arrow-right"
     attachment: 'right center #asteroid-button left center'
-    next: 'markArtifacts'
+    next: 'click [id="asteroid-button"]': 'asteroid_1'
 
-  markArtifacts: new Step
-    header: t 'span', 'tutorial.markArtifacts.header'
-    details: t 'span', 'tutorial.markArtifacts.details'
+  asteroid_1: new Step
+    header: t 'span', 'tutorial.asteroid_1.header'
+    instruction: t 'span', 'tutorial.asteroid_1.instruction'
+    next: 'click [id="surfaces-container"]': 'nextFrame'
+    attachment: 'center center #surfaces-container center center'
+
+  nextFrame: new Step
+    header: t 'span', 'tutorial.nextFrame.header'
+    instruction: t 'span', 'tutorial.nextFrame.instruction'
+    next: 'click [name="next-frame"]': 'continueMarkingAsteroids'
     className: "arrow-right"
-    attachment: 'right center #artifact-button left center'
-    next: 'finished'
+    attachment: 'right center [name="next-frame"] left center'
 
-  finished: new Step
-    header: t 'span', 'tutorial.finished.header'
-    details: t 'span', 'tutorial.finished.details'
+  continueMarkingAsteroids: new Step
+    header: t 'span', 'tutorial.continueMarkingAsteroids.header'
+    instruction: t 'span', 'tutorial.continueMarkingAsteroids.instruction'
+    attachment: 'center center #surfaces-container center center'
+    next: 'asteroidDone'
+
+  asteroidDone: new Step
+    header: t 'span', 'tutorial.asteroidDone.header'
+    instruction: t 'span', 'tutorial.asteroidDone.instruction'
     className: "arrow-bottom"
-    # focus: '#finished'
     attachment: 'center bottom #finished center top'
-
-# UNUSED
-  
-  explainMarking: new Step
-    header: t 'span', 'tutorial.explainMarking.header'
-    details: t 'span', 'tutorial.explainMarking.details'
-    attachment: 'center center #surfaces-container center center'
-    next: 'repeatSteps'
-  repeatSteps: new Step
-    header: t 'span', 'tutorial.repeatSteps.header'
-    details: t 'span', 'tutorial.repeatSteps.details'
-    attachment: 'center center #surfaces-container center center'
-    next: 'summary'
-  summary: new Step
-    header: t 'span', 'tutorial.summary.header'
-    details: t 'span', 'tutorial.summary.details'
-    attachment: 'center center #surfaces-container center center'
-    next: 'artifacts'
-  artifacts: new Step
-    header: t 'span', 'tutorial.artifacts.header'
-    details: t 'span', 'tutorial.artifacts.details'
-    attachment: 'center center #surfaces-container center center'
-    next: 'sendOff'
-  sendOff: new Step
-    header: t 'span', 'tutorial.sendOff.header'
-    details: t 'span', 'tutorial.sendOff.details'
-    attachment: 'center center #surfaces-container center center'
+    next: 'click [id="finished"]': ''
 
 module.exports = tutorialSteps
