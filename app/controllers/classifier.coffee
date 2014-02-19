@@ -164,7 +164,8 @@ class Classifier extends BaseController
 
     @tutorial = new Tutorial
       steps: tutorialSteps
-      firstStep: 'welcome'
+      # firstStep: 'welcome'
+      firstStep: 'play'
 
     @tutorial.el.on 'start-tutorial enter-tutorial-step', =>
       translate.refresh @tutorial.el.get 0

@@ -66,8 +66,9 @@ tutorialSteps =
     instruction: t 'span', 'tutorial.play.instruction'
     className: "arrow-bottom"
     # focus: '#play-button'
+    # actionable: '[name="play-frames"][value="play"]'
     attachment: 'center bottom #play-button center top'
-    next: 'observe'
+    next: 'click [name="play-frames"]': 'observe'
 
   observe: new Step
     header: t 'span', 'tutorial.observe.header'
@@ -78,8 +79,22 @@ tutorialSteps =
     next: 'selectAsteroid'
 
     demo: ->
-      ghostMouse.run ->
-        @move '.surfaces-container', (210 / 800), (290 / 400)
+      for surface in [window.classifier.markingSurfaceList...]
+        console.log surface
+        surface.addShape 'circle',
+        class: 'tutorial-demo-mark'
+        r: 20
+        fill: 'none'
+        stroke: 'green'
+        'stroke-width': 4
+        transform: 'translate(430,40)'
+
+    onExit: ->
+      window.classifier.removeElementsOfClass('.tutorial-demo-mark')
+
+      # ghostMouse.run ->
+      #   @move '.surfaces-container', (210 / 800), (290 / 400)
+
 
   # add intermediate step: play frames, move textbox to right panel, add "Don't see an asteroid? Hint."
   selectAsteroid: new Step
