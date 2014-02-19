@@ -3,34 +3,18 @@
 
 <div class="content-block">
   <div class="content-container">
-    <%- translate 'h2', 'about.title' %>
-    <%- translate 'p', 'about.summary' %>
-  </div>
-
-  <div class="content-container">
-    <%- translate 'p', 'about.content' %>
-  </div>
-</div>
-
-<svg width="0" height="0">
-  <clipPath id="headshot-clip">
-    <polygon points="<%= getOctagonPoints 50 %>" transform="translate(50, 50)" />
-  </clipPath>
-</svg>
-
-<div class="content-block">
-  <div class="content-container">
-    <p>Here's how we'll do some pictures.</p>
+    <div class="intro content">
+      <%- translate 'h1', 'about.title' %>
+      <%- translate 'p', 'about.summary' %>
+    </div>
   </div>
 </div>
 
 <div class="content-block">
-  <div class="content-container">
+  <div class="content-container grey-bg">
     <% for i in [0...8]: %>
       <div class="quarter-column">
-        <svg class="headshot">
-          <image xlink:href="//placekitten.com/200/200" width="100%" height="100%" clip-path="url(#headshot-clip)" />
-        </svg>
+        <img src="http://placehold.it/150X150" />
 
         <div class="caption">
           <p><strong>Somebody's name</strong></p>
