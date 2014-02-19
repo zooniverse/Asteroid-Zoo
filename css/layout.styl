@@ -7,16 +7,37 @@ html
   overflow-y: scroll
   position: relative
   width 100%
+  -webkit-font-smoothing antialiased
 
 body
   margin: 0
 
 .content-block
-  padding: 1rem 0 1.5rem
-
-  &.reversed
-    background: DARK_GRAY
-    color: #fff
+  max-width 960px
+  margin 0 auto
+  padding 0
+  .content-container
+    h1, h2, h3
+      text-transform uppercase
+    .intro
+      h1
+        color #090909
+        font-size 16px
+        margin 70px 0 20px 0
+      p
+        color #8d8a8a
+        font-size 30px
+        margin-bottom 50px
+    .content
+      padding 5px 20px
+  .black-bg
+    background-color #000
+    color OFF_WHITE
+  .white-bg
+    background-color #fff
+    color #8D8A8A
+  .grey-bg
+    background-color #d5d5d5
 
 .content-container
   clearfix()
