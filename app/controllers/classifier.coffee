@@ -108,7 +108,7 @@ class Classifier extends BaseController
       exit: ->
         @el.find('button[name="to-select"]').removeClass 'hidden'
         @el.find('.what-kind').hide()
-        @removeKnownAsteroids()
+        @removeElementsOfClass(".known-asteroid")
 
     asteroidTool:
       enter: ->
@@ -221,9 +221,6 @@ class Classifier extends BaseController
       svgElement.el.setAttribute 'from-frame', mark.frame
       svgElement.el.setAttribute 'from-asteroid', @currSighting.id
 
-  removeGhostMarks: ->
-    ghostMark.remove() for ghostMark in [ @el.find(".ghost-mark")... ]
-
   onCreateMark: (mark) =>
     @currSighting.pushSighting mark
 
@@ -231,7 +228,7 @@ class Classifier extends BaseController
     @destroyMarksInFrame mark.frame
     @updateIconsForDestroyMark mark.frame
     @currSighting.clearSightingsInFrame mark.frame
-    @removeGhostMarks()
+    @removeElementsOfClass(".ghost-mark")
     if @state is 'asteroidTool' and @currSighting.annotations.length < @numFrames
       @doneButton.prop 'disabled', true
 
@@ -239,7 +236,7 @@ class Classifier extends BaseController
     surfaceIndex = +@markingSurfaceList.indexOf tool.surface
     tool.mark.id = @currSighting.id
     tool.mark.on 'change', =>
-      @removeGhostMarks()
+      @removeElementsOfClass(".ghost-mark")
       @addGhostMark(tool.mark)
 
     switch @state
@@ -415,7 +412,7 @@ class Classifier extends BaseController
         classifier.el.find(".asteroid-frame-#{i}").removeClass 'current-asteroid-frame'
 
   onClickAsteroidDone: ->
-    @removeGhostMarks()
+    @removeElementsOfClass(".ghost-mark")
     @currSighting.displaySummary()
     if @currSighting.annotations.length is 0
       @currSighting = null
@@ -495,7 +492,7 @@ class Classifier extends BaseController
 
   showSummary: ->
     @resetMarkingSurfaces() # remove previous marks
-    @removeKnownAsteroids()
+    @removeElementsOfClass(".known-asteroid")
     console.log "known asteroids: ", @Subject.current.metadata.known_asteroids
     if @Subject.current.metadata.known_asteroids.length isnt 0
       @knownAsteroidMessage.show() 
@@ -547,7 +544,7 @@ class Classifier extends BaseController
     @hotpixelCount.html("<span class='big-num'>#{hotpixelCount}</span>"+ "<br>" + "Line#{if hotpixelCount is 1 then '' else 's'}")
 
   onClickNextSubject: ->
-    @removeKnownAsteroids()
+    @removeElementsOfClass(".known-asteroid")
     element.hide() for element in [@summaryContainer, @nextSubjectButton, @rightPanelSummary]
     @summaryImageContainer.empty()
     @leftPanel.find(".answers:lt(4)").css 'pointer-events', 'auto'
@@ -567,13 +564,13 @@ class Classifier extends BaseController
   stopLoading: ->
     @el.removeClass 'loading'
 
-  removeKnownAsteroids: ->
-    console.log 'removing known-asteroid'
-    knownAsteroid.remove() for knownAsteroid in [@el.find('.known-asteroid')...]
+  removeElementsOfClass: (class_name) ->
+    console.log 'removing class: ', class_name
+    element.remove() for element in [@el.find(class_name)...]
 
   # FIX: lots of redundant code
   # showKnownAsteroids: ->
-  #   @removeKnownAsteroids()
+  #   @removeElementsOfClass("known-asteroid")
   #   return if @Subject.current.metadata.known_asteroids is undefined
 
   #   for knownAsteroid in [@Subject.current.metadata.known_asteroids...]
