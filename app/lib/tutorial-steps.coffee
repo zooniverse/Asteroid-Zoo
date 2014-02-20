@@ -44,12 +44,10 @@ tutorialSteps =
     attachment: 'left center #guide-button right center'
     next: 'beginWorkflow'
 
-  # TODO: add a hint to show asteroid, (on click "show me") move fake cursor to asteroid button
   beginWorkflow: new Step
     header: t 'span', 'tutorial.beginWorkflow.header'
     details: t 'span', 'tutorial.beginWorkflow.details'
     attachment: 'center center #surfaces-container center center'
-    className: "arrow-left"
     next: 'play'
 
   play: new Step
@@ -120,6 +118,19 @@ tutorialSteps =
     instruction: t 'span', 'tutorial.asteroidDone.instruction'
     className: "arrow-bottom"
     attachment: 'center bottom #finished center top'
+    next: 'click [id="finished"]': 'markArtifacts'
+
+  # TODO: mark artifacts on the image 
+  markArtifacts: new Step
+    header: t 'span', 'tutorial.markArtifacts.header'
+    details: t 'span', 'tutorial.markArtifacts.details'
+    attachment: 'center center #surfaces-container center center'
+    next: 'click [id="finished"]': 'finished'
+
+  finished: new Step
+    header: t 'span', 'tutorial.finished.header'
+    details: t 'span', 'tutorial.finished.instruction'
+    attachment: 'center center #surfaces-container center center'
     next: 'click [id="finished"]': ''
 
 module.exports = tutorialSteps

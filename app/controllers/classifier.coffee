@@ -161,18 +161,14 @@ class Classifier extends BaseController
     @summaryContainer.hide()
     @rightPanelSummary.hide()
     @nextSubjectButton.hide()
-
     @tutorial = new Tutorial
       steps: tutorialSteps
       firstStep: 'welcome'
-      
     @tutorial.el.on 'start-tutorial enter-tutorial-step', =>
       translate.refresh @tutorial.el.get 0
-
     User.on 'change', @onUserChange
     Subject.on 'fetch', @onSubjectFetch
     Subject.on 'select', @onSubjectSelect
-
     @Subject = Subject
 
   onSelectArtifact: ->
@@ -188,7 +184,6 @@ class Classifier extends BaseController
       @markingSurfaceList[i].svg.attr 'viewBox', '256 0 256 256' if BIG_MODE
       @markingSurfaceList[i].svgRoot.attr 'id', "classifier-svg-root-#{i}"
       @surfacesContainer.append @markingSurfaceList[i].el
-
     for surface in @markingSurfaceList
       surface.on 'create-mark', @onCreateMark
       surface.on 'create-tool', @onCreateTool
@@ -202,11 +197,9 @@ class Classifier extends BaseController
       @states[@state]?.exit.call @
     else
       exit.call @ for state, {exit} of @states when state isnt newState
-
     @state = newState
     @states[@state]?.enter.call @
     @el.attr 'data-state', @state
-
     setTimeout =>
       @el.find('a, button, input, textarea, select').filter('section *:visible').first().focus()
 
@@ -309,14 +302,11 @@ class Classifier extends BaseController
         width:  if BIG_MODE then '512' else '100%'
         height: if BIG_MODE then '512' else '100%'
         preserveAspectRatio: 'true'
-
       img_src = if @invert then subject_info.inverted[i] else subject_info.standard[i]
-
       do (img_src, frameImage)  =>
         loadImage img_src, (img) =>
         frameImage.attr
           'xlink:href': img_src
-
     @stopLoading()
     @activateFrame 0  # default to first frame after loading
 
@@ -356,13 +346,10 @@ class Classifier extends BaseController
     frameNum = +e.target.id.slice(-1)
     visibilityChecked = @asteroidVisibilityCheckboxes[frameNum].checked
     @asteroidMarkedInFrame[frameNum] = true
-
     if @asteroidMarkedInFrame[frameNum]
       @currSighting.clearSightingsInFrame frameNum
       @destroyMarksInFrame frameNum
-
     @updateIconsForNotVisible(frameNum)
-
     newAnnotation =
       frame: frameNum
       x: null
@@ -370,7 +357,6 @@ class Classifier extends BaseController
       visible: false
       inverted: @invert
     @currSighting.pushSighting newAnnotation
-
     if @state is 'asteroidTool' and @currSighting.annotations.length is @numFrames
       @doneButton.prop 'disabled', false
 
@@ -419,10 +405,8 @@ class Classifier extends BaseController
     else
       @finishButton.prop 'disabled', false
       @setOfSightings.push @currSighting
-
     @resetAsteroidCheckboxes()
     @setState 'whatKind'
-    # @showKnownAsteroids()  # this will have to go somewhere else, like onClickFinishedMarking()
 
   resetAsteroidCheckboxes: ->
     @asteroidMarkedInFrame = [null, null, null, null]
@@ -438,7 +422,6 @@ class Classifier extends BaseController
     nextFrame = +(document.getElementById('frame-slider').value) + 1
     if nextFrame is @numFrames
       @onClickFourUp()
-      @showKnownAsteroids()
     else
       @activateFrame(nextFrame)
 
@@ -520,12 +503,9 @@ class Classifier extends BaseController
       dx = Math.abs( (Math.max.apply null, [xs...]) - (Math.min.apply null, [xs...]) )
       dy = Math.abs( (Math.max.apply null, [ys...]) - (Math.min.apply null, [ys...]) )
       radius = Math.max( dx, dy, 5)
-
       for surface in [@markingSurfaceList...]
         console.log "Adding known asteroid marker."
         surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: x_avg, cy: y_avg, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
-
-
     @el.attr 'flicker', 'true'
     @surfacesContainer.children().clone().appendTo(@summaryImageContainer)
     element.hide() for element in [@surfacesContainer, @playButton, @frameSlider, @finishButton, @rightPanel.find('.answers')]
@@ -538,7 +518,6 @@ class Classifier extends BaseController
     asteroidCount = (@setOfSightings.filter (s) -> s.type is 'asteroid').length
     starbleedCount = (@setOfSightings.filter (s) -> s.subType is 'starbleed').length
     hotpixelCount = (@setOfSightings.filter (s) -> s.subType is 'hotpixel').length
-
     @asteroidCount.html("<span class='big-num'>#{asteroidCount}</span>"+ "<br>" + "Asteroid#{if asteroidCount is 1 then '' else 's'}")
     @starbleedCount.html("<span class='big-num'>#{starbleedCount}</span>" + "<br>" + "Blip#{if starbleedCount is 1 then '' else 's'}")
     @hotpixelCount.html("<span class='big-num'>#{hotpixelCount}</span>"+ "<br>" + "Line#{if hotpixelCount is 1 then '' else 's'}")
@@ -550,7 +529,6 @@ class Classifier extends BaseController
     @leftPanel.find(".answers:lt(4)").css 'pointer-events', 'auto'
     @stopPlayingFrames()
     element.show() for element in [@surfacesContainer, @finishButton, @rightPanel.find('.answers')]
-
     @destroyFrames()
     Subject.next()
     document.getElementById('frame-slider').value = 0
@@ -616,7 +594,6 @@ class Classifier extends BaseController
       y_avg = Math.round(y_sum/sighting.annotations.length)
       P = {x: x_sum, y: y_sum}
       d = @dist(P,P_ref)
-
       if d <= 20
         console.log 'Awesome job!'
       else

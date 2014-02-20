@@ -154,27 +154,8 @@ module.exports =
 
     markArtifacts:
       header: 'Marking Artifacts'
-      details: 'You may see other objects in the images that are not asteroids, but are unique in the image, these may be artifacts. Artifacts typically appear in one frame of the sequence. \nSelecting artifacts is similar to marking asteroids, but there are 3 options for you to select: Star Bleed, Hot Pixel, and Other. \nSelect which artifacts you see and center it in your marker. Check out examples of each artifact in the (guide).'
-    
+      details: 'You may see other objects in the images that are not asteroids, but are unique in the image, these may be artifacts. Artifacts typically appear in one frame of the sequence. Unlike asteroids, you don\'t have to track artifacts across the frames. Check out examples of each artifact in the guide.'
+
     finished:
-      header: 'Done Classifying?'
-      details: 'Once you have completed classifying a sequence of images, select "Finished."'
-
-    # UNUSED
-    explainMarking:
-      header: 'em'
-      details: 'Feel free to adjust where you put the mark. If you are happy with the location of your mark, click “Next Frame”'
-    repeatSteps:
-      header: 'rs'
-      details: 'Repeat the process until you have marked the asteroid in all four frames.'
-    summary:
-      header: 's'
-      details: 'When you have marked all available frames, you are shown a summary of your marks for that asteroid. You can make any final adjustments at this time. When you are done, click “Done” below'
-    artifacts:
-      header: 'artifacts'
-      details: 'You will occasionally spot different “artifacts”, or anomalies within each sequence. Refer to the guide for help on what each of them look like.'
-    sendOff:
-      header: 'Happy Hunting'
-      details: 'That\'s it! Join the discussion on Talk for additional information and guidance. Happy Hunting!'
-
-
+      header: 'Happy Hunting!'
+      details: 'When you are finished with the set of images, click on "Finished." This concludes the Tutorial.'
