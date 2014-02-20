@@ -12,6 +12,7 @@ OFF_WHITE = #efeae9
 
 h1, h2, h3, h4, h5, h6, p
   margin 0px
+  -webkit-font-smoothing antialiased
 
 #_STANDARD_BUTTON
   border: 1px solid
@@ -19,10 +20,11 @@ h1, h2, h3, h4, h5, h6, p
   display: inline-block
   margin: 0 0.2em
   padding: 0.4em 1.6em
-
   &:active
     transform: translateY(1px)
     box-shadow: none
+  &:hover
+    opacity 0.95
 
 #_HOME_BUTTON
   @extends #_STANDARD_BUTTON

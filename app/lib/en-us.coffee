@@ -29,7 +29,7 @@ module.exports =
     title: 'Classify'
     done:  'Done'
     reset: 'Reset'
-    delete: 'Delete'
+    delete: 'Delete Mark'
     next: 'Next'
     whatKind: 'What do you see here?'
 
