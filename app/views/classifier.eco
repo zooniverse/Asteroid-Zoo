@@ -357,7 +357,7 @@
             <%- translate 'button.cancel', 'classifier.delete', name: 'asteroid-delete', type: 'button' %>
           </div>
           <div class="button">
-            <%- translate 'button', 'classifier.done', name: 'asteroid-done', type: 'button' %>
+            <%- translate 'button', 'classifier.done', name: 'asteroid-done', type: 'button', id: 'asteroid-done' %>
           </div>
           <div class="button">
             <%- translate 'button', 'Restart', name: 'cancel' %>

@@ -106,7 +106,6 @@ tutorialSteps =
     attachment: 'right center [name="next-frame"] left center'
     next: 'click [name="next-frame"]': 'continueMarkingAsteroids'
 
-
   continueMarkingAsteroids: new Step
     header: t 'span', 'tutorial.continueMarkingAsteroids.header'
     details: t 'span', 'tutorial.continueMarkingAsteroids.details'
@@ -117,9 +116,9 @@ tutorialSteps =
   asteroidDone: new Step
     header: t 'span', 'tutorial.asteroidDone.header'
     instruction: t 'span', 'tutorial.asteroidDone.instruction'
-    className: "arrow-bottom"
-    attachment: 'center bottom #finished center top'
-    next: 'click [id="finished"]': 'markArtifacts'
+    className: "arrow-top"
+    attachment: 'center top #asteroid-done center bottom'
+    next: 'click [id="asteroid-done"]': 'markArtifacts'
 
   # TODO: mark artifacts on the image 
   markArtifacts: new Step
