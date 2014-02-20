@@ -473,7 +473,7 @@ class Classifier extends BaseController
     console.log "onClickFinishedMarking()"
     radio.checked = false for radio in @classifierTypeRadios
     @showSummary()
-    # @sendClassification()
+    @sendClassification()
 
   showSummary: ->
     @resetMarkingSurfaces() # remove previous marks
