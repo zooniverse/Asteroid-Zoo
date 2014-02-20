@@ -148,15 +148,22 @@
       width 100%
       margin 10px 0 0 0
       color #fff
+      transition opacity .3s ease
+      &:disabled
+        transition opacity 0s ease
+        opacity 0.5
+        pointer-events none
       &[name='next-frame']
         background-color #4fad76
       &[name='cancel']
         border 2px solid #e6e6e6
         color #787878
         font-weight normal
-        margin-top 20px
       &[name='asteroid-delete']
         background-color #E17F7F
+      &[name='asteroid-done']
+        margin-top 25px
+        background-color #38b3c5
 
     .asteroid-classifier
       input

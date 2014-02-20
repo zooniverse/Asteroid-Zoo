@@ -116,15 +116,14 @@ class Classifier extends BaseController
         @enableMarkingSurfaces()
         @currSighting = new Sighting({type:"asteroid"})
         @el.find('.asteroid-classifier').show()
-        @finishButton.hide()
         @doneButton.show()
         @doneButton.prop 'disabled', true
+        @finishButton.prop 'disabled', true
 
       exit: ->
         @disableMarkingSurfaces()
         @el.find('.asteroid-classifier').hide()
         @doneButton.hide()
-        @finishButton.show()
         @onClickFlicker() unless @el.attr('flicker') is 'true'
 
     artifactTool:
@@ -133,15 +132,14 @@ class Classifier extends BaseController
         @currSighting = new Sighting({type:"artifact"})
         @el.find('.artifact-classifier').show()
         @nextFrame.hide()
-        @finishButton.hide()
         @doneButton.show()
         @doneButton.prop 'disabled', true
+        @finishButton.prop 'disabled', true
       exit: ->
         @disableMarkingSurfaces()
         @el.find('.artifact-classifier').hide()
         @nextFrame.show()
         @doneButton.hide()
-        @finishButton.show()
         el.checked = false for el in [ @artifactSelector ... ] # reset artifact selector
 
   constructor: ->
@@ -224,6 +222,8 @@ class Classifier extends BaseController
     @removeElementsOfClass(".ghost-mark")
     if @state is 'asteroidTool' and @currSighting.annotations.length < @numFrames
       @doneButton.prop 'disabled', true
+    else if @state is 'artifactTool' and !@currSighting.annotations.length
+      @doneButton.prop 'disabled', true
 
   onCreateTool: (tool) =>
     surfaceIndex = +@markingSurfaceList.indexOf tool.surface
@@ -240,7 +240,7 @@ class Classifier extends BaseController
         tool.setMarkType 'artifact'
         otherFrames = [0...@numFrames].filter (num) -> num isnt surfaceIndex
         @destroyMarksInFrame(frame) for frame in otherFrames
-        @doneButton.prop 'disabled', false if @currSighting.annotations
+        @doneButton.prop 'disabled', false if @currSighting.annotations and @artifactSelector.filter(':checked').length
 
     if @asteroidMarkedInFrame[surfaceIndex]
       @currSighting.clearSightingsInFrame surfaceIndex

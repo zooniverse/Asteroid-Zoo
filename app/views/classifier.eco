@@ -244,7 +244,10 @@
           <div class="button">
             <%- translate 'button', 'Next Frame', name: 'next-frame' %>
           </div>
-           <div class="button">
+          <div class="button">
+            <%- translate 'button', 'classifier.done', name: 'asteroid-done', type: 'button' %>
+          </div>
+          <div class="button">
             <%- translate 'button', 'Cancel', name: 'cancel' %>
           </div>
         </section>
@@ -354,6 +357,9 @@
             <%- translate 'button.cancel', 'classifier.delete', name: 'asteroid-delete', type: 'button' %>
           </div>
           <div class="button">
+            <%- translate 'button', 'classifier.done', name: 'asteroid-done', type: 'button' %>
+          </div>
+          <div class="button">
             <%- translate 'button', 'Restart', name: 'cancel' %>
           </div>
         </section>
@@ -406,7 +412,6 @@
 
     <div id="finished">
       <%- translate 'button', 'Finished', name: 'finish-marking' %>
-      <%- translate 'button', 'classifier.done', name: 'asteroid-done', type: 'button' %>
       <%- translate 'button', 'Next Subject', name: 'next-subject', type: 'button' %>
     </div>
 
