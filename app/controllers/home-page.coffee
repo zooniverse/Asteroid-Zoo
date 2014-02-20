@@ -22,15 +22,18 @@ class HomePage extends BaseController
     super
     @navigationComponent = $('.site-navigation .for-home-page')
     @mainContent = $('.site-navigation .for-home-page .content-block')
+    @positionMainBanner()
+    window.onresize = => @positionMainBanner()
 
+  activate: ->
+    setTimeout @showNavigationComponent, @headerSlideDelay
+
+  positionMainBanner: ->
     bgHeight = window.innerHeight - $('.site-navigation .content-container').outerHeight(true)
     $('.asteroid-bg').css 'height', bgHeight
 
     paddingForMainContent = ((bgHeight - @mainContent.height()) / 2) - 50
     @mainContent.css 'padding-top', paddingForMainContent
-
-  activate: ->
-    setTimeout @showNavigationComponent, @headerSlideDelay
 
   deactivate: (params) ->
     if params?
