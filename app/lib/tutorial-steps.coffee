@@ -3,7 +3,7 @@ t = require 't7e'
 
 tutorialSteps =
   welcome: new Step
-    onEnter: -> # why doesn't this work?
+    onEnter: ->
       window.classifier.onClickCancel()
 
     header: t 'span', 'tutorial.welcome.header'
@@ -71,8 +71,11 @@ tutorialSteps =
         surface.addShape 'circle',
         class: 'tutorial-demo-mark'
         r: 20
+        cx: 1
+        cy: 1
         fill: 'none'
-        stroke: 'green'
+        stroke: 'rgb(0,200,0)'
+        opacity: 1
         'stroke-width': 4
         transform: 'translate(430,40)'
 
@@ -131,6 +134,5 @@ tutorialSteps =
     header: t 'span', 'tutorial.finished.header'
     details: t 'span', 'tutorial.finished.details'
     attachment: 'center center #surfaces-container center center'
-    next: 'click [id="finished"]': ''
 
 module.exports = tutorialSteps

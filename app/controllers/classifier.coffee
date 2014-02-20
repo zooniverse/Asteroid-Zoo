@@ -277,8 +277,9 @@ class Classifier extends BaseController
     @loadFrames()
 
   onStartTutorial: =>
-    tutorialSubject = createTutorialSubject()
-    tutorialSubject.select()
+    # TODO: designate tutorial subject
+    # tutorialSubject = createTutorialSubject()
+    # tutorialSubject.select()
     @tutorial.start()
 
   resetMarkingSurfaces: =>
@@ -469,14 +470,15 @@ class Classifier extends BaseController
     InvertSvg(image) for image in images
 
   onClickFinishMarking: ->
+    console.log "onClickFinishedMarking()"
     radio.checked = false for radio in @classifierTypeRadios
-    @sendClassification()
     @showSummary()
+    # @sendClassification()
 
   showSummary: ->
     @resetMarkingSurfaces() # remove previous marks
     @removeElementsOfClass(".known-asteroid")
-    console.log "known asteroids: ", @Subject.current.metadata.known_asteroids
+    
     if @Subject.current.metadata.known_asteroids.length isnt 0
       @knownAsteroidMessage.show() 
     else
@@ -487,14 +489,11 @@ class Classifier extends BaseController
       P = null
       x_sum = null
       y_sum = null
-      console.log 'asteroid: '
       for coords, frame in [knownAsteroid...]
-        console.log '  coords: ', coords
         xs[frame] = coords.x
         ys[frame] = coords.y
         x_sum += xs[frame]
         y_sum += ys[frame]
-      console.log "frame image: ", @summaryImageContainer.find("frame-image")
       # TODO: remove hardwired width
       # should be changed to @surface.el.offsetWidth, as in marking-tool
       x_avg = Math.round(x_sum/@numFrames)/512 * 190
@@ -504,8 +503,8 @@ class Classifier extends BaseController
       dy = Math.abs( (Math.max.apply null, [ys...]) - (Math.min.apply null, [ys...]) )
       radius = Math.max( dx, dy, 5)
       for surface in [@markingSurfaceList...]
-        console.log "Adding known asteroid marker."
         surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: x_avg, cy: y_avg, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
+    
     @el.attr 'flicker', 'true'
     @surfacesContainer.children().clone().appendTo(@summaryImageContainer)
     element.hide() for element in [@surfacesContainer, @playButton, @frameSlider, @finishButton, @rightPanel.find('.answers')]
