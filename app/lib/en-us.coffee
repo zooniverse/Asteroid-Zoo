@@ -158,4 +158,4 @@ module.exports =
 
     finished:
       header: 'Happy Hunting!'
-      details: 'When you are finished with the set of images, click on "Finished." This concludes the Tutorial.'
+      details: 'When you are finished with the set of images, click on "Finished" to submit your work and load the next set of images. This concludes the Tutorial.'

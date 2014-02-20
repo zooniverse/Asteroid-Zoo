@@ -102,9 +102,10 @@ tutorialSteps =
   nextFrame: new Step
     header: t 'span', 'tutorial.nextFrame.header'
     instruction: t 'span', 'tutorial.nextFrame.instruction'
-    next: 'click [name="next-frame"]': 'continueMarkingAsteroids'
     className: "arrow-right"
     attachment: 'right center [name="next-frame"] left center'
+    next: 'click [name="next-frame"]': 'continueMarkingAsteroids'
+
 
   continueMarkingAsteroids: new Step
     header: t 'span', 'tutorial.continueMarkingAsteroids.header'
@@ -125,11 +126,11 @@ tutorialSteps =
     header: t 'span', 'tutorial.markArtifacts.header'
     details: t 'span', 'tutorial.markArtifacts.details'
     attachment: 'center center #surfaces-container center center'
-    next: 'click [id="finished"]': 'finished'
+    next: 'finished'
 
   finished: new Step
     header: t 'span', 'tutorial.finished.header'
-    details: t 'span', 'tutorial.finished.instruction'
+    details: t 'span', 'tutorial.finished.details'
     attachment: 'center center #surfaces-container center center'
     next: 'click [id="finished"]': ''
 
