@@ -483,24 +483,17 @@ class Classifier extends BaseController
       @knownAsteroidMessage.show() 
     else
       @knownAsteroidMessage.hide()
-    for knownAsteroid in [@Subject.current.metadata.known_asteroids...]
-      xs = []
-      ys = []
-      P = null
-      x_sum = null
-      y_sum = null
-      for coords, frame in [knownAsteroid...]
-        xs[frame] = coords.x
-        ys[frame] = coords.y
-        x_sum += xs[frame]
-        y_sum += ys[frame]
-      # TODO: remove hardwired width
+    for knownAsteroid in @Subject.current.metadata.known_asteroids
+      xs = (coord.x for coord in knownAsteroid)
+      ys = (coord.y for coord in knownAsteroid)
+      x_sum = xs.reduce (sum, x) -> sum + x
+      y_sum = ys.reduce (sum, y) -> sum + y
+
       # should be changed to @surface.el.offsetWidth, as in marking-tool
       x_avg = Math.round(x_sum/@numFrames)/512 * 190
       y_avg = Math.round(y_sum/@numFrames)/512 * 190
-      P = {x: x_sum, y: y_sum}
-      dx = Math.abs( (Math.max.apply null, [xs...]) - (Math.min.apply null, [xs...]) )
-      dy = Math.abs( (Math.max.apply null, [ys...]) - (Math.min.apply null, [ys...]) )
+      dx = Math.abs( (Math.max xs...) - (Math.min xs...) )
+      dy = Math.abs( (Math.max ys...) - (Math.min ys...) )
       radius = Math.max( dx, dy, 5)
       for surface in [@markingSurfaceList...]
         surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: x_avg, cy: y_avg, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
@@ -543,38 +536,6 @@ class Classifier extends BaseController
 
   removeElementsOfClass: (class_name) ->
     element.remove() for element in [@el.find(class_name)...]
-
-  # FIX: lots of redundant code
-  # showKnownAsteroids: ->
-  #   @removeElementsOfClass("known-asteroid")
-  #   return if @Subject.current.metadata.known_asteroids is undefined
-
-  #   for knownAsteroid in [@Subject.current.metadata.known_asteroids...]
-  #     xs = []
-  #     ys = []
-  #     P = null
-  #     x_sum = null
-  #     y_sum = null
-  #     console.log 'asteroid: '
-
-  #     for coords, frame in [knownAsteroid...]
-  #       console.log '  coords: ', coords
-  #       xs[frame] = coords.x
-  #       ys[frame] = coords.y
-  #       x_sum += xs[frame]
-  #       y_sum += ys[frame]
-
-  #     x_avg = Math.round(x_sum/@numFrames)
-  #     y_avg = Math.round(y_sum/@numFrames)
-  #     P = {x: x_sum, y: y_sum}
-  #     dx = Math.abs( (Math.max.apply null, [xs...]) - (Math.min.apply null, [xs...]) )
-  #     dy = Math.abs( (Math.max.apply null, [ys...]) - (Math.min.apply null, [ys...]) )
-  #     radius = Math.max( dx, dy, 15)
-
-      # for surface in [@markingSurfaceList...]
-      #   svgElement = surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: x_avg, cy: y_avg, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 4
-
-    # @evaluateAnnotations(P)
 
   evaluateAnnotations: (P_ref) ->
     xs = []
