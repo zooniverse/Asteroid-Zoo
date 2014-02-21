@@ -112,7 +112,11 @@ class Classifier extends BaseController
 
     asteroidTool:
       enter: ->
-        if @el.attr('flicker') is 'true' then @activateFrame 0 else @showAllTrackingIcons()
+        if @el.attr('flicker') is 'true'
+          @activateFrame 0
+        else
+          @showAllTrackingIcons()
+          @nextFrame.hide()
         @enableMarkingSurfaces()
         @currSighting = new Sighting({type:"asteroid"})
         @el.find('.asteroid-classifier').show()
