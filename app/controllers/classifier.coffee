@@ -541,7 +541,7 @@ class Classifier extends BaseController
     @el.removeClass 'loading'
 
   removeElementsOfClass: (class_name) ->
-    element.remove() for element in [@el.find(class_name)...]
+    element?.remove() for element in [@el.find(class_name)...]
 
   evaluateAnnotations: (P_ref) ->
     xs = []
