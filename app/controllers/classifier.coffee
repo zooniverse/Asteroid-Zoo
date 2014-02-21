@@ -467,7 +467,7 @@ class Classifier extends BaseController
     @el.find("#frame-id-#{frame_idx}").closest("div").show()
 
   destroyFrames: ->
-    image.remove() for image in @el.find('.frame-image')
+    image.remove?() for image in @el.find('.frame-image')
 
   onClickInvert: ->
     @invert = !@invert
@@ -483,7 +483,6 @@ class Classifier extends BaseController
 
   showSummary: ->
     @resetMarkingSurfaces() # remove previous marks
-    @removeElementsOfClass(".known-asteroid")
     
     if @Subject.current.metadata.known_asteroids.length isnt 0
       @knownAsteroidMessage.show() 
@@ -541,7 +540,7 @@ class Classifier extends BaseController
     @el.removeClass 'loading'
 
   removeElementsOfClass: (class_name) ->
-    element?.remove() for element in [@el.find(class_name)...]
+    element.parentNode.removeChild(element) for element in [@el.find(class_name)...]
 
   evaluateAnnotations: (P_ref) ->
     xs = []
