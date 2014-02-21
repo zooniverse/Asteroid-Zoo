@@ -1,5 +1,4 @@
 <% translate = require 't7e' %>
-<% getOctagonPoints = require '../lib/get-octagon-points' %>
 
 <div class="content-block">
   <div class="content-container">
