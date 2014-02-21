@@ -3,9 +3,6 @@ t = require 't7e'
 
 tutorialSteps =
   welcome: new Step
-    onEnter: ->
-      window.classifier.onClickCancel()
-
     header: t 'span', 'tutorial.welcome.header'
     details: t 'span', 'tutorial.welcome.details'
     attachment: 'center center #surfaces-container center center'

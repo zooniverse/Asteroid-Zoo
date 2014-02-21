@@ -281,6 +281,8 @@ class Classifier extends BaseController
     @loadFrames()
 
   onStartTutorial: =>
+    @onClickCancel()
+    @onClickFlicker()
     # TODO: designate tutorial subject
     # tutorialSubject = createTutorialSubject()
     # tutorialSubject.select()
