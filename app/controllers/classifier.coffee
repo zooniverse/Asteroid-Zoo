@@ -60,6 +60,12 @@ class Classifier extends BaseController
     'click button[name^="done"]': ->
       @tool.deselect()
 
+    'click .asteroid-done-screen': ->
+      @notify translate 'classifier.rightPanel.asteroidDoneScreen' if @state is 'asteroidTool' and @doneButton.prop('disabled')?
+
+    'click .artifact-done-screen': ->
+      @notify translate 'classifier.rightPanel.artifactDoneScreen' if @state is 'artifactTool' and @doneButton.prop('disabled')?
+
     'click .right-panel': ->
       if @playTimeout? and @summaryImageContainer.is(':empty')
         @stopPlayingFrames()
@@ -91,6 +97,7 @@ class Classifier extends BaseController
     "#asteroid-count"                : 'asteroidCount'
     '#starbleed-count'               : 'starbleedCount'
     '#hotpixel-count'                : 'hotpixelCount'
+    "#notification"                  : 'notification'
     '.summary-image-container'       : 'summaryImageContainer'
     '.known-asteroid-message'        : 'knownAsteroidMessage'
 
@@ -414,6 +421,8 @@ class Classifier extends BaseController
       @setOfSightings.push @currSighting
     @resetAsteroidCheckboxes()
     @setState 'whatKind'
+
+  notify: (message) -> @notification.html(message).fadeIn(300).delay(3000).fadeOut()
 
   resetAsteroidCheckboxes: ->
     @asteroidMarkedInFrame = [null, null, null, null]
