@@ -20,6 +20,21 @@
           Invert
        </button>
       </div>
+      <div class="answers">
+        <button name="cancel">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+             width="24px" height="24px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+          <g fill="#CBCBCB">
+            <path d="M11.974-0.019c-6.612,0-11.991,5.379-11.991,11.991s5.379,11.991,11.991,11.991
+              s11.991-5.379,11.991-11.991S18.586-0.019,11.974-0.019z M11.974,22.06c-5.571,0-10.088-4.516-10.088-10.088
+              S6.402,1.884,11.974,1.884c5.571,0,10.088,4.516,10.088,10.088S17.545,22.06,11.974,22.06z"/>
+            <polygon points="16.252,9.214 14.785,7.748 12,10.534 9.214,7.748 7.748,9.214 10.534,12 7.748,14.785
+              9.214,16.252 12,13.466 14.785,16.252 16.252,14.785 13.466,12 "/>
+          </g>
+          </svg>
+          Reset
+        </button>
+      </div>
     </div>
     
     <div id="views">
@@ -248,7 +263,7 @@
             <%- translate 'button', 'classifier.done', name: 'asteroid-done', type: 'button' %>
           </div>
           <div class="button">
-            <%- translate 'button', 'Cancel', name: 'cancel' %>
+            <%- translate 'button', 'Back', name: 'back' %>
           </div>
         </section>
       </div>
@@ -360,7 +375,7 @@
             <%- translate 'button', 'classifier.done', name: 'asteroid-done', type: 'button', id: 'asteroid-done' %>
           </div>
           <div class="button">
-            <%- translate 'button', 'Restart', name: 'cancel' %>
+            <%- translate 'button', 'Back', name: 'back' %>
           </div>
         </section>
       </div>

@@ -38,6 +38,7 @@ class Classifier extends BaseController
     'click button[name="cancel"]'           : 'onClickCancel'
     'click button[name="next-subject"]'     : 'onClickNextSubject'
     'click button[name="start-tutorial"]'   : 'onStartTutorial'
+    'click button[name="back"]'             : 'onClickBack'
     'change input[name="frame-slider"]'     : 'onChangeFrameSlider'
     'change input[name="selected-artifact"]': 'onSelectArtifact'
     'change .asteroid-not-visible'          : 'onClickAsteroidNotVisible'
@@ -450,9 +451,17 @@ class Classifier extends BaseController
       @activateFrame(nextFrame)
 
   onClickCancel: ->
-    @resetMarkingSurfaces() if @state is 'asteroidTool' or 'artifactTool'
+    @setOfSightings = []
+    @resetMarkingSurfaces()
     @resetAsteroidCheckboxes()
+    @finishButton.prop 'disabled', true
     @setState 'whatKind' # return to initial state
+
+  onClickBack: ->
+    @destroyMarksInFrame frame for frame in [0..@numFrames]
+    @finishButton.prop 'disabled', if @setOfSightings.length is 0 then true else false
+    @resetAsteroidCheckboxes()
+    @setState 'whatKind'
 
   onClickPlay: ->
     currentFrame = +document.getElementById('frame-slider').value
