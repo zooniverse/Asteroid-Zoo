@@ -415,7 +415,9 @@
     </div>
 
     <div id="finished">
-      <%- translate 'button', 'Finished', name: 'finish-marking' %>
+      <div class="finished-screen">
+        <%- translate 'button', 'Finished', name: 'finish-marking', class: 'finished-screen' %>
+      </div>
       <%- translate 'button', 'Next Subject', name: 'next-subject', type: 'button' %>
     </div>
 

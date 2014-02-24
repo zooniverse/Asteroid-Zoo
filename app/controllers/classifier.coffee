@@ -66,6 +66,10 @@ class Classifier extends BaseController
     'click .artifact-done-screen': ->
       @notify translate 'classifier.rightPanel.artifactDoneScreen' if @state is 'artifactTool' and @doneButton.prop('disabled')?
 
+    'click .finished-screen': ->
+      if @state is 'whatKind' and @finishButton.prop("disabled")? and !@nextSubjectButton.is(":visible")
+        @notify translate 'classifier.finished.finishedButtonScreen'
+
     'click .right-panel': ->
       if @playTimeout? and @summaryImageContainer.is(':empty')
         @stopPlayingFrames()

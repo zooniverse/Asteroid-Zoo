@@ -46,6 +46,8 @@ module.exports =
       summaryBody: "Check your progress in the subject summary. You can discuss this on Talk, share it, or add it to your favorites!"
       asteroidDoneScreen: "You must mark an asteroid or declare not visible in all 4 frames to click done"
       artifactDoneScreen: "Please click on the artifact in the image and select what type to click done"
+    finished:
+      finishedButtonScreen: "Please mark any visible asteroids or artifacts, or select 'Nothing' to move on to the next set of images"
 
   artifacts:
     heading: 'What type of artifact is this?'
