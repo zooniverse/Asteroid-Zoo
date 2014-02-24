@@ -247,6 +247,13 @@ class Classifier extends BaseController
       @removeElementsOfClass(".ghost-mark")
       @addGhostMark(tool.mark)
 
+    if @asteroidMarkedInFrame[surfaceIndex]
+      @currSighting.clearSightingsInFrame surfaceIndex
+      @destroyMarksInFrame(surfaceIndex)
+    else
+      @el.find(".asteroid-frame-complete-#{surfaceIndex}").prop 'checked', true
+      @asteroidMarkedInFrame[surfaceIndex] = true
+
     switch @state
       when 'asteroidTool'
         tool.setMarkType 'asteroid'
@@ -257,12 +264,6 @@ class Classifier extends BaseController
         @destroyMarksInFrame(frame) for frame in otherFrames
         @doneButton.prop 'disabled', false if @currSighting.annotations and @artifactSelector.filter(':checked').length
 
-    if @asteroidMarkedInFrame[surfaceIndex]
-      @currSighting.clearSightingsInFrame surfaceIndex
-      @destroyMarksInFrame(surfaceIndex)
-    else
-      @el.find(".asteroid-frame-complete-#{surfaceIndex}").prop 'checked', true
-      @asteroidMarkedInFrame[surfaceIndex] = true
     @updateIconsForCreateMark(surfaceIndex)
 
   onChangeFrameSlider: =>
@@ -426,10 +427,10 @@ class Classifier extends BaseController
     @resetAsteroidCheckboxes()
     @setState 'whatKind'
 
-  notify: (message) ->
-    return if new Date().getTime() - @lastCalled < 3000
+  notify: (message) =>
+    return if new Date().getTime() - @lastNotifyTime < 3000
     @notification.html(message).fadeIn(300).delay(3000).fadeOut()
-    @lastCalled = new Date().getTime()
+    @lastNotifyTime = new Date().getTime()
 
   resetAsteroidCheckboxes: ->
     @asteroidMarkedInFrame = [null, null, null, null]
