@@ -426,7 +426,10 @@ class Classifier extends BaseController
     @resetAsteroidCheckboxes()
     @setState 'whatKind'
 
-  notify: (message) -> @notification.html(message).fadeIn(300).delay(3000).fadeOut()
+  notify: (message) ->
+    return if new Date().getTime() - @lastCalled < 3000
+    @notification.html(message).fadeIn(300).delay(3000).fadeOut()
+    @lastCalled = new Date().getTime()
 
   resetAsteroidCheckboxes: ->
     @asteroidMarkedInFrame = [null, null, null, null]
