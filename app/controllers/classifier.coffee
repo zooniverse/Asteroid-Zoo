@@ -213,6 +213,7 @@ class Classifier extends BaseController
     @state = newState
     @states[@state]?.enter.call @
     @el.attr 'data-state', @state
+    @notification.html("")
     setTimeout =>
       @el.find('a, button, input, textarea, select').filter('section *:visible').first().focus()
 
