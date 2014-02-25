@@ -21,7 +21,7 @@
        </button>
       </div>
       <div class="answers">
-        <button name="cancel">
+        <button name="reset">
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
              width="24px" height="24px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
           <g fill="#CBCBCB">
@@ -263,7 +263,7 @@
             <%- translate 'button', 'classifier.done', name: 'asteroid-done', type: 'button' %>
           </div>
           <div class="button">
-            <%- translate 'button', 'Back', name: 'back' %>
+            <%- translate 'button', 'Cancel', name: 'cancel' %>
           </div>
         </section>
       </div>
@@ -375,7 +375,7 @@
             <%- translate 'button', 'classifier.done', name: 'asteroid-done', type: 'button', id: 'asteroid-done' %>
           </div>
           <div class="button">
-            <%- translate 'button', 'Back', name: 'back' %>
+            <%- translate 'button', 'Cancel', name: 'cancel' %>
           </div>
         </section>
       </div>

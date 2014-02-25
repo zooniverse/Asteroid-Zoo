@@ -45,7 +45,6 @@
     </svg>
   </a>
 
-
   <div class="links">
     <%- translate 'a', 'siteNavigation.classify', href: '#/classify' %>
     <%- translate 'a', 'siteNavigation.science', href: '#/science' %>

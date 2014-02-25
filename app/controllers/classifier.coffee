@@ -35,10 +35,10 @@ class Classifier extends BaseController
     'click button[name="flicker"]'          : 'onClickFlicker'
     'click button[name="next-frame"]'       : 'onClickNextFrame'
     'click button[name="asteroid-done"]'    : 'onClickAsteroidDone'
-    'click button[name="cancel"]'           : 'onClickCancel'
+    'click button[name="reset"]'            : 'onClickReset'
     'click button[name="next-subject"]'     : 'onClickNextSubject'
     'click button[name="start-tutorial"]'   : 'onStartTutorial'
-    'click button[name="back"]'             : 'onClickBack'
+    'click button[name="cancel"]'           : 'onClickCancel'
     'change input[name="frame-slider"]'     : 'onChangeFrameSlider'
     'change input[name="selected-artifact"]': 'onSelectArtifact'
     'change .asteroid-not-visible'          : 'onClickAsteroidNotVisible'
@@ -89,7 +89,7 @@ class Classifier extends BaseController
     'button[name="asteroid-done"]'   : 'doneButton'
     'button[name="asteroid-delete"]' : 'deleteButton'
     'button[name="next-frame"]'      : 'nextFrame'
-    'button[name="cancel"]'          : 'cancel'
+    'button[name="reset"]'           : 'reset'
     'button[name="next-subject"]'    : 'nextSubjectButton'
     'input[name="selected-artifact"]': 'artifactSelector'
     'input[name="classifier-type"]'  : 'classifierTypeRadios'
@@ -294,7 +294,7 @@ class Classifier extends BaseController
     @loadFrames()
 
   onStartTutorial: =>
-    @onClickCancel()
+    @onClickReset()
     @onClickFlicker()
     # TODO: designate tutorial subject
     # tutorialSubject = createTutorialSubject()
@@ -450,14 +450,14 @@ class Classifier extends BaseController
     else
       @activateFrame(nextFrame)
 
-  onClickCancel: ->
+  onClickReset: ->
     @setOfSightings = []
     @resetMarkingSurfaces()
     @resetAsteroidCheckboxes()
     @finishButton.prop 'disabled', true
     @setState 'whatKind' # return to initial state
 
-  onClickBack: ->
+  onClickCancel: ->
     @destroyMarksInFrame frame for frame in [0..@numFrames]
     @finishButton.prop 'disabled', if @setOfSightings.length is 0 then true else false
     @resetAsteroidCheckboxes()
