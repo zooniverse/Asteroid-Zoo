@@ -198,7 +198,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
   tutorial:
     
     welcome:
-      header: 'Welcome to Asteroid Hunt!'
+      header: 'Welcome to Asteroid Zoo!'
       details: 'In this project, you are on the lookout for asteroids in a sequence of images from the Catalina Sky Survey. Your goal is to find the moving dots in the images. These could be asteroids no one has ever seen before! You may also find other objects we’d like you to identify along the way, we call these artifacts.'
     
     overview:
