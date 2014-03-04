@@ -3,7 +3,7 @@
 <div class="content-block">
   <div class="content-container">
     <div class="intro content">
-      <h1>The Science</h1>
+      <!-- <h1>The Science</h1> -->
       <%- translate 'p', 'science.summary' %>
     </div>
   </div>
@@ -25,17 +25,50 @@
 
   <div class="content-container white-bg">
     <div class="full-column">
-      <h3>Two Column Spread</h3>
+      <%- translate 'h3', 'science.intro_title' %>
     </div>  
     <div class="half-column">
       <div class="content left">
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+        <%- translate 'div', 'science.intro_content' %>
       </div>
     </div>
+
+    <div class="full-column">
+      <%- translate 'h3', 'science.where_title' %>
+    </div> 
     <div class="half-column">
       <div class="content right">
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+        <%- translate 'science.where_content' %>
       </div>
     </div>
+
+
+    <div class="full-column">
+      <%- translate 'h3', 'science.composition_title' %>
+    </div> 
+    <div class="half-column">
+      <div class="content right">
+        <%- translate 'science.composition_content' %>
+      </div>
+    </div>
+
+    <div class="full-column">
+      <%- translate 'h3', 'science.care_title' %>
+    </div> 
+    <div class="half-column">
+      <div class="content right">
+        <%- translate 'science.care_content' %>
+      </div>
+    </div>
+
+    <div class="full-column">
+      <%- translate 'h3', 'science.find_title' %>
+    </div> 
+    <div class="half-column">
+      <div class="content right">
+        <%- translate 'science.find_content' %>
+      </div>
+    </div>
+
   </div>
 </div>
