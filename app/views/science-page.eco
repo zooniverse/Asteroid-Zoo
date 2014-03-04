@@ -32,7 +32,6 @@
         <%- translate 'div', 'science.intro_content' %>
       </div>
     </div>
-
     <div class="full-column">
       <%- translate 'h3', 'science.where_title' %>
     </div> 
@@ -41,8 +40,6 @@
         <%- translate 'science.where_content' %>
       </div>
     </div>
-
-
     <div class="full-column">
       <%- translate 'h3', 'science.composition_title' %>
     </div> 
@@ -51,7 +48,6 @@
         <%- translate 'science.composition_content' %>
       </div>
     </div>
-
     <div class="full-column">
       <%- translate 'h3', 'science.care_title' %>
     </div> 

@@ -69,8 +69,6 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     special: '''
      The Catalina Sky Survey (CSS) is the most productive group for finding and cataloging asteroids, having contributed to 46.7% of all the near Earth objects (NEO) discoveries to date.   However, since the CSS examines vast amounts of the sky very quickly and automatically, and therefore computer programs automatically reduce the data to find the asteroids in the images.  These programs are very good at finding bright objects, but are not quite smart enough by themselves to detect the faint ones. Although, humans can look at the detections and validate the program's work. This is where you come in!  With many people participating in AsteroidZoo, we are able to examine all the images in hopes of finding everything that can be found.  Humans have excellent pattern recognition capabilities and are able to ignore noise that resembles patterns, and this will allow us to improve the existing data over and above anything computers can do.
     '''
-
-
     intro_title: 'Introduction'
 
     intro_content: '''
@@ -97,7 +95,6 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
       <img src="./images/science-content/2062Aten-2.png">
       <p class="caption">Images courtesy of <a href="http://ssd.jpl.nasa.gov">http://ssd.jpl.nasa.gov</a></p><br>
     '''
-
     composition_title: 'Asteroid Composition'
     composition_content: '''
       <p>Most asteroids we observe fall into three broad categories in terms of their material composition.</p><br>
@@ -106,7 +103,6 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
 
       <img src="./images/science-content/s-type-2.jpg">
       <p class="caption">Credit: Laurence Garvie, Center for Meteorite Studies, ASU</p><br>
-
 
       <p>S-type asteroids are composed of rocky material, although the minerals are distinct from terrestrial rocks.  These rocky asteroids dominate the inner portion of the Main Belt and are often found as near earth objects.  Scientists believe they are the source of the ordinary chondrite meteorites, the most commonly found meteorite.  These are composed of material that was heated to melting but not differentiated, that is, the metals never separated from the rock as happened on Earth and so the S-type asteroids are a mixture of rock and metal mixed together.</p><br>
 
@@ -122,9 +118,6 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
 
       <p>X-type asteroids look like their surface are dominated by metal.  They appear to be the remnants of large (> 100 km) asteroids that fully separated into a core and mantle.  Some of the these large asteroids were pulverized in massive collisions early in the Solar System's history leaving only the tough metallic cores today.  Some of these bodies are probably nearly solid lumps of nickel iron with more metal than has been mined on Earth in humanity's history.</p>
     '''
-
-
-
     care_title: 'Why do we care?'
     care_content: '''
       <h3>Science</h3>
@@ -164,27 +157,40 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
   education:
     title: 'Can I use AsteroidZoo in the classroom?'
     summary: '''
-      Yes! AsteroidZoo, just like all the Zooniverse projects, offers students a unique opportunity to explore real scientific data, while making a contribution to cutting edge research. We would like to stress that as each image is marked by multiple volunteers, it really does not matter if your students don\'t mark all the features correctly. That being said, the task itself is simple enough that we believe most people can take part and make a worthwhile contribution regardless of age.
+      <p>Yes! AsteroidZoo, just like all the Zooniverse projects, offers students a unique opportunity to explore real scientific data, while making a contribution to cutting edge research. We would like to stress that as each image is marked by multiple volunteers, it really does not matter if your students don\'t mark all the features correctly. That being said, the task itself is simple enough that we believe most people can take part and make a worthwhile contribution regardless of age.</p><br>
     '''
     resources_title: 'What resources are there to support use in the classroom?
 '
     resources_content: '''
-    Videos are a great tool to introduce students to AsteroidZoo.  Here are a couple of our favorites:
-    The University of Arizona has created <a href="http://www.youtube.com/watch?v=Mo-FhiIgNws">this video</a> to address people’s questions behind the asteroid strike in Russia:
-    The University of Arizona in partnership with NASA and Lockheed Martin developed this video for educational purposes: http://osiris-rex.lpl.arizona.edu/?q=multimedia
+    <p>Videos are a great tool to introduce students to AsteroidZoo.  Here are a couple of our favorites:</p>
 
-    The Zooniverse has launched ZooTeach where educators can find and share educational resources relating to AsteroidZoo and the other Zooniverse citizen science projects. Check out resources created for AsteroidZoo. Have any ideas for how to use the project in the classroom? Please share your lesson ideas or resources on ZooTeach!
-    How Minor Planets are named:
-      http://www.minorplanetcenter.net/iau/info/HowNamed.html
-    and the official body (but a little less clear)
-      http://www.iau.org/public/themes/naming/
-    ORISIS-REX 321 Science link:
-      https://www.youtube.com/watch?v=tOKCeW66ncM&list=PL-sncRQpy4-sN0ROwD3a1oR4VivhBBm_X&feature=c4-overview-vl
+    <ul>
+    <li>
+      <p>The University of Arizona has created <a href="http://www.youtube.com/watch?v=Mo-FhiIgNws">this video</a> to address people’s questions behind the asteroid strike in Russia</p>
+    </li>
+    <li>
+    <p>The University of Arizona in partnership with NASA and Lockheed Martin developed <a href="http://osiris-rex.lpl.arizona.edu/?q=multimedia">this video</a> for educational purposes.</p>
+    </li>
+    </ul>
+    <p>The Zooniverse has launched ZooTeach where educators can find and share educational resources relating to AsteroidZoo and the other Zooniverse citizen science projects. Check out resources created for AsteroidZoo. Have any ideas for how to use the project in the classroom? Please share your lesson ideas or resources on ZooTeach!</p><br>
+    
+    <h3>Additional Resources</h3>
+    <ul>
+      <li>
+      <p><a href="http://www.minorplanetcenter.net/iau/info/HowNamed.html">How Minor Planets are named</a></p>
+      </li>
+      <li>
+        <p><a href="http://www.iau.org/public/themes/naming/">the official body</a> (but a little less clear)</p>
+      </li>
+      <li>
+        <p><a href="https://www.youtube.com/watch?v=tOKCeW66ncM&list=PL-sncRQpy4-sN0ROwD3a1oR4VivhBBm_X&feature=c4-overview-vl">ORISIS-REX 321 Science link</a></p>
+      </li>
+    </ul>
     '''
 
     more_title: 'How can I keep up to date with education and Asteroid Zoo?'
     more_content: '''
-      The AsteroidZoo blog is great place to keep up to date with the latests science results, but there is also a Zooniverse Education Blog as well as a @ZooTeach Twitter feed.
+      <p>The Asteroid Zoo blog is great place to keep up to date with the latests science results, but there is also a Zooniverse Education Blog as well as a @ZooTeach Twitter feed.
     '''
   ######################
   # TUTORIAL
