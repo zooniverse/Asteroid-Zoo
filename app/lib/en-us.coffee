@@ -12,7 +12,7 @@ module.exports =
 
   home:
     header:
-      title: 'Hunt for Mineral-Rich Asteroids!'
+      title: 'Hunt for Resource-Rich Asteroids!'
       content: '''
 Scientists are scanning our solar system for asteroids with the Catalina Sky Survey. They need your help to find asteroids for the exploration of their mineral properties!      '''
       start: 'Start Classifying'
