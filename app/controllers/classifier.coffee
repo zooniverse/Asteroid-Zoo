@@ -536,7 +536,7 @@ class Classifier extends BaseController
     element.hide() for element in [@surfacesContainer, @playButton, @frameSlider, @finishButton, @rightPanel.find('.answers')]
     @startPlayingFrames(0)
     @populateSummary()
-    @leftPanel.find(".answers:lt(4)").css 'pointer-events', 'none' #disable everything but guide
+    @leftPanel.find(".answers:lt(5)").css 'pointer-events', 'none' #disable everything but guide
     element.show() for element in [@rightPanelSummary, @summaryContainer, @nextSubjectButton]
 
   populateSummary: ->
