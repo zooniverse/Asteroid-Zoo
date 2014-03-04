@@ -40,10 +40,12 @@ siteNavigation.el.appendTo document.body
 ##################################################
 StackOfPages = require 'stack-of-pages/src/stack-of-pages'
 stack = new StackOfPages
-  '#/': require './controllers/home-page'
-  '#/about': require './controllers/about-page'
-  '#/classify': require './controllers/classifier'
-  '#/science': require './controllers/science-page'
+  '#/'          : require './controllers/home-page'
+  '#/about'     : require './controllers/about-page'
+  '#/classify'  : require './controllers/classifier'
+  '#/science'   : require './controllers/science-page'
+  '#/education' : require './controllers/education-page'
+
   NOT_FOUND: '<div class="content-block"><div class="content-container"><h1>Page not found!</h1></div></div>'
   ERROR: '<div class="content-block"><div class="content-container"><h1>There was an error!</h1></div></div>'
 
@@ -75,7 +77,6 @@ u = User.fetch()
 
 footerContainer = document.createElement 'div'
 footerContainer.className = 'footer-container'
-
 Footer = require 'zooniverse/controllers/footer'
 footer = new Footer
 document.body.appendChild footerContainer

@@ -185,6 +185,8 @@ class Classifier extends BaseController
     Subject.on 'select', @onSubjectSelect
     @Subject = Subject
 
+    console.log @el.find(".frame-image")
+
   onSelectArtifact: ->
     @currSighting.subType = @artifactSelector.filter(':checked').val()
     if @currSighting.annotations.length > 0 then @doneButton.prop 'disabled', false

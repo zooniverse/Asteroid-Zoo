@@ -12,10 +12,9 @@ module.exports =
 
   home:
     header:
-      title: 'Identify Near-Earth Objects in Asteroid Zoo'
+      title: 'Hunt for Mineral-Rich Asteroids!'
       content: '''
-       Help scientists identify objects that are flying out in space. Perhaps you will find the rock that will end all life on Earth!
-      '''
+Scientists are scanning our solar system for asteroids with the Catalina Sky Survey. They need your help to find asteroids for the exploration of their mineral properties!      '''
       start: 'Start Classifying'
       getClassifying: 'Get Classifying!'
       learnMore: 'Learn More'
@@ -62,8 +61,15 @@ module.exports =
 
 
   science:
-    title: 'Science!'
-    summary: 'This page will explain the science end of the project.'
+    title: 'Motivation for Asteroid Zoo'
+    summary: '''
+      What do we expect to find?  CSS currently finds about 90% of the asteroids that can be found in every image.  They've discovered over 100,000 objects so far.  We estimate that around 10,000 new objects and as many as 1,000 near-Earth objects still remain to be discovered in the data.  We can find them with your help, so start classifying to discover asteroids!
+    '''
+
+
+    special: '''
+     The Catalina Sky Survey (CSS) is the most productive group for finding and cataloging asteroids, having contributed to 46.7% of all the near Earth objects (NEO) discoveries to date.   However, since the CSS examines vast amounts of the sky very quickly and automatically, and therefore computer programs automatically reduce the data to find the asteroids in the images.  These programs are very good at finding bright objects, but are not quite smart enough by themselves to detect the faint ones. Although, humans can look at the detections and validate the program's work. This is where you come in!  With many people participating in AsteroidZoo, we are able to examine all the images in hopes of finding everything that can be found.  Humans have excellent pattern recognition capabilities and are able to ignore noise that resembles patterns, and this will allow us to improve the existing data over and above anything computers can do.
+    '''
     content: '''
       <p>Teach the computers to leanr about asteroids..</p>
       <p>Mine asteroids!.</p>

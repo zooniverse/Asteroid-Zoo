@@ -4,7 +4,7 @@
   <div class="content-container">
     <div class="intro content">
       <h1>The Science</h1>
-      <p>Simple paragraph introducing the science behind the project</p>
+      <%- translate 'p', 'science.summary' %>
     </div>
   </div>
 
@@ -16,8 +16,9 @@
     </div>
     <div class="half-column">
       <div class="content right">
-        <h2>Special Subhead</h2>
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+        <h2>The Catalina Sky Survey</h2>
+              <%- translate 'p', 'science.special' %>
+
       </div>
     </div>
   </div>
