@@ -81,6 +81,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
 
     where_title: 'Where we find asteroids'
     where_content: '''
+      <img src="./images/science-content/asteroids_where.png">
       <p>There are 632,567 known asteroids as of today.  Most of the known asteroids orbit in the Main Belt, which is between Mars and Jupiter. The objects that get the most attention, however, are the Near Earth Objects (NEOs).  These asteroids have orbits that take them into the vicinity of Earth.  10,687 NEO asteroids have been identified as of today.  Because asteroids slowly change their orbits over time throughout the Solar System, we can find asteroids from all over the Solar System in NEO orbits.   Once an asteroid enters the inner Solar System, it will only remain for a few million years before the orbit evolves into the sun, strikes an inner planet, or is swept up by Jupiter. Three terms in common used describe asteroid orbits:</p>
       <ul>
         <li><p>Amor asteroids approach Earth's orbit from the outside, but do not cross it.  They do not present a current risk to the Earth.</p>
@@ -90,14 +91,35 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
         <li><p>Aten asteroids are partially inside the Earth's orbit and have orbital periods shorter than a year, but their orbits are eccentric enough that they cross the Earth's orbit.</p>
         </li>
       </ul>
-      <p>Notice, when we say the asteroid crosses the Earth's orbit, the chance of an impact is extremely low because the asteroids' orbits are tilted relative to the Earth's. This asteroid, 2062 Aten, is mostly interior to the Earth's orbit, but at the greatest distance from the Sun, it's outside the Earth's orbit.  If you look at the image from the side, it becomes clear that it's not orbiting in the same place as the Earth and poses no risk.  The colors of the orbit show whether it is North of the Earth's orbit (light blue) or South (medium blue).  Where the colors change is where the asteroid's orbit crosses the plane of the Earth's orbit and would be the only place an impact could occur.</p>
+      <p>Notice, when we say the asteroid crosses the Earth's orbit, the chance of an impact is extremely low because the asteroids' orbits are tilted relative to the Earth's. This asteroid, 2062 Aten, is mostly interior to the Earth's orbit, but at the greatest distance from the Sun, it's outside the Earth's orbit.  If you look at the image from the side, it becomes clear that it's not orbiting in the same place as the Earth and poses no risk.  The colors of the orbit show whether it is North of the Earth's orbit (light blue) or South (medium blue).  Where the colors change is where the asteroid's orbit crosses the plane of the Earth's orbit and would be the only place an impact could occur.</p><br>
+
+      <img src="./images/science-content/2062Aten-1.png">
+      <img src="./images/science-content/2062Aten-2.png">
+      <p class="caption">Images courtesy of <a href="http://ssd.jpl.nasa.gov">http://ssd.jpl.nasa.gov</a></p><br>
     '''
 
     composition_title: 'Asteroid Composition'
     composition_content: '''
       <p>Most asteroids we observe fall into three broad categories in terms of their material composition.</p><br>
+      <img src="./images/science-content/s-type-1.jpg">
+      <p class="caption">Credit: Laurence Garvie, Center for Meteorite Studies, ASU</p><br>
+
+      <img src="./images/science-content/s-type-2.jpg">
+      <p class="caption">Credit: Laurence Garvie, Center for Meteorite Studies, ASU</p><br>
+
+
       <p>S-type asteroids are composed of rocky material, although the minerals are distinct from terrestrial rocks.  These rocky asteroids dominate the inner portion of the Main Belt and are often found as near earth objects.  Scientists believe they are the source of the ordinary chondrite meteorites, the most commonly found meteorite.  These are composed of material that was heated to melting but not differentiated, that is, the metals never separated from the rock as happened on Earth and so the S-type asteroids are a mixture of rock and metal mixed together.</p><br>
+
+      <img src="./images/science-content/c-type.jpg">
+      <p class="caption">Credit: Laurence Garvie, Center for Meteorite Studies, ASU</p><br>
+
       <p>C-type asteroids are very dark, darker than asphalt, and overall are the most common type that we've observed. They have not been altered by significant heating and closely follow the elemental composition of the sun. Which leads scientists to conclude that C-type asteroids are very primitive objects – they are almost unchanged from their formation at the dawn of the solar system.  When we discuss finding water on asteroids, C-type are the type of asteroid that we refer to.</p><br>
+
+      <img src="./images/science-content/x-type-1.jpg">
+      <p class="caption">Credit: Laurence Garvie, Center for Meteorite Studies, ASU</p><br>
+      <img src="./images/science-content/x-type-2.jpg">
+      <p class="caption">Credit: Laurence Garvie, Center for Meteorite Studies, ASU</p><br>
+
       <p>X-type asteroids look like their surface are dominated by metal.  They appear to be the remnants of large (> 100 km) asteroids that fully separated into a core and mantle.  Some of the these large asteroids were pulverized in massive collisions early in the Solar System's history leaving only the tough metallic cores today.  Some of these bodies are probably nearly solid lumps of nickel iron with more metal than has been mined on Earth in humanity's history.</p>
     '''
 
@@ -115,7 +137,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
 
     find_title: 'How do we find asteroids?'
     find_content: '''
-      The data in use by the AsteroidZoo is the product of the Catalina Sky Survey.  After the event on Jupiter in 1994, the United States decided that it would be a national priority to find all potentially dangerous asteroids.  The Catalina Sky Survey (CSS) is funded by NASA to find asteroids, specifically to find all the Near Earth Objects with a radius larger than 100 meters.  They have been gracious enough to share all of their data with the public in order to further the mission of finding as many asteroids as they can.  The facilities consist of three telescopes, two in Arizona and one near Coonabarabran, NSW Australia.  These three telescopes image the sky looking for asteroids.  They take an image of the sky with a roughly 10 second exposure, then move to an adjacent position, take another picture, move and so on for about 10 minutes.  Then the telescope returns to the first pointing and repeats.  This way, the asteroids have time to move and the telescope stays actively looking for new targets. 
+      <p>The data in use by the AsteroidZoo is the product of the Catalina Sky Survey.  After the event on Jupiter in 1994, the United States decided that it would be a national priority to find all potentially dangerous asteroids.  The Catalina Sky Survey (CSS) is funded by NASA to find asteroids, specifically to find all the Near Earth Objects with a radius larger than 100 meters.  They have been gracious enough to share all of their data with the public in order to further the mission of finding as many asteroids as they can.  The facilities consist of three telescopes, two in Arizona and one near Coonabarabran, NSW Australia.  These three telescopes image the sky looking for asteroids.  They take an image of the sky with a roughly 10 second exposure, then move to an adjacent position, take another picture, move and so on for about 10 minutes.  Then the telescope returns to the first pointing and repeats.  This way, the asteroids have time to move and the telescope stays actively looking for new targets.</p> 
     '''
 
     content: '''
