@@ -4,6 +4,12 @@
   <div class="content-container">
     <%- translate 'h2', 'education.title' %>
     <%- translate 'p', 'education.summary' %>
+
+    <%- translate 'h2', 'education.resources_title' %>
+    <%- translate 'p', 'education.resources_content' %>
+
+	  <%- translate 'h2', 'education.more_title' %>
+    <%- translate 'p', 'education.more_content' %>
   </div>
 
   <div class="content-container">

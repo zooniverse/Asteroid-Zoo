@@ -92,12 +92,24 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     title: 'Your profile'
 
   education:
-    title: 'For educators'
-    summary: 'This is where educational info will go.'
-    content: '''
-      <p>Includes links to other resources, links to ZooTeach, etc.</p>
+    title: 'Can I use AsteroidZoo in the classroom?'
+    summary: '''
+      Yes! AsteroidZoo, just like all the Zooniverse projects, offers students a unique opportunity to explore real scientific data, while making a contribution to cutting edge research. We would like to stress that as each image is marked by multiple volunteers, it really does not matter if your students don\'t mark all the features correctly. That being said, the task itself is simple enough that we believe most people can take part and make a worthwhile contribution regardless of age.
+    '''
+    resources_title: 'What resources are there to support use in the classroom?
+'
+    resources_content: '''
+    Videos are a great tool to introduce students to AsteroidZoo.  Here are a couple of our favorites:
+    The University of Arizona has created this video to address people’s questions behind the asteroid strike in Russia: http://www.youtube.com/watch?v=Mo-FhiIgNws
+    The University of Arizona in partnership with NASA and Lockheed Martin developed this video for educational purposes: http://osiris-rex.lpl.arizona.edu/?q=multimedia
+
+    The Zooniverse has launched ZooTeach where educators can find and share educational resources relating to AsteroidZoo and the other Zooniverse citizen science projects. Check out resources created for AsteroidZoo. Have any ideas for how to use the project in the classroom? Please share your lesson ideas or resources on ZooTeach!
     '''
 
+    more_title: 'How can I keep up to date with education and Asteroid Zoo?'
+    more_content: '''
+      The AsteroidZoo blog is great place to keep up to date with the latests science results, but there is also a Zooniverse Education Blog as well as a @ZooTeach Twitter feed.
+    '''
   ######################
   # TUTORIAL
   ######################
