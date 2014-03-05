@@ -67,7 +67,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     '''
 
     special: '''
-     The Catalina Sky Survey (CSS) is the most productive group for finding and cataloging asteroids, having contributed to 46.7% of all the near Earth objects (NEO) discoveries to date.   However, since the CSS examines vast amounts of the sky very quickly and automatically, and therefore computer programs automatically reduce the data to find the asteroids in the images.  These programs are very good at finding bright objects, but are not quite smart enough by themselves to detect the faint ones. Although, humans can look at the detections and validate the program's work. This is where you come in!  With many people participating in AsteroidZoo, we are able to examine all the images in hopes of finding everything that can be found.  Humans have excellent pattern recognition capabilities and are able to ignore noise that resembles patterns, and this will allow us to improve the existing data over and above anything computers can do.
+     The Catalina Sky Survey (CSS) is the most productive group for finding and cataloging asteroids, having contributed to 46.7% of all the near Earth objects (NEO) discoveries to date.   However, since the CSS examines vast amounts of the sky very quickly and automatically, and therefore computer programs automatically reduce the data to find the asteroids in the images.  These programs are very good at finding bright objects, but are not quite smart enough by themselves to detect the faint ones. Although, humans can look at the detections and validate the program's work. This is where you come in!  With many people participating in Asteroid Zoo, we are able to examine all the images in hopes of finding everything that can be found.  Humans have excellent pattern recognition capabilities and are able to ignore noise that resembles patterns, and this will allow us to improve the existing data over and above anything computers can do.
     '''
     intro_title: 'Introduction'
 
@@ -130,7 +130,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
 
     find_title: 'How do we find asteroids?'
     find_content: '''
-      <p>The data in use by the AsteroidZoo is the product of the Catalina Sky Survey.  After the event on Jupiter in 1994, the United States decided that it would be a national priority to find all potentially dangerous asteroids.  The Catalina Sky Survey (CSS) is funded by NASA to find asteroids, specifically to find all the Near Earth Objects with a radius larger than 100 meters.  They have been gracious enough to share all of their data with the public in order to further the mission of finding as many asteroids as they can.  The facilities consist of three telescopes, two in Arizona and one near Coonabarabran, NSW Australia.  These three telescopes image the sky looking for asteroids.  They take an image of the sky with a roughly 10 second exposure, then move to an adjacent position, take another picture, move and so on for about 10 minutes.  Then the telescope returns to the first pointing and repeats.  This way, the asteroids have time to move and the telescope stays actively looking for new targets.</p> 
+      <p>The data in use by the Asteroid Zoo is the product of the Catalina Sky Survey.  After the event on Jupiter in 1994, the United States decided that it would be a national priority to find all potentially dangerous asteroids.  The Catalina Sky Survey (CSS) is funded by NASA to find asteroids, specifically to find all the Near Earth Objects with a radius larger than 100 meters.  They have been gracious enough to share all of their data with the public in order to further the mission of finding as many asteroids as they can.  The facilities consist of three telescopes, two in Arizona and one near Coonabarabran, NSW Australia.  These three telescopes image the sky looking for asteroids.  They take an image of the sky with a roughly 10 second exposure, then move to an adjacent position, take another picture, move and so on for about 10 minutes.  Then the telescope returns to the first pointing and repeats.  This way, the asteroids have time to move and the telescope stays actively looking for new targets.</p> 
     '''
 
     content: '''
@@ -155,14 +155,14 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     title: 'Your profile'
 
   education:
-    title: 'Can I use AsteroidZoo in the classroom?'
+    title: 'Can I use Asteroid Zoo in the classroom?'
     summary: '''
-      <p>Yes! AsteroidZoo, just like all the Zooniverse projects, offers students a unique opportunity to explore real scientific data, while making a contribution to cutting edge research. We would like to stress that as each image is marked by multiple volunteers, it really does not matter if your students don\'t mark all the features correctly. That being said, the task itself is simple enough that we believe most people can take part and make a worthwhile contribution regardless of age.</p><br>
+      <p>Yes! Asteroid Zoo, just like all the Zooniverse projects, offers students a unique opportunity to explore real scientific data, while making a contribution to cutting edge research. We would like to stress that as each image is marked by multiple volunteers, it really does not matter if your students don\'t mark all the features correctly. That being said, the task itself is simple enough that we believe most people can take part and make a worthwhile contribution regardless of age.</p><br>
     '''
     resources_title: 'What resources are there to support use in the classroom?
 '
     resources_content: '''
-    <p>Videos are a great tool to introduce students to AsteroidZoo.  Here are a couple of our favorites:</p>
+    <p>Videos are a great tool to introduce students to Asteroid Zoo.  Here are a couple of our favorites:</p>
 
     <ul>
     <li>
@@ -172,7 +172,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     <p>The University of Arizona in partnership with NASA and Lockheed Martin developed <a href="http://osiris-rex.lpl.arizona.edu/?q=multimedia">this video</a> for educational purposes.</p>
     </li>
     </ul>
-    <p>The Zooniverse has launched ZooTeach where educators can find and share educational resources relating to AsteroidZoo and the other Zooniverse citizen science projects. Check out resources created for AsteroidZoo. Have any ideas for how to use the project in the classroom? Please share your lesson ideas or resources on ZooTeach!</p><br>
+    <p>The Zooniverse has launched ZooTeach where educators can find and share educational resources relating to Asteroid Zoo and the other Zooniverse citizen science projects. Check out resources created for Asteroid Zoo. Have any ideas for how to use the project in the classroom? Please share your lesson ideas or resources on ZooTeach!</p><br>
     
     <h3>Additional Resources</h3>
     <ul>
