@@ -63,30 +63,28 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
   science:
     title: 'Motivation for Asteroid Zoo'
     summary: '''
-      What do we expect to find?  CSS currently finds about 90% of the asteroids that can be found in every image.  They've discovered over 100,000 objects so far.  We estimate that around 10,000 new objects and as many as 1,000 near-Earth objects still remain to be discovered in the data.  We can find them with your help, so start classifying to discover asteroids!
-    '''
-
-    special: '''
-     The Catalina Sky Survey (CSS) is the most productive group for finding and cataloging asteroids, having contributed to 46.7% of all the near Earth objects (NEO) discoveries to date.   However, since the CSS examines vast amounts of the sky very quickly and automatically, and therefore computer programs automatically reduce the data to find the asteroids in the images.  These programs are very good at finding bright objects, but are not quite smart enough by themselves to detect the faint ones. Although, humans can look at the detections and validate the program's work. This is where you come in!  With many people participating in Asteroid Zoo, we are able to examine all the images in hopes of finding everything that can be found.  Humans have excellent pattern recognition capabilities and are able to ignore noise that resembles patterns, and this will allow us to improve the existing data over and above anything computers can do.
+      Asteroids are small bodies that are leftovers from the formation of the solar system.  They can be as small as a few meters across (equivalent to about a yard), or as large as an asteroid like Ceres, almost 1000 km in diameter (or about 1/12 of Earth). They vary in color from darker than charcoal to the color of freshly broken rock.  Asteroids are found everywhere in our Solar System and have even been found orbiting other stars.  Asteroids (the name means “starlike bodies”) differ from planets in their orbits and general behavior.Typically, asteroid orbits are more inclined (tipped) and more eccentric than any of the planets.    
+      '''
+    special: '''  
+     <p>The <a href="http://www.lpl.arizona.edu/css/">Catalina Sky Survey (CSS)</a> is the most productive group for finding and cataloging asteroids, having contributed to 46.7% of all the near Earth objects (NEO) discoveries to date.   However, since the CSS examines vast amounts of the sky very quickly and automatically, and therefore computer programs automatically reduce the data to find the asteroids in the images.  These programs are very good at finding bright objects, but are not quite smart enough by themselves to detect the faint ones. Although, humans can look at the detections and validate the program's work. This is where you come in!  With many people participating in Asteroid Zoo, we are able to examine all the images in hopes of finding everything that can be found.  Humans have excellent pattern recognition capabilities and are able to ignore noise that resembles patterns, and this will allow us to improve the existing data over and above anything computers can do.</p><br>
+     <p>What do we expect to find?  CSS currently finds about 90% of the asteroids that can be found in every image.  They've discovered over 100,000 objects so far.  We estimate that around 10,000 new objects and as many as 1,000 near-Earth objects still remain to be discovered in the data.  We can find them with your help, so start classifying to discover asteroids!</p>
     '''
     intro_title: 'Introduction'
 
     intro_content: '''
-      <p>Asteroids are small bodies that are leftovers from the formation of the solar system.  They can be as small as a few meters across (equivalent to about a yard), or as large as an asteroid like Ceres, almost 1000 km in diameter (or about 1/12 of Earth). They vary in color from darker than charcoal to the color of freshly broken rock.  Asteroids are found everywhere in our Solar System and have even been found orbiting other stars.  Asteroids (the name means “starlike bodies”) differ from planets in their orbits and general behavior.Typically, asteroid orbits are more inclined (tipped) and more eccentric than any of the planets.</p><br>
-
       <p>Currently, we believe these small bodies were formed at the dawn of our Solar System but managed to escape being incorporated into a planet or ejected out of the Solar System.  Since they are the remnants of the Solar System’s formation, they represent the conditions in many places within the early Solar System. The Solar System is a big place and conditions were not identical everywhere. Some of the asteroids were formed close to the Sun and are composed of materials that were extensively heated prior to coalescing into a single body. Others formed further out and are composed of materials that never saw temperatures higher than the freezing point of water.  The most extreme cold bodies begin to evaporate as they get close to the Sun; these are called comets.  The line separating comets from asteroids is a thin one.  An unambiguous asteroid from near the orbit of Jupiter could become a comet if it approached the sun too closely.</p>
     '''
 
     where_title: 'Where we find asteroids'
     where_content: '''
-      <img src="./images/science-content/asteroids_where.png">
+      <img class="dialog"src="./images/science-content/asteroids_where.png">
       <p>There are 632,567 known asteroids as of today.  Most of the known asteroids orbit in the Main Belt, which is between Mars and Jupiter. The objects that get the most attention, however, are the Near Earth Objects (NEOs).  These asteroids have orbits that take them into the vicinity of Earth.  10,687 NEO asteroids have been identified as of today.  Because asteroids slowly change their orbits over time throughout the Solar System, we can find asteroids from all over the Solar System in NEO orbits.   Once an asteroid enters the inner Solar System, it will only remain for a few million years before the orbit evolves into the sun, strikes an inner planet, or is swept up by Jupiter. Three terms in common used describe asteroid orbits:</p>
       <ul>
-        <li><p>Amor asteroids approach Earth's orbit from the outside, but do not cross it.  They do not present a current risk to the Earth.</p>
+        <li><p><b>Amor asteroids</b> approach Earth's orbit from the outside, but do not cross it.  They do not present a current risk to the Earth.</p>
         </li>
-        <li><p>Apollo asteroids have orbital periods longer than a year, but cross the Earth's orbit. The February 15, 2013 Chelyabinsk meteor was an Apollo asteroid.</p>
+        <li><p><b>Apollo asteroids</b> have orbital periods longer than a year, but cross the Earth's orbit. The February 15, 2013 Chelyabinsk meteor was an Apollo asteroid.</p>
         </li>
-        <li><p>Aten asteroids are partially inside the Earth's orbit and have orbital periods shorter than a year, but their orbits are eccentric enough that they cross the Earth's orbit.</p>
+        <li><p><b>Aten asteroids</b> are partially inside the Earth's orbit and have orbital periods shorter than a year, but their orbits are eccentric enough that they cross the Earth's orbit.</p>
         </li>
       </ul>
       <p>Notice, when we say the asteroid crosses the Earth's orbit, the chance of an impact is extremely low because the asteroids' orbits are tilted relative to the Earth's. This asteroid, 2062 Aten, is mostly interior to the Earth's orbit, but at the greatest distance from the Sun, it's outside the Earth's orbit.  If you look at the image from the side, it becomes clear that it's not orbiting in the same place as the Earth and poses no risk.  The colors of the orbit show whether it is North of the Earth's orbit (light blue) or South (medium blue).  Where the colors change is where the asteroid's orbit crosses the plane of the Earth's orbit and would be the only place an impact could occur.</p><br>
@@ -116,18 +114,8 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
       <img src="./images/science-content/x-type-2.jpg">
       <p class="caption">Credit: Laurence Garvie, Center for Meteorite Studies, ASU</p><br>
 
-      <p>X-type asteroids look like their surface are dominated by metal.  They appear to be the remnants of large (> 100 km) asteroids that fully separated into a core and mantle.  Some of the these large asteroids were pulverized in massive collisions early in the Solar System's history leaving only the tough metallic cores today.  Some of these bodies are probably nearly solid lumps of nickel iron with more metal than has been mined on Earth in humanity's history.</p>
+      <p>X-type asteroids look like their surface are dominated by metal.  They appear to be the remnants of large (> 100 km) asteroids that fully separated into a core and mantle.  Some of the these large asteroids were pulverized in massive collisions early in the Solar System's history leaving only the tough metallic cores today.  Some of these bodies are probably nearly solid lumps of nickel iron with more metal than has been mined on Earth in humanity's history.</p><br>
     '''
-    care_title: 'Why do we care?'
-    care_content: '''
-      <h3>Science</h3>
-      <p>Study of the asteroids helps us understand how planets and the basis for life form and evolve. Since no significant geological processes have taken place on these small bodies, the asteroids preserve a history of the Solar System in a way that the planets do not.  These minor bodies contain relics of the conditions of the early Solar System. </p>
-      <h3>Hazards</h3>
-      <p>In 1994, Comet Shoemaker-Levy 9 slammed into Jupiter, leaving scars larger than the earth on the giant planet.  We have evidence of other impacts on our planet, even within the last 100 years.  As the events of February 15th, 2013 show in videos and photos from Chelyabinsk, Russia, occasionally one of the asteroids will impact our planet.  Improving the detection efficiency of existing surveys is an excellent way to increase the number of asteroid detections.</p>
-      <h3>Resources</h3>
-      <p>Asteroids may represent a resource that will bring the Solar System within humanity’s economic sphere of influence.  These resources may be the key to unlocking human expansion from Earth into the Solar System, providing propellant for transportation, oxygen for breathing, water for hydration, shielding from solar radiation, and supporting other aspects of life and industry.  In addition to these lifelines, asteroids provide the raw material for manufacturing in space, from iron, nickel and cobalt present in staggering quantities, to an abundant supply of the extremely useful and valuable platinum group metals.  Just as resources have opened up the frontiers of Earth, they will again do so for the frontiers of space.</p>
-    '''
-
     find_title: 'How do we find asteroids?'
     find_content: '''
       <p>The data in use by the Asteroid Zoo is the product of the Catalina Sky Survey.  After the event on Jupiter in 1994, the United States decided that it would be a national priority to find all potentially dangerous asteroids.  The Catalina Sky Survey (CSS) is funded by NASA to find asteroids, specifically to find all the Near Earth Objects with a radius larger than 100 meters.  They have been gracious enough to share all of their data with the public in order to further the mission of finding as many asteroids as they can.  The facilities consist of three telescopes, two in Arizona and one near Coonabarabran, NSW Australia.  These three telescopes image the sky looking for asteroids.  They take an image of the sky with a roughly 10 second exposure, then move to an adjacent position, take another picture, move and so on for about 10 minutes.  Then the telescope returns to the first pointing and repeats.  This way, the asteroids have time to move and the telescope stays actively looking for new targets.</p> 
@@ -146,9 +134,13 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
 
   about:
     title: 'About the project'
-    summary: 'Technical details of the project'
+    summary: 'There are three main reasons our group is interested in looking for asteroids.'
     content: '''
-      <p>Who's doing the science? Who's doing the development? What groups are involved? And links to all these things.</p>
+      <p>The study of the asteroids helps us understand how planets and the basis for life form and evolve.  Since no significant geological processes have taken place on these small bodies, the asteroids preserve a history of the Solar System in a way that the planets do not.  These minor bodies contain relics of the conditions of the early Solar System.</p><br>
+
+      <p>In 1994, Comet Shoemaker-Levy 9 slammed into Jupiter, leaving scars larger than the earth on the giant planet.  We have evidence of other impacts on our planet, even within the last 100 years.  As the events of February 15th, 2013 show in videos and photos from Chelyabinsk, Russia, occasionally one of the asteroids will impact our planet.  Improving the detection efficiency of existing surveys is an excellent way to increase the number of asteroid detections.</p><br>
+
+      <p>Asteroids may represent a resource that will bring the Solar System within humanity’s economic sphere of influence.  These resources may be the key to unlocking human expansion from Earth into the Solar System, providing propellant for transportation, oxygen for breathing, water for hydration, shielding from solar radiation, and supporting other aspects of life and industry.  In addition to these lifelines, asteroids provide the raw material for manufacturing in space, from iron, nickel and cobalt present in staggering quantities, to an abundant supply of the extremely useful and valuable platinum group metals.  Just as resources have opened up the frontiers of Earth, they will again do so for the frontiers of space.</p>
     '''
 
   profile:

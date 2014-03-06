@@ -3,68 +3,55 @@
 <div class="content-block">
   <div class="content-container">
     <div class="intro content">
-      <!-- <h1>The Science</h1> -->
+      <h1>The Science</h1>
+      <!-- <img src="./images/rock.png" style="float: left"> -->
       <%- translate 'p', 'science.summary' %>
     </div>
   </div>
 
+  <div class="content-container grey-bg">
+<!--     <div class="full-column">
+    </div> -->
+    <div class="half-column">
+      <div class="content left">
+        <%- translate 'h3', 'science.intro_title' %>
+        <%- translate 'div', 'science.intro_content' %>
+        <%- translate 'h3', 'science.where_title' %>
+        <%- translate 'science.where_content' %>
+        <%- translate 'h3', 'science.find_title' %>
+        <%- translate 'science.find_content' %>
+      </div>
+    </div>
+    <div class="half-column">
+      <div class="content right">
+        <%- translate 'h3', 'science.composition_title' %>
+        <%- translate 'science.composition_content' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content-block">
   <div class="content-container black-bg">
     <div class="half-column">
       <div class="content left">
-        <img src="./images/rock.png">
+        <img src="./images/science-content/schmidt-telescope-open-sky_web.jpg">
+        <p class="caption">The Schmidt telescope (703) looking southwest with the dome open. Credit: Catalina Sky Survey</p>
       </div>
     </div>
     <div class="half-column">
       <div class="content right">
         <h2>The Catalina Sky Survey</h2>
-              <%- translate 'p', 'science.special' %>
-
+              <%- translate 'science.special' %>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="content-container white-bg">
+<div class="content-block">
+  <div class="content-container grey-bg">
     <div class="full-column">
-      <%- translate 'h3', 'science.intro_title' %>
-    </div>  
-    <div class="half-column">
-      <div class="content left">
-        <%- translate 'div', 'science.intro_content' %>
-      </div>
+      <center><img src="./images/rock.png"></center>
     </div>
-    <div class="full-column">
-      <%- translate 'h3', 'science.where_title' %>
-    </div> 
-    <div class="half-column">
-      <div class="content right">
-        <%- translate 'science.where_content' %>
-      </div>
-    </div>
-    <div class="full-column">
-      <%- translate 'h3', 'science.composition_title' %>
-    </div> 
-    <div class="half-column">
-      <div class="content right">
-        <%- translate 'science.composition_content' %>
-      </div>
-    </div>
-    <div class="full-column">
-      <%- translate 'h3', 'science.care_title' %>
-    </div> 
-    <div class="half-column">
-      <div class="content right">
-        <%- translate 'science.care_content' %>
-      </div>
-    </div>
-
-    <div class="full-column">
-      <%- translate 'h3', 'science.find_title' %>
-    </div> 
-    <div class="half-column">
-      <div class="content right">
-        <%- translate 'science.find_content' %>
-      </div>
-    </div>
-
   </div>
 </div>
