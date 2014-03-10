@@ -212,11 +212,17 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     beginWorkflow:
       header: 'Now on to Asteroid Hunting!'
       details: 'Now that you know how to view the frames, let\'s start looking for moving objects. We\'ll begin using the default Flicker view.'
-      
+
+    cycle:
+      header: 'Color Cycler'
+      details: 'Clicking this button will toggle a colorized animation that is useful for spotting asteroids. (Warning: The framerate is very fast)'
+      instruction: 'Click the colorized icon to test it out.'
+      turnOff: "Click the colorized icon again to turn it off and then click continue to mark your asteroid"
+
     play:
       header: 'Play frames'
       details: 'The Flicker view is a great way to find moving objects because it lets you play the frames.'
-      instruction: 'Click play to get started.'
+      instruction: 'Click play to get started (make sure the color cycler is turned off).'
 
     observe:
       header: 'Observe'

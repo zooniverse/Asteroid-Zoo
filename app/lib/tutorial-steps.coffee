@@ -45,6 +45,23 @@ tutorialSteps =
     header: t 'span', 'tutorial.beginWorkflow.header'
     details: t 'span', 'tutorial.beginWorkflow.details'
     attachment: 'center center #surfaces-container center center'
+    next: 'cycle'
+
+  cycle: new Step
+    header: t 'span', 'tutorial.cycle.header'
+    details: t 'span', 'tutorial.cycle.details'
+    instruction: t 'span', 'tutorial.cycle.instruction'
+    className: "arrow-bottom"
+    focus: '[name="cycle-channels"]'
+    attachment: 'center bottom [name="cycle-channels"] center top'
+    next: 'click [name="cycle-channels"]': 'stopCycle'
+
+  stopCycle: new Step
+    header: t 'span', 'tutorial.cycle.header'
+    instruction: t 'span', 'tutorial.cycle.turnOff'
+    focus: '[name="cycle-channels"]'
+    attachment: 'center bottom [name="cycle-channels"] center top'
+    className: "arrow-bottom"
     next: 'play'
 
   play: new Step
