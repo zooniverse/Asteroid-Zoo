@@ -93,6 +93,7 @@ class Classifier extends BaseController
     'button[name="next-frame"]'      : 'nextFrame'
     'button[name="reset"]'           : 'reset'
     'button[name="next-subject"]'    : 'nextSubjectButton'
+    'button[name="cycle-channels"]'  : 'cycleButton'
     'input[name="selected-artifact"]': 'artifactSelector'
     'input[name="classifier-type"]'  : 'classifierTypeRadios'
     '.asteroid-not-visible'          : 'asteroidVisibilityCheckboxes'
@@ -359,12 +360,16 @@ class Classifier extends BaseController
   onClickCycleChannels: ->
     if @cycling
       @cc.destroy()
+      @playButton.attr 'disabled', false
+      @frameSlider.attr 'disabled', false
     else
       images = document.querySelectorAll(".frame-image")
       sources = (img.getAttribute('href') for img in images)
       @cc = new ChannelCycler(sources)
       @subjectContainer.append(@cc.canvas)
       @cc.start()
+      @playButton.attr 'disabled', true
+      @frameSlider.attr 'disabled', true
     @cycling = !@cycling
 
   rerenderMarks: ->
@@ -547,7 +552,7 @@ class Classifier extends BaseController
     
     @el.attr 'flicker', 'true'
     @surfacesContainer.children().clone().appendTo(@summaryImageContainer)
-    element.hide() for element in [@surfacesContainer, @playButton, @frameSlider, @finishButton, @rightPanel.find('.answers')]
+    element.hide() for element in [@surfacesContainer, @playButton, @frameSlider, @finishButton, @rightPanel.find('.answers'), @cycleButton]
     @startPlayingFrames(0)
     @populateSummary()
     @leftPanel.find(".answers:lt(5)").css 'pointer-events', 'none' #disable everything but guide
@@ -567,7 +572,7 @@ class Classifier extends BaseController
     @summaryImageContainer.empty()
     @leftPanel.find(".answers:lt(5)").css 'pointer-events', 'auto'
     @stopPlayingFrames()
-    element.show() for element in [@surfacesContainer, @finishButton, @rightPanel.find('.answers')]
+    element.show() for element in [@surfacesContainer, @finishButton, @rightPanel.find('.answers'), @cycleButton]
     @destroyFrames()
     Subject.next()
     document.getElementById('frame-slider').value = 0
