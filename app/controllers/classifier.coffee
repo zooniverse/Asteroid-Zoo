@@ -77,6 +77,11 @@ class Classifier extends BaseController
       if @playTimeout? and @summaryImageContainer.is(':empty')
         @stopPlayingFrames()
         @togglePausePlayIcons()
+      else if @cycling
+        @cc.destroy()
+        @cycling = false
+        @playButton.attr 'disabled', false
+        @frameSlider.attr 'disabled', false
 
   elements:
     '.subject'                       : 'subjectContainer'
