@@ -11,7 +11,8 @@
     "t7e": "~0.2.3",
     "zooniverse": "~0.2.0",
     "zootorial": "~0.3.6",
-    "underscore": "~1.5.2"
+    "underscore": "~1.5.2",
+    "channel-cycler": "0.0.2"
   },
   "scripts": {
     "start": "haw serve --port 3416",

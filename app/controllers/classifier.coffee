@@ -11,6 +11,7 @@ tutorialSteps         = require '../lib/tutorial-steps'
 createTutorialSubject = require '../lib/create-tutorial-subject'
 { Tutorial }          = require 'zootorial'
 translate             = require 't7e'
+ChannelCycler         = require 'channel-cycler'
 
 BIG_MODE = !!~location.search.indexOf 'big=1'
 
@@ -39,6 +40,7 @@ class Classifier extends BaseController
     'click button[name="next-subject"]'     : 'onClickNextSubject'
     'click button[name="start-tutorial"]'   : 'onStartTutorial'
     'click button[name="cancel"]'           : 'onClickCancel'
+    'click button[name="cycle-channels"]'   : 'onClickCycleChannels'
     'change input[name="frame-slider"]'     : 'onChangeFrameSlider'
     'change input[name="selected-artifact"]': 'onSelectArtifact'
     'change .asteroid-not-visible'          : 'onClickAsteroidNotVisible'
@@ -165,6 +167,7 @@ class Classifier extends BaseController
     @el.attr tabindex: 0
     @el.attr 'flicker', "true"
     @invert = false
+    @cycling = false
     window.classifier = @
     @setOfSightings = []
     @currSighting = null
@@ -352,6 +355,17 @@ class Classifier extends BaseController
     @rerenderMarks()
     setTimeout => @activateFrame 0
     ghostMark.setAttribute 'visibility', 'visible' for ghostMark in [ @el.find('.ghost-mark')... ]
+
+  onClickCycleChannels: ->
+    if @cycling
+      @cc.destroy()
+    else
+      images = document.querySelectorAll(".frame-image")
+      sources = (img.getAttribute('href') for img in images)
+      @cc = new ChannelCycler(sources)
+      @subjectContainer.append(@cc.canvas)
+      @cc.start()
+    @cycling = !@cycling
 
   rerenderMarks: ->
     setTimeout =>

@@ -27,6 +27,11 @@
   .current-frame
     display inline-block
 
+  .channel-cycler
+    top 20px
+    position absolute
+    z-index 1000
+
   .surfaces-container
     cursor: url("./images/ah-marking-cursor.png") 17 18, url("./images/cursor-crosshair.png") 15 15, auto
     background: black
@@ -246,7 +251,6 @@
       &:disabled
         opacity: 0.5
         pointer-events none
-
     #play
       background-color #181818
       width 622px
@@ -255,7 +259,6 @@
       color #fff
       float left
       button
-        margin-left 90px
         background-color #343434
         width 130px
         svg
@@ -263,6 +266,13 @@
           margin-right 20px
         #pause-content
           display none
+
+        &[name='cycle-channels']
+          background-color transparent
+          width 40px
+          margin 0 10px 0 15px
+          svg
+            margin 0 auto
 
     #finished
       float left
