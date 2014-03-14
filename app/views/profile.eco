@@ -2,6 +2,57 @@
 
 <div class="content-block">
   <div class="content-container">
-    <%- translate 'h2', 'profile.title' %>
+    <div class="intro content">
+      <%- translate 'h1', 'profile.title' %>
+      <p>Hello username!</p>
+    </div>
+  </div>
+</div>
+
+<div class="content-block">
+  <div class="content-container white-bg">
+    <div class="content">
+      <div class="full-column">
+        <h2>Classification Stats</h2>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="quarter-column"><img src="http://placehold.it/200X200"></div>
+      <div class="quarter-column"><img src="http://placehold.it/200X200"></div>
+      <div class="quarter-column"><img src="http://placehold.it/200X200"></div>
+      <div class="quarter-column"><img src="http://placehold.it/200X200"></div>
+    </div>
+
+    <div class="content">
+      <div class="full-column">
+        <h2>Favorites</h2>
+        <button name="advance-favorites">&#9654</button>
+        <button name="decrease-favorites">&#9664</button>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="quarter-column"><img src="http://placehold.it/200X200"></div>
+      <div class="quarter-column"><img src="http://placehold.it/200X200"></div>
+      <div class="quarter-column"><img src="http://placehold.it/200X200"></div>
+      <div class="quarter-column"><img src="http://placehold.it/200X200"></div>
+    </div>
+
+    <div class="content">
+      <div class="full-column">
+        <h2>Recents</h2>
+        <button name="advance-recents">&#9654</button>
+        <button name="decrease-recents">&#9664</button>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="quarter-column"><img src="http://placehold.it/200X200"></div>
+      <div class="quarter-column"><img src="http://placehold.it/200X200"></div>
+      <div class="quarter-column"><img src="http://placehold.it/200X200"></div>
+      <div class="quarter-column"><img src="http://placehold.it/200X200"></div>
+    </div>
+
   </div>
 </div>
