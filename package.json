@@ -12,7 +12,7 @@
     "zooniverse": "~0.2.0",
     "zootorial": "~0.3.6",
     "underscore": "~1.5.2",
-    "channel-cycler": "0.0.2"
+    "channel-cycler": "0.0.3"
   },
   "scripts": {
     "start": "haw serve --port 3416",
