@@ -32,9 +32,6 @@ class HomePage extends BaseController
     bgHeight = window.innerHeight - $('.site-navigation .content-container').outerHeight(true)
     $('.asteroid-bg').css 'height', bgHeight
 
-    paddingForMainContent = ((bgHeight - @mainContent.height()) / 2) - 50
-    @mainContent.css 'padding-top', paddingForMainContent
-
   deactivate: (params) ->
     if params?
       setTimeout @hideNavigationComponent, @headerSlideDelay
