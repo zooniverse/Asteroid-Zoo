@@ -21,7 +21,6 @@ class HomePage extends BaseController
   constructor: ->
     super
     @navigationComponent = $('.site-navigation .for-home-page')
-    @mainContent = $('.site-navigation .for-home-page .content-block')
     @positionMainBanner()
     window.onresize = => @positionMainBanner()
 
