@@ -538,11 +538,11 @@ class Classifier extends BaseController
   showSummary: ->
     @resetMarkingSurfaces() # remove previous marks
     
-    if @Subject.current.metadata.known_asteroids.length isnt 0
+    if @Subject.current.metadata.known_objects.length isnt 0
       @knownAsteroidMessage.show() 
     else
       @knownAsteroidMessage.hide()
-    for knownAsteroid in @Subject.current.metadata.known_asteroids
+    for knownAsteroid in @Subject.current.metadata.known_objects
       xs = (coord.x for coord in knownAsteroid)
       ys = (coord.y for coord in knownAsteroid)
       x_sum = xs.reduce (sum, x) -> sum + x
