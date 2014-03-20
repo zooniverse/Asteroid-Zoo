@@ -251,7 +251,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     continueMarkingAsteroids:
       header: 'Continue Marking'
       details: 'The blue mark shows the location of your previous mark. In addition, it let\'s you know you\'ve yet to mark an asteroid in this frame.'
-      instruction: 'Continue marking the asteroids on each frame.'
+      instruction: "Continue marking the asteroids on each frame and click 'Done' when you are finished."
 
     asteroidDone:
       header: 'Finished marking the asteroid?'
