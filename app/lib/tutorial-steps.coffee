@@ -32,6 +32,8 @@ tutorialSteps =
     focus: '#views'
     attachment: 'left center #views right center'
     next: 'guide'
+    onExit: ->
+      window.classifier.onClickFlicker()
 
   guide: new Step
     header: t 'span', 'tutorial.guide.header'
