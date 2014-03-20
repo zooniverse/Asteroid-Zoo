@@ -193,6 +193,7 @@ class Classifier extends BaseController
     Subject.on 'fetch', @onSubjectFetch
     Subject.on 'select', @onSubjectSelect
     @Subject = Subject
+    @Subject.group = true
 
     console.log @el.find(".frame-image")
 
