@@ -59,7 +59,6 @@ tutorialSteps =
   stopCycle: new Step
     header: t 'span', 'tutorial.cycle.header'
     instruction: t 'span', 'tutorial.cycle.turnOff'
-    focus: '[name="cycle-channels"]'
     attachment: 'center bottom [name="cycle-channels"] center top'
     className: "arrow-bottom"
     next: 'play'

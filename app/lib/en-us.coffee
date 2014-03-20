@@ -148,7 +148,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
 
   education:
     title: "Education"
-    summary: "Asteroid Zoo in the Classroom"
+    summary: "For Educators"
 
     classroom: 'Can I use Asteroid Zoo in the classroom?'
     classroomAnswer: '''
