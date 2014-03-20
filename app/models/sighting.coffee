@@ -19,8 +19,8 @@ class Sighting
     return @annotations.length
 
   clearSightingsInFrame: (frame_num) ->
-    for annoattion, i in @annotations
-      if annoattion?.frame is frame_num
+    for annotation, i in @annotations
+      if annotation?.frame is frame_num
         @annotations.splice i, 1
 
   displaySummary: ->
@@ -28,14 +28,14 @@ class Sighting
     console.log '      type : ' + @type
     console.log '      subtype: ' + @subType if @subType?
     console.log '      id : ' + @id
-    for annoattion in @annotations
+    for annotation in @annotations
       console.log '    -:-:-:-:-:-:-:-'
-      console.log '      frame : ' + annoattion.frame
-      console.log '          x : ' + annoattion.x
-      console.log '          y : ' + annoattion.y
-      console.log '    visible : ' + annoattion.visible
-      console.log '    inverted: ' + annoattion.inverted
-      console.log '   timestamp: ' + annoattion.timeStamp
+      console.log '      frame : ' + annotation.frame
+      console.log '          x : ' + annotation.x
+      console.log '          y : ' + annotation.y
+      console.log '    visible : ' + annotation.visible
+      console.log '    inverted: ' + annotation.inverted
+      console.log '   timestamp: ' + annotation.timeStamp
 
   @nextId: ->
     Sighting.id += 1
