@@ -147,8 +147,11 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     title: 'Your profile'
 
   education:
-    title: 'Can I use Asteroid Zoo in the classroom?'
-    summary: '''
+    title: "Education"
+    summary: "Asteroid Zoo in the Classroom"
+
+    classroom: 'Can I use Asteroid Zoo in the classroom?'
+    classroomAnswer: '''
       <p>Yes! Asteroid Zoo, just like all the Zooniverse projects, offers students a unique opportunity to explore real scientific data, while making a contribution to cutting edge research. We would like to stress that as each image is marked by multiple volunteers, it really does not matter if your students don\'t mark all the features correctly. That being said, the task itself is simple enough that we believe most people can take part and make a worthwhile contribution regardless of age.</p><br>
     '''
     resources_title: 'What resources are there to support use in the classroom?
@@ -182,7 +185,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
 
     more_title: 'How can I keep up to date with education and Asteroid Zoo?'
     more_content: '''
-      <p>The Asteroid Zoo blog is great place to keep up to date with the latests science results, but there is also a Zooniverse Education Blog as well as a @ZooTeach Twitter feed.
+      <p>The Asteroid Zoo blog is great place to keep up to date with the latests science results, but there is also a Zooniverse Education Blog as well as a <a href="https://twitter.com/@ZooTeach">@ZooTeach</a> Twitter feed.
     '''
   ######################
   # TUTORIAL
