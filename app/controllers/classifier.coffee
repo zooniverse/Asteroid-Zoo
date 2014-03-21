@@ -620,6 +620,10 @@ class Classifier extends BaseController
   onClickFavorite: ->
     @classification.favorite = !@classification.favorite
     @favoriteBtn.toggleClass 'favorited'
+    if @classification.favorite
+      @notify "<span style='color: #4cc500;'>Added to favorites</span>"
+    else
+      @notify "Removed from favorites"
 
   startLoading: ->
     @el.addClass 'loading'
