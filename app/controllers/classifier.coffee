@@ -282,7 +282,7 @@ class Classifier extends BaseController
     @updateIconsForCreateMark(surfaceIndex)
 
   onChangeFrameSlider: =>
-    frame = document.getElementById('frame-slider').value
+    frame = +document.getElementById('frame-slider').value
     @activateFrame(frame)
 
   onKeyDown: (e) =>
@@ -475,10 +475,7 @@ class Classifier extends BaseController
 
   onClickNextFrame: ->
     nextFrame = +(document.getElementById('frame-slider').value) + 1
-    if nextFrame is @numFrames
-      @onClickFourUp()
-    else
-      @activateFrame(nextFrame)
+    @activateFrame(nextFrame)
 
   onClickReset: ->
     @setOfSightings = []
@@ -517,6 +514,7 @@ class Classifier extends BaseController
     return if @el.attr('flicker') is "false"
     @showFrame(frame)
     @el.attr 'data-on-frame', frame
+    @nextFrame.prop 'disabled', if frame is (@numFrames-1) then true else false
 
   showFrame: (frame_idx) ->
     @el.find("#frame-id-#{i}").closest("div").hide() for i in [0...@numFrames]
