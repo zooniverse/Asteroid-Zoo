@@ -195,7 +195,7 @@ class Classifier extends BaseController
     Subject.on 'fetch', @onSubjectFetch
     Subject.on 'select', @onSubjectSelect
     @Subject = Subject
-    @Subject.group = true
+    @Subject.group = '532b37203ae740fc7a000002'
 
     console.log @el.find(".frame-image")
 
@@ -603,6 +603,22 @@ class Classifier extends BaseController
     @starbleedCount.html("<span class='big-num'>#{starbleedCount}</span>" + "<br>" + "Star Bleed#{if starbleedCount is 1 then '' else 's'}")
     @hotpixelCount.html("<span class='big-num'>#{hotpixelCount}</span>"+ "<br>" + "Hotpixel#{if hotpixelCount is 1 then '' else 's'} / Cosmic Ray#{if hotpixelCount is 1 then '' else 's'}")
 
+  trainingRate: ->
+    count = zooniverse.models.User.current?.project?.classification_count or 0
+    count += zooniverse.models.Classification.sentThisSession
+
+    if count < 10
+      1 / 5
+    else if count < 20
+      1 / 10
+    else if count < 50
+      1 / 20
+    else
+      1 / 50
+
+  shouldShowTraining: ->
+    Math.random() < @trainingRate()
+
   onClickNextSubject: ->
     @removeElementsOfClass(".known-asteroid")
     element.hide() for element in [@summaryContainer, @nextSubjectButton, @rightPanelSummary]
@@ -611,7 +627,16 @@ class Classifier extends BaseController
     @stopPlayingFrames()
     element.show() for element in [@surfacesContainer, @finishButton, @rightPanel.find('.answers'), @cycleButton]
     @destroyFrames()
-    Subject.next()
+
+    if @shouldShowTraining()
+      app.api.get('projects/asteroid/groups/532b37203ae740fc7a000001/subjects').then (subjects) ->
+        subject = new zooniverse.models.Subject subjects[0]
+        queued = zooniverse.models.Subject.instances.pop()
+        zooniverse.models.Subject.instances.unshift queued
+        subject.select()
+    else
+      Subject.next()
+
     document.getElementById('frame-slider').value = 0
     @finishButton.prop 'disabled', true
     @onClickFlicker()
