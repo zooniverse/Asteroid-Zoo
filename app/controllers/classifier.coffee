@@ -617,7 +617,7 @@ class Classifier extends BaseController
     @onClickFlicker()
     @setOfSightings = []
 
-  onClickFavorite: ->       q
+  onClickFavorite: ->
     @classification.favorite = !@classification.favorite
     @favoriteBtn.toggleClass 'favorited'
 
