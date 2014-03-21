@@ -536,13 +536,42 @@ class Classifier extends BaseController
     @sendClassification()
 
   showSummary: ->
+    console.log 'showSummary()'
     @resetMarkingSurfaces() # remove previous marks
     
-    if @Subject.current.metadata.known_objects.length isnt 0
-      @knownAsteroidMessage.show() 
-    else
-      @knownAsteroidMessage.hide()
+    # if @objectIsEmpty @Subject.current.metadata.known_objects
+    #   @knownAsteroidMessage.hide() 
+    # else
+    #   @knownAsteroidMessage.show()
+
+    console.log @Subject.current.metadata.known_objects
+
+    objectsData = @Subject.current.metadata.known_objects 
+    @objectIds = new Array
+    for frame of objectsData
+      for knownObject, i in [objectsData[frame]...] when knownObject.good_known and knownObject.object is '(161969)'        
+        console.log 'knownObject: ', knownObject
+
+        xs = (coord.x for coord in knownAsteroid)
+        ys = (coord.y for coord in knownAsteroid)
+        x_sum = xs.reduce (sum, x) -> sum + x
+        y_sum = ys.reduce (sum, y) -> sum + y
+
+        # should be changed to @surface.el.offsetWidth, as in marking-tool
+        x_avg = Math.round(x_sum/@numFrames)/512 * 190
+        y_avg = Math.round(y_sum/@numFrames)/512 * 190
+        dx = Math.abs( (Math.max xs...) - (Math.min xs...) )
+        dy = Math.abs( (Math.max ys...) - (Math.min ys...) )
+        radius = Math.max( dx, dy, 5)
+        for surface in [@markingSurfaceList...]
+          surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: x_avg, cy: y_avg, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
+    
+
+
+    # console.log @Subject.current.metadata.known_objects
     for knownAsteroid in @Subject.current.metadata.known_objects
+      # console.log 'knownAsteroid: ', knownAsteroid
+      # console.log 'knownAsteroid.'
       xs = (coord.x for coord in knownAsteroid)
       ys = (coord.y for coord in knownAsteroid)
       x_sum = xs.reduce (sum, x) -> sum + x
@@ -564,6 +593,12 @@ class Classifier extends BaseController
     @populateSummary()
     @leftPanel.find(".answers:lt(5)").css 'pointer-events', 'none' #disable everything but guide
     element.show() for element in [@rightPanelSummary, @summaryContainer, @nextSubjectButton]
+
+  # objectIsEmpty: (obj) ->
+  #   for var key in obj
+  #     if obj.hasOwnProperty(key)
+  #       return false
+  #   return true
 
   populateSummary: ->
     asteroidCount = (@setOfSightings.filter (s) -> s.type is 'asteroid').length

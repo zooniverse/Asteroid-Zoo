@@ -10,6 +10,8 @@ class Sighting
 
   pushSighting: (newAnnotation) ->
     newAnnotation.timeStamp = new Date()
+    # newAnnotation.x = newAnnotation.x/2    
+    # newAnnotation.y = newAnnotation.y/2
     @annotations.push newAnnotation
 
   popSighting: ->

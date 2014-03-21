@@ -1,45 +1,119 @@
 [
   {
-    "id": "TRAINING-3",
-    "activated_at": "2014-02-03T20:40:33Z",
-    "classification_count": 2,
-    "coords": [],
-    "created_at": "2014-02-03T20:39:38Z",
+    "id": "532b39ba3ae740fdb2002188",
+    "activated_at": "2014-03-20T20:10:05Z",
+    "classification_count": 0,
+    "coords": [
+      61.001370514380326,
+      13.587098278152599
+    ],
+    "created_at": "2014-03-20T20:09:20Z",
+    "group": {
+      "_id": "532b37203ae740fc7a000001",
+      "zooniverse_id": "GAZ0000001",
+      "name": "with_known"
+    },
+    "group_id": "532b37203ae740fc7a000001",
     "location": {
       "standard": [
-        "./dev-subjects-images/01_12DEC02_N04066_0001-50-scaled.png",
-        "./dev-subjects-images/01_12DEC02_N04066_0002-50-scaled.png",
-        "./dev-subjects-images/01_12DEC02_N04066_0003-50-scaled.png",
-        "./dev-subjects-images/01_12DEC02_N04066_0004-50-scaled.png"
+        "http://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0001-202-scaled.png",
+        "http://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0002-202-scaled.png",
+        "http://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0003-202-scaled.png",
+        "http://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0004-202-scaled.png"
       ],
-      "inverted": []
-    },
-    "metadata": {
-      "id": "01_12DEC02_N04066",
-      "cutout": {
-        "x": [
-          2734.08,
-          3246.08
-        ],
-        "y": [
-          1822.72,
-          2334.7200000000003
-        ]
-      },
-      "known_asteroids": [
-        [ {"x": 435, "y": 39},
-          {"x": 432, "y": 40},
-          {"x": 430, "y": 40},
-          {"x": 428, "y": 42} ]
+      "inverted": [
+        "http://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0001-202-negative.png",
+        "http://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0002-202-negative.png",
+        "http://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0003-202-negative.png",
+        "http://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0004-202-negative.png"
       ]
     },
+    "metadata": {
+      "filename": "01_12DEC02_N12022",
+      "cutout": {
+        "x": [
+          2506.2400000000002,
+          2762.2400000000002
+        ],
+        "y": [
+          3189.7600000000007,
+          3445.7600000000007
+        ]
+      },
+      "known_objects": {
+        "0001": [
+          {
+            "object": "(161969)",
+            "x": 43.04599999999982,
+            "y": 85.70100000000048,
+            "mag": 18.2,
+            "good_known": true
+          },
+          {
+            "object": "2001 XB56",
+            "x": 65.33699999999999,
+            "y": 114.47200000000066,
+            "mag": 18.9,
+            "good_known": true
+          }
+        ],
+        "0002": [
+          {
+            "object": "(161969)",
+            "x": 45.02899999999954,
+            "y": 86.0870000000009,
+            "mag": 18.2,
+            "good_known": true
+          },
+          {
+            "object": "2001 XB56",
+            "x": 67.60499999999956,
+            "y": 113.85600000000068,
+            "mag": 18.9,
+            "good_known": true
+          }
+        ],
+        "0003": [
+          {
+            "object": "(161969)",
+            "x": 47.01299999999992,
+            "y": 86.47200000000066,
+            "mag": 18.2,
+            "good_known": true
+          },
+          {
+            "object": "2001 XB56",
+            "x": 69.8739999999998,
+            "y": 113.28000000000065,
+            "mag": 18.9,
+            "good_known": true
+          }
+        ],
+        "0004": [
+          {
+            "object": "(161969)",
+            "x": 48.996999999999844,
+            "y": 86.85700000000088,
+            "mag": 18.2,
+            "good_known": true
+          },
+          {
+            "object": "2001 XB56",
+            "x": 72.08299999999963,
+            "y": 112.66500000000087,
+            "mag": 18.9,
+            "good_known": true
+          }
+        ]
+      }
+    },
     "project_id": "528ceac53ae7409ca0000001",
-    "random": 0.563900406327995,
+    "random": 0.3062771170873071,
     "state": "active",
-    "updated_at": "2014-02-03T20:39:38Z",
+    "updated_at": "2014-03-20T20:09:21Z",
     "workflow_ids": [
       "528ceac53ae7409ca0000002"
     ],
-    "zooniverse_id": "AAZ0000010"
+    "zooniverse_id": "AAZ000003h"
   }
 ]
