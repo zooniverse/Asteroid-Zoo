@@ -347,7 +347,6 @@ class Classifier extends BaseController
   onClickFourUp: ->
     @el.find("#frame-id-#{i}").closest("div").show() for i in [0...@numFrames]
     element.hide() for element in [@nextFrame, @playButton, @frameSlider, @deleteButton]
-    markingSurfaces = document.getElementsByClassName("marking-surface")
     @fourUpButton.attr 'disabled', true
     @flickerButton.attr 'disabled', false
     @el.attr 'flicker', "false"
@@ -356,7 +355,6 @@ class Classifier extends BaseController
     ghostMark.setAttribute 'visibility', 'hidden' for ghostMark in [ @el.find('.ghost-mark')... ]
 
   onClickFlicker: ->
-    markingSurfaces = document.getElementsByClassName("marking-surface")
     element.show() for element in [@nextFrame, @playButton, @frameSlider, @deleteButton]
     @flickerButton.attr 'disabled', true
     @fourUpButton.attr 'disabled', false
