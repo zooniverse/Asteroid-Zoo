@@ -551,16 +551,15 @@ class Classifier extends BaseController
     console.log @Subject.current.metadata.known_objects
     
     objectsData = @Subject.current.metadata.known_objects 
-    for frame in ['0001'] when objectsData[frame] isnt undefined # display only first frame
-      @knownAsteroidMessage.show()
+    for frame, i in ['0001'] when objectsData[frame] isnt undefined # display only first frame
       for knownObject, i in [objectsData[frame]...] when knownObject.good_known #and knownObject.object is '(161969)'        
+        @knownAsteroidMessage.show()
         # console.log 'knownObject (',knownObject.x,',',knownObject.y,'): ', knownObject
         radius = 10
         x = Math.round(knownObject.x)/256 * 190
         y = Math.round(knownObject.y)/256 * 190
         for surface in [@markingSurfaceList...]
           surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: x, cy: y, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
-          # surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: x_avg, cy: y_avg, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
     
     # # console.log @Subject.current.metadata.known_objects
     # for knownAsteroid in @Subject.current.metadata.known_objects
