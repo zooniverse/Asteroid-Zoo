@@ -1,6 +1,4 @@
 loadImage = (src, cb) ->
-  img = new Image
-  img.onload = -> cb img
-  img.src = src
+  window.app.transporter.load(src).then cb
 
 module.exports = loadImage

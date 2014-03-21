@@ -27,6 +27,8 @@ languageManager.on 'change-language', (e, code, strings) ->
 ##################################################
 Api = require 'zooniverse/lib/api'
 api = new Api project: 'asteroid'
+Transporter = require './lib/transporter'
+transporter = new Transporter
 
 ##################################################
 # load the site navigation
@@ -101,5 +103,5 @@ $(document).on 'touchend', 'button', (e) ->
 ##################################################
 # bind the app to the window
 ##################################################
-window.app = {api, siteNavigation, stack, topBar}
+window.app = {api, siteNavigation, stack, topBar, transporter}
 module.exports = window.app
