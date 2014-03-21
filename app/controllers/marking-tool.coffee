@@ -22,10 +22,10 @@ class MarkingTool extends Tool
 
   initialize: ->
     # generate shapes
-    @hr1 = @addShape 'line', x1: 0, y1: -@size, x2: 0, y2: -4, stroke: "#{@color}", strokeWidth: 1
-    @hr2 = @addShape 'line', x1: 0, y1: 4, x2: 0, y2: @size, stroke: "#{@color}", strokeWidth: 1
-    @vr1 = @addShape 'line', x1: -@size, y1: 0, x2: -4, y2: 0, stroke: "#{@color}", strokeWidth: 1
-    @vr2 = @addShape 'line', x1: 4, y1: 0, x2: @size, y2: 0, stroke: "#{@color}", strokeWidth: 1
+    @hr1 = @addShape 'line', x1: 0, y1: -@size, x2: 0, y2: -4, stroke: "#{@color}", strokeWidth: 4
+    @hr2 = @addShape 'line', x1: 0, y1: 4, x2: 0, y2: @size, stroke: "#{@color}", strokeWidth: 4
+    @vr1 = @addShape 'line', x1: -@size, y1: 0, x2: -4, y2: 0, stroke: "#{@color}", strokeWidth: 4
+    @vr2 = @addShape 'line', x1: 4, y1: 0, x2: @size, y2: 0, stroke: "#{@color}", strokeWidth: 4
     @circle = @addShape 'circle', cx: 0, cy: 0, r: @size, fill: 'rgba(255, 215, 0, 0)'
 
   onInitialClick: (e) ->
@@ -50,9 +50,9 @@ class MarkingTool extends Tool
 
     for line in svgLines
       if @markType is 'asteroid'
-        line.attr stroke: 'rgb(255,215,0)'
+        line.attr stroke: 'rgba(255,215,0,0.75)'
       else
-        line.attr stroke: 'rgb(200,0,20)', transform: 'rotate(45)'
+        line.attr stroke: 'rgba(200,0,20,0.75)', transform: 'rotate(45)'
 
     # @hr.attr strokeWidth: 1 / @surface.zoomBy
     # @vr.attr strokeWidth: 1 / @surface.zoomBy
