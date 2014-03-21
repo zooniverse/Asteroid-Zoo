@@ -40,6 +40,8 @@ class MarkingTool extends Tool
     @mark.set
       x: Math.max 0, Math.min FULL_SIZE, Math.round((x / surfaceSize) * FULL_SIZE)
       y: Math.max 0, Math.min FULL_SIZE, Math.round((y / surfaceSize) * FULL_SIZE)
+      x_actual: Math.round x/2
+      y_actual: Math.round y/2
       frame: +e.target.id.slice(-1)
 
   render: ->

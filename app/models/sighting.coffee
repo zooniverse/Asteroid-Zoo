@@ -10,8 +10,6 @@ class Sighting
 
   pushSighting: (newAnnotation) ->
     newAnnotation.timeStamp = new Date()
-    # newAnnotation.x = newAnnotation.x/2    
-    # newAnnotation.y = newAnnotation.y/2
     @annotations.push newAnnotation
 
   popSighting: ->
@@ -33,8 +31,8 @@ class Sighting
     for annotation in @annotations
       console.log '    -:-:-:-:-:-:-:-'
       console.log '      frame : ' + annotation.frame
-      console.log '          x : ' + annotation.x
-      console.log '          y : ' + annotation.y
+      console.log '          x : ' + annotation.x_actual
+      console.log '          y : ' + annotation.y_actual
       console.log '    visible : ' + annotation.visible
       console.log '    inverted: ' + annotation.inverted
       console.log '   timestamp: ' + annotation.timeStamp
