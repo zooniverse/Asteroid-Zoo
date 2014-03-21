@@ -12,7 +12,24 @@
 
 <div class="content-block">
   <div class="content-container grey-bg">
-    <% for i in [0...8]: %>
+    <div class="quarter-column">
+      <img src="./images/headshots/lewicki.jpg" />
+
+      <div class="caption">
+        <p><strong>Chris Lewicki</strong></p>
+        <p>President and Chief Engineer </br> Planetary Resources, Inc.</p>
+      </div>
+    </div>
+    <div class="quarter-column">
+      <img src="./images/headshots/beasley.jpg" />
+
+      <div class="caption">
+        <p><strong>Matthew Beasley</strong></p>
+        <p>Senior Optical Systems Engineer,</br>Staff Astronomer </br> Planetary Resources, Inc.</p>
+      </div>
+    </div>
+
+    <% for i in [0...6]: %>
       <div class="quarter-column">
         <img src="http://placehold.it/150X150" />
 
