@@ -4,7 +4,7 @@
   <div class="content-container">
     <div class="intro content">
       <%- translate 'h1', 'profile.title' %>
-      <p>Hello username!</p>
+      <p id="greeting"></p>
     </div>
   </div>
 </div>
