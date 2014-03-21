@@ -11,10 +11,18 @@
 </div>
 
 <div class="content-block">
+  <div class="content-container">
+    <div class="intro team content">
+      <h1>The Asteroid Zoo Team</h1>
+    </div>
+  </div>
+</div>
+
+<div class="content-block">
   <div class="content-container grey-bg">
+
     <div class="quarter-column">
       <img src="./images/headshots/lewicki.jpg" />
-
       <div class="caption">
         <p><strong>Chris Lewicki</strong></p>
         <p>President and Chief Engineer </br> Planetary Resources, Inc.</p>
@@ -30,15 +38,59 @@
       </div>
     </div>
 
-    <% for i in [0...6]: %>
-      <div class="quarter-column">
-        <img src="http://placehold.it/150X150" />
+    <div class="quarter-column">
+      <img src="./images/headshots/laura.jpg" />
 
-        <div class="caption">
-          <p><strong>Somebody's name</strong></p>
-          <p>This will be a description of whomever that person is. Lorem ipsum dolor sit amet.</p>
-        </div>
+      <div class="caption">
+        <p><strong>Laura Whyte</strong></p>
+        <p>Director of Citizen Science</br>Adler Planetarium, Zooniverse</p>
       </div>
-    <% end %>
+    </div>
+
+    <div class="quarter-column">
+      <img src="./images/headshots/julie.jpg" />
+
+      <div class="caption">
+        <p><strong>Julie Feldt</strong></p>
+        <p>Zooniverse Educator</br>Zooniverse</p>
+      </div>
+    </div>
+
+    <div class="quarter-column">
+      <img src="./images/headshots/heath.jpg" />
+
+      <div class="caption">
+        <p><strong>Heath Van Singel</strong></p>
+        <p>Designer</br>Zooniverse</p>
+      </div>
+    </div>
+
+    <div class="quarter-column">
+      <img src="./images/headshots/steve.jpg" />
+
+      <div class="caption">
+        <p><strong>Steve Raden</strong></p>
+        <p>Developer</br>Zooniverse</p>
+      </div>
+    </div>
+
+    <div class="quarter-column">
+      <img src="./images/headshots/sascha.jpg" />
+
+      <div class="caption">
+        <p><strong>Sascha Ishikawa</strong></p>
+        <p>Developer</br>Zooniverse</p>
+      </div>
+    </div>
+
+    <div class="quarter-column">
+      <img src="./images/headshots/alex.jpg" />
+
+      <div class="caption">
+        <p><strong>Alex Weiksnar</strong></p>
+        <p>Developer</br>Zooniverse</p>
+      </div>
+    </div>
+
   </div>
 </div>
