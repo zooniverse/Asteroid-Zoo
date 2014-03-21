@@ -53,7 +53,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     starbleed:
       label: 'Star Bleed'
     hotpixel:
-      label: 'Hot Pixel'
+      label: 'Hot Pixel /</br>Cosmic Ray'
     other:
       label: 'Other'
   asteroids:
