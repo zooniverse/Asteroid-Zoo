@@ -12,7 +12,7 @@ class Transporter
     
     unless @el
       @el = $ """
-        <iframe id="canvas-transport-frame" src="http://asteroidzoo.s3.amazonaws.com/canvas_loader.html" style="width: 0px; height: 0px; visibility: hidden;"></iframe>
+        <iframe id="canvas-transport-frame" src="http://asteroidzoo.s3.amazonaws.com/canvas_loader.html" style="width: 0px; height: 0px; visibility: hidden; position: absolute;"></iframe>
       """
       @el.appendTo document.body
       @el = @el[0]
