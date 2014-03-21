@@ -143,6 +143,7 @@
     float left
     color #8d8a8a
     display table
+    position relative
     svg
       width 20px
       height 20px
@@ -250,6 +251,17 @@
     #notification
       margin-top 10px
       color #FF4500
+
+    #favorite
+      bottom 20px
+      right 20px
+      position absolute
+      opacity .5
+      &.favorited
+        opacity 1
+      &:hover
+        opacity 1
+        cursor pointer
 
   .bottom-row
     position relative

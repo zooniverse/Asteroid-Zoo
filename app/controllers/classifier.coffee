@@ -41,6 +41,7 @@ class Classifier extends BaseController
     'click button[name="start-tutorial"]'   : 'onStartTutorial'
     'click button[name="cancel"]'           : 'onClickCancel'
     'click button[name="cycle-channels"]'   : 'onClickCycleChannels'
+    'click #favorite'                       : 'onClickFavorite'
     'change input[name="frame-slider"]'     : 'onChangeFrameSlider'
     'change input[name="selected-artifact"]': 'onSelectArtifact'
     'change .asteroid-not-visible'          : 'onClickAsteroidNotVisible'
@@ -111,6 +112,7 @@ class Classifier extends BaseController
     '#starbleed-count'               : 'starbleedCount'
     '#hotpixel-count'                : 'hotpixelCount'
     "#notification"                  : 'notification'
+    "#favorite"                      : 'favoriteBtn'
     '.summary-image-container'       : 'summaryImageContainer'
     '.known-asteroid-message'        : 'knownAsteroidMessage'
 
@@ -337,8 +339,8 @@ class Classifier extends BaseController
       img_src = if @invert then subject_info.inverted[i] else subject_info.standard[i]
       do (img_src, frameImage)  =>
         loadImage img_src, (img) =>
-        frameImage.attr
-          'xlink:href': img_src
+          frameImage.attr
+            'xlink:href': img.src
     @stopLoading()
     @activateFrame 0  # default to first frame after loading
 
@@ -529,14 +531,14 @@ class Classifier extends BaseController
     @loadFrames()
 
     # invert using separate images
-    for surface in @markingSurfaceList
-      markElements = surface.el.getElementsByClassName('marking-tool-root')
-      for i in [0...markElements.length]
-        markElements[0].parentElement.appendChild markElements[0]
+    # for surface in @markingSurfaceList
+    #   markElements = surface.el.getElementsByClassName('marking-tool-root')
+    #   for i in [0...markElements.length]
+    #     markElements[0].parentElement.appendChild markElements[0]
 
     # invert using svg inverter - implement when cross origin ready
-    # images = document.getElementsByClassName('frame-image')
-    # InvertSvg(image) for image in images
+    images = document.getElementsByClassName('frame-image')
+    InvertSvg(image) for image in images
 
   onClickFinishMarking: ->
     console.log "onClickFinishedMarking()"
@@ -614,6 +616,14 @@ class Classifier extends BaseController
     @finishButton.prop 'disabled', true
     @onClickFlicker()
     @setOfSightings = []
+
+  onClickFavorite: ->
+    @classification.favorite = !@classification.favorite
+    @favoriteBtn.toggleClass 'favorited'
+    if @classification.favorite
+      @notify "<span style='color: #4cc500;'>Added to favorites</span>"
+    else
+      @notify "Removed from favorites"
 
   startLoading: ->
     @el.addClass 'loading'

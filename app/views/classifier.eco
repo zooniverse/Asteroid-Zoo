@@ -392,6 +392,8 @@
     </div>
 
     <div id="notification"></div>
+
+    <img id="favorite" src="./images/save-icon.png">
   </div><!-- end marking tool interface / right-panel-->
 
   <div class="bottom-row">
