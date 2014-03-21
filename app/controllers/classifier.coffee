@@ -614,8 +614,8 @@ class Classifier extends BaseController
     starbleedCount = (@setOfSightings.filter (s) -> s.subType is 'starbleed').length
     hotpixelCount = (@setOfSightings.filter (s) -> s.subType is 'hotpixel').length
     @asteroidCount.html("<span class='big-num'>#{asteroidCount}</span>"+ "<br>" + "Asteroid#{if asteroidCount is 1 then '' else 's'}")
-    @starbleedCount.html("<span class='big-num'>#{starbleedCount}</span>" + "<br>" + "Blip#{if starbleedCount is 1 then '' else 's'}")
-    @hotpixelCount.html("<span class='big-num'>#{hotpixelCount}</span>"+ "<br>" + "Line#{if hotpixelCount is 1 then '' else 's'}")
+    @starbleedCount.html("<span class='big-num'>#{starbleedCount}</span>" + "<br>" + "Star Bleed#{if starbleedCount is 1 then '' else 's'}")
+    @hotpixelCount.html("<span class='big-num'>#{hotpixelCount}</span>"+ "<br>" + "Hotpixel#{if hotpixelCount is 1 then '' else 's'} / Cosmic Ray#{if hotpixelCount is 1 then '' else 's'}")
 
   onClickNextSubject: ->
     @removeElementsOfClass(".known-asteroid")

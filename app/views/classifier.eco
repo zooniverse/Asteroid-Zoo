@@ -252,7 +252,7 @@
                   </svg>
                 <% end %>
 
-                <%- translate 'span', "artifacts.#{artifact}.label" %>
+                <div id="artifact-label"><%- translate 'span', "artifacts.#{artifact}.label" %></div>
               </label>
             </div>
           <% end %>
