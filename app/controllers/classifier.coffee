@@ -546,22 +546,15 @@ class Classifier extends BaseController
 
   showSummary: ->
     console.log 'showSummary()'
-    @resetMarkingSurfaces() # remove previous marks
-    
+    @resetMarkingSurfaces() # remove previous marks 
     @knownAsteroidMessage.hide() 
-    # if @objectIsEmpty @Subject.current.metadata.known_objects
-    #   @knownAsteroidMessage.hide() 
-    # else
-    #   @knownAsteroidMessage.show()
-
     console.log @Subject.current.metadata.known_objects
     
     objectsData = @Subject.current.metadata.known_objects 
-    # for frame of objectsData
     for frame in ['0001'] when objectsData[frame] isnt undefined # display only first frame
-      console.log 'objectsData[',frame,']: ', objectsData[frame]
+      @knownAsteroidMessage.show()
       for knownObject, i in [objectsData[frame]...] when knownObject.good_known #and knownObject.object is '(161969)'        
-        console.log 'knownObject (',knownObject.x,',',knownObject.y,'): ', knownObject
+        # console.log 'knownObject (',knownObject.x,',',knownObject.y,'): ', knownObject
         radius = 10
         x = Math.round(knownObject.x)/256 * 190
         y = Math.round(knownObject.y)/256 * 190
