@@ -41,6 +41,7 @@ class Classifier extends BaseController
     'click button[name="start-tutorial"]'   : 'onStartTutorial'
     'click button[name="cancel"]'           : 'onClickCancel'
     'click button[name="cycle-channels"]'   : 'onClickCycleChannels'
+    'click #favorite'                       : 'onClickFavorite'
     'change input[name="frame-slider"]'     : 'onChangeFrameSlider'
     'change input[name="selected-artifact"]': 'onSelectArtifact'
     'change .asteroid-not-visible'          : 'onClickAsteroidNotVisible'
@@ -111,6 +112,7 @@ class Classifier extends BaseController
     '#starbleed-count'               : 'starbleedCount'
     '#hotpixel-count'                : 'hotpixelCount'
     "#notification"                  : 'notification'
+    "#favorite"                      : 'favoriteBtn'
     '.summary-image-container'       : 'summaryImageContainer'
     '.known-asteroid-message'        : 'knownAsteroidMessage'
 
@@ -614,6 +616,10 @@ class Classifier extends BaseController
     @finishButton.prop 'disabled', true
     @onClickFlicker()
     @setOfSightings = []
+
+  onClickFavorite: ->       q
+    @classification.favorite = !@classification.favorite
+    @favoriteBtn.toggleClass 'favorited'
 
   startLoading: ->
     @el.addClass 'loading'
