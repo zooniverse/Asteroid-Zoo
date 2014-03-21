@@ -526,8 +526,17 @@ class Classifier extends BaseController
   onClickInvert: ->
     @invert = !@invert
     @invertButton.toggleClass 'colorme'
-    images = document.getElementsByClassName('frame-image')
-    InvertSvg(image) for image in images
+    @loadFrames()
+
+    # invert using separate images
+    for surface in @markingSurfaceList
+      markElements = surface.el.getElementsByClassName('marking-tool-root')
+      for i in [0...markElements.length]
+        markElements[0].parentElement.appendChild markElements[0]
+
+    # invert using svg inverter - implement when cross origin ready
+    # images = document.getElementsByClassName('frame-image')
+    # InvertSvg(image) for image in images
 
   onClickFinishMarking: ->
     console.log "onClickFinishedMarking()"
