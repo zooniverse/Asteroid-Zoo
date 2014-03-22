@@ -244,9 +244,20 @@
               g
                 fill BRIGHT_AQUA
       .artifact-menu-item
-        margin-bottom 10px
+        border 2px solid transparent
+        padding 5px 0
+        label
+          display block
+          height 100%
         span
           line-height 20px
+        &:hover
+          border 2px solid MAIN_AQUA
+          border-radius 5px
+          cursor pointer
+          color MAIN_AQUA
+          g
+            fill MAIN_AQUA
         #artifact-label
           display inline-block
           vertical-align middle
