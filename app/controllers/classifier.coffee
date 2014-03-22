@@ -257,6 +257,7 @@ class Classifier extends BaseController
       @doneButton.prop 'disabled', true
     else if @state is 'artifactTool' and !@currSighting.annotations.length
       @doneButton.prop 'disabled', true
+    @deleteButton.prop 'disabled', true
 
   onCreateTool: (tool) =>
     surfaceIndex = +@markingSurfaceList.indexOf tool.surface
@@ -272,10 +273,12 @@ class Classifier extends BaseController
       @el.find(".asteroid-frame-complete-#{surfaceIndex}").prop 'checked', true
       @asteroidMarkedInFrame[surfaceIndex] = true
 
+
     switch @state
       when 'asteroidTool'
         tool.setMarkType 'asteroid'
         @doneButton.prop 'disabled', false if @currSighting.annotations.length is @numFrames
+        @deleteButton.prop 'disabled', false
       when 'artifactTool'
         tool.setMarkType 'artifact'
         otherFrames = [0...@numFrames].filter (num) -> num isnt surfaceIndex
@@ -420,6 +423,7 @@ class Classifier extends BaseController
     @el.find(".asteroid-visible-#{frameNum}").hide()
     @el.find("#marked-status-#{frameNum}").show().html("Marked!")
 
+
   updateIconsForDestroyMark: (frameNum) =>
     @el.find("#number-#{frameNum}").show()
     @el.find(".asteroid-frame-complete-#{frameNum}").prop 'checked', false
@@ -516,6 +520,8 @@ class Classifier extends BaseController
     @showFrame(frame)
     @el.attr 'data-on-frame', frame
     @nextFrame.prop 'disabled', if frame is (@numFrames-1) then true else false
+    setTimeout =>
+      @deleteButton.prop 'disabled', (frame not in (mark.frame for mark in @currSighting.annotations))
 
   showFrame: (frame_idx) ->
     @el.find("#frame-id-#{i}").closest("div").hide() for i in [0...@numFrames]
