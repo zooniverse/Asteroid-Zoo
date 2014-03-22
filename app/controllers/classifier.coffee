@@ -520,7 +520,7 @@ class Classifier extends BaseController
     @showFrame(frame)
     @el.attr 'data-on-frame', frame
     @nextFrame.prop 'disabled', if frame is (@numFrames-1) then true else false
-    setTimeout =>
+    if @currSighting?.annotations
       @deleteButton.prop 'disabled', (frame not in (mark.frame for mark in @currSighting.annotations))
 
   showFrame: (frame_idx) ->
@@ -606,7 +606,7 @@ class Classifier extends BaseController
     hotpixelCount = (@setOfSightings.filter (s) -> s.subType is 'hotpixel').length
     @asteroidCount.html("<span class='big-num'>#{asteroidCount}</span>"+ "<br>" + "Asteroid#{if asteroidCount is 1 then '' else 's'}")
     @starbleedCount.html("<span class='big-num'>#{starbleedCount}</span>" + "<br>" + "Star Bleed#{if starbleedCount is 1 then '' else 's'}")
-    @hotpixelCount.html("<span class='big-num'>#{hotpixelCount}</span>"+ "<br>" + "Hotpixel#{if hotpixelCount is 1 then '' else 's'} / Cosmic Ray#{if hotpixelCount is 1 then '' else 's'}")
+    @hotpixelCount.html("<span class='big-num'>#{hotpixelCount}</span>"+ "<br>" + "Hot Pixel#{if hotpixelCount is 1 then '' else 's'} / Cosmic Ray#{if hotpixelCount is 1 then '' else 's'}")
 
   trainingRate: ->
     count = zooniverse.models.User.current?.project?.classification_count or 0
