@@ -41,6 +41,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
         label: 'Nothing'
     rightPanel:
       summaryHeader: "Nice Work!"
+      whatKindScreen: "Please Asteroid, Artifact, or Nothing in the menu above to continue"
       knownAsteroid: "This subject contains at least one known asteroid (circled in green)."
       summaryBody: "Check your progress in the subject summary. You can discuss this on Talk, share it, or add it to your favorites!"
       asteroidDoneScreen: "You must mark an asteroid or declare not visible in all 4 frames to click done"
@@ -63,9 +64,9 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
   science:
     title: 'Motivation for Asteroid Zoo'
     summary: '''
-      Asteroids are small bodies that are leftovers from the formation of the solar system.  They can be as small as a few meters across (equivalent to about a yard), or as large as an asteroid like Ceres, almost 1000 km in diameter (or about 1/12 of Earth). They vary in color from darker than charcoal to the color of freshly broken rock.  Asteroids are found everywhere in our Solar System and have even been found orbiting other stars.  Asteroids (the name means “starlike bodies”) differ from planets in their orbits and general behavior.Typically, asteroid orbits are more inclined (tipped) and more eccentric than any of the planets.    
+      Asteroids are small bodies that are leftovers from the formation of the solar system.  They can be as small as a few meters across (equivalent to about a yard), or as large as an asteroid like Ceres, almost 1000 km in diameter (or about 1/12 of Earth). They vary in color from darker than charcoal to the color of freshly broken rock.  Asteroids are found everywhere in our Solar System and have even been found orbiting other stars.  Asteroids (the name means “starlike bodies”) differ from planets in their orbits and general behavior.Typically, asteroid orbits are more inclined (tipped) and more eccentric than any of the planets.
       '''
-    special: '''  
+    special: '''
      <p>The <a href="http://www.lpl.arizona.edu/css/">Catalina Sky Survey (CSS)</a> is the most productive group for finding and cataloging asteroids, having contributed to 46.7% of all the near Earth objects (NEO) discoveries to date.   However, since the CSS examines vast amounts of the sky very quickly and automatically, and therefore computer programs automatically reduce the data to find the asteroids in the images.  These programs are very good at finding bright objects, but are not quite smart enough by themselves to detect the faint ones. Although, humans can look at the detections and validate the program's work. This is where you come in!  With many people participating in Asteroid Zoo, we are able to examine all the images in hopes of finding everything that can be found.  Humans have excellent pattern recognition capabilities and are able to ignore noise that resembles patterns, and this will allow us to improve the existing data over and above anything computers can do.</p><br>
      <p>What do we expect to find?  CSS currently finds about 90% of the asteroids that can be found in every image.  They've discovered over 100,000 objects so far.  We estimate that around 10,000 new objects and as many as 1,000 near-Earth objects still remain to be discovered in the data.  We can find them with your help, so start classifying to discover asteroids!</p>
     '''
@@ -118,7 +119,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     '''
     find_title: 'How do we find asteroids?'
     find_content: '''
-      <p>The data in use by the Asteroid Zoo is the product of the Catalina Sky Survey.  After the event on Jupiter in 1994, the United States decided that it would be a national priority to find all potentially dangerous asteroids.  The Catalina Sky Survey (CSS) is funded by NASA to find asteroids, specifically to find all the Near Earth Objects with a radius larger than 100 meters.  They have been gracious enough to share all of their data with the public in order to further the mission of finding as many asteroids as they can.  The facilities consist of three telescopes, two in Arizona and one near Coonabarabran, NSW Australia.  These three telescopes image the sky looking for asteroids.  They take an image of the sky with a roughly 10 second exposure, then move to an adjacent position, take another picture, move and so on for about 10 minutes.  Then the telescope returns to the first pointing and repeats.  This way, the asteroids have time to move and the telescope stays actively looking for new targets.</p> 
+      <p>The data in use by the Asteroid Zoo is the product of the Catalina Sky Survey.  After the event on Jupiter in 1994, the United States decided that it would be a national priority to find all potentially dangerous asteroids.  The Catalina Sky Survey (CSS) is funded by NASA to find asteroids, specifically to find all the Near Earth Objects with a radius larger than 100 meters.  They have been gracious enough to share all of their data with the public in order to further the mission of finding as many asteroids as they can.  The facilities consist of three telescopes, two in Arizona and one near Coonabarabran, NSW Australia.  These three telescopes image the sky looking for asteroids.  They take an image of the sky with a roughly 10 second exposure, then move to an adjacent position, take another picture, move and so on for about 10 minutes.  Then the telescope returns to the first pointing and repeats.  This way, the asteroids have time to move and the telescope stays actively looking for new targets.</p>
     '''
 
     content: '''
@@ -168,7 +169,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     </li>
     </ul>
     <p>The Zooniverse has launched ZooTeach where educators can find and share educational resources relating to Asteroid Zoo and the other Zooniverse citizen science projects. Check out resources created for Asteroid Zoo. Have any ideas for how to use the project in the classroom? Please share your lesson ideas or resources on ZooTeach!</p><br>
-    
+
     <h3>Additional Resources</h3>
     <ul>
       <li>
@@ -191,27 +192,27 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
   # TUTORIAL
   ######################
   tutorial:
-    
+
     welcome:
       header: 'Welcome to Asteroid Zoo!'
       details: 'In this project, you are on the lookout for asteroids in a sequence of images from the Catalina Sky Survey. Your goal is to find the moving dots in the images. These could be asteroids no one has ever seen before! You may also find other objects we’d like you to identify along the way, we call these artifacts.'
-    
+
     overview:
       header: 'First, an introduction to the features'
-      details: 'There are different ways to view the images to help you find asteroids and artifacts.' 
-    
+      details: 'There are different ways to view the images to help you find asteroids and artifacts.'
+
     guide:
       header: 'The guide'
       details: 'We have constructed a guide to help you determine whether an object is an asteroid or an artifact. You may want to take time to explore the guide before classifying.'
-    
+
     tools:
       header: 'Tools'
       details: 'Invert gives you a way to examine the images by reversing the black and white of the image. Play around with this tool, when you are done click Continue.'
-    
-    view: 
+
+    view:
       header: 'Viewing the images'
       details: 'There are 2 ways to look at the sequence of images for each classification, either by the “Flicker” or “4-up” options. Flicker allows you to select each frame in the sequence or to play through. 4-up displays all 4 frames at once. Test out each option, and when you are ready click Continue.'
-    
+
     beginWorkflow:
       header: 'Now on to Asteroid Hunting!'
       details: 'Now that you know how to view the frames, let\'s start looking for moving objects. We\'ll begin using the default Flicker view.'
@@ -231,11 +232,11 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
       header: 'Observe'
       details: 'If you look carefully, you\'ll find moving objects in the image.'
       instruction: 'See if you can spot the asteroid in this picture.'
-    
+
     firstAsteroid:
       header: 'You\'ve spotted your first asteroid!'
       details: 'We\'ll now begin marking it across each frame.'
-    
+
     selectAsteroid:
       header: 'Tracking Asteroids'
       instruction: 'Click on Asteroid to begin marking the asteroid.'

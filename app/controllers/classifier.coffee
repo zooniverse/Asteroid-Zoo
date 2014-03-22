@@ -70,6 +70,9 @@ class Classifier extends BaseController
     'click .artifact-done-screen': ->
       @notify translate 'classifier.rightPanel.artifactDoneScreen' if @state is 'artifactTool' and @doneButton.prop('disabled')
 
+    'click .marking-surface': ->
+      @notify translate 'classifier.rightPanel.whatKindScreen' if @state is 'whatKind'
+
     'click .finished-screen': ->
       if @state is 'whatKind' and @finishButton.prop("disabled") and !@nextSubjectButton.is(":visible")
         @notify translate 'classifier.finished.finishedButtonScreen'
@@ -544,13 +547,13 @@ class Classifier extends BaseController
 
   showSummary: ->
     console.log 'showSummary()'
-    @resetMarkingSurfaces() # remove previous marks 
-    @knownAsteroidMessage.hide() 
+    @resetMarkingSurfaces() # remove previous marks
+    @knownAsteroidMessage.hide()
     console.log @Subject.current.metadata.known_objects
-    
-    objectsData = @Subject.current.metadata.known_objects 
+
+    objectsData = @Subject.current.metadata.known_objects
     for frame, i in ['0001'] when objectsData[frame] isnt undefined # display only first frame
-      for knownObject, i in [objectsData[frame]...] when knownObject.good_known #and knownObject.object is '(161969)'        
+      for knownObject, i in [objectsData[frame]...] when knownObject.good_known #and knownObject.object is '(161969)'
         @knownAsteroidMessage.show()
         # console.log 'knownObject (',knownObject.x,',',knownObject.y,'): ', knownObject
         radius = 10
@@ -558,7 +561,7 @@ class Classifier extends BaseController
         y = Math.round(knownObject.y)/256 * 190
         for surface in [@markingSurfaceList...]
           surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: x, cy: y, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
-    
+
     # # console.log @Subject.current.metadata.known_objects
     # for knownAsteroid in @Subject.current.metadata.known_objects
     #   # console.log 'knownAsteroid: ', knownAsteroid
@@ -576,7 +579,7 @@ class Classifier extends BaseController
     #   radius = Math.max( dx, dy, 5)
     #   for surface in [@markingSurfaceList...]
     #     surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: x_avg, cy: y_avg, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
-    
+
     @el.attr 'flicker', 'true'
     @surfacesContainer.children().clone().appendTo(@summaryImageContainer)
     element.hide() for element in [@surfacesContainer, @playButton, @frameSlider, @finishButton, @rightPanel.find('.answers'), @cycleButton]
