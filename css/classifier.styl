@@ -209,17 +209,27 @@
       font-size 14px
       height 35px
       line-height 35px
+      border 2px solid transparent
       label
         margin auto 0
-        cursor pointer
+        display block
+        &:hover
+          cursor pointer
       input
         &[name='classifier-type']
           display none
           &:checked
             & ~ *
-              color BRIGHT_AQUA
+              color MAIN_AQUA
               g
-                fill BRIGHT_AQUA
+                fill MAIN_AQUA
+       &:hover
+         border 2px solid MAIN_AQUA
+         border-radius 5px
+         cursor pointer
+         color MAIN_AQUA
+         g
+           fill MAIN_AQUA
 
     .artifact-classifier
       label
