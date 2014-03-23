@@ -518,8 +518,9 @@ class Classifier extends BaseController
     @showFrame(frame)
     @el.attr 'data-on-frame', frame
     @nextFrame.prop 'disabled', if frame is (@numFrames-1) then true else false
-    if @currSighting?.labels
-      @deleteButton.prop 'disabled', (frame not in (mark.frame for mark in @currSighting.labels))
+    setTimeout =>
+      if @currSighting?.labels
+        @deleteButton.prop 'disabled', (frame not in (mark.frame for mark in @currSighting?.labels when mark.x? and mark.y?))
 
   showFrame: (frame_idx) ->
     @el.find("#frame-id-#{i}").closest("div").hide() for i in [0...@numFrames]
@@ -541,7 +542,7 @@ class Classifier extends BaseController
     # invert using svg inverter - implement when cross origin ready
     images = document.getElementsByClassName('frame-image')
     InvertSvg(image) for image in images
-      
+
   onClickFinishMarking: ->
     console.log "onClickFinishedMarking()"
     radio.checked = false for radio in @classifierTypeRadios
@@ -549,7 +550,7 @@ class Classifier extends BaseController
     @sendClassification()
     # hide all marks
     mark.setAttribute 'visibility', 'hidden' for mark in [@el.find(".mark")...]
-      
+
   showSummary: ->
     console.log 'showSummary()'
     console.log @Subject.current.metadata.known_objects
