@@ -200,8 +200,6 @@ class Classifier extends BaseController
     @Subject = Subject
     @Subject.group = '532b37203ae740fc7a000002'
 
-    console.log @el.find(".frame-image")
-
   onSelectArtifact: ->
     @currSighting.subType = @artifactSelector.filter(':checked').val()
     if @currSighting.annotations.length > 0 then @doneButton.prop 'disabled', false
@@ -555,6 +553,7 @@ class Classifier extends BaseController
   showSummary: ->
     console.log 'showSummary()'
     console.log @Subject.current.metadata.known_objects
+    @knownAsteroidMessage.hide()
 
     objectsData = @Subject.current.metadata.known_objects
     for frame, i in ['0001'] when objectsData[frame] isnt undefined # display only first frame
