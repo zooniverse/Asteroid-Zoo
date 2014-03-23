@@ -543,17 +543,17 @@ class Classifier extends BaseController
     # invert using svg inverter - implement when cross origin ready
     images = document.getElementsByClassName('frame-image')
     InvertSvg(image) for image in images
-
+      
   onClickFinishMarking: ->
     console.log "onClickFinishedMarking()"
     radio.checked = false for radio in @classifierTypeRadios
     @showSummary()
     @sendClassification()
-
+    # hide all marks
+    mark.setAttribute 'visibility', 'hidden' for mark in [@el.find(".mark")...]
+      
   showSummary: ->
     console.log 'showSummary()'
-    @resetMarkingSurfaces() # remove previous marks
-    @knownAsteroidMessage.hide()
     console.log @Subject.current.metadata.known_objects
 
     objectsData = @Subject.current.metadata.known_objects
@@ -692,7 +692,7 @@ class Classifier extends BaseController
   sendClassification: ->
     @finishButton.prop 'disabled', true
     @classification.set 'setOfSightings', [@setOfSightings...]
-    console?.log JSON.stringify @classification
+    console.log JSON.stringify @classification
     @classification.send()
 
 module.exports = Classifier

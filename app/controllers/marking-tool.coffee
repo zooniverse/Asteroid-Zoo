@@ -61,6 +61,7 @@ class MarkingTool extends Tool
     y = (@mark.y / 512) * scale
     @group.attr 'transform', "translate(#{x}, #{y})"
     @group.attr 'class', "from-frame-#{@mark.frame}"
+    @group.attr 'class', 'mark'
     @controls.moveTo x, y
 
   setMarkType: (markType) ->
