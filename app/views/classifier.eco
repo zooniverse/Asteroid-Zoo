@@ -1,6 +1,5 @@
 <% translate = require 't7e' %>
 <% ifTouch = require '../lib/if-touch' %>
-
 <div id="classify-box">
   <div id="left-panel" class="left-panel">
     <div id="tools">
