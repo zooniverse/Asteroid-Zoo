@@ -21,39 +21,21 @@ class HomePage extends BaseController
   constructor: ->
     super
     @navigationComponent = $('.site-navigation .for-home-page')
+    @siteHeader = $(".asteroid-bg .content-block")
     @positionMainBanner()
     window.onresize = => @positionMainBanner()
 
-  activate: ->
-    setTimeout @showNavigationComponent, @headerSlideDelay
+  activate: (duration = @animationDuration) ->
+    @siteHeader.fadeIn(duration)
+    @navigationComponent.show()
+
+  deactivate: (duration = @animationDuration) ->
+    @siteHeader.fadeOut(duration)
+    @navigationComponent.hide(500) # or just hide() for no transition
 
   positionMainBanner: ->
     bgHeight = window.innerHeight - $('.site-navigation .content-container').outerHeight(true)
     $('.asteroid-bg').css 'height', bgHeight
 
-  deactivate: (params) ->
-    if params?
-      setTimeout @hideNavigationComponent, @headerSlideDelay
-    else
-      # This is the on-load deactivation
-      @hideNavigationComponent 0
-
-  showNavigationComponent: (duration = @animationDuration) =>
-    @navigationComponent.slideDown duration
-    @navigationComponent.animate {
-      opacity: 1
-    }, {
-      duration: duration
-      queue: false
-    }
-
-  hideNavigationComponent: (duration = @animationDuration) =>
-    @navigationComponent.slideUp duration
-    @navigationComponent.animate {
-      opacity: 0
-    }, {
-      duration: duration * 0.5
-      queue: false
-    }
 
 module.exports = HomePage
