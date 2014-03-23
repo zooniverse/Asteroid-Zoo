@@ -31,7 +31,7 @@ class HomePage extends BaseController
 
   deactivate: (duration = @animationDuration) ->
     @siteHeader.fadeOut(duration)
-    @navigationComponent.hide(500) # or just hide() for no transition
+    @navigationComponent.hide().animate({ scrollTop: 0 }, duration)
 
   positionMainBanner: ->
     bgHeight = window.innerHeight - $('.site-navigation .content-container').outerHeight(true)
