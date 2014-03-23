@@ -202,7 +202,7 @@ class Classifier extends BaseController
 
   onSelectArtifact: ->
     @currSighting.subType = @artifactSelector.filter(':checked').val()
-    if @currSighting.annotations.length > 0 then @doneButton.prop 'disabled', false
+    if @currSighting.labels.length > 0 then @doneButton.prop 'disabled', false
 
   createMarkingSurfaces: ->
     @numFrames = 4
@@ -251,9 +251,9 @@ class Classifier extends BaseController
     @updateIconsForDestroyMark mark.frame
     @currSighting.clearSightingsInFrame mark.frame
     @removeElementsOfClass(".ghost-mark")
-    if @state is 'asteroidTool' and @currSighting.annotations.length < @numFrames
+    if @state is 'asteroidTool' and @currSighting.labels.length < @numFrames
       @doneButton.prop 'disabled', true
-    else if @state is 'artifactTool' and !@currSighting.annotations.length
+    else if @state is 'artifactTool' and !@currSighting.labels.length
       @doneButton.prop 'disabled', true
     @deleteButton.prop 'disabled', true
 
@@ -275,13 +275,13 @@ class Classifier extends BaseController
     switch @state
       when 'asteroidTool'
         tool.setMarkType 'asteroid'
-        @doneButton.prop 'disabled', false if @currSighting.annotations.length is @numFrames
+        @doneButton.prop 'disabled', false if @currSighting.labels.length is @numFrames
         @deleteButton.prop 'disabled', false
       when 'artifactTool'
         tool.setMarkType 'artifact'
         otherFrames = [0...@numFrames].filter (num) -> num isnt surfaceIndex
         @destroyMarksInFrame(frame) for frame in otherFrames
-        @doneButton.prop 'disabled', false if @currSighting.annotations and @artifactSelector.filter(':checked').length
+        @doneButton.prop 'disabled', false if @currSighting.labels and @artifactSelector.filter(':checked').length
 
     @updateIconsForCreateMark(surfaceIndex)
 
@@ -409,7 +409,7 @@ class Classifier extends BaseController
       visible: false
       inverted: @invert
     @currSighting.pushSighting newAnnotation
-    if @state is 'asteroidTool' and @currSighting.annotations.length is @numFrames
+    if @state is 'asteroidTool' and @currSighting.labels.length is @numFrames
       @doneButton.prop 'disabled', false
 
   updateIconsForCreateMark: (frameNum) =>
@@ -453,7 +453,7 @@ class Classifier extends BaseController
   onClickAsteroidDone: ->
     @removeElementsOfClass(".ghost-mark")
     @currSighting.displaySummary()
-    if @currSighting.annotations.length is 0
+    if @currSighting.labels.length is 0
       @currSighting = null
     else
       @finishButton.prop 'disabled', false
@@ -518,8 +518,8 @@ class Classifier extends BaseController
     @showFrame(frame)
     @el.attr 'data-on-frame', frame
     @nextFrame.prop 'disabled', if frame is (@numFrames-1) then true else false
-    if @currSighting?.annotations
-      @deleteButton.prop 'disabled', (frame not in (mark.frame for mark in @currSighting.annotations))
+    if @currSighting?.labels
+      @deleteButton.prop 'disabled', (frame not in (mark.frame for mark in @currSighting.labels))
 
   showFrame: (frame_idx) ->
     @el.find("#frame-id-#{i}").closest("div").hide() for i in [0...@numFrames]
@@ -563,8 +563,12 @@ class Classifier extends BaseController
         radius = 10
         x = Math.round(knownObject.x)/256 * 190
         y = Math.round(knownObject.y)/256 * 190
+        P_ref = {x: knownObject.x, y: knownObject.y}
         for surface in [@markingSurfaceList...]
           surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: x, cy: y, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
+
+        console.log 'calling evaluateAnnotations()'
+        @evaluateAnnotations(P_ref)
 
     # # console.log @Subject.current.metadata.known_objects
     # for knownAsteroid in @Subject.current.metadata.known_objects
@@ -664,6 +668,9 @@ class Classifier extends BaseController
     element.parentNode.removeChild(element) for element in [@el.find(class_name)...]
 
   evaluateAnnotations: (P_ref) ->
+    console.log 'evaluateAnnotatiojs()'
+    console.log 'GROUND TRUTH: (',P_ref.x,',',P_ref.y,')'
+
     xs = []
     ys = []
     P = null
@@ -671,15 +678,18 @@ class Classifier extends BaseController
     x_sum = null
     y_sum = null
     for sighting in [@setOfSightings...] when sighting.type is "asteroid"
-      for annotation, i in sighting.annotations
-        xs[i] = annotation.x
-        ys[i] = annotation.y
+      for label, i in sighting.labels
+        xs[i] = Math.round(label.x_actual)
+        ys[i] = Math.round(label.y_actual)
         x_sum += xs[i]
         y_sum += ys[i]
-      x_avg = Math.round(x_sum/sighting.annotations.length)
-      y_avg = Math.round(y_sum/sighting.annotations.length)
-      P = {x: x_sum, y: y_sum}
+      x_avg = Math.round(x_sum/sighting.labels.length)
+      y_avg = Math.round(y_sum/sighting.labels.length)
+      P = {x: x_avg, y: y_avg}
       d = @dist(P,P_ref)
+
+      console.log 'REPORTED ASTEROID: (',x_avg,',',y_avg,'), distance: ',d,''
+
       if d <= 20
         console.log 'Awesome job!'
       else
