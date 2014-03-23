@@ -13,8 +13,6 @@ createTutorialSubject = require '../lib/create-tutorial-subject'
 translate             = require 't7e'
 ChannelCycler         = require 'channel-cycler'
 
-BIG_MODE = !!~location.search.indexOf 'big=1'
-
 KEYS =
   space:  32
   return: 13
@@ -210,7 +208,6 @@ class Classifier extends BaseController
     for i in [0...@numFrames]
       @markingSurfaceList[i] = new MarkingSurface
         tool: MarkingTool
-      @markingSurfaceList[i].svg.attr 'viewBox', '256 0 256 256' if BIG_MODE
       @markingSurfaceList[i].svgRoot.attr 'id', "classifier-svg-root-#{i}"
       @surfacesContainer.append @markingSurfaceList[i].el
     for surface in @markingSurfaceList
@@ -337,8 +334,8 @@ class Classifier extends BaseController
         @markingSurfaceList[i].addShape 'image',
         id:  frame_id
         class:  'frame-image'
-        width:  if BIG_MODE then '512' else '100%'
-        height: if BIG_MODE then '512' else '100%'
+        width:  '100%'
+        height: '100%'
         preserveAspectRatio: 'true'
       img_src = if @invert then subject_info.inverted[i] else subject_info.standard[i]
       do (img_src, frameImage)  =>
