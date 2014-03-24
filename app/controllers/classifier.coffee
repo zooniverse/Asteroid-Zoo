@@ -555,6 +555,10 @@ class Classifier extends BaseController
     console.log @Subject.current.metadata.known_objects
     @knownAsteroidMessage.hide()
 
+    # reset summary text
+    @el.find("#known-asteroid-message").html "This subject contains at least one known asteroid (circled in green)."
+    @el.find("#summary-header").html "Thanks for your work!"
+
     objectsData = @Subject.current.metadata.known_objects
     for frame, i in ['0001'] when objectsData[frame] isnt undefined # display only first frame
       for knownObject, i in [objectsData[frame]...] when knownObject.good_known #and knownObject.object is '(161969)'
@@ -566,28 +570,8 @@ class Classifier extends BaseController
         P_ref = {x: knownObject.x, y: knownObject.y}
         for surface in [@markingSurfaceList...]
           surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: x, cy: y, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
-
-        console.log 'calling evaluateAnnotations()'
+        console.log 'calling evaluateAnnotations()' #
         @evaluateAnnotations(P_ref)
-
-    # # console.log @Subject.current.metadata.known_objects
-    # for knownAsteroid in @Subject.current.metadata.known_objects
-    #   # console.log 'knownAsteroid: ', knownAsteroid
-    #   # console.log 'knownAsteroid.'
-    #   xs = (coord.x for coord in knownAsteroid)
-    #   ys = (coord.y for coord in knownAsteroid)
-    #   x_sum = xs.reduce (sum, x) -> sum + x
-    #   y_sum = ys.reduce (sum, y) -> sum + y
-
-    #   # should be changed to @surface.el.offsetWidth, as in marking-tool
-    #   x_avg = Math.round(x_sum/@numFrames)/512 * 190
-    #   y_avg = Math.round(y_sum/@numFrames)/512 * 190
-    #   dx = Math.abs( (Math.max xs...) - (Math.min xs...) )
-    #   dy = Math.abs( (Math.max ys...) - (Math.min ys...) )
-    #   radius = Math.max( dx, dy, 5)
-    #   for surface in [@markingSurfaceList...]
-    #     surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: x_avg, cy: y_avg, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
-
     @el.attr 'flicker', 'true'
     @surfacesContainer.children().clone().appendTo(@summaryImageContainer)
     element.hide() for element in [@surfacesContainer, @playButton, @frameSlider, @finishButton, @rightPanel.find('.answers'), @cycleButton]
@@ -596,11 +580,33 @@ class Classifier extends BaseController
     @leftPanel.find(".answers:lt(5)").css 'pointer-events', 'none' #disable everything but guide
     element.show() for element in [@rightPanelSummary, @summaryContainer, @nextSubjectButton]
 
-  objectIsEmpty: (obj) ->
-    for key of obj
-      if obj.hasOwnProperty(key)
-        return false
-    return true
+  evaluateAnnotations: (P_ref) ->
+    # console.log 'GROUND TRUTH: (',P_ref.x,',',P_ref.y,')'
+    xs = []
+    ys = []
+    P = null
+    d = null
+    x_sum = null
+    y_sum = null
+    for sighting in [@setOfSightings...] when sighting.type is "asteroid"
+      for label, i in sighting.labels
+        xs[i] = Math.round(label.x_actual)
+        ys[i] = Math.round(label.y_actual)
+        x_sum += xs[i]
+        y_sum += ys[i]
+      x_avg = Math.round(x_sum/sighting.labels.length)
+      y_avg = Math.round(y_sum/sighting.labels.length)
+      P = {x: x_avg, y: y_avg}
+      d = @dist(P,P_ref)
+      # console.log 'REPORTED ASTEROID: (',x_avg,',',y_avg,'), distance: ',d,''
+
+      if d <= 20 # GREAT JOB!
+        @foundAsteroid = true
+        @el.find("#known-asteroid-message").html "You\'ve found an asteroid that we already know about. Keep up the great work and you might discover a new asteroid that nobody has ever seen before!"
+        @el.find("#summary-header").html "Awesome job!"
+
+  dist: (P1,P2) ->
+    Math.sqrt ( Math.pow(P1.x-P2.x,2) + Math.pow(P1.y-P2.y,2) )
 
   populateSummary: ->
     asteroidCount = (@setOfSightings.filter (s) -> s.type is 'asteroid').length
@@ -666,37 +672,6 @@ class Classifier extends BaseController
 
   removeElementsOfClass: (class_name) ->
     element.parentNode.removeChild(element) for element in [@el.find(class_name)...]
-
-  evaluateAnnotations: (P_ref) ->
-    console.log 'evaluateAnnotatiojs()'
-    console.log 'GROUND TRUTH: (',P_ref.x,',',P_ref.y,')'
-
-    xs = []
-    ys = []
-    P = null
-    d = null
-    x_sum = null
-    y_sum = null
-    for sighting in [@setOfSightings...] when sighting.type is "asteroid"
-      for label, i in sighting.labels
-        xs[i] = Math.round(label.x_actual)
-        ys[i] = Math.round(label.y_actual)
-        x_sum += xs[i]
-        y_sum += ys[i]
-      x_avg = Math.round(x_sum/sighting.labels.length)
-      y_avg = Math.round(y_sum/sighting.labels.length)
-      P = {x: x_avg, y: y_avg}
-      d = @dist(P,P_ref)
-
-      console.log 'REPORTED ASTEROID: (',x_avg,',',y_avg,'), distance: ',d,''
-
-      if d <= 20
-        console.log 'Awesome job!'
-      else
-        console.log 'You disappoint me.'
-
-  dist: (P1,P2) ->
-    Math.sqrt ( Math.pow(P1.x-P2.x,2) + Math.pow(P1.y-P2.y,2) )
 
   sendClassification: ->
     @finishButton.prop 'disabled', true

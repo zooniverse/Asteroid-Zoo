@@ -40,10 +40,10 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
       nothing:
         label: 'Nothing'
     rightPanel:
-      summaryHeader: "Nice Work!"
+      summaryHeader: "Nice work!"
       whatKindScreen: "Please select Asteroid, Artifact, or Nothing in the menu above to continue marking"
       knownAsteroid: "This subject contains at least one known asteroid (circled in green)."
-      summaryBody: "Check your progress in the subject summary. You can discuss this on Talk, share it, or add it to your favorites!"
+      summaryBody: "You can discuss this on Talk, share it, or add it to your favorites!"
       asteroidDoneScreen: "You must mark an asteroid or declare not visible in all 4 frames to click done"
       artifactDoneScreen: "Please click on the artifact in the image and select what type to click done"
     finished:
