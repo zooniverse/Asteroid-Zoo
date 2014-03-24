@@ -493,7 +493,7 @@
     <div class="column">
       <h2>Other</h2>
       <img src="./images/guide/other.png">
-      <p>Flat Field Defects (<strong>A</strong>) or Bad Pixel Columns (<strong>B</strong>) may also be visible in the images. These will appear as shown in the first image above.</p>
+      <p>Flat Field Defects (<strong>A</strong>) or Bad Pixel Columns (<strong>B</strong>) may also be visible in the images. These will appear as shown in the image above.</p>
       <p>You may also see planes or satellites in a frame that create a straight path through the image appearing to pulse or widen along its path due to their flashing lights.</p>
     </div>
   </div>
