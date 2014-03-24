@@ -147,8 +147,7 @@ class Classifier extends BaseController
         @enableMarkingSurfaces()
         @currSighting = new Sighting({
           type:"asteroid", 
-          inverted: @invert, 
-          flicker: @el.attr 'flicker'
+          inverted: @invert
         })
         @el.find('.asteroid-classifier').show()
         @doneButton.show()
