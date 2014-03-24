@@ -186,6 +186,7 @@ class Classifier extends BaseController
     @cycling = false
     @guideShowing = false
     window.classifier = @
+    @recordedClickEvents = []
     @setOfSightings = []
     @currSighting = null
     @flickerButton.attr 'disabled', true
@@ -318,6 +319,8 @@ class Classifier extends BaseController
     @loadFrames()
 
   onStartTutorial: =>
+    clickEvent = { event: 'tutorialClicked', timestamp: (new Date).toUTCString() }
+    @recordedClickEvents.push clickEvent
     @onClickReset()
     @onClickFlicker()
     # TODO: designate tutorial subject
@@ -380,6 +383,8 @@ class Classifier extends BaseController
       @frameSlider.attr 'disabled', false
       @cycleButton.removeClass 'active'
     else
+      clickEvent = { event: 'cycleActivated', timestamp: (new Date).toUTCString() }
+      @recordedClickEvents.push clickEvent
       images = document.querySelectorAll(".frame-image")
       sources = (img.getAttribute('href') for img in images).reverse()
       @cc = new ChannelCycler(sources)
@@ -653,7 +658,12 @@ class Classifier extends BaseController
     Math.random() < @trainingRate()
 
   onClickGuide: ->
-    if @guideShowing then @spottersGuide.slideUp() else @spottersGuide.slideDown()
+    if @guideShowing
+      @spottersGuide.slideUp() 
+    else 
+      clickEvent = { event: 'guideActivated', timestamp: (new Date).toUTCString() }
+      @recordedClickEvents.push clickEvent
+      @spottersGuide.slideDown()
     @guideShowing = !@guideShowing
 
   onClickNextSubject: ->
@@ -701,8 +711,10 @@ class Classifier extends BaseController
 
   sendClassification: ->
     @finishButton.prop 'disabled', true
+    @classification.set 'recordedClickEvents', [@recordedClickEvents...]
     @classification.set 'setOfSightings', [@setOfSightings...]
     console.log JSON.stringify @classification
     @classification.send()
+    @recordedClickEvents = []
 
 module.exports = Classifier
