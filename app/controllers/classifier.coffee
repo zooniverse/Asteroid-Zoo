@@ -12,6 +12,7 @@ createTutorialSubject = require '../lib/create-tutorial-subject'
 { Tutorial }          = require 'zootorial'
 translate             = require 't7e'
 ChannelCycler         = require 'channel-cycler'
+$ = window.jQuery
 
 KEYS =
   space:  32
@@ -332,7 +333,7 @@ class Classifier extends BaseController
   loadFrames: =>
     @destroyFrames()
     subject_info = @classification.subject.location
-    for i in [0...@numFrames]
+    for i in [0...subject_info.standard.length]
       frame_id = "frame-id-#{i}"
       frameImage =
         @markingSurfaceList[i].addShape 'image',
@@ -375,15 +376,17 @@ class Classifier extends BaseController
       @frameSlider.attr 'disabled', false
       @cycleButton.removeClass 'active'
     else
-      images = document.querySelectorAll(".frame-image")
-      sources = (img.getAttribute('href') for img in images).reverse()
-      @cc = new ChannelCycler(sources)
-      @subjectContainer.append(@cc.canvas)
-      @cc.start()
-      @cycleButton.addClass 'active'
-      @cc.period = 600
-      @playButton.attr 'disabled', true
-      @frameSlider.attr 'disabled', true
+      promisedImgs = (loadImage src for src in @classification.subject.location.standard)
+      $.when(promisedImgs...).then (imgs...) =>
+        if @cycling
+          sources = imgs.map (img) -> img.src
+          @cc = new ChannelCycler(sources)
+          @subjectContainer.append(@cc.canvas)
+          @cc.start()
+          @cycleButton.addClass 'active'
+          @cc.period = 600
+          @playButton.attr 'disabled', true
+          @frameSlider.attr 'disabled', true
     @cycling = !@cycling
 
   rerenderMarks: ->
