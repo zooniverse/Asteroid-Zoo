@@ -466,7 +466,7 @@ class Classifier extends BaseController
 
   onClickAsteroidDone: ->
     @removeElementsOfClass(".ghost-mark")
-    @currSighting.displaySummary()
+    # @currSighting.displaySummary()
     if @currSighting.labels.length is 0
       @currSighting = null
     else
@@ -558,7 +558,6 @@ class Classifier extends BaseController
     InvertSvg(image) for image in images
 
   onClickFinishMarking: ->
-    console.log "onClickFinishedMarking()"
     radio.checked = false for radio in @classifierTypeRadios
     @showSummary()
     @sendClassification()
@@ -566,9 +565,6 @@ class Classifier extends BaseController
     mark.setAttribute 'visibility', 'hidden' for mark in [@el.find(".mark")...]
 
   showSummary: ->
-    console.log 'showSummary()'
-    console.log @Subject.current.metadata.known_objects
-
     @appendMetadata()
 
     @knownAsteroidMessage.hide()
@@ -588,7 +584,6 @@ class Classifier extends BaseController
         P_ref = {x: knownObject.x, y: knownObject.y}
         for surface in [@markingSurfaceList...]
           surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: x, cy: y, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
-        console.log 'calling evaluateAnnotations()' #
         @evaluateAnnotations(P_ref)
     @el.attr 'flicker', 'true'
     @surfacesContainer.children().clone().appendTo(@summaryImageContainer)
@@ -715,7 +710,6 @@ class Classifier extends BaseController
     @finishButton.prop 'disabled', true
     @classification.set 'recordedClickEvents', [@recordedClickEvents...]
     @classification.set 'setOfSightings', [@setOfSightings...]
-    console.log JSON.stringify @classification
     @classification.send()
     @recordedClickEvents = []
 
