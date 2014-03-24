@@ -49,6 +49,9 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
       artifactDoneScreen: "Please click on the artifact in the image and select what type to click done"
     finished:
       finishedButtonScreen: "Please mark any visible asteroids or artifacts, or select 'Nothing' to move on to the next set of images"
+    favorite:
+      add: "Add to favorites"
+      remove: "Remove from favorites"
 
   artifacts:
     heading: 'What type of artifact is this?'

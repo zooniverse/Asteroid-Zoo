@@ -114,6 +114,7 @@ class Classifier extends BaseController
     '#hotpixel-count'                : 'hotpixelCount'
     "#notification"                  : 'notification'
     "#favorite"                      : 'favoriteBtn'
+    "#favorite-message"              : 'favoriteMessage'
     '.summary-image-container'       : 'summaryImageContainer'
     '.known-asteroid-message'        : 'knownAsteroidMessage'
 
@@ -661,8 +662,10 @@ class Classifier extends BaseController
     @favoriteBtn.toggleClass 'favorited'
     if @classification.favorite
       @notify "<span style='color: #4cc500;'>Added to favorites</span>"
+      @favoriteMessage.html translate "classifier.favorite.remove"
     else
       @notify "Removed from favorites"
+      @favoriteMessage.html translate "classifier.favorite.add"
 
   startLoading: ->
     @el.addClass 'loading'

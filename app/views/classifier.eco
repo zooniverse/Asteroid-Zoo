@@ -392,7 +392,8 @@
 
     <div id="notification"></div>
 
-    <img id="favorite" src="./images/save-icon.png">
+    <div id="favorite"><img src="./images/save-icon.png"><p id="favorite-message">Add to Favorites</p></div>
+
   </div><!-- end marking tool interface / right-panel-->
 
   <div class="bottom-row">
