@@ -554,6 +554,9 @@ class Classifier extends BaseController
   showSummary: ->
     console.log 'showSummary()'
     console.log @Subject.current.metadata.known_objects
+
+    @appendMetadata()
+
     @knownAsteroidMessage.hide()
 
     # reset summary text
@@ -580,6 +583,14 @@ class Classifier extends BaseController
     @populateSummary()
     @leftPanel.find(".answers:lt(5)").css 'pointer-events', 'none' #disable everything but guide
     element.show() for element in [@rightPanelSummary, @summaryContainer, @nextSubjectButton]
+
+  appendMetadata: ->
+    allKnowns = ""
+    knownObjects = @Subject.current.metadata.known_objects["0001"]
+    if knownObjects
+      for metadata in knownObjects
+        allKnowns += metadata.object if metadata.good_known is true
+    @el.find("#metadata-knowns").html allKnowns
 
   evaluateAnnotations: (P_ref) ->
     # console.log 'GROUND TRUTH: (',P_ref.x,',',P_ref.y,')'
