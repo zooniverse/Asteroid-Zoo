@@ -349,13 +349,25 @@ class Classifier extends BaseController
         width:  '100%'
         height: '100%'
         preserveAspectRatio: 'true'
+
       img_src = if @invert then subject_info.inverted[i] else subject_info.standard[i]
-      do (img_src, frameImage)  =>
-        loadImage img_src, (img) =>
-          frameImage.attr
-            'xlink:href': img.src
+
+      @loadFrame frameImage, img_src
+
     @stopLoading()
     @activateFrame 0  # default to first frame after loading
+
+  loadFrame: (image, src, attempts = 1) ->
+    loadImage(src).then (img) =>
+      # Apparently long stings of AAAAA... mean there was some kinda problem.
+      # TODO: Figure out why this happens. Seems like it's random and only in IE.
+      if attempts < 10 and !!~img.src.indexOf (new Array 100).join 'A'
+        # console?.log "Error loading #{src} (#{attempts})"
+        setTimeout => # Allow the transport frame to clean up, then try again.
+          @loadFrame image, src, attempts + 1
+      else
+        # console?.log "Loaded #{src} after #{attempts} attempts"
+        image.attr 'xlink:href', img.src
 
   onClickFourUp: ->
     @el.find("#frame-id-#{i}").closest("div").show() for i in [0...@numFrames]
