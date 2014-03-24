@@ -479,15 +479,13 @@
     <div class="column">
       <h2>Star Bleed</h2>
       <img src="./images/guide/star-bleed-2.png">
-      <img src="./images/guide/star-bleed.jpg">
       <p>Star Bleeds occur when the amount of light entering the camera exceeds the pixel’s maximum and then starts to “bleed” over into neighboring pixels. This usually occurs where there are bright stars and can look like the image above.</p>
     </div>
 
     <div class="column">
       <h2>Hot Pixel / Cosmic Ray</h2>
-      <img src="./images/guide/hot-pixel.jpg">
-      <img src="./images/guide/cosmic-rays.jpg">
-      <p>Occasionally pixels malfunction, or stops collecting light properly, in the case of a hot pixel it does not turn off and therefore always collects light. The light can then bleed over into the rest of the column. This creates the appearance of a line down the image, see image above.</p>
+      <img src="./images/guide/ray-or-hotpixel.png">
+      <p>Occasionally pixels malfunction, or stop collecting light properly, in the case of a hot pixel it does not turn off and therefore always collects light. The light can then bleed over into the rest of the column. This creates the appearance of a line down the image, see image above.</p>
       <p>Occasionally, cosmic rays hit the camera causing the appearance of small, sharp spots or streaks on the images.</p>
     </div>
 
@@ -496,7 +494,8 @@
       <h2>Other</h2>
       <img src="./images/guide/other.png">
       <img src="./images/guide/dust.jpg">
-      <p>Other things you may see are not caused by something out in space or a problem with the camera. In the image below you may notice an oddly shaped white patch, this is a large piece of dust that has fallen on the camera and is blocking light from entering those pixels.</p>
+      <p>Flat Field Defects (<strong>A</strong>) or Bad Pixel Columns (<strong>B</strong>) may also be visible in the images. These will appear as shown in the first image above.</p>
+      <p>Other things you may see are not caused by something out in space or a problem with the camera. In the second image above you may notice an oddly shaped white patch, this is a large piece of dust that has fallen on the camera and is blocking light from entering those pixels.</p>
       <p>You may also see planes or satellites in a frame that create a straight path through the image appearing to pulse or widen along its path due to their flashing lights.</p>
     </div>
   </div>
