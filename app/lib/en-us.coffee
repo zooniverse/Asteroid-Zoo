@@ -192,6 +192,10 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     more_content: '''
       <p>The Asteroid Zoo blog is great place to keep up to date with the latests science results, but there is also a Zooniverse Education Blog as well as a <a href="https://twitter.com/@ZooTeach">@ZooTeach</a> Twitter feed.
     '''
+
+  discuss:
+    title: "Discuss"
+    summary: "Zooniverse Talk features will become available once Asteroid Zoo is launched"
   ######################
   # TUTORIAL
   ######################
