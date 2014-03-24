@@ -215,11 +215,11 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
 
     tools:
       header: 'Tools'
-      details: 'Invert gives you a way to examine the images by reversing the black and white of the image. Play around with this tool, when you are done click Continue.'
+      details: 'Invert gives you a way to examine the images by reversing the black and white of the image.' #Play around with this tool, when you are done click Continue.'
 
     view:
       header: 'Viewing the images'
-      details: 'There are 2 ways to look at the sequence of images for each classification, either by the “Flicker” or “4-up” options. Flicker allows you to select each frame in the sequence or to play through. 4-up displays all 4 frames at once. Test out each option, and when you are ready click Continue.'
+      details: 'There are 2 ways to look at the sequence of images for each classification, either by the “Flicker” or “4-up” options. Flicker allows you to select each frame in the sequence or to play through. 4-up displays all 4 frames at once.' #Test out each option, and when you are ready click Continue.'
 
     beginWorkflow:
       header: 'Now on to Asteroid Hunting!'
@@ -272,4 +272,4 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
 
     finished:
       header: 'Happy Hunting!'
-      details: 'When you are finished with the set of images, click on "Finished" to submit your work and load the next set of images. This concludes the Tutorial.'
+      details: 'When you are finished with the set of images, click on "Finish" to submit your work and load the next set of images. This concludes the Tutorial.'
