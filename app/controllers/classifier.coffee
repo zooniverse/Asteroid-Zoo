@@ -13,8 +13,6 @@ createTutorialSubject = require '../lib/create-tutorial-subject'
 translate             = require 't7e'
 ChannelCycler         = require 'channel-cycler'
 
-BIG_MODE = !!~location.search.indexOf 'big=1'
-
 KEYS =
   space:  32
   return: 13
@@ -210,7 +208,6 @@ class Classifier extends BaseController
     for i in [0...@numFrames]
       @markingSurfaceList[i] = new MarkingSurface
         tool: MarkingTool
-      @markingSurfaceList[i].svg.attr 'viewBox', '256 0 256 256' if BIG_MODE
       @markingSurfaceList[i].svgRoot.attr 'id', "classifier-svg-root-#{i}"
       @surfacesContainer.append @markingSurfaceList[i].el
     for surface in @markingSurfaceList
@@ -337,8 +334,8 @@ class Classifier extends BaseController
         @markingSurfaceList[i].addShape 'image',
         id:  frame_id
         class:  'frame-image'
-        width:  if BIG_MODE then '512' else '100%'
-        height: if BIG_MODE then '512' else '100%'
+        width:  '100%'
+        height: '100%'
         preserveAspectRatio: 'true'
       img_src = if @invert then subject_info.inverted[i] else subject_info.standard[i]
       do (img_src, frameImage)  =>
@@ -372,12 +369,14 @@ class Classifier extends BaseController
       @cc.destroy()
       @playButton.attr 'disabled', false
       @frameSlider.attr 'disabled', false
+      @cycleButton.removeClass 'active'
     else
       images = document.querySelectorAll(".frame-image")
       sources = (img.getAttribute('href') for img in images).reverse()
       @cc = new ChannelCycler(sources)
       @subjectContainer.append(@cc.canvas)
       @cc.start()
+      @cycleButton.addClass 'active'
       @cc.period = 600
       @playButton.attr 'disabled', true
       @frameSlider.attr 'disabled', true
@@ -518,8 +517,9 @@ class Classifier extends BaseController
     @showFrame(frame)
     @el.attr 'data-on-frame', frame
     @nextFrame.prop 'disabled', if frame is (@numFrames-1) then true else false
-    if @currSighting?.labels
-      @deleteButton.prop 'disabled', (frame not in (mark.frame for mark in @currSighting.labels))
+    setTimeout =>
+      if @currSighting?.labels
+        @deleteButton.prop 'disabled', (frame not in (mark.frame for mark in @currSighting?.labels when mark.x? and mark.y?))
 
   showFrame: (frame_idx) ->
     @el.find("#frame-id-#{i}").closest("div").hide() for i in [0...@numFrames]
@@ -541,7 +541,7 @@ class Classifier extends BaseController
     # invert using svg inverter - implement when cross origin ready
     images = document.getElementsByClassName('frame-image')
     InvertSvg(image) for image in images
-      
+
   onClickFinishMarking: ->
     console.log "onClickFinishedMarking()"
     radio.checked = false for radio in @classifierTypeRadios
@@ -549,7 +549,7 @@ class Classifier extends BaseController
     @sendClassification()
     # hide all marks
     mark.setAttribute 'visibility', 'hidden' for mark in [@el.find(".mark")...]
-      
+
   showSummary: ->
     console.log 'showSummary()'
     console.log @Subject.current.metadata.known_objects

@@ -402,11 +402,11 @@
         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
            width="26px" height="11px" viewBox="0 0 25 11" style="enable-background:new 0 0 25 11;" xml:space="preserve">
         <g>
-          <circle cx="19.5" cy="5.5" r="5.5" fill="#f8e11e" />
-          <path fill="#f80082" d="M12.998,8.95C12.834,8.973,12.67,9,12.5,9C10.57,9,9,7.43,9,5.5C9,3.57,10.57,2,12.5,2
+          <circle fill="#CBCBCB" cx="19.5" cy="5.5" r="5.5" />
+          <path fill="#CBCBCB" d="M12.998,8.95C12.834,8.973,12.67,9,12.5,9C10.57,9,9,7.43,9,5.5C9,3.57,10.57,2,12.5,2
             c0.17,0,0.334,0.027,0.498,0.05c0.402-0.64,1.536-1.205,2.13-1.669C14.506,0.138,13.208,0,12.5,0C9.462,0,7,2.462,7,5.5
             C7,8.537,9.462,11,12.5,11c0.707,0,2.006-0.138,2.628-0.382C14.534,10.154,13.4,9.59,12.998,8.95z"/>
-          <path fill="#00f8b1" d="M5.998,8.95C5.834,8.973,5.67,9,5.5,9C3.57,9,2,7.43,2,5.5C2,3.57,3.57,2,5.5,2
+          <path fill="#CBCBCB" d="M5.998,8.95C5.834,8.973,5.67,9,5.5,9C3.57,9,2,7.43,2,5.5C2,3.57,3.57,2,5.5,2
             c0.17,0,0.334,0.027,0.498,0.05C6.4,1.41,7.534,0.846,8.128,0.382C7.506,0.138,6.208,0,5.5,0C2.462,0,0,2.462,0,5.5
             C0,8.537,2.462,11,5.5,11c0.707,0,2.006-0.138,2.628-0.382C7.534,10.154,6.4,9.59,5.998,8.95z"/>
         </g>
@@ -447,7 +447,7 @@
 
     <div id="finished">
       <div class="finished-screen">
-        <%- translate 'button', 'Finished', name: 'finish-marking', class: 'finished-screen' %>
+        <%- translate 'button', 'Finish', name: 'finish-marking', class: 'finished-screen' %>
       </div>
       <%- translate 'button', 'Next Subject', name: 'next-subject', type: 'button' %>
     </div>

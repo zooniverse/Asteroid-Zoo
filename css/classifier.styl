@@ -299,13 +299,6 @@
       &:disabled
         opacity: 0.5
         pointer-events none
-      &[name="cycle-channels"]
-        line-height 10px
-        vertical-align middle
-        span
-          font-size 10px
-          font-weight 400
-          line-height 20px
     #play
       background-color #181818
       width 622px
@@ -326,8 +319,24 @@
           background-color transparent
           width 40px
           margin 0 10px 0 15px
+          line-height 10px
+          vertical-align middle
+          span
+            font-size 10px
+            font-weight 400
+            line-height 20px
           svg
             margin 0 auto
+          &.active
+            svg
+              g
+                circle
+                  fill #f8e11e
+                path
+                  &:nth-child(2)
+                    fill #f80082
+                  &:nth-child(3)
+                    fill #00f8b1
 
     #finished
       float left
