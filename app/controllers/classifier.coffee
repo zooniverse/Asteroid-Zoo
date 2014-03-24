@@ -142,7 +142,11 @@ class Classifier extends BaseController
           @showAllTrackingIcons()
           @nextFrame.hide()
         @enableMarkingSurfaces()
-        @currSighting = new Sighting({type:"asteroid"})
+        @currSighting = new Sighting({
+          type:"asteroid", 
+          inverted: @invert, 
+          flicker: @el.attr 'flicker'
+        })
         @el.find('.asteroid-classifier').show()
         @doneButton.show()
         @doneButton.prop 'disabled', true
@@ -157,7 +161,7 @@ class Classifier extends BaseController
     artifactTool:
       enter: ->
         @enableMarkingSurfaces()
-        @currSighting = new Sighting({type:"artifact"})
+        @currSighting = new Sighting({type:"artifact", inverted: @invert})
         @el.find('.artifact-classifier').show()
         @nextFrame.hide()
         @doneButton.show()
@@ -242,6 +246,7 @@ class Classifier extends BaseController
       svgElement.el.setAttribute 'from-asteroid', @currSighting.id
 
   onCreateMark: (mark) =>
+    mark.inverted = @invert
     @currSighting.pushSighting mark
 
   onDestroyMark: (mark) =>

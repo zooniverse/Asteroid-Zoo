@@ -4,6 +4,7 @@ class Sighting
 
   constructor: (params) ->
     @type = params.type
+    @flicker = params.flicker
     @subType =  params.subType if subType?
     @id = Sighting.nextId()
     @labels = []
