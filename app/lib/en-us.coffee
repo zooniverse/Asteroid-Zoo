@@ -239,11 +239,11 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     observe:
       header: 'Observe'
       details: 'If you look carefully, you\'ll find moving objects in the image.'
-      instruction: 'See if you can spot the asteroid in this picture.'
+      instruction: 'See if you can spot the asteroids in this picture.'
 
     firstAsteroid:
-      header: 'You\'ve spotted your first asteroid!'
-      details: 'We\'ll now begin marking it across each frame.'
+      header: 'You\'ve spotted your first asteroids!'
+      details: 'Pick one, and we\'ll begin marking it across each frame.'
 
     selectAsteroid:
       header: 'Tracking Asteroids'

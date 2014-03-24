@@ -92,7 +92,29 @@ tutorialSteps =
         stroke: 'rgb(0,200,0)'
         opacity: 1
         'stroke-width': 4
-        transform: 'translate(430,40)'
+        transform: 'translate(468,46)'
+
+        surface.addShape 'circle',
+        class: 'tutorial-demo-mark'
+        r: 20
+        cx: 1
+        cy: 1
+        fill: 'none'
+        stroke: 'rgb(0,200,0)'
+        opacity: 1
+        'stroke-width': 4
+        transform: 'translate(90,170)'
+
+        surface.addShape 'circle',
+        class: 'tutorial-demo-mark'
+        r: 20
+        cx: 1
+        cy: 1
+        fill: 'none'
+        stroke: 'rgb(0,200,0)'
+        opacity: 1
+        'stroke-width': 4
+        transform: 'translate(132,228)'
 
     onExit: ->
       window.classifier.removeElementsOfClass('.tutorial-demo-mark')
@@ -108,14 +130,14 @@ tutorialSteps =
     header: t 'span', 'tutorial.selectAsteroid.header'
     instruction: t 'span', 'tutorial.selectAsteroid.instruction'
     className: "arrow-right"
-    attachment: 'right center #asteroid-button left center'
+    attachment: 'right bottom #asteroid-button left bottom'
     next: 'click [id="asteroid-button"]': 'asteroid_1'
 
   asteroid_1: new Step
     header: t 'span', 'tutorial.asteroid_1.header'
     instruction: t 'span', 'tutorial.asteroid_1.instruction'
     next: 'click [id="surfaces-container"]': 'nextFrame'
-    attachment: 'center center #surfaces-container center center'
+    attachment: 'center bottom #surfaces-container center bottom'
 
   nextFrame: new Step
     header: t 'span', 'tutorial.nextFrame.header'
@@ -128,7 +150,7 @@ tutorialSteps =
     header: t 'span', 'tutorial.continueMarkingAsteroids.header'
     details: t 'span', 'tutorial.continueMarkingAsteroids.details'
     instruction: t 'span', 'tutorial.continueMarkingAsteroids.instruction'
-    attachment: 'center center #surfaces-container center center'
+    attachment: 'center bottom #surfaces-container center bottom'
     next: 'click [id="asteroid-done"]':'markArtifacts'
 
   # TODO: mark artifacts on the image 

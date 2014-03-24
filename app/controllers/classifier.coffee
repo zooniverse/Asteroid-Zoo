@@ -313,8 +313,8 @@ class Classifier extends BaseController
     @onClickReset()
     @onClickFlicker()
     # TODO: designate tutorial subject
-    # tutorialSubject = createTutorialSubject()
-    # tutorialSubject.select()
+    tutorialSubject = createTutorialSubject()
+    tutorialSubject.select()
     @tutorial.start()
 
   resetMarkingSurfaces: =>
