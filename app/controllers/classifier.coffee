@@ -369,12 +369,14 @@ class Classifier extends BaseController
       @cc.destroy()
       @playButton.attr 'disabled', false
       @frameSlider.attr 'disabled', false
+      @cycleButton.removeClass 'active'
     else
       images = document.querySelectorAll(".frame-image")
       sources = (img.getAttribute('href') for img in images).reverse()
       @cc = new ChannelCycler(sources)
       @subjectContainer.append(@cc.canvas)
       @cc.start()
+      @cycleButton.addClass 'active'
       @cc.period = 600
       @playButton.attr 'disabled', true
       @frameSlider.attr 'disabled', true
