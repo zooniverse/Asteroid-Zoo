@@ -39,6 +39,7 @@ class Classifier extends BaseController
     'click button[name="start-tutorial"]'   : 'onStartTutorial'
     'click button[name="cancel"]'           : 'onClickCancel'
     'click button[name="cycle-channels"]'   : 'onClickCycleChannels'
+    'click button[name="guide"]'            : 'onClickGuide'
     'click #favorite'                       : 'onClickFavorite'
     'change input[name="frame-slider"]'     : 'onChangeFrameSlider'
     'change input[name="selected-artifact"]': 'onSelectArtifact'
@@ -115,6 +116,7 @@ class Classifier extends BaseController
     "#notification"                  : 'notification'
     "#favorite"                      : 'favoriteBtn'
     "#favorite-message"              : 'favoriteMessage'
+    "#spotters-guide"                : 'spottersGuide'
     '.summary-image-container'       : 'summaryImageContainer'
     '.known-asteroid-message'        : 'knownAsteroidMessage'
 
@@ -178,6 +180,7 @@ class Classifier extends BaseController
     @el.attr 'flicker', "true"
     @invert = false
     @cycling = false
+    @guideShowing = false
     window.classifier = @
     @setOfSightings = []
     @currSighting = null
@@ -643,6 +646,10 @@ class Classifier extends BaseController
 
   shouldShowTraining: ->
     Math.random() < @trainingRate()
+
+  onClickGuide: ->
+    if @guideShowing then @spottersGuide.slideUp() else @spottersGuide.slideDown()
+    @guideShowing = !@guideShowing
 
   onClickNextSubject: ->
     @removeElementsOfClass(".known-asteroid")
