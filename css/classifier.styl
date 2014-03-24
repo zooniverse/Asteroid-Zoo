@@ -282,9 +282,12 @@
       line-height 30px
       opacity .5
       font-size 12px
-      img
-        margin 2px 5px 0 0
+      svg
+        margin 3px 5px 0 0
+        display inline-block
         float left
+        path
+          fill #8d8a8a
       p
         display inline-block
         float left
@@ -293,6 +296,10 @@
       &:hover
         opacity 1
         cursor pointer
+        color MAIN_AQUA
+        svg
+          path
+           fill MAIN_AQUA
 
   .bottom-row
     position relative

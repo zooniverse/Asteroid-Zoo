@@ -392,7 +392,16 @@
 
     <div id="notification"></div>
 
-    <div id="favorite"><img src="./images/save-icon.png"><p id="favorite-message">Add to Favorites</p></div>
+    <div id="favorite">
+      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+         viewBox="0 0 16 16" style="enable-background:new 0 0 16 16;" xml:space="preserve">
+      <path d="M8.48,2.233L9.759,6.17h4.14c0.488,0,0.691,0.625,0.296,0.912l-3.349,2.434l1.279,3.937
+        c0.151,0.465-0.381,0.851-0.776,0.564L8,11.584l-3.349,2.434c-0.395,0.287-0.927-0.099-0.776-0.564l1.279-3.937L1.805,7.082
+        C1.41,6.795,1.613,6.17,2.101,6.17h4.14L7.52,2.233C7.671,1.768,8.329,1.768,8.48,2.233z"/>
+      </svg>
+
+      <p id="favorite-message">Add to Favorites</p>
+    </div>
 
   </div><!-- end marking tool interface / right-panel-->
 
