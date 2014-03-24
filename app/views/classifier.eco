@@ -111,7 +111,7 @@
   <div class="subject">
     <div class="summary-container">
       <h2>Subject Summary</h2>
-      <h3>Metadata Title</h3>
+      <h3 id="metadata-knowns"></h3>
       <div class="summary-image-container"></div>
       <div class="your-results">
         <h4 id="results-title">Your Results</h4>
