@@ -485,7 +485,7 @@
     <div class="column">
       <h2>Hot Pixel / Cosmic Ray</h2>
       <img src="./images/guide/ray-or-hotpixel.png">
-      <p>Occasionally pixels malfunction, or stop collecting light properly, in the case of a hot pixel it does not turn off and therefore always collects light. The light can then bleed over into the rest of the column. This creates the appearance of a line down the image, see image above.</p>
+      <p>Occasionally pixels malfunction, or stop collecting light properly, in the case of a hot pixel it does not turn off and therefore always collects light.</p>
       <p>Occasionally, cosmic rays hit the camera causing the appearance of small, sharp spots or streaks on the images.</p>
     </div>
 
@@ -493,9 +493,7 @@
     <div class="column">
       <h2>Other</h2>
       <img src="./images/guide/other.png">
-      <img src="./images/guide/dust.jpg">
       <p>Flat Field Defects (<strong>A</strong>) or Bad Pixel Columns (<strong>B</strong>) may also be visible in the images. These will appear as shown in the first image above.</p>
-      <p>Other things you may see are not caused by something out in space or a problem with the camera. In the second image above you may notice an oddly shaped white patch, this is a large piece of dust that has fallen on the camera and is blocking light from entering those pixels.</p>
       <p>You may also see planes or satellites in a frame that create a straight path through the image appearing to pulse or widen along its path due to their flashing lights.</p>
     </div>
   </div>
