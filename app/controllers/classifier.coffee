@@ -145,7 +145,10 @@ class Classifier extends BaseController
           @showAllTrackingIcons()
           @nextFrame.hide()
         @enableMarkingSurfaces()
-        @currSighting = new Sighting({type:"asteroid"})
+        @currSighting = new Sighting({
+          type:"asteroid", 
+          inverted: @invert
+        })
         @el.find('.asteroid-classifier').show()
         @doneButton.show()
         @doneButton.prop 'disabled', true
@@ -160,7 +163,7 @@ class Classifier extends BaseController
     artifactTool:
       enter: ->
         @enableMarkingSurfaces()
-        @currSighting = new Sighting({type:"artifact"})
+        @currSighting = new Sighting({type:"artifact", inverted: @invert})
         @el.find('.artifact-classifier').show()
         @nextFrame.hide()
         @doneButton.show()
@@ -183,6 +186,7 @@ class Classifier extends BaseController
     @cycling = false
     @guideShowing = false
     window.classifier = @
+    @recordedClickEvents = []
     @setOfSightings = []
     @currSighting = null
     @flickerButton.attr 'disabled', true
@@ -246,6 +250,7 @@ class Classifier extends BaseController
       svgElement.el.setAttribute 'from-asteroid', @currSighting.id
 
   onCreateMark: (mark) =>
+    mark.inverted = @invert
     @currSighting.pushSighting mark
 
   onDestroyMark: (mark) =>
@@ -314,6 +319,8 @@ class Classifier extends BaseController
     @loadFrames()
 
   onStartTutorial: =>
+    clickEvent = { event: 'tutorialClicked', timestamp: (new Date).toUTCString() }
+    @recordedClickEvents.push clickEvent
     @onClickReset()
     @onClickFlicker()
     # TODO: designate tutorial subject
@@ -387,6 +394,8 @@ class Classifier extends BaseController
           @cc.period = 600
           @playButton.attr 'disabled', true
           @frameSlider.attr 'disabled', true
+    clickEvent = { event: 'cycleActivated', timestamp: (new Date).toUTCString() }
+    @recordedClickEvents.push clickEvent
     @cycling = !@cycling
 
   rerenderMarks: ->
@@ -458,7 +467,7 @@ class Classifier extends BaseController
 
   onClickAsteroidDone: ->
     @removeElementsOfClass(".ghost-mark")
-    @currSighting.displaySummary()
+    # @currSighting.displaySummary()
     if @currSighting.labels.length is 0
       @currSighting = null
     else
@@ -550,7 +559,6 @@ class Classifier extends BaseController
     InvertSvg(image) for image in images
 
   onClickFinishMarking: ->
-    console.log "onClickFinishedMarking()"
     radio.checked = false for radio in @classifierTypeRadios
     @showSummary()
     @sendClassification()
@@ -558,9 +566,6 @@ class Classifier extends BaseController
     mark.setAttribute 'visibility', 'hidden' for mark in [@el.find(".mark")...]
 
   showSummary: ->
-    console.log 'showSummary()'
-    console.log @Subject.current.metadata.known_objects
-
     @appendMetadata()
 
     @knownAsteroidMessage.hide()
@@ -580,7 +585,6 @@ class Classifier extends BaseController
         P_ref = {x: knownObject.x, y: knownObject.y}
         for surface in [@markingSurfaceList...]
           surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: x, cy: y, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
-        console.log 'calling evaluateAnnotations()' #
         @evaluateAnnotations(P_ref)
     @el.attr 'flicker', 'true'
     @surfacesContainer.children().clone().appendTo(@summaryImageContainer)
@@ -651,7 +655,13 @@ class Classifier extends BaseController
     Math.random() < @trainingRate()
 
   onClickGuide: ->
-    if @guideShowing then @spottersGuide.slideUp() else @spottersGuide.slideDown()
+    if @guideShowing
+      @spottersGuide.slideUp()
+    else
+      @spottersGuide.show()
+      $("html, body").animate scrollTop: @spottersGuide.offset().top - 20, 500
+      clickEvent = { event: 'guideActivated', timestamp: (new Date).toUTCString() }
+      @recordedClickEvents.push clickEvent
     @guideShowing = !@guideShowing
 
   onClickNextSubject: ->
@@ -699,8 +709,9 @@ class Classifier extends BaseController
 
   sendClassification: ->
     @finishButton.prop 'disabled', true
+    @classification.set 'recordedClickEvents', [@recordedClickEvents...]
     @classification.set 'setOfSightings', [@setOfSightings...]
-    console.log JSON.stringify @classification
     @classification.send()
+    @recordedClickEvents = []
 
 module.exports = Classifier

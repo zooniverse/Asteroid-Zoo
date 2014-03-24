@@ -82,7 +82,6 @@ tutorialSteps =
 
     demo: ->
       for surface in [window.classifier.markingSurfaceList...]
-        console.log surface
         surface.addShape 'circle',
         class: 'tutorial-demo-mark'
         r: 20
