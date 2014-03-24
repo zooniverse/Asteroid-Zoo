@@ -5,10 +5,10 @@ createTutorialSubject = ->
     id: 'TODO'
     location:
       standard: [
-        './dev-subjects-images/01_12DEC02_N04066_0001-50-scaled.png'
-        './dev-subjects-images/01_12DEC02_N04066_0002-50-scaled.png'
-        './dev-subjects-images/01_12DEC02_N04066_0003-50-scaled.png'
-        './dev-subjects-images/01_12DEC02_N04066_0004-50-scaled.png'
+        'images/tutorial-subject/training01.png'
+        'images/tutorial-subject/training02.png'
+        'images/tutorial-subject/training03.png'
+        'images/tutorial-subject/training04.png'
       ]
     metadata: {}
 
