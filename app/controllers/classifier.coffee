@@ -12,6 +12,7 @@ createTutorialSubject = require '../lib/create-tutorial-subject'
 { Tutorial }          = require 'zootorial'
 translate             = require 't7e'
 ChannelCycler         = require 'channel-cycler'
+$ = window.jQuery
 
 KEYS =
   space:  32
@@ -648,7 +649,11 @@ class Classifier extends BaseController
     Math.random() < @trainingRate()
 
   onClickGuide: ->
-    if @guideShowing then @spottersGuide.slideUp() else @spottersGuide.slideDown()
+    if @guideShowing
+      @spottersGuide.slideUp()
+    else
+      @spottersGuide.show()
+      $("html, body").animate scrollTop: @spottersGuide.offset().top - 20, 500
     @guideShowing = !@guideShowing
 
   onClickNextSubject: ->
