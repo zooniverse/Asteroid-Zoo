@@ -9,6 +9,7 @@ module.exports =
     education: 'Education'
     talk: 'Discuss'
     blog: 'Blog'
+    feedback: "Feedback"
 
   home:
     header:
