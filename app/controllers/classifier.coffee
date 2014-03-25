@@ -146,7 +146,7 @@ class Classifier extends BaseController
           @nextFrame.hide()
         @enableMarkingSurfaces()
         @currSighting = new Sighting({
-          type:"asteroid", 
+          type:"asteroid",
           inverted: @invert
         })
         @el.find('.asteroid-classifier').show()
@@ -526,7 +526,8 @@ class Classifier extends BaseController
     @togglePausePlayIcons()
 
   startPlayingFrames: (startingFrame) ->
-    startingFrame %= @markingSurfaceList.length
+    startingFrame %= @surfacesContainer.find(".marking-surface:has(.frame-image)").length
+
     @activateFrame startingFrame
     @playTimeout = setTimeout (=> @startPlayingFrames startingFrame + 1), 500
 
@@ -599,7 +600,7 @@ class Classifier extends BaseController
           surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: x, cy: y, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
         @evaluateAnnotations(P_ref)
     @el.attr 'flicker', 'true'
-    @surfacesContainer.children().clone().appendTo(@summaryImageContainer)
+    @surfacesContainer.find(".marking-surface:has(.frame-image)").clone().appendTo(@summaryImageContainer)
     element.hide() for element in [@surfacesContainer, @playButton, @frameSlider, @finishButton, @rightPanel.find('.answers'), @cycleButton]
     @startPlayingFrames(0)
     @populateSummary()
