@@ -340,7 +340,6 @@ class Classifier extends BaseController
         class:  'frame-image'
         width:  '100%'
         height: '100%'
-        preserveAspectRatio: 'true'
 
       img_src = if @invert then subject_info.inverted[i] else subject_info.standard[i]
 
