@@ -43,7 +43,6 @@ class Classifier extends BaseController
     'click button[name="guide"]'            : 'onClickGuide'
     'click #favorite'                       : 'onClickFavorite'
     'change input[name="frame-slider"]'     : 'onChangeFrameSlider'
-    'change input[name="selected-artifact"]': 'onSelectArtifact'
     'change .asteroid-not-visible'          : 'onClickAsteroidNotVisible'
     'keydown'                               : 'onKeyDown'
     # state controller events
@@ -103,7 +102,6 @@ class Classifier extends BaseController
     'button[name="reset"]'           : 'reset'
     'button[name="next-subject"]'    : 'nextSubjectButton'
     'button[name="cycle-channels"]'  : 'cycleButton'
-    'input[name="selected-artifact"]': 'artifactSelector'
     'input[name="classifier-type"]'  : 'classifierTypeRadios'
     '.asteroid-not-visible'          : 'asteroidVisibilityCheckboxes'
     '.asteroid-checkbox'             : 'asteroidCompleteCheckboxes'
@@ -112,8 +110,7 @@ class Classifier extends BaseController
     '.right-panel-summary'           : 'rightPanelSummary'
     '.left-panel'                    : 'leftPanel'
     "#asteroid-count"                : 'asteroidCount'
-    '#starbleed-count'               : 'starbleedCount'
-    '#hotpixel-count'                : 'hotpixelCount'
+    '#artifact-count'               : 'artifactCount'
     "#notification"                  : 'notification'
     "#favorite"                      : 'favoriteBtn'
     "#favorite-message"              : 'favoriteMessage'
@@ -174,7 +171,6 @@ class Classifier extends BaseController
         @el.find('.artifact-classifier').hide()
         @nextFrame.show()
         @doneButton.hide()
-        el.checked = false for el in [ @artifactSelector ... ] # reset artifact selector
 
   constructor: ->
     super
@@ -206,10 +202,6 @@ class Classifier extends BaseController
     Subject.on 'select', @onSubjectSelect
     @Subject = Subject
     @Subject.group = '532b37203ae740fc7a000002'
-
-  onSelectArtifact: ->
-    @currSighting.subType = @artifactSelector.filter(':checked').val()
-    if @currSighting.labels.length > 0 then @doneButton.prop 'disabled', false
 
   createMarkingSurfaces: ->
     @numFrames = 4
@@ -288,7 +280,7 @@ class Classifier extends BaseController
         tool.setMarkType 'artifact'
         otherFrames = [0...@numFrames].filter (num) -> num isnt surfaceIndex
         @destroyMarksInFrame(frame) for frame in otherFrames
-        @doneButton.prop 'disabled', false if @currSighting.labels and @artifactSelector.filter(':checked').length
+        @doneButton.prop 'disabled', false if @currSighting.labels
 
     @updateIconsForCreateMark(surfaceIndex)
 
@@ -348,7 +340,6 @@ class Classifier extends BaseController
         class:  'frame-image'
         width:  '100%'
         height: '100%'
-        preserveAspectRatio: 'true'
 
       img_src = if @invert then subject_info.inverted[i] else subject_info.standard[i]
 
@@ -645,11 +636,9 @@ class Classifier extends BaseController
 
   populateSummary: ->
     asteroidCount = (@setOfSightings.filter (s) -> s.type is 'asteroid').length
-    starbleedCount = (@setOfSightings.filter (s) -> s.subType is 'starbleed').length
-    hotpixelCount = (@setOfSightings.filter (s) -> s.subType is 'hotpixel').length
+    artifactCount = (@setOfSightings.filter (s) -> s.type is 'artifact').length
     @asteroidCount.html("<span class='big-num'>#{asteroidCount}</span>"+ "<br>" + "Asteroid#{if asteroidCount is 1 then '' else 's'}")
-    @starbleedCount.html("<span class='big-num'>#{starbleedCount}</span>" + "<br>" + "Star Bleed#{if starbleedCount is 1 then '' else 's'}")
-    @hotpixelCount.html("<span class='big-num'>#{hotpixelCount}</span>"+ "<br>" + "Hot Pixel#{if hotpixelCount is 1 then '' else 's'} / Cosmic Ray#{if hotpixelCount is 1 then '' else 's'}")
+    @artifactCount.html("<span class='big-num'>#{artifactCount}</span>" + "<br>" + "Artifact#{if artifactCount is 1 then '' else 's'}")
 
   trainingRate: ->
     count = zooniverse.models.User.current?.project?.classification_count or 0
