@@ -72,6 +72,11 @@ class Classifier extends BaseController
     'click .marking-surface': ->
       @notify translate 'classifier.rightPanel.whatKindScreen' if @state is 'whatKind'
 
+    'click .channel-cycler': ->
+      if @cycling and !@tutorial.el.hasClass "open"
+        @setState 'asteroidTool'
+        @onClickCycleChannels()
+
     'click .finished-screen': ->
       if @state is 'whatKind' and @finishButton.prop("disabled") and !@nextSubjectButton.is(":visible")
         @notify translate 'classifier.finished.finishedButtonScreen'

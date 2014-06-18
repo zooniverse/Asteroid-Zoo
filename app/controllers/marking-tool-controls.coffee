@@ -3,7 +3,6 @@ BaseController = require 'zooniverse/controllers/base-controller'
 FauxRangeInput = require 'faux-range-input'
 translate = require 't7e'
 Subject = require 'zooniverse/models/subject'
-_  = require 'underscore'
 
 KEYS =
   return: 13
@@ -39,18 +38,13 @@ class ImageSet
       @imageFrames[i] = frame
     @imageFrames
 
-  getFrameFromElement: (elementId) => 
-    frame = _.findWhere(@imageFrames, elementId: elementId)
-
-  getFrameSeqNumberFromElement: (elementId) => 
-     getFrameFromElement(elementId).seqNumber
-        
 class ImageFrame
   elementId: ''
   seqNumber: ''
   url: ''
   inversionUrl: ''
   constructor: (@elementId,@seqNumber,@url,@inversionUrl) ->
+
 
 class MarkingToolControls extends ToolControls
   constructor: ->
