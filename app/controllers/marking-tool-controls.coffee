@@ -38,6 +38,14 @@ class ImageSet
       @imageFrames[i] = frame
     @imageFrames
 
+class ImageFrame
+  elementId: ''
+  seqNumber: ''
+  url: ''
+  inversionUrl: ''
+  constructor: (@elementId,@seqNumber,@url,@inversionUrl) ->
+
+
 class MarkingToolControls extends ToolControls
   constructor: ->
     super
