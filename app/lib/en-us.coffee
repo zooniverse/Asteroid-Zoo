@@ -16,14 +16,29 @@ module.exports =
       title: 'Hunt for Resource-Rich Asteroids!'
       content: '''
 Scientists are scanning our solar system for asteroids with the Catalina Sky Survey. They need your help to find asteroids for the exploration of their mineral properties!      '''
-      start: 'Start Classifying'
-      getClassifying: 'Get Classifying!'
+      start: 'Start Hunting'
+      getHunting: 'Get Hunting!'
       learnMore: 'Learn More'
     whatDo:
       title: 'What can you do?'
       content: '''
 	 Asteroid Zoo Asteroid  Asteroid Zoo Asteroid Zoo
       '''
+    sections:
+      first:
+        header: 'There are asteroids out there, right now!'
+        content: 'Today, there are 632,567 known asteroids in the Solar System.'
+      second:
+        header: 'You might be the one to find the next Asteroid!'
+        content: 'With every image set that gets analyzed you could find an actual asteroid.'
+      third:
+        header: 'We need to know where they are to plan for the future.'
+        content: '''
+          We'll use the results of this project to find near Earth asteroid (NEA) candidates that will be used in scientific papers and research.
+          '''
+      fourth:
+        header: 'Ready to Begin?'
+        content: 'What are you waiting for? Get started!'
 
   classifier:
     title: 'Classify'
@@ -66,7 +81,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
 
 
   science:
-    title: 'Motivation for Asteroid Zoo'
+    title: 'The Science'
     summary: '''
       Asteroids are small bodies that are leftovers from the formation of the solar system.  They can be as small as a few meters across (equivalent to about a yard), or as large as an asteroid like Ceres, almost 1000 km in diameter (or about 1/12 of Earth). They vary in color from darker than charcoal to the color of freshly broken rock.  Asteroids are found everywhere in our Solar System and have even been found orbiting other stars.  Asteroids (the name means “starlike bodies”) differ from planets in their orbits and general behavior.Typically, asteroid orbits are more inclined (tipped) and more eccentric than any of the planets.
       '''
@@ -137,6 +152,9 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
         image: '//placehold.it/640x480.png'
         description: 'This is a feature of asteroid zoo'
 
+    schmidtTelescope: 'The Schmidt telescope (703) looking southwest with the dome open. Credit: Catalina Sky Survey'
+    catalina: 'The Catalina Sky Survey'
+
   about:
     title: 'About the project'
     summary: 'There are three main reasons our group is interested in looking for asteroids.'
@@ -147,6 +165,18 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
 
       <p>Asteroids may represent a resource that will bring the Solar System within humanity’s economic sphere of influence.  These resources may be the key to unlocking human expansion from Earth into the Solar System, providing propellant for transportation, oxygen for breathing, water for hydration, shielding from solar radiation, and supporting other aspects of life and industry.  In addition to these lifelines, asteroids provide the raw material for manufacturing in space, from iron, nickel and cobalt present in staggering quantities, to an abundant supply of the extremely useful and valuable platinum group metals.  Just as resources have opened up the frontiers of Earth, they will again do so for the frontiers of space.</p>
     '''
+
+    teamTitle: 'The Asteroid Zoo Team'
+    team:
+      lewicki: 'President and Chief Engineer<br>Planetary Resources, Inc.'
+      beasley: 'Senior Optical Systems Engineer,<br>Staff Astronomer </br> Planetary Resources, Inc.'
+      whyte: 'Director of Citizen Science<br>Adler Planetarium, Zooniverse'
+      feldt: 'Zooniverse Educator<br>Zooniverse'
+      vanSingel: 'Designer<br>Zooniverse'
+      raden: 'Developer<br>Zooniverse'
+      ishikawa: 'Developer<br>Zooniverse'
+      weiksnar: 'Developer<br>Zooniverse'
+
 
   profile:
     title: 'Your profile'

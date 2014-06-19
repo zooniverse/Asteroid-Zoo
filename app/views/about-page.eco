@@ -13,7 +13,7 @@
 <div class="content-block">
   <div class="content-container">
     <div class="intro team content">
-      <h1>The Asteroid Zoo Team</h1>
+      <%- translate 'h1', 'about.teamTitle' %>
     </div>
   </div>
 </div>
@@ -25,7 +25,7 @@
       <img src="./images/headshots/lewicki.jpg" />
       <div class="caption">
         <p><strong>Chris Lewicki</strong></p>
-        <p>President and Chief Engineer </br> Planetary Resources, Inc.</p>
+        <%- translate 'p', 'about.team.lewicki' %>
       </div>
     </div>
 
@@ -34,7 +34,7 @@
 
       <div class="caption">
         <p><strong>Matthew Beasley</strong></p>
-        <p>Senior Optical Systems Engineer,</br>Staff Astronomer </br> Planetary Resources, Inc.</p>
+        <%- translate 'p', 'about.team.lewicki' %>
       </div>
     </div>
 
@@ -43,7 +43,7 @@
 
       <div class="caption">
         <p><strong>Laura Whyte</strong></p>
-        <p>Director of Citizen Science</br>Adler Planetarium, Zooniverse</p>
+        <%- translate 'p', 'about.team.whyte' %>
       </div>
     </div>
 
@@ -52,7 +52,7 @@
 
       <div class="caption">
         <p><strong>Julie Feldt</strong></p>
-        <p>Zooniverse Educator</br>Zooniverse</p>
+        <%- translate 'p', 'about.team.feldt' %>
       </div>
     </div>
 
@@ -61,7 +61,7 @@
 
       <div class="caption">
         <p><strong>Heath Van Singel</strong></p>
-        <p>Designer</br>Zooniverse</p>
+        <%- translate 'p', 'about.team.vanSingel' %>
       </div>
     </div>
 
@@ -70,7 +70,7 @@
 
       <div class="caption">
         <p><strong>Steve Raden</strong></p>
-        <p>Developer</br>Zooniverse</p>
+        <%- translate 'p', 'about.team.raden' %>
       </div>
     </div>
 
@@ -79,7 +79,7 @@
 
       <div class="caption">
         <p><strong>Sascha Ishikawa</strong></p>
-        <p>Developer</br>Zooniverse</p>
+        <%- translate 'p', 'about.team.ishikawa' %>
       </div>
     </div>
 
@@ -88,7 +88,7 @@
 
       <div class="caption">
         <p><strong>Alex Weiksnar</strong></p>
-        <p>Developer</br>Zooniverse</p>
+        <%- translate 'p', 'about.team.weiksnar' %>
       </div>
     </div>
 

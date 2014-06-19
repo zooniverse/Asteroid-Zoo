@@ -4,7 +4,6 @@
   <div class="content-container">
     <div class="intro content">
       <%- translate 'h1', 'education.title' %>
-      <%# translate 'p', 'education.summary' %>
     </div>
   </div>
 </div>
