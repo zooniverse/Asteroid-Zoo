@@ -6,27 +6,27 @@
   <div class="white-sheet" id="home-main-content">
     <div class="centered-container">
       <img src="./images/rock.png">
-      <h2>There are asteroids out there, right now!</h2>
-      <p>Today, there are 632,567 known asteroids in the Solar System.</p>
+      <%- translate 'h2', 'home.sections.first.header' %>
+      <%- translate 'p', 'home.sections.first.content' %>
     </div>
 
     <div class="centered-container">
       <img src="./images/rock.png">
-      <h2>You might be the one to find the next Asteroid!</h2>
-      <p>With every image set that gets analyzed you could find an actual asteroid.</p>
+      <%- translate 'h2', 'home.sections.second.header' %>
+      <%- translate 'p', 'home.sections.second.content' %>
     </div>
 
     <div class="centered-container">
       <img src="./images/rock.png">
-      <h2>We need to know where they are to plan for the future.</h2>
-      <p>We'll use the results of this project to find near Earth asteroid (NEA) candidates that will be used in scientific papers and research.</p>
+      <%- translate 'h2', 'home.sections.third.header' %>
+      <%- translate 'p', 'home.sections.third.content' %>
     </div>
 
 
     <div class="blue-overlay">
       <div class="centered-container">
-        <h2>Ready to Begin?</h2>
-        <p>What are you waiting for? Get started!</p>
+        <%- translate 'h2', 'home.sections.fourth.header' %>
+        <%- translate 'p', 'home.sections.fourth.content' %>
         <%- translate 'a.call-to-action', 'home.header.getHunting', href: '#/classify' %>
       </div>
     </div>
