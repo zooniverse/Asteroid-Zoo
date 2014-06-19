@@ -25,9 +25,9 @@
 
     <div class="blue-overlay">
       <div class="centered-container">
-        <h2>Ready to Classify?</h2>
+        <h2>Ready to Begin?</h2>
         <p>What are you waiting for? Get started!</p>
-        <%- translate 'a.call-to-action', 'home.header.getClassifying', href: '#/classify' %>
+        <%- translate 'a.call-to-action', 'home.header.getHunting', href: '#/classify' %>
       </div>
     </div>
   </div>

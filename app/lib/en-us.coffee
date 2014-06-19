@@ -16,8 +16,8 @@ module.exports =
       title: 'Hunt for Resource-Rich Asteroids!'
       content: '''
 Scientists are scanning our solar system for asteroids with the Catalina Sky Survey. They need your help to find asteroids for the exploration of their mineral properties!      '''
-      start: 'Start Classifying'
-      getClassifying: 'Get Classifying!'
+      start: 'Start Hunting'
+      getHunting: 'Get Hunting!'
       learnMore: 'Learn More'
     whatDo:
       title: 'What can you do?'
