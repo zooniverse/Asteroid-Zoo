@@ -417,33 +417,33 @@
 <div style="height:30px;display:block;"></div>
 <div id="spotters-guide">
   <div class="content">
-    <h1>Spotters Guide</h1>
+    <%- translate 'h1', 'classifier.spottersGuide.title' %>
 
     <div class="column">
-      <h2>Asteroid</h2>
+      <%- translate 'h2', 'classifier.spottersGuide.asteroid.header' %>
       <img src="./images/asteroid-animation.gif">
-      <p>To spot an asteroid, look for spots with linear motion. Visibility ranges from very visible (as shown in the image above) to very faint. When using the Cycle tool asteroids will appear as a colorized animation. When playing through frames look for movement among the aligned images.</p>
+      <%- translate 'p', 'classifier.spottersGuide.asteroid.p' %>
     </div>
 
     <div class="column">
-      <h2>Star Bleed</h2>
+      <%- translate 'h2', 'classifier.spottersGuide.starbleed.header' %>
       <img src="./images/guide/star-bleed-2.png">
-      <p>Star Bleeds occur when the amount of light entering the camera exceeds the pixel’s maximum and then starts to “bleed” over into neighboring pixels. This usually occurs where there are bright stars and can look like the image above.</p>
+      <%- translate 'p', 'classifier.spottersGuide.starbleed.p' %>
     </div>
 
     <div class="column">
-      <h2>Hot Pixel / Cosmic Ray</h2>
+      <%- translate 'h2', 'classifier.spottersGuide.cosmicRay.header' %>
       <img src="./images/guide/ray-or-hotpixel.png">
-      <p>Occasionally pixels malfunction, or stop collecting light properly, in the case of a hot pixel it does not turn off and therefore always collects light.</p>
-      <p>Occasionally, cosmic rays hit the camera causing the appearance of small, sharp spots or streaks on the images.</p>
+      <%- translate 'p', 'classifier.spottersGuide.cosmicRay.p' %>
+      <%- translate 'p', 'classifier.spottersGuide.cosmicRay.p2' %>
     </div>
 
 
     <div class="column">
-      <h2>Other</h2>
+      <%- translate 'h2', 'classifier.spottersGuide.other.header' %>
       <img src="./images/guide/other.png">
-      <p>Flat Field Defects (<strong>A</strong>) or Bad Pixel Columns (<strong>B</strong>) may also be visible in the images. These will appear as shown in the image above.</p>
-      <p>You may also see planes or satellites in a frame that create a straight path through the image appearing to pulse or widen along its path due to their flashing lights.</p>
+      <%- translate 'p', 'classifier.spottersGuide.other.p' %>
+      <%- translate 'p', 'classifier.spottersGuide.other.p2' %>
     </div>
   </div>
 </div>

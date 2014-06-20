@@ -67,6 +67,23 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
       add: "Add to favorites"
       remove: "Remove from favorites"
 
+    spottersGuide:
+      title: "Spotters Guide"
+      asteroid:
+        header: "Asteroid"
+        p: "To spot an asteroid, look for spots with linear motion. Visibility ranges from very visible (as shown in the image above) to very faint. When using the Cycle tool asteroids will appear as a colorized animation. When playing through frames look for movement among the aligned images."
+      starbleed:
+        header: "Star Bleed"
+        p: "Star Bleeds occur when the amount of light entering the camera exceeds the pixel’s maximum and then starts to “bleed” over into neighboring pixels. These artifacts usually occur where there are bright stars and can look like the image above."
+      cosmicRay:
+        header: "Hot Pixel / Cosmic Ray"
+        p: "Occasionally pixels malfunction, or stop collecting light properly, in the case of a hot pixel it does not turn off and therefore always collects light."
+        p2: "Occasionally, cosmic rays hit the camera causing the appearance of small, sharp spots or streaks on the images. Hot Pixels and Cosmic Rays are both types of artifacts"
+      other:
+        header: "Other"
+        p: "Other types of artifacts may be visible in the images. Flat Field Defects (<strong>A</strong>) or Bad Pixel Columns (<strong>B</strong>) will appear as shown in the image above."
+        p2: "You may also see planes or satellites in a frame that create a straight path through the image appearing to pulse or widen along its path due to their flashing lights."
+
   artifacts:
     heading: "Please mark the artifact in the correct frame and then click 'Done'"
     starbleed:
