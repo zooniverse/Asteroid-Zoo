@@ -275,7 +275,6 @@ class Classifier extends BaseController
       @el.find(".asteroid-frame-complete-#{surfaceIndex}").prop 'checked', true
       @asteroidMarkedInFrame[surfaceIndex] = true
 
-
     switch @state
       when 'asteroidTool'
         tool.setMarkType 'asteroid'
@@ -569,6 +568,7 @@ class Classifier extends BaseController
 
   onClickFinishMarking: ->
     radio.checked = false for radio in @classifierTypeRadios
+    @onClickCycleChannels() if @cycling
     @showSummary()
     @sendClassification()
     # hide all marks
