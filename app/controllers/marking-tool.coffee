@@ -44,6 +44,9 @@ class MarkingTool extends Tool
       y_actual: Math.round y/2
       frame: +e.target.id.slice(-1)
 
+  onInitialRelease: (e) ->
+    @trigger 'initial-release', [e]
+
   render: ->
     return if not @visible
     svgLines = [@hr1, @hr2, @vr1, @vr2]

@@ -44,7 +44,6 @@
     <%- translate 'a', 'siteNavigation.profile', href: '#/profile' %>
     <%- translate 'a', 'siteNavigation.education', href: '#/education' %>
     <%- translate 'a', 'siteNavigation.talk', href: '#/discuss' %>
-    <%- translate 'a', 'siteNavigation.feedback', href: 'https://docs.google.com/forms/d/1vpEcxQZaYCbezouh0ENMaBbm48bbjVIzvhbZlTTDhvo/viewform' %>
   </div>
 </div>
 
