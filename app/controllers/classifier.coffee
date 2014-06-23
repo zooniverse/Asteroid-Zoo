@@ -311,6 +311,8 @@ class Classifier extends BaseController
     @startLoading()
 
   onSubjectSelect: (e, subject) =>
+    # Subject.current.classification_count = 0 # DEBUG CODE: fake brand new subject
+    @checkSubjectUnseen()
     @resetMarkingSurfaces()
     @classification = new Classification {subject}
     @loadFrames()
@@ -447,7 +449,6 @@ class Classifier extends BaseController
     @el.find(".asteroid-visible-#{frameNum}").hide()
     @el.find("#marked-status-#{frameNum}").show().html("Marked!")
 
-
   updateIconsForDestroyMark: (frameNum) =>
     @el.find("#number-#{frameNum}").show()
     @el.find(".asteroid-frame-complete-#{frameNum}").prop 'checked', false
@@ -487,9 +488,9 @@ class Classifier extends BaseController
     @resetAsteroidCheckboxes()
     @setState 'whatKind'
 
-  notify: (message) =>
+  notify: (message, time_displayed = 3000) =>
     return if new Date().getTime() - @lastNotifyTime < 3000
-    @notification.html(message).fadeIn(300).delay(3000).fadeOut()
+    @notification.html(message).fadeIn(300).delay(time_displayed).fadeOut()
     @lastNotifyTime = new Date().getTime()
 
   resetAsteroidCheckboxes: ->
@@ -578,9 +579,15 @@ class Classifier extends BaseController
     # hide all marks
     mark.setAttribute 'visibility', 'hidden' for mark in [@el.find(".mark")...]
 
+  checkSubjectUnseen: ->
+    time_displayed = 5000
+    if Subject.current.classification_count is 0
+      @notify '<span style="color: green">Guess what! You\'re the first to see this set of images.</span>', time_displayed
+      return true
+    return false
+
   showSummary: ->
     @appendMetadata()
-
     @knownAsteroidMessage.hide()
 
     # reset summary text
@@ -722,6 +729,8 @@ class Classifier extends BaseController
     @finishButton.prop 'disabled', true
     @classification.set 'recordedClickEvents', [@recordedClickEvents...]
     @classification.set 'setOfSightings', [@setOfSightings...]
+    @classification.set 'classification_count', Subject.current.classification_count
+    # console.log JSON.stringify( @classification ) # DEBUG CODE
     @classification.send()
     @recordedClickEvents = []
 

@@ -8,7 +8,7 @@
     "publisssh": "~0.2.1",
     "stack-of-pages": "~0.0.6",
     "t7e": "~0.2.3",
-    "zooniverse": "~0.2.0",
+    "zooniverse": "~0.6.12",
     "zootorial": "~0.3.6",
     "channel-cycler": "0.0.3"
   },
