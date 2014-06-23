@@ -72,13 +72,14 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
       asteroid:
         header: "Asteroid"
         p: "To spot an asteroid, look for spots with linear motion. Visibility ranges from very visible (as shown in the image above) to very faint. When using the Cycle tool asteroids will appear as a colorized animation. When playing through frames look for movement among the aligned images."
+      artifact: "(Artifact)"
       starbleed:
         header: "Star Bleed"
         p: "Star Bleeds occur when the amount of light entering the camera exceeds the pixel’s maximum and then starts to “bleed” over into neighboring pixels. These artifacts usually occur where there are bright stars and can look like the image above."
       cosmicRay:
         header: "Hot Pixel / Cosmic Ray"
         p: "Occasionally pixels malfunction, or stop collecting light properly, in the case of a hot pixel it does not turn off and therefore always collects light."
-        p2: "Occasionally, cosmic rays hit the camera causing the appearance of small, sharp spots or streaks on the images. Hot Pixels and Cosmic Rays are both types of artifacts"
+        p2: "Occasionally, cosmic rays hit the camera causing the appearance of small, sharp spots or streaks on the images."
       other:
         header: "Other"
         p: "Other types of artifacts may be visible in the images. Flat Field Defects (<strong>A</strong>) or Bad Pixel Columns (<strong>B</strong>) will appear as shown in the image above."
@@ -239,9 +240,6 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
       <p>The Asteroid Zoo blog is great place to keep up to date with the latests science results, but there is also a Zooniverse Education Blog as well as a <a href="https://twitter.com/@ZooTeach">@ZooTeach</a> Twitter feed.
     '''
 
-  discuss:
-    title: "Discuss"
-    summary: "Zooniverse Talk features will become available once Asteroid Zoo is launched"
   ######################
   # TUTORIAL
   ######################

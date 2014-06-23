@@ -421,18 +421,21 @@
 
     <div class="column">
       <%- translate 'h2', 'classifier.spottersGuide.asteroid.header' %>
+      <h3></h3>
       <img src="./images/asteroid-animation.gif">
       <%- translate 'p', 'classifier.spottersGuide.asteroid.p' %>
     </div>
 
     <div class="column">
       <%- translate 'h2', 'classifier.spottersGuide.starbleed.header' %>
+      <%- translate 'h3', 'classifier.spottersGuide.artifact' %>
       <img src="./images/guide/star-bleed-2.png">
       <%- translate 'p', 'classifier.spottersGuide.starbleed.p' %>
     </div>
 
     <div class="column">
       <%- translate 'h2', 'classifier.spottersGuide.cosmicRay.header' %>
+      <%- translate 'h3', 'classifier.spottersGuide.artifact' %>
       <img src="./images/guide/ray-or-hotpixel.png">
       <%- translate 'p', 'classifier.spottersGuide.cosmicRay.p' %>
       <%- translate 'p', 'classifier.spottersGuide.cosmicRay.p2' %>
@@ -441,6 +444,7 @@
 
     <div class="column">
       <%- translate 'h2', 'classifier.spottersGuide.other.header' %>
+      <%- translate 'h3', 'classifier.spottersGuide.artifact' %>
       <img src="./images/guide/other.png">
       <%- translate 'p', 'classifier.spottersGuide.other.p' %>
       <%- translate 'p', 'classifier.spottersGuide.other.p2' %>
