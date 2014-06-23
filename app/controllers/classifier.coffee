@@ -519,6 +519,7 @@ class Classifier extends BaseController
     currentFrame = +document.getElementById('frame-slider').value
     if @playTimeout? then @stopPlayingFrames() else @startPlayingFrames(currentFrame)
     @togglePausePlayIcons()
+    @subjectUnseen()
 
   startPlayingFrames: (startingFrame) ->
     startingFrame %= @surfacesContainer.find(".marking-surface:has(.frame-image)").length
@@ -574,10 +575,16 @@ class Classifier extends BaseController
     # hide all marks
     mark.setAttribute 'visibility', 'hidden' for mark in [@el.find(".mark")...]
 
+  subjectUnseen: ->
+    console.log 'SUBJECT: ', Subject.current
+    return false
+
   showSummary: ->
     @appendMetadata()
-
     @knownAsteroidMessage.hide()
+
+    if @subjectUnseen()
+      @unseenSubjectMessage.show()
 
     # reset summary text
     @el.find("#known-asteroid-message").html "This subject contains at least one known asteroid (circled in green)."
