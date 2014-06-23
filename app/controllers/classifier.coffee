@@ -310,6 +310,8 @@ class Classifier extends BaseController
     @startLoading()
 
   onSubjectSelect: (e, subject) =>
+    # Subject.current.classification_count = 0 # DEBUG CODE: fake brand new subject
+    @checkSubjectUnseen()
     @resetMarkingSurfaces()
     @classification = new Classification {subject}
     @loadFrames()
@@ -443,7 +445,6 @@ class Classifier extends BaseController
     @el.find(".asteroid-visible-#{frameNum}").hide()
     @el.find("#marked-status-#{frameNum}").show().html("Marked!")
 
-
   updateIconsForDestroyMark: (frameNum) =>
     @el.find("#number-#{frameNum}").show()
     @el.find(".asteroid-frame-complete-#{frameNum}").prop 'checked', false
@@ -519,7 +520,6 @@ class Classifier extends BaseController
     currentFrame = +document.getElementById('frame-slider').value
     if @playTimeout? then @stopPlayingFrames() else @startPlayingFrames(currentFrame)
     @togglePausePlayIcons()
-    @subjectUnseen()
 
   startPlayingFrames: (startingFrame) ->
     startingFrame %= @surfacesContainer.find(".marking-surface:has(.frame-image)").length
@@ -575,16 +575,17 @@ class Classifier extends BaseController
     # hide all marks
     mark.setAttribute 'visibility', 'hidden' for mark in [@el.find(".mark")...]
 
-  subjectUnseen: ->
-    console.log 'SUBJECT: ', Subject.current
-    return false
+  checkSubjectUnseen: ->
+    if Subject.current.classification_count is 0
+      @notify '<span style="color: green">Guess what! You\'re the first to see this set of images.</span>'
+      return true
+    else
+      @notify 'Subject seen before. Zzz.'
+      return false
 
   showSummary: ->
     @appendMetadata()
     @knownAsteroidMessage.hide()
-
-    if @subjectUnseen()
-      @unseenSubjectMessage.show()
 
     # reset summary text
     @el.find("#known-asteroid-message").html "This subject contains at least one known asteroid (circled in green)."
@@ -725,6 +726,8 @@ class Classifier extends BaseController
     @finishButton.prop 'disabled', true
     @classification.set 'recordedClickEvents', [@recordedClickEvents...]
     @classification.set 'setOfSightings', [@setOfSightings...]
+    @classification.set 'classification_count', Subject.current.classification_count
+    # console.log JSON.stringify( @classification ) # DEBUG CODE
     @classification.send()
     @recordedClickEvents = []
 
