@@ -579,9 +579,7 @@ class Classifier extends BaseController
     if Subject.current.classification_count is 0
       @notify '<span style="color: green">Guess what! You\'re the first to see this set of images.</span>'
       return true
-    else
-      @notify 'Subject seen before. Zzz.'
-      return false
+    return false
 
   showSummary: ->
     @appendMetadata()
