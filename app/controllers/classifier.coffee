@@ -316,6 +316,7 @@ class Classifier extends BaseController
     @resetMarkingSurfaces()
     @classification = new Classification {subject}
     @loadFrames()
+    @el.find('#talk-link').attr 'href', subject.talkHref()
 
   onSubjectNoMore: =>
     @el.prepend translate 'classifier.noMoreSubjects'
