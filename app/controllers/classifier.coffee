@@ -70,7 +70,7 @@ class Classifier extends BaseController
       @notify translate 'classifier.rightPanel.artifactDoneScreen' if @state is 'artifactTool' and @doneButton.prop('disabled')
 
     'click .marking-surface': ->
-      @notify translate 'classifier.rightPanel.whatKindScreen' if @state is 'whatKind'
+      @notify translate 'classifier.rightPanel.whatKindScreen' if @state is 'whatKind' and !@summaryImageContainer.is(':visible')
 
     'click .channel-cycler': ->
       if @cycling and !@tutorial.el.hasClass "open"
