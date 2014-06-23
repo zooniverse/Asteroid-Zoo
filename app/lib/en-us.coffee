@@ -84,7 +84,13 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
         header: "Other"
         p: "Other types of artifacts may be visible in the images. Flat Field Defects (<strong>A</strong>) or Bad Pixel Columns (<strong>B</strong>) will appear as shown in the image above."
         p2: "You may also see planes or satellites in a frame that create a straight path through the image appearing to pulse or widen along its path due to their flashing lights."
-
+    noMoreSubjects: """
+      <div id='no-more-subjects-message'>
+        <h1>We're all out of subjects.</h1>
+        <p>Check back soon while we load up some more</p>
+        <p>In the meantime, check out <a href='https://www.zooniverse.org/''>our other projects</a>!</p>
+      </div>
+    """
   artifacts:
     heading: "Please mark the artifact in the correct frame and then click 'Done'"
     starbleed:

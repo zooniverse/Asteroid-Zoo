@@ -205,6 +205,7 @@ class Classifier extends BaseController
     User.on 'change', @onUserChange
     Subject.on 'fetch', @onSubjectFetch
     Subject.on 'select', @onSubjectSelect
+    Subject.on 'no-more', @onSubjectNoMore
     @Subject = Subject
     @Subject.group = '532b37203ae740fc7a000002'
 
@@ -313,6 +314,9 @@ class Classifier extends BaseController
     @resetMarkingSurfaces()
     @classification = new Classification {subject}
     @loadFrames()
+
+  onSubjectNoMore: =>
+    @el.prepend translate 'classifier.noMoreSubjects'
 
   onStartTutorial: =>
     clickEvent = { event: 'tutorialClicked', timestamp: (new Date).toUTCString() }
