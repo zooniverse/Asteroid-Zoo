@@ -26,7 +26,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     sections:
       first:
         header: 'There are asteroids out there, right now!'
-        content: 'Today, there are 644,632 known asteroids in the Solar System.'
+        content: "Today, there are <span class='mpc-count'>644,632</span> known asteroids in the Solar System."
       second:
         header: 'You might be the one to find the next Asteroid!'
         content: 'With every image set that gets analyzed you could find an actual asteroid.'
@@ -121,7 +121,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     where_title: 'Where we find asteroids'
     where_content: '''
       <img class="dialog"src="./images/science-content/asteroids_where.png">
-      <p>There are 644,632 known asteroids as of today.  Most of the known asteroids orbit in the Main Belt, which is between Mars and Jupiter. The objects that get the most attention, however, are the Near Earth Objects (NEOs).  These asteroids have orbits that take them into the vicinity of Earth.  10,687 NEO asteroids have been identified as of today.  Because asteroids slowly change their orbits over time throughout the Solar System, we can find asteroids from all over the Solar System in NEO orbits.   Once an asteroid enters the inner Solar System, it will only remain for a few million years before the orbit evolves into the sun, strikes an inner planet, or is swept up by Jupiter. Three terms in common used describe asteroid orbits:</p>
+      <p>There are <span class='mpc-count'>644,632</span> known asteroids as of today.  Most of the known asteroids orbit in the Main Belt, which is between Mars and Jupiter. The objects that get the most attention, however, are the Near Earth Objects (NEOs).  These asteroids have orbits that take them into the vicinity of Earth.  10,687 NEO asteroids have been identified as of today.  Because asteroids slowly change their orbits over time throughout the Solar System, we can find asteroids from all over the Solar System in NEO orbits.   Once an asteroid enters the inner Solar System, it will only remain for a few million years before the orbit evolves into the sun, strikes an inner planet, or is swept up by Jupiter. Three terms in common used describe asteroid orbits:</p>
       <ul>
         <li><p><b>Amor asteroids</b> approach Earth's orbit from the outside, but do not cross it.  They do not present a current risk to the Earth.</p>
         </li>
