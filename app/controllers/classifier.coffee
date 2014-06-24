@@ -318,7 +318,7 @@ class Classifier extends BaseController
     @startLoading()
 
   onSubjectSelect: (e, subject) =>
-    Subject.current.classification_count = 0 # DEBUG CODE: fake brand new subject    
+    # Subject.current.classification_count = 0 # DEBUG CODE: fake brand new subject    
     if @subjectUnseen()
       @notification.html translate('span', 'classifier.subjectUnseenMessage', class: 'bold-text green-text')
       @notification.fadeIn()
