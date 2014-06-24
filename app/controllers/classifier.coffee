@@ -311,10 +311,11 @@ class Classifier extends BaseController
     @startLoading()
 
   onSubjectSelect: (e, subject) =>
-    Subject.current.classification_count = 0 # DEBUG CODE: fake brand new subject
-    
+    # Subject.current.classification_count = 0 # DEBUG CODE: fake brand new subject    
     if @subjectUnseen()
       @notification.html('<span style="font-weight: bold; color: green">Guess what! You\'re the first to see this set of images.</span>').fadeIn()
+    else
+      @notification.html('') # show nothing
 
     @resetMarkingSurfaces()
     @classification = new Classification {subject}
@@ -495,7 +496,6 @@ class Classifier extends BaseController
   notify: (message, time_displayed = 3000) =>
     return if new Date().getTime() - @lastNotifyTime < 3000
     @notification.html(message).fadeIn(300).delay(time_displayed).fadeOut(300, =>
-      console.log 'showPermanentMessage():'
       if @subjectUnseen() 
         @notification.html('<span style="font-weight: bold; color: green">Guess what! You\'re the first to see this set of images.</span>').fadeIn()
     )
@@ -588,7 +588,7 @@ class Classifier extends BaseController
     mark.setAttribute 'visibility', 'hidden' for mark in [@el.find(".mark")...]
 
   subjectUnseen: ->
-    if Subject.current.classification_count is 0
+    if Subject?.current.classification_count is 0
       return true
     return false
 
