@@ -68,13 +68,13 @@ class Classifier extends BaseController
       @tool.deselect()
 
     'click .asteroid-done-screen': ->
-      @notify translate 'classifier.rightPanel.asteroidDoneScreen' if @state is 'asteroidTool' and @doneButton.prop('disabled')
+      @notify translate('span', 'classifier.rightPanel.asteroidDoneScreen', class: 'red-text') if @state is 'asteroidTool' and @doneButton.prop('disabled')
 
     'click .artifact-done-screen': ->
-      @notify translate 'classifier.rightPanel.artifactDoneScreen' if @state is 'artifactTool' and @doneButton.prop('disabled')
+      @notify translate('span', 'classifier.rightPanel.artifactDoneScreen', class: 'red-text') if @state is 'artifactTool' and @doneButton.prop('disabled')
 
     'click .marking-surface': ->
-      @notify translate 'classifier.rightPanel.whatKindScreen' if @state is 'whatKind' and !@summaryImageContainer.is(':visible')
+      @notify translate('span', 'classifier.rightPanel.whatKindScreen', class: 'red-text') if @state is 'whatKind' and !@summaryImageContainer.is(':visible')
 
     'click .channel-cycler': ->
       if @cycling and !@tutorial.el.hasClass "open"
