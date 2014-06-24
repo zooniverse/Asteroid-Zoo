@@ -34,7 +34,7 @@
 
       <div class="caption">
         <p><strong>Matthew Beasley</strong></p>
-        <%- translate 'p', 'about.team.lewicki' %>
+        <%- translate 'p', 'about.team.beasley' %>
       </div>
     </div>
 

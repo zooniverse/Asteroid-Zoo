@@ -26,7 +26,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     sections:
       first:
         header: 'There are asteroids out there, right now!'
-        content: 'Today, there are 632,567 known asteroids in the Solar System.'
+        content: 'Today, there are 644,632 known asteroids in the Solar System.'
       second:
         header: 'You might be the one to find the next Asteroid!'
         content: 'With every image set that gets analyzed you could find an actual asteroid.'
@@ -71,7 +71,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
       title: "Spotters Guide"
       asteroid:
         header: "Asteroid"
-        p: "To spot an asteroid, look for spots with linear motion. Visibility ranges from very visible (as shown in the image above) to very faint. When using the Cycle tool asteroids will appear as a colorized animation. When playing through frames look for movement among the aligned images."
+        p: "To spot an asteroid, look for spots with linear motion. Visibility ranges from very visible (as shown in the image above) to very faint. When using the Cycle tool asteroids will appear as a colorized animation. When playing through frames look for movement among the aligned images, preferably in at least 3 of the images."
       artifact: "(Artifact)"
       starbleed:
         header: "Star Bleed"
@@ -121,7 +121,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     where_title: 'Where we find asteroids'
     where_content: '''
       <img class="dialog"src="./images/science-content/asteroids_where.png">
-      <p>There are 632,567 known asteroids as of today.  Most of the known asteroids orbit in the Main Belt, which is between Mars and Jupiter. The objects that get the most attention, however, are the Near Earth Objects (NEOs).  These asteroids have orbits that take them into the vicinity of Earth.  10,687 NEO asteroids have been identified as of today.  Because asteroids slowly change their orbits over time throughout the Solar System, we can find asteroids from all over the Solar System in NEO orbits.   Once an asteroid enters the inner Solar System, it will only remain for a few million years before the orbit evolves into the sun, strikes an inner planet, or is swept up by Jupiter. Three terms in common used describe asteroid orbits:</p>
+      <p>There are 644,632 known asteroids as of today.  Most of the known asteroids orbit in the Main Belt, which is between Mars and Jupiter. The objects that get the most attention, however, are the Near Earth Objects (NEOs).  These asteroids have orbits that take them into the vicinity of Earth.  10,687 NEO asteroids have been identified as of today.  Because asteroids slowly change their orbits over time throughout the Solar System, we can find asteroids from all over the Solar System in NEO orbits.   Once an asteroid enters the inner Solar System, it will only remain for a few million years before the orbit evolves into the sun, strikes an inner planet, or is swept up by Jupiter. Three terms in common used describe asteroid orbits:</p>
       <ul>
         <li><p><b>Amor asteroids</b> approach Earth's orbit from the outside, but do not cross it.  They do not present a current risk to the Earth.</p>
         </li>
@@ -192,7 +192,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     teamTitle: 'The Asteroid Zoo Team'
     team:
       lewicki: 'President and Chief Engineer<br>Planetary Resources, Inc.'
-      beasley: 'Senior Optical Systems Engineer,<br>Staff Astronomer </br> Planetary Resources, Inc.'
+      beasley: 'Astrophysicis,</br> Planetary Resources, Inc.'
       whyte: 'Director of Citizen Science<br>Adler Planetarium, Zooniverse'
       feldt: 'Zooniverse Educator<br>Zooniverse'
       vanSingel: 'Designer<br>Zooniverse'
@@ -225,25 +225,25 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     <p>The University of Arizona in partnership with NASA and Lockheed Martin developed <a href="http://osiris-rex.lpl.arizona.edu/?q=multimedia">this video</a> for educational purposes.</p>
     </li>
     </ul>
-    <p>The Zooniverse has launched ZooTeach where educators can find and share educational resources relating to Asteroid Zoo and the other Zooniverse citizen science projects. Check out resources created for Asteroid Zoo. Have any ideas for how to use the project in the classroom? Please share your lesson ideas or resources on ZooTeach!</p><br>
+    <p>The Zooniverse has launched <a href='http://www.zooteach.org/'>ZooTeach</a> where educators can find and share educational resources relating to Asteroid Zoo and the other Zooniverse citizen science projects. Check out resources created for Asteroid Zoo. Have any ideas for how to use the project in the classroom? Please share your lesson ideas or resources on <a href='http://www.zooteach.org/'>ZooTeach</a>!</p><br>
 
     <h3>Additional Resources</h3>
     <ul>
       <li>
-      <p><a href="http://www.minorplanetcenter.net/iau/info/HowNamed.html">How Minor Planets are named</a></p>
+      <p><a href="http://www.minorplanetcenter.net/iau/info/HowNamed.html">How Are Minor Planet Named?</a></p>
       </li>
       <li>
-        <p><a href="http://www.iau.org/public/themes/naming/">the official body</a> (but a little less clear)</p>
+        <p><a href="http://www.iau.org/public/themes/naming/">Naming of Astronomical Objects</a></p>
       </li>
       <li>
-        <p><a href="https://www.youtube.com/watch?v=tOKCeW66ncM&list=PL-sncRQpy4-sN0ROwD3a1oR4VivhBBm_X&feature=c4-overview-vl">ORISIS-REX 321 Science link</a></p>
+        <p><a href="https://www.youtube.com/watch?v=tOKCeW66ncM&list=PL-sncRQpy4-sN0ROwD3a1oR4VivhBBm_X&feature=c4-overview-vl">Asteroid Fact vs. Fiction from the ORISIS-REX 321Mission</a></p>
       </li>
     </ul>
     '''
 
     more_title: 'How can I keep up to date with education and Asteroid Zoo?'
     more_content: '''
-      <p>The Asteroid Zoo blog is great place to keep up to date with the latests science results, but there is also a Zooniverse Education Blog as well as a <a href="https://twitter.com/@ZooTeach">@ZooTeach</a> Twitter feed.
+      <p>The Asteroid Zoo blog is great place to keep up to date with the latests science results, but there is also a <a href='http://education.zooniverse.org'>Zooniverse Education Blog</a> as well as a <a href="https://twitter.com/@ZooTeach">@ZooTeach</a> Twitter feed.
     '''
 
   ######################
