@@ -122,6 +122,7 @@ class Classifier extends BaseController
     "#spotters-guide"                : 'spottersGuide'
     '.summary-image-container'       : 'summaryImageContainer'
     '.known-asteroid-message'        : 'knownAsteroidMessage'
+    '.asteroid-loader'               : 'loader'
 
   states:
     whatKind:
@@ -206,8 +207,10 @@ class Classifier extends BaseController
     Subject.on 'fetch', @onSubjectFetch
     Subject.on 'select', @onSubjectSelect
     Subject.on 'no-more', @onSubjectNoMore
+    Subject.on 'get-next', @onSubjectGettingNext
     @Subject = Subject
     @Subject.group = '53a84ea22333ae04f6000003'
+    @loader.fadeIn()
 
   createMarkingSurfaces: ->
     @numFrames = 4
@@ -316,10 +319,15 @@ class Classifier extends BaseController
     @resetMarkingSurfaces()
     @classification = new Classification {subject}
     @loadFrames()
+    @loader.hide()
     @el.find('#talk-link').attr 'href', subject.talkHref()
 
   onSubjectNoMore: =>
     @el.prepend translate 'classifier.noMoreSubjects'
+    @loader.hide()
+
+  onSubjectGettingNext: =>
+    @loader.fadeIn()
 
   onStartTutorial: =>
     clickEvent = { event: 'tutorialClicked', timestamp: (new Date).toUTCString() }
