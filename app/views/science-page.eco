@@ -4,11 +4,17 @@
   <div class="content-container">
     <div class="intro content">
       <%- translate 'h1', 'science.title' %>
-      <%- translate 'p', 'science.summary' %>
     </div>
   </div>
 
   <div class="content-container white-bg">
+
+    <! -- INTRO VIDEO -->
+    <iframe id="az-video" width="560" height="315" src="//www.youtube.com/embed/tFlxjGyOQ8U" frameborder="0" allowfullscreen></iframe>
+
+    <div class="summary">
+      <%- translate 'p', 'science.summary' %>
+    </div>
     <div class="half-column">
       <div class="content left">
         <%- translate 'h3', 'science.intro_title' %>
