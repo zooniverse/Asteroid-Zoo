@@ -68,13 +68,13 @@ class Classifier extends BaseController
       @tool.deselect()
 
     'click .asteroid-done-screen': ->
-      @notify translate 'classifier.rightPanel.asteroidDoneScreen' if @state is 'asteroidTool' and @doneButton.prop('disabled')
+      @notify translate('span', 'classifier.rightPanel.asteroidDoneScreen', class: 'red-text') if @state is 'asteroidTool' and @doneButton.prop('disabled')
 
     'click .artifact-done-screen': ->
-      @notify translate 'classifier.rightPanel.artifactDoneScreen' if @state is 'artifactTool' and @doneButton.prop('disabled')
+      @notify translate('span', 'classifier.rightPanel.artifactDoneScreen', class: 'red-text') if @state is 'artifactTool' and @doneButton.prop('disabled')
 
     'click .marking-surface': ->
-      @notify translate 'classifier.rightPanel.whatKindScreen' if @state is 'whatKind' and !@summaryImageContainer.is(':visible')
+      @notify translate('span', 'classifier.rightPanel.whatKindScreen', class: 'red-text') if @state is 'whatKind' and !@summaryImageContainer.is(':visible')
 
     'click .channel-cycler': ->
       if @cycling and !@tutorial.el.hasClass "open"
@@ -320,7 +320,8 @@ class Classifier extends BaseController
   onSubjectSelect: (e, subject) =>
     # Subject.current.classification_count = 0 # DEBUG CODE: fake brand new subject    
     if @subjectUnseen()
-      @notification.html('<span style="font-weight: bold; color: green">Guess what! You\'re the first to see this set of images.</span>').fadeIn()
+      @notification.html translate('span', 'classifier.subjectUnseenMessage', class: 'bold-text green-text')
+      @notification.fadeIn()
     else
       @notification.html('') # show nothing
 
@@ -510,7 +511,8 @@ class Classifier extends BaseController
     return if new Date().getTime() - @lastNotifyTime < 3000
     @notification.html(message).fadeIn(300).delay(time_displayed).fadeOut(300, =>
       if @subjectUnseen() 
-        @notification.html('<span style="font-weight: bold; color: green">Guess what! You\'re the first to see this set of images.</span>').fadeIn()
+        @notification.html translate('span', 'classifier.subjectUnseenMessage', class: 'bold-text green-text')
+        @notification.fadeIn()
     )
     @lastNotifyTime = new Date().getTime()
 
@@ -610,8 +612,8 @@ class Classifier extends BaseController
     @knownAsteroidMessage.hide()
 
     # reset summary text
-    @el.find("#known-asteroid-message").html "This subject contains at least one known asteroid (circled in green)."
-    @el.find("#summary-header").html "Thanks for your work!"
+    @el.find("#known-asteroid-message").html translate 'classifier.containsKnownAsteroidMessage'
+    @el.find("#summary-header").html translate 'classifier.thankYouMessage'
 
     objectsData = @Subject.current?.metadata?.known_objects
     for frame, i in ['0001'] when objectsData[frame] isnt undefined # display only first frame
@@ -663,8 +665,8 @@ class Classifier extends BaseController
 
       if d <= 20 # GREAT JOB!
         @foundAsteroid = true
-        @el.find("#known-asteroid-message").html "You\'ve found an asteroid that we already know about. Keep up the great work and you might discover a new asteroid that nobody has ever seen before!"
-        @el.find("#summary-header").html "Awesome job!"
+        @el.find("#known-asteroid-message").html translate 'classifier.foundKnownAsteroidMessage'
+        @el.find("#summary-header").html translate 'classifier.goodJob'
 
   dist: (P1,P2) ->
     Math.sqrt ( Math.pow(P1.x-P2.x,2) + Math.pow(P1.y-P2.y,2) )
@@ -729,10 +731,10 @@ class Classifier extends BaseController
     @classification.favorite = !@classification.favorite
     @favoriteBtn.toggleClass 'favorited'
     if @classification.favorite
-      @notify "<span style='color: #4cc500;'>Added to favorites</span>"
-      @favoriteMessage.html translate "classifier.favorite.remove"
+      @notify translate 'span', 'classifier.favorite.addMessage', class: 'green-text'
+      @favoriteMessage.html translate "classifier.favorite.removeMessage"
     else
-      @notify "Removed from favorites"
+      @notify translate 'span', 'classifier.favorite.removeMessage', class: 'red-text'
       @favoriteMessage.html translate "classifier.favorite.add"
 
   startLoading: ->

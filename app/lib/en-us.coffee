@@ -46,6 +46,24 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     delete: 'Delete Mark'
     next: 'Next'
     whatKind: 'What do you see here?'
+    tools: 
+      header: 'TOOLS'
+      invert: 'Invert'
+      reset: 'Reset'
+    view: 
+      header: 'VIEW'
+      flicker: 'Flicker'
+      fourup: '4-up'
+    help: 
+      header: 'HELP'
+      tutorial: 'Tutorial'
+      guide: 'Guide'
+
+    cycle: 'Cycle'
+    play: 'Play'
+    pause: 'Pause'
+    finish: 'Finish'
+    nextSubject: 'Next Subject'
 
     type:
       asteroid:
@@ -59,13 +77,21 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
       whatKindScreen: "Please select Asteroid, Artifact, or Nothing in the menu above to continue marking"
       knownAsteroid: "This subject contains at least one known asteroid (circled in green)."
       summaryBody: "You can discuss this on <a href='' id='talk-link'>Talk</a>, share it, or add it to your favorites!"
-      asteroidDoneScreen: "You must mark an asteroid or declare not visible in all 4 frames to click done"
-      artifactDoneScreen: "Please click on the artifact in the image to click done"
+      asteroidDoneScreen: "You must mark an asteroid or declare not visible in all 4 frames to click 'Done'"
+      artifactDoneScreen: "Please click on the artifact in the image to click 'Done'"
     finished:
       finishedButtonScreen: "Please mark any visible asteroids or artifacts, or select 'Nothing' to move on to the next set of images"
     favorite:
       add: "Add to favorites"
       remove: "Remove from favorites"
+      addMessage: 'Added to favorites'
+      removeMessage: 'Removed from favorites'
+
+    subjectUnseenMessage: "Guess what! You're the first to see this set of images."
+    containsKnownAsteroidMessage: "This subject contains at least one known asteroid (circled in green)."
+    foundKnownAsteroidMessage: "You've found an asteroid that we already know about. Keep up the great work and you might discover a new asteroid that nobody has ever seen before!"
+    goodJobMessage: "Awesome job!"
+    thankYouMessage: "Thanks for your work!"
 
     spottersGuide:
       title: "Spotters Guide"
