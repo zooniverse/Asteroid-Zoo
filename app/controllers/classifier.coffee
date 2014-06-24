@@ -318,9 +318,10 @@ class Classifier extends BaseController
     @startLoading()
 
   onSubjectSelect: (e, subject) =>
-    # Subject.current.classification_count = 0 # DEBUG CODE: fake brand new subject    
+    Subject.current.classification_count = 0 # DEBUG CODE: fake brand new subject    
     if @subjectUnseen()
-      @notification.html('<span style="font-weight: bold; color: green">Guess what! You\'re the first to see this set of images.</span>').fadeIn()
+      @notification.html translate('span', 'classifier.subjectUnseenMessage', class: 'bold-text green-text')
+      @notification.fadeIn()
     else
       @notification.html('') # show nothing
 
@@ -509,7 +510,8 @@ class Classifier extends BaseController
     return if new Date().getTime() - @lastNotifyTime < 3000
     @notification.html(message).fadeIn(300).delay(time_displayed).fadeOut(300, =>
       if @subjectUnseen() 
-        @notification.html('<span style="font-weight: bold; color: green">Guess what! You\'re the first to see this set of images.</span>').fadeIn()
+        @notification.html translate('classifier.subjectUnseenMessage')
+        @notification.fadeIn()
     )
     @lastNotifyTime = new Date().getTime()
 

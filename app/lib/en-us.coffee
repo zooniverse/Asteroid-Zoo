@@ -67,6 +67,8 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
       add: "Add to favorites"
       remove: "Remove from favorites"
 
+    subjectUnseenMessage: "Guess what! You're the first to see this set of images."
+
     spottersGuide:
       title: "Spotters Guide"
       asteroid:
