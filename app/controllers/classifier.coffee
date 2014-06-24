@@ -730,10 +730,10 @@ class Classifier extends BaseController
     @classification.favorite = !@classification.favorite
     @favoriteBtn.toggleClass 'favorited'
     if @classification.favorite
-      @notify "<span style='color: #4cc500;'>Added to favorites</span>"
-      @favoriteMessage.html translate "classifier.favorite.remove"
+      @notify translate 'span', 'classifier.favorite.addMessage', class: 'green-text'
+      @favoriteMessage.html translate "classifier.favorite.removeMessage"
     else
-      @notify "Removed from favorites"
+      @notify translate 'span', 'classifier.favorite.removeMessage', class: 'red-text'
       @favoriteMessage.html translate "classifier.favorite.add"
 
   startLoading: ->
