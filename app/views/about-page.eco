@@ -1,5 +1,4 @@
 <% translate = require 't7e' %>
-
 <div class="content-block">
   <div class="content-container">
     <div class="intro content">

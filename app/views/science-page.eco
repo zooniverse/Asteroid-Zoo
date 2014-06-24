@@ -8,8 +8,6 @@
   </div>
 
   <div class="content-container white-bg">
-
-    <! -- INTRO VIDEO -->
     <iframe id="az-video" width="560" height="315" src="//www.youtube.com/embed/tFlxjGyOQ8U" frameborder="0" allowfullscreen></iframe>
 
     <div class="summary">
