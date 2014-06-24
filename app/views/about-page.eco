@@ -4,22 +4,18 @@
   <div class="content-container">
     <div class="intro content">
       <%- translate 'h1', 'about.title' %>
-      <%- translate 'p', 'about.summary' %>
-    </div>
-    <%- translate 'about.content' %>
-  </div>
-</div>
-
-<div class="content-block">
-  <div class="content-container">
-    <div class="intro team content">
-      <%- translate 'h1', 'about.teamTitle', style: 'font-size: 24px' %>
     </div>
   </div>
 </div>
 
 <div class="content-block">
   <div class="content-container white-bg">
+    <%- translate 'p', 'about.summary', style: 'font-size: 20px; color: "#8d8a8a"; padding-bottom: 40px; text-align: center' %>
+    <%- translate 'about.content' %>
+
+    <div class="intro team content">
+      <%- translate 'h1', 'about.teamTitle', style: 'font-size: 24px' %>
+    </div>
 
     <div class="quarter-column">
       <img src="./images/headshots/lewicki.jpg" />
