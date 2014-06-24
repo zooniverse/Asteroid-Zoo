@@ -53,6 +53,11 @@ stack = new StackOfPages
 
 document.body.appendChild stack.el
 
+GoogleAnalytics = require 'zooniverse/lib/google-analytics'
+analytics = new GoogleAnalytics
+  account: 'UA-1224199-56'
+  domain: 'www.asteroidzoo.org'
+
 ##################################################
 #  load the Zooniverse top bar
 ##################################################

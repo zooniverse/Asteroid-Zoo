@@ -121,8 +121,7 @@
       <!-- <h5>SHARE THIS</h5> -->
       <!-- social media icons -->
     </div>
-    <div id="surfaces-container" class="surfaces-container"><!-- marking surfaces -->
-    </div>
+    <div id="surfaces-container" class="surfaces-container"><!-- marking surfaces --></div>
     <div class='asteroid-loader'></div>
   </div>
 
