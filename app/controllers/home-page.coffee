@@ -25,24 +25,26 @@ class HomePage extends BaseController
     @siteHeader = $(".asteroid-bg .content-block")
     @positionMainBanner()
     window.onresize = => @positionMainBanner()
+    User.on 'change', @updateMinorAsteroidCount
 
+  updateMinorAsteroidCount: (e, user) =>
     # live update minor planet count across site, or fallback to last seen
-    minorAsteroidCount = $.getJSON "http://mpc-count.herokuapp.com/count", (data) =>
-      asteroidNum = data?.count
+    $.getJSON "http://mpc-count.herokuapp.com/count", (data) =>
+      asteroidNum = data?.count || false
       @setTotalAsteroidCountText(asteroidNum)
-      @updateUserLastSeenAsteroidCount(asteroidNum)
+      @updateUserLastSeenAsteroidCount(asteroidNum, user)
 
   commaSeparatedNum: (num) ->
     num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
   setTotalAsteroidCountText: (count) ->
-    $(".mpc-count").text @commaSeparatedNum(count or @userLastSeenTotalAsteroidCount())
+    $(".mpc-count").text @commaSeparatedNum(count or @userLastSeenTotalAsteroidCount() or "644632")
 
   userLastSeenTotalAsteroidCount: ->
-    User.current?.preferences?.asteroid.minor_asteroid_count
+    User?.current?.preferences?.asteroid.minor_asteroid_count
 
-  updateUserLastSeenAsteroidCount: (newCount) ->
-    User.current?.setPreference("minor_asteroid_count", newCount) if newCount
+  updateUserLastSeenAsteroidCount: (newCount, user) ->
+    user.setPreference("minor_asteroid_count", newCount) if newCount and user
 
   activate: (duration = @animationDuration) ->
     @siteHeader.fadeIn(duration)

@@ -359,7 +359,8 @@ class Classifier extends BaseController
   loadFrames: =>
     @destroyFrames()
     subject_info = @classification.subject.location
-    for i in [0...subject_info.standard.length]
+    numberOfFrames = Math.min subject_info.standard.length, 4
+    for i in [0...numberOfFrames]
       frame_id = "frame-id-#{i}"
       frameImage =
         @markingSurfaceList[i].addShape 'image',
