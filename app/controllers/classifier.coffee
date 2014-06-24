@@ -510,7 +510,7 @@ class Classifier extends BaseController
     return if new Date().getTime() - @lastNotifyTime < 3000
     @notification.html(message).fadeIn(300).delay(time_displayed).fadeOut(300, =>
       if @subjectUnseen() 
-        @notification.html translate('classifier.subjectUnseenMessage')
+        @notification.html translate('span', 'classifier.subjectUnseenMessage', class: 'bold-text green-text')
         @notification.fadeIn()
     )
     @lastNotifyTime = new Date().getTime()
@@ -611,8 +611,8 @@ class Classifier extends BaseController
     @knownAsteroidMessage.hide()
 
     # reset summary text
-    @el.find("#known-asteroid-message").html "This subject contains at least one known asteroid (circled in green)."
-    @el.find("#summary-header").html "Thanks for your work!"
+    @el.find("#known-asteroid-message").html translate 'classifier.containsKnownAsteroidMessage'
+    @el.find("#summary-header").html translate 'classifier.thankYouMessage'
 
     objectsData = @Subject.current?.metadata?.known_objects
     for frame, i in ['0001'] when objectsData[frame] isnt undefined # display only first frame
@@ -664,8 +664,8 @@ class Classifier extends BaseController
 
       if d <= 20 # GREAT JOB!
         @foundAsteroid = true
-        @el.find("#known-asteroid-message").html "You\'ve found an asteroid that we already know about. Keep up the great work and you might discover a new asteroid that nobody has ever seen before!"
-        @el.find("#summary-header").html "Awesome job!"
+        @el.find("#known-asteroid-message").html translate 'classifier.foundKnownAsteroidMessage'
+        @el.find("#summary-header").html translate 'classifier.goodJob'
 
   dist: (P1,P2) ->
     Math.sqrt ( Math.pow(P1.x-P2.x,2) + Math.pow(P1.y-P2.y,2) )

@@ -68,6 +68,10 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
       remove: "Remove from favorites"
 
     subjectUnseenMessage: "Guess what! You're the first to see this set of images."
+    containsKnownAsteroidMessage: "This subject contains at least one known asteroid (circled in green)."
+    foundKnownAsteroidMessage: "You've found an asteroid that we already know about. Keep up the great work and you might discover a new asteroid that nobody has ever seen before!"
+    goodJobMessage: "Awesome job!"
+    thankYouMessage: "Thanks for your work!"
 
     spottersGuide:
       title: "Spotters Guide"
