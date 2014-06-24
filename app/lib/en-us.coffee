@@ -192,7 +192,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     teamTitle: 'The Asteroid Zoo Team'
     team:
       lewicki: 'President and Chief Engineer<br>Planetary Resources, Inc.'
-      beasley: 'Astrophysicis,</br> Planetary Resources, Inc.'
+      beasley: 'Astrophysicist,</br> Planetary Resources, Inc.'
       whyte: 'Director of Citizen Science<br>Adler Planetarium, Zooniverse'
       feldt: 'Zooniverse Educator<br>Zooniverse'
       vanSingel: 'Designer<br>Zooniverse'
