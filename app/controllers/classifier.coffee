@@ -23,6 +23,10 @@ KEYS =
   three:  51
   four:   52
 
+DEV_MODE = !!~location.search.indexOf 'dev=1'
+MAIN_SUBJECT_GROUP = if DEV_MODE then "532b37203ae740fc7a000002" else "53a84ea22333ae04f6000003"
+TRAINING_SUBJECT_GROUP = if DEV_MODE then "532b37203ae740fc7a000001" else "53a84ea22333ae04f6000001"
+
 class Classifier extends BaseController
   className: 'classifier'
   template: require '../views/classifier'
@@ -209,7 +213,7 @@ class Classifier extends BaseController
     Subject.on 'no-more', @onSubjectNoMore
     Subject.on 'get-next', @onSubjectGettingNext
     @Subject = Subject
-    @Subject.group = '53a84ea22333ae04f6000003'
+    @Subject.group = MAIN_SUBJECT_GROUP
     @loader.fadeIn()
 
   createMarkingSurfaces: ->
@@ -608,7 +612,7 @@ class Classifier extends BaseController
     @el.find("#known-asteroid-message").html "This subject contains at least one known asteroid (circled in green)."
     @el.find("#summary-header").html "Thanks for your work!"
 
-    objectsData = @Subject.current.metadata.known_objects
+    objectsData = @Subject.current?.metadata?.known_objects
     for frame, i in ['0001'] when objectsData[frame] isnt undefined # display only first frame
       for knownObject, i in [objectsData[frame]...] when knownObject.good_known #and knownObject.object is '(161969)'
         @knownAsteroidMessage.show()
@@ -630,7 +634,7 @@ class Classifier extends BaseController
 
   appendMetadata: ->
     allKnowns = ""
-    knownObjects = @Subject.current.metadata.known_objects["0001"]
+    knownObjects = @Subject.current?.metadata?.known_objects["0001"]
     if knownObjects
       for metadata in knownObjects
         allKnowns += metadata.object if metadata.good_known is true
@@ -707,7 +711,7 @@ class Classifier extends BaseController
     @destroyFrames()
 
     if @shouldShowTraining()
-      app.api.get('projects/asteroid/groups/53a84ea22333ae04f6000001/subjects').then (subjects) ->
+      app.api.get("projects/asteroid/groups/#{TRAINING_SUBJECT_GROUP}/subjects").then (subjects) ->
         subject = new zooniverse.models.Subject subjects[0]
         queued = zooniverse.models.Subject.instances.pop()
         zooniverse.models.Subject.instances.unshift queued
