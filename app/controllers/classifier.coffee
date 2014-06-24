@@ -207,7 +207,7 @@ class Classifier extends BaseController
     Subject.on 'select', @onSubjectSelect
     Subject.on 'no-more', @onSubjectNoMore
     @Subject = Subject
-    @Subject.group = '532b37203ae740fc7a000002'
+    @Subject.group = '53a84ea22333ae04f6000003'
 
   createMarkingSurfaces: ->
     @numFrames = 4
@@ -694,7 +694,7 @@ class Classifier extends BaseController
     @destroyFrames()
 
     if @shouldShowTraining()
-      app.api.get('projects/asteroid/groups/532b37203ae740fc7a000001/subjects').then (subjects) ->
+      app.api.get('projects/asteroid/groups/53a84ea22333ae04f6000001/subjects').then (subjects) ->
         subject = new zooniverse.models.Subject subjects[0]
         queued = zooniverse.models.Subject.instances.pop()
         zooniverse.models.Subject.instances.unshift queued
