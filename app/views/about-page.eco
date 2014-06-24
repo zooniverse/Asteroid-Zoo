@@ -13,7 +13,7 @@
 <div class="content-block">
   <div class="content-container">
     <div class="intro team content">
-      <%- translate 'h1', 'about.teamTitle' %>
+      <%- translate 'h1', 'about.teamTitle', style: 'font-size: 24px' %>
     </div>
   </div>
 </div>
