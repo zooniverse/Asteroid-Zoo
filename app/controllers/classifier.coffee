@@ -624,36 +624,41 @@ class Classifier extends BaseController
 
   #helper method to showSummary
   summarizeKnownObjects: ->
-   
     objectsData = @Subject.current?.metadata?.known_objects
     seenKnowns = new Object  
     for frame in ['0001', '0002', '0003', '0004'] when objectsData[frame] isnt undefined 
       for knownObject in [objectsData[frame]...]  when knownObject.good_known 
         objectName = knownObject.object
         if seenKnowns[objectName]
-          seenKnown = seenKnowns[objectName]
-          #accumulate x and y values when seen
-          seenKnown.x_accum = seenKnown.x_accum + Math.round(knownObject.x)
-          seenKnown.y_accum = seenKnown.y_accum + Math.round(knownObject.y)
-          #increment seen counter
-          seenKnown.counter = seenKnown.counter  + 1
+          @updateSeenObject(seenKnowns[objectName], knownObject)
         else # first time seen
           seenKnowns[objectName] = @firstSeen(knownObject)
+      #if we found known object show message
+      @knownAsteroidMessage.show()
 
-    @knownAsteroidMessage.show() if objectsData
-
+    #for each known Object
     for objectName, seenKnown of seenKnowns
       seenKnown = @averageSeenKnownPoints(seenKnown)
       radius = 10
+      #process marking surface
       for surface in [@markingSurfaceList...]
         surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: seenKnown.x, cy: seenKnown.y, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
-        @evaluateAnnotations(seenKnown.P_ref)
+      #and evaluate annotations for users marking known objects
+      @evaluateAnnotations(seenKnown.P_ref)
 
   #helper method to summarizeKnownObjects
   firstSeen:(knownObject) ->
     x = Math.round(knownObject.x)
     y = Math.round(knownObject.y)
     {counter: 1, x_accum: x, y_accum: y}
+
+  #helper method to summarizeKnownObjects
+  updateSeenObject:(seenKnown, knownObject) ->
+    #accumulate x and y values when seen
+    seenKnown.x_accum = seenKnown.x_accum + Math.round(knownObject.x)
+    seenKnown.y_accum = seenKnown.y_accum + Math.round(knownObject.y)
+    #increment seen counter
+    seenKnown.counter = seenKnown.counter  + 1
 
   #helper method to summarizeKnownObjects
   averageSeenKnownPoints: (seenKnown) ->
