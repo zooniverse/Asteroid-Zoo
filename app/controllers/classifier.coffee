@@ -626,7 +626,7 @@ class Classifier extends BaseController
   summarizeKnownObjects: ->
     objectsData = @Subject.current?.metadata?.known_objects
     seenKnowns = new Object  
-    frameLabels = @getFrameLabels(@numFrames)
+    frameLabels = @getFrameLabels(@Subject.current?.location.standard.length)
     #when known objects were present
     for frame in frameLabels when objectsData[frame] isnt undefined 
       #iterate
