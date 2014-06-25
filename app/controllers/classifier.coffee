@@ -715,9 +715,10 @@ class Classifier extends BaseController
 
     if @shouldShowTraining()
       app.api.get("projects/asteroid/groups/#{TRAINING_SUBJECT_GROUP}/subjects").then (subjects) ->
-        subject = new zooniverse.models.Subject subjects[0]
-        queued = zooniverse.models.Subject.instances.pop()
-        zooniverse.models.Subject.instances.unshift queued
+        Subject.current.destroy
+        subject = new Subject subjects[0]
+        queued = Subject.instances.pop()
+        Subject.instances.unshift queued
         subject.select()
     else
       Subject.next()
