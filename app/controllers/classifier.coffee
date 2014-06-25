@@ -612,45 +612,7 @@ class Classifier extends BaseController
     @el.find("#known-asteroid-message").html "This subject contains at least one known asteroid (circled in green)."
     @el.find("#summary-header").html "Thanks for your work!"
 
-    objectsData = @Subject.current?.metadata?.known_objects
-    seenKnowns = new Object  
-
-    #for frame, i in ['0001'] when objectsData[frame] isnt undefined # display only first frame
-    for frame in ['0001', '0002', '0003', '0004'] when objectsData[frame] isnt undefined # display only first frame
-      for knownObject in [objectsData[frame]...]  when knownObject.good_known #and knownObject.object is '(161969)'
-        objectName = knownObject.object
-        console.log  objectName + " seen "
-        if seenKnowns[objectName]
-          seenKnown = seenKnowns[objectName]
-          seenKnown.x = seenKnown.x + Math.round(knownObject.x)
-          seenKnown.y = seenKnown.y + Math.round(knownObject.y)
-          seenKnown.counter = seenKnown.counter  + 1
-        else# had a new known 
-          x = Math.round(knownObject.x)
-          y = Math.round(knownObject.y)
-          P_ref = x: knownObject.x, y: knownObject.y
-          seenKnowns[objectName] =  counter: 1, x: x, y: y
-
-    @knownAsteroidMessage.show() if seenKnowns.length > 0
-
-    for objectName, seenKnown of seenKnowns
-      #average the values of x and y
-      seenKnown.x = seenKnown.x /seenKnown.counter
-      seenKnown.y = seenKnown.y /seenKnown.counter
-      #apply scaling 
-      seenKnown.x =  seenKnown.x/256 * 190
-      seenKnown.y =  seenKnown.y/256 * 190
-      console.log "Averaged X and Y values"
-      console.log objectName
-      console.log seenKnown.x
-      console.log seenKnown.y
-      # now the P_ref object can be set
-      seenKnown.P_ref = x:  seenKnown.x, y:  seenKnown.y
-      console.log seenKnown.counter
-      radius = 10
-      for surface in [@markingSurfaceList...]
-        surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: seenKnown.x, cy: seenKnown.y, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
-      @evaluateAnnotations(seenKnown.P_ref)
+    @summarizeKnownObjects()
 
     @el.attr 'flicker', 'true'
     @surfacesContainer.find(".marking-surface:has(.frame-image)").clone().appendTo(@summaryImageContainer)
@@ -659,6 +621,54 @@ class Classifier extends BaseController
     @populateSummary()
     @leftPanel.find(".answers:lt(5)").css 'pointer-events', 'none' #disable everything but guide
     element.show() for element in [@rightPanelSummary, @summaryContainer, @nextSubjectButton]
+
+  #helper method to showSummary
+  summarizeKnownObjects: ->
+   
+    objectsData = @Subject.current?.metadata?.known_objects
+    seenKnowns = new Object  
+    for frame in ['0001', '0002', '0003', '0004'] when objectsData[frame] isnt undefined 
+      for knownObject in [objectsData[frame]...]  when knownObject.good_known 
+        objectName = knownObject.object
+        if seenKnowns[objectName]
+          seenKnown = seenKnowns[objectName]
+          #accumulate x and y values when seen
+          seenKnown.x_accum = seenKnown.x_accum + Math.round(knownObject.x)
+          seenKnown.y_accum = seenKnown.y_accum + Math.round(knownObject.y)
+          #increment seen counter
+          seenKnown.counter = seenKnown.counter  + 1
+        else # first time seen
+          seenKnowns[objectName] = @firstSeen(knownObject)
+
+    @knownAsteroidMessage.show() if objectsData
+
+    for objectName, seenKnown of seenKnowns
+      seenKnown = @averageSeenKnownPoints(seenKnown)
+      radius = 10
+      for surface in [@markingSurfaceList...]
+        surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: seenKnown.x, cy: seenKnown.y, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
+        @evaluateAnnotations(seenKnown.P_ref)
+
+  #helper method to summarizeKnownObjects
+  firstSeen:(knownObject) ->
+    x = Math.round(knownObject.x)
+    y = Math.round(knownObject.y)
+    {counter: 1, x_accum: x, y_accum: y}
+
+  #helper method to summarizeKnownObjects
+  averageSeenKnownPoints: (seenKnown) ->
+    HALF_WINDOW_HEIGHT = 256
+    HALF_WINDOW_WIDTH =  190
+    #average the values of x and y
+    seenKnown.x = seenKnown.x_accum /seenKnown.counter
+    seenKnown.y = seenKnown.y_accum /seenKnown.counter
+    # now the P_ref object can be set
+    # grab the point reference before scale
+    seenKnown.P_ref = x:  seenKnown.x, y:  seenKnown.y
+    #apply scaling 
+    seenKnown.x =  seenKnown.x/HALF_WINDOW_HEIGHT * HALF_WINDOW_WIDTH
+    seenKnown.y =  seenKnown.y/HALF_WINDOW_HEIGHT * HALF_WINDOW_WIDTH
+    seenKnown
 
   appendMetadata: ->
     allKnowns = ""
