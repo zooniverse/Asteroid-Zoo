@@ -41,9 +41,9 @@ siteNavigation.el.appendTo document.body
 ##################################################
 StackOfPages = require 'stack-of-pages'
 stack = new StackOfPages
+  '#/classify'  : require './controllers/classifier'
   '#/'          : require './controllers/home-page'
   '#/about'     : require './controllers/about-page'
-  '#/classify'  : require './controllers/classifier'
   '#/science'   : require './controllers/science-page'
   '#/education' : require './controllers/education-page'
   '#/profile'   : require './controllers/profile'

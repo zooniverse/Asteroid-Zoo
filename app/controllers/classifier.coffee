@@ -45,6 +45,7 @@ class Classifier extends BaseController
     'click button[name="cancel"]'           : 'onClickCancel'
     'click button[name="cycle-channels"]'   : 'onClickCycleChannels'
     'click button[name="guide"]'            : 'onClickGuide'
+    'click .asteroid-classifier form'       : 'onClickAsteroidClassifierForm'
     'click #favorite'                       : 'onClickFavorite'
     'change input[name="frame-slider"]'     : 'onChangeFrameSlider'
     'change .asteroid-not-visible'          : 'onClickAsteroidNotVisible'
@@ -205,6 +206,7 @@ class Classifier extends BaseController
     @tutorial = new Tutorial
       steps: tutorialSteps
       firstStep: 'welcome'
+      parent: @el
     @tutorial.el.on 'start-tutorial enter-tutorial-step', =>
       translate.refresh @tutorial.el.get 0
     User.on 'change', @onUserChange
@@ -311,14 +313,14 @@ class Classifier extends BaseController
         e.preventDefault()
         @onClickPlay()
 
-  handleFirstVisit: (e, user) =>
-    unless user?.preferences?.asteroid?.first_visit is "false"
-      user?.setPreference "first_visit", "false"
+  handleFirstVisit: ->
+    if User.current?.preferences?.asteroid?.first_visit isnt "false" and @el.hasClass("active")
+      User.current?.setPreference("first_visit", "false") if User.current
       @tutorial.start()
 
   onUserChange: (e, user) =>
     Subject.next() unless @classification?
-    @handleFirstVisit(e, user)
+    @handleFirstVisit()
 
   onSubjectFetch: =>
     @startLoading()
@@ -610,6 +612,13 @@ class Classifier extends BaseController
     # hide all marks
     mark.setAttribute 'visibility', 'hidden' for mark in [@el.find(".mark")...]
 
+  onClickAsteroidClassifierForm: (e) =>
+    frameIndex = @integersInString($(e.target).closest("div").attr("class"))
+    @activateFrame(frameIndex)
+
+  integersInString: (str) ->
+    +str.replace(/[^\d.]/g, '')
+
   subjectUnseen: ->
     if Subject?.current.classification_count is 0
       return true
@@ -719,13 +728,12 @@ class Classifier extends BaseController
     @favoriteBtn.removeClass 'favorited'
     @stopPlayingFrames()
     element.show() for element in [@surfacesContainer, @finishButton, @rightPanel.find('.answers'), @cycleButton]
-    @destroyFrames()
-    
+
     if @shouldShowTraining()
       Subject.group = TRAINING_SUBJECT_GROUP
       Subject.fetch limit: 1, (subject) ->
         Subject.current?.destroy()
-        subject.select()
+        subject[0].select()
         Subject.group = MAIN_SUBJECT_GROUP
     else
       Subject.next()
