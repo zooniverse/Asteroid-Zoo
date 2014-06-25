@@ -318,7 +318,9 @@ class Classifier extends BaseController
     @startLoading()
 
   onSubjectSelect: (e, subject) =>
-    # Subject.current.classification_count = 0 # DEBUG CODE: fake brand new subject    
+    # Subject.current.classification_count = 0 # DEBUG CODE: fake brand new subject  
+    if DEV_MODE and subject
+      console.log  subject.zooniverse_id 
     if @subjectUnseen()
       @notification.html translate('span', 'classifier.subjectUnseenMessage', class: 'bold-text green-text')
       @notification.fadeIn()
