@@ -318,7 +318,9 @@ class Classifier extends BaseController
     @startLoading()
 
   onSubjectSelect: (e, subject) =>
-    # Subject.current.classification_count = 0 # DEBUG CODE: fake brand new subject    
+    # Subject.current.classification_count = 0 # DEBUG CODE: fake brand new subject  
+    if DEV_MODE and subject
+      console.log  subject.zooniverse_id 
     if @subjectUnseen()
       @notification.html translate('span', 'classifier.subjectUnseenMessage', class: 'bold-text green-text')
       @notification.fadeIn()
@@ -680,7 +682,7 @@ class Classifier extends BaseController
   trainingRate: ->
     count = zooniverse.models.User.current?.project?.classification_count or 0
     count += zooniverse.models.Classification.sentThisSession
-
+    
     if count < 10
       1 / 5
     else if count < 20
@@ -712,14 +714,13 @@ class Classifier extends BaseController
     @stopPlayingFrames()
     element.show() for element in [@surfacesContainer, @finishButton, @rightPanel.find('.answers'), @cycleButton]
     @destroyFrames()
-
+    
     if @shouldShowTraining()
-      app.api.get("projects/asteroid/groups/#{TRAINING_SUBJECT_GROUP}/subjects").then (subjects) ->
+      Subject.group = TRAINING_SUBJECT_GROUP
+      Subject.fetch limit: 1, (subject) ->
         Subject.current.destroy()
-        subject = new Subject subjects[0]
-        queued = Subject.instances.pop()
-        Subject.instances.unshift queued
         subject.select()
+        Subject.group = MAIN_SUBJECT_GROUP
     else
       Subject.next()
 
