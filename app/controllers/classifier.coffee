@@ -613,17 +613,45 @@ class Classifier extends BaseController
     @el.find("#summary-header").html "Thanks for your work!"
 
     objectsData = @Subject.current?.metadata?.known_objects
-    for frame, i in ['0001'] when objectsData[frame] isnt undefined # display only first frame
-      for knownObject, i in [objectsData[frame]...] when knownObject.good_known #and knownObject.object is '(161969)'
-        @knownAsteroidMessage.show()
-        # console.log 'knownObject (',knownObject.x,',',knownObject.y,'): ', knownObject
-        radius = 10
-        x = Math.round(knownObject.x)/256 * 190
-        y = Math.round(knownObject.y)/256 * 190
-        P_ref = {x: knownObject.x, y: knownObject.y}
-        for surface in [@markingSurfaceList...]
-          surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: x, cy: y, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
-        @evaluateAnnotations(P_ref)
+    seenKnowns = new Object  
+
+    #for frame, i in ['0001'] when objectsData[frame] isnt undefined # display only first frame
+    for frame in ['0001', '0002', '0003', '0004'] when objectsData[frame] isnt undefined # display only first frame
+      for knownObject in [objectsData[frame]...]  when knownObject.good_known #and knownObject.object is '(161969)'
+        objectName = knownObject.object
+        console.log  objectName + " seen "
+        if seenKnowns[objectName]
+          seenKnown = seenKnowns[objectName]
+          seenKnown.x = seenKnown.x + Math.round(knownObject.x)
+          seenKnown.y = seenKnown.y + Math.round(knownObject.y)
+          seenKnown.counter = seenKnown.counter  + 1
+        else# had a new known 
+          x = Math.round(knownObject.x)
+          y = Math.round(knownObject.y)
+          P_ref = x: knownObject.x, y: knownObject.y
+          seenKnowns[objectName] =  counter: 1, x: x, y: y
+
+    @knownAsteroidMessage.show() if seenKnowns.length > 0
+
+    for objectName, seenKnown of seenKnowns
+      #average the values of x and y
+      seenKnown.x = seenKnown.x /seenKnown.counter
+      seenKnown.y = seenKnown.y /seenKnown.counter
+      #apply scaling 
+      seenKnown.x =  seenKnown.x/256 * 190
+      seenKnown.y =  seenKnown.y/256 * 190
+      console.log "Averaged X and Y values"
+      console.log objectName
+      console.log seenKnown.x
+      console.log seenKnown.y
+      # now the P_ref object can be set
+      seenKnown.P_ref = x:  seenKnown.x, y:  seenKnown.y
+      console.log seenKnown.counter
+      radius = 10
+      for surface in [@markingSurfaceList...]
+        surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: seenKnown.x, cy: seenKnown.y, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
+      @evaluateAnnotations(seenKnown.P_ref)
+
     @el.attr 'flicker', 'true'
     @surfacesContainer.find(".marking-surface:has(.frame-image)").clone().appendTo(@summaryImageContainer)
     element.hide() for element in [@surfacesContainer, @playButton, @frameSlider, @finishButton, @rightPanel.find('.answers'), @cycleButton]
