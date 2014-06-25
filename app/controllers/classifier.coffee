@@ -716,7 +716,7 @@ class Classifier extends BaseController
     @destroyFrames()
     
     if @shouldShowTraining()
-      Subject.group = TRAINING_SUBJECT_GRO  UP
+      Subject.group = TRAINING_SUBJECT_GROUP
       Subject.fetch limit: 1, (subject) ->
         Subject.current.destroy()
         subject.select()
