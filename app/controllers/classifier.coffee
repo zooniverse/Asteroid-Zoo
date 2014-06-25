@@ -626,12 +626,16 @@ class Classifier extends BaseController
   summarizeKnownObjects: ->
     objectsData = @Subject.current?.metadata?.known_objects
     seenKnowns = new Object  
-    for frame in ['0001', '0002', '0003', '0004'] when objectsData[frame] isnt undefined 
+    frameLabels = @getFrameLabels(@numFrames)
+    #when known objects were present
+    for frame in frameLabels when objectsData[frame] isnt undefined 
+      #iterate
       for knownObject in [objectsData[frame]...]  when knownObject.good_known 
         objectName = knownObject.object
+        #update if seen already
         if seenKnowns[objectName]
           @updateSeenObject(seenKnowns[objectName], knownObject)
-        else # first time seen
+        else # or save off the first time seen
           seenKnowns[objectName] = @firstSeen(knownObject)
       #if we found known object show message
       @knownAsteroidMessage.show()
@@ -646,6 +650,10 @@ class Classifier extends BaseController
       #and evaluate annotations for users marking known objects
       @evaluateAnnotations(seenKnown.P_ref)
 
+  #helper method to summarizeKnownObjects
+  getFrameLabels: (numFrames) ->
+    frameLabels = ( "000#{i}" for i in [1..numFrames] by 1 )
+      
   #helper method to summarizeKnownObjects
   firstSeen:(knownObject) ->
     x = Math.round(knownObject.x)
@@ -663,7 +671,7 @@ class Classifier extends BaseController
   #helper method to summarizeKnownObjects
   averageSeenKnownPoints: (seenKnown) ->
     HALF_WINDOW_HEIGHT = 256
-    HALF_WINDOW_WIDTH =  190
+    SCALING_FACTOR =  190  #aribtirary value less than HALF_WINDOW_HEIGHT
     #average the values of x and y
     seenKnown.x = seenKnown.x_accum /seenKnown.counter
     seenKnown.y = seenKnown.y_accum /seenKnown.counter
@@ -671,8 +679,8 @@ class Classifier extends BaseController
     # grab the point reference before scale
     seenKnown.P_ref = x:  seenKnown.x, y:  seenKnown.y
     #apply scaling 
-    seenKnown.x =  seenKnown.x/HALF_WINDOW_HEIGHT * HALF_WINDOW_WIDTH
-    seenKnown.y =  seenKnown.y/HALF_WINDOW_HEIGHT * HALF_WINDOW_WIDTH
+    seenKnown.x =  seenKnown.x/HALF_WINDOW_HEIGHT * SCALING_FACTOR
+    seenKnown.y =  seenKnown.y/HALF_WINDOW_HEIGHT * SCALING_FACTOR
     seenKnown
 
   appendMetadata: ->
