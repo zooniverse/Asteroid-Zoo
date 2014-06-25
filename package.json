@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "dependencies": {
     "faux-range-input": "~0.1.0",
-    "haw": "~0.2.4",
+    "haw": "~0.4.9",
     "marking-surface": "~0.4.11",
     "publisssh": "~0.2.1",
     "stack-of-pages": "~0.0.6",
