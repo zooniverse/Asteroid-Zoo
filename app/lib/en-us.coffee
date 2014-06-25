@@ -46,15 +46,15 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     delete: 'Delete Mark'
     next: 'Next'
     whatKind: 'What do you see here?'
-    tools: 
+    tools:
       header: 'TOOLS'
       invert: 'Invert'
       reset: 'Reset'
-    view: 
+    view:
       header: 'VIEW'
       flicker: 'Flicker'
       fourup: '4-up'
-    help: 
+    help:
       header: 'HELP'
       tutorial: 'Tutorial'
       guide: 'Guide'
@@ -90,7 +90,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     subjectUnseenMessage: "Guess what! You're the first to see this set of images."
     containsKnownAsteroidMessage: "This subject contains at least one known asteroid (circled in green)."
     foundKnownAsteroidMessage: "You've found an asteroid that we already know about. Keep up the great work and you might discover a new asteroid that nobody has ever seen before!"
-    goodJobMessage: "Awesome job!"
+    goodJob: "Awesome job!"
     thankYouMessage: "Thanks for your work!"
 
     spottersGuide:
