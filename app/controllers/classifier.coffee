@@ -311,8 +311,14 @@ class Classifier extends BaseController
         e.preventDefault()
         @onClickPlay()
 
+  handleFirstVisit: (e, user) =>
+    unless user?.preferences?.asteroid?.first_visit is "false"
+      user?.setPreference "first_visit", "false"
+      @tutorial.start()
+
   onUserChange: (e, user) =>
     Subject.next() unless @classification?
+    @handleFirstVisit(e, user)
 
   onSubjectFetch: =>
     @startLoading()
