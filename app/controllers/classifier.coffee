@@ -389,14 +389,13 @@ class Classifier extends BaseController
 
   loadFrame: (image, src, attempts = 1) ->
     loadImage(src).then (img) =>
-      # Apparently long stings of AAAAA... mean there was some kinda problem.
-      # TODO: Figure out why this happens. Seems like it's random and only in IE.
       if attempts < 10 and !!~img.src.indexOf (new Array 100).join 'A'
-        # console?.log "Error loading #{src} (#{attempts})"
-        setTimeout => # Allow the transport frame to clean up, then try again.
+        setTimeout => 
           @loadFrame image, src, attempts + 1
+      else if attempts >= 10
+        console.log("Gave up on #{src}")
+        Subject.next()
       else
-        # console?.log "Loaded #{src} after #{attempts} attempts"
         image.attr 'xlink:href', img.src
 
   onClickFourUp: ->
