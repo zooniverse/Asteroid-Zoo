@@ -776,6 +776,7 @@ class Classifier extends BaseController
     @summaryImageContainer.empty()
     @leftPanel.find(".answers:lt(5)").css 'pointer-events', 'auto'
     @favoriteBtn.removeClass 'favorited'
+    @favoriteMessage.html translate "classifier.favorite.add"
     @stopPlayingFrames()
     element.show() for element in [@surfacesContainer, @finishButton, @rightPanel.find('.answers'), @cycleButton]
 
