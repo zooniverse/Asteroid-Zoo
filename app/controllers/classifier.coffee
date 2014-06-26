@@ -747,7 +747,7 @@ class Classifier extends BaseController
     @favoriteBtn.toggleClass 'favorited'
     if @classification.favorite
       @notify translate 'span', 'classifier.favorite.addMessage', class: 'green-text'
-      @favoriteMessage.html translate "classifier.favorite.removeMessage"
+      @favoriteMessage.html translate "classifier.favorite.remove"
     else
       @notify translate 'span', 'classifier.favorite.removeMessage', class: 'red-text'
       @favoriteMessage.html translate "classifier.favorite.add"
