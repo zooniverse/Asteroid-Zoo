@@ -671,8 +671,7 @@ class Classifier extends BaseController
       processedKnown = @averageKnownPoints(processedKnown)
       radius = 10
       #process marking surface
-      for surface in [@markingSurfaceList...]
-        
+      for surface in [@markingSurfaceList...] 
         surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: processedKnown.x, cy: processedKnown.y, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
       #and evaluate annotations for users marking known objects
       @evaluateAnnotations(processedKnown.P_ref)
@@ -705,14 +704,6 @@ class Classifier extends BaseController
     processedKnown.x =  processedKnown.x * (SCALING_FACTOR / HALF_WINDOW_HEIGHT )
     processedKnown.y =  processedKnown.y * (SCALING_FACTOR / HALF_WINDOW_HEIGHT )
     processedKnown
-
-  appendMetadata: ->
-    # allKnowns = ""
-    # knownObjects = @Subject.current?.metadata?.known_objects["0001"]
-    # if knownObjects
-    #   for metadata in knownObjects
-    #     allKnowns += metadata.object if metadata.good_known is true
-    # @el.find("#metadata-knowns").html allKnowns
 
   evaluateAnnotations: (P_ref) ->
     # console.log 'GROUND TRUTH: (',P_ref.x,',',P_ref.y,')'
