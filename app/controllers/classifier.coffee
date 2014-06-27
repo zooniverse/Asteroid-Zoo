@@ -607,7 +607,6 @@ class Classifier extends BaseController
     radio.checked = false for radio in @classifierTypeRadios
     @onClickCycleChannels() if @cycling
     @showSummary()
-    @sendClassification()
     # hide all marks
     mark.setAttribute 'visibility', 'hidden' for mark in [@el.find(".mark")...]
 
@@ -766,6 +765,7 @@ class Classifier extends BaseController
     @guideShowing = !@guideShowing
 
   onClickNextSubject: ->
+    @sendClassification()
     @removeElementsOfClass(".known-asteroid")
     element.hide() for element in [@summaryContainer, @nextSubjectButton, @rightPanelSummary]
     @summaryImageContainer.empty()
