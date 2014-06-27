@@ -23,21 +23,21 @@ createTutorialSubject = ->
       known_objects: {
         "0001": [
           {
-            object: "TutorialImage-A"
+            object: "(TutorialImage-A)"
             x: 43
             y: 86
             mag: 19.2
             good_known: true
           },
           {
-            object: "TutorialImage-B"
+            object: "(TutorialImage-B)"
             x: 231
             y: 23
             mag: 19.2
             good_known: true
           },          
           {
-            object: "TutorialImage-C"
+            object: "(TutorialImage-C)"
             x: 66
             y: 114
             mag: 19.2
@@ -46,21 +46,21 @@ createTutorialSubject = ->
         ]
         "0002": [
           {
-            object: "TutorialImage-A"
+            object: "(TutorialImage-A)"
             x: 46
             y: 87
             mag: 19.2
             good_known: true
           },
           {
-            object: "TutorialImage-B"
+            object: "(TutorialImage-B)"
             x: 234
             y: 23
             mag: 19.2
             good_known: true
           },          
           {
-            object: "TutorialImage-C"
+            object: "(TutorialImage-C)"
             x: 68
             y: 114
             mag: 19.2
@@ -69,21 +69,21 @@ createTutorialSubject = ->
         ]
         "0003": [
           {
-            object: "TutorialImage-A"
+            object: "(TutorialImage-A)"
             x: 47
             y: 87
             mag: 19.2
             good_known: true
           },
           {
-            object: "TutorialImage-B"
+            object: "(TutorialImage-B)"
             x: 235
             y: 23
             mag: 19.2
             good_known: true
           },          
           {
-            object: "TutorialImage-C"
+            object: "(TutorialImage-C)"
             x: 70
             y: 114
             mag: 19.2
@@ -92,21 +92,21 @@ createTutorialSubject = ->
         ]
         "0004": [
           {
-            object: "TutorialImage-A"
+            object: "(TutorialImage-A)"
             x: 49
             y: 87
             mag: 19.2
             good_known: true
           },
           {
-            object: "TutorialImage-B"
+            object: "(TutorialImage-B)"
             x: 237
             y: 22
             mag: 19.2
             good_known: true
           },          
           {
-            object: "TutorialImage-C"
+            object: "(TutorialImage-C)"
             x: 72
             y: 112
             mag: 19.2

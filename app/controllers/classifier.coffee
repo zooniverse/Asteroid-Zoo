@@ -624,7 +624,6 @@ class Classifier extends BaseController
     return false
 
   showSummary: ->
-    @appendMetadata()
     @knownAsteroidMessage.hide()
 
     # reset summary text
@@ -644,35 +643,39 @@ class Classifier extends BaseController
   #helper method to showSummary
   summarizeKnownObjects: ->
     objectsData = @Subject.current?.metadata?.known_objects
-    seenKnowns = new Object  
-    frameLabels = @getFrameLabels(@Subject.current?.location.standard.length)
-    #when known objects were present
-    for frame in frameLabels when objectsData[frame] isnt undefined 
-      #iterate
-      for knownObject in [objectsData[frame]...]  when knownObject.good_known 
-        objectName = knownObject.object
-        #update if seen already
-        if seenKnowns[objectName]
-          @updateSeenObject(seenKnowns[objectName], knownObject)
-        else # or save off the first time seen
-          seenKnowns[objectName] = @firstSeen(knownObject)
-      #if we found known object show message
-      @knownAsteroidMessage.show()
+    processedKnowns = new Object  
+    #known object names will be concatentated here
+    allKnownsLabel = ""
 
-    #for each known Object
-    for objectName, seenKnown of seenKnowns
-      seenKnown = @averageSeenKnownPoints(seenKnown)
+    for frame, objects of objectsData
+      for knownObject in objects  when knownObject.good_known 
+        objectName = knownObject.object
+      
+        #update if seen already
+        if processedKnowns[objectName]
+          @updateSeenObject(processedKnowns[objectName], knownObject)
+        else # or save off the first time seen
+          processedKnowns[objectName] = @firstSeen(knownObject)
+           #append the object name to the label
+          allKnownsLabel += objectName
+      #if we found known object show message
+    
+    #display the known objects message message only if 
+    @knownAsteroidMessage.show() if Object.keys(processedKnowns).length > 0
+    
+    #write out the object names of good knowns 
+    @el.find("#metadata-knowns").html allKnownsLabel
+
+    #for each known object
+    for objectName, processedKnown of processedKnowns
+      processedKnown = @averageKnownPoints(processedKnown)
       radius = 10
       #process marking surface
-      for surface in [@markingSurfaceList...]
-        surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: seenKnown.x, cy: seenKnown.y, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
+      for surface in [@markingSurfaceList...] 
+        surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: processedKnown.x, cy: processedKnown.y, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
       #and evaluate annotations for users marking known objects
-      @evaluateAnnotations(seenKnown.P_ref)
-
-  #helper method to summarizeKnownObjects
-  getFrameLabels: (numFrames) ->
-    frameLabels = ( "000#{i}" for i in [1..numFrames] by 1 )
-      
+      @evaluateAnnotations(processedKnown.P_ref)
+     
   #helper method to summarizeKnownObjects
   firstSeen:(knownObject) ->
     x = Math.round(knownObject.x)
@@ -680,35 +683,27 @@ class Classifier extends BaseController
     {counter: 1, x_accum: x, y_accum: y}
 
   #helper method to summarizeKnownObjects
-  updateSeenObject:(seenKnown, knownObject) ->
+  updateSeenObject:(processedKnown, knownObject) ->
     #accumulate x and y values when seen
-    seenKnown.x_accum = seenKnown.x_accum + Math.round(knownObject.x)
-    seenKnown.y_accum = seenKnown.y_accum + Math.round(knownObject.y)
+    processedKnown.x_accum = processedKnown.x_accum + Math.round(knownObject.x)
+    processedKnown.y_accum = processedKnown.y_accum + Math.round(knownObject.y)
     #increment seen counter
-    seenKnown.counter = seenKnown.counter  + 1
+    processedKnown.counter = processedKnown.counter  + 1
 
   #helper method to summarizeKnownObjects
-  averageSeenKnownPoints: (seenKnown) ->
+  averageKnownPoints: (processedKnown) ->
     HALF_WINDOW_HEIGHT = 256
     SCALING_FACTOR =  190  #aribtirary value less than HALF_WINDOW_HEIGHT
     #average the values of x and y
-    seenKnown.x = seenKnown.x_accum /seenKnown.counter
-    seenKnown.y = seenKnown.y_accum /seenKnown.counter
+    processedKnown.x = processedKnown.x_accum /processedKnown.counter
+    processedKnown.y = processedKnown.y_accum /processedKnown.counter
     # now the P_ref object can be set
     # grab the point reference before scale
-    seenKnown.P_ref = x:  seenKnown.x, y:  seenKnown.y
+    processedKnown.P_ref = x:  processedKnown.x, y:  processedKnown.y
     #apply scaling 
-    seenKnown.x =  seenKnown.x/HALF_WINDOW_HEIGHT * SCALING_FACTOR
-    seenKnown.y =  seenKnown.y/HALF_WINDOW_HEIGHT * SCALING_FACTOR
-    seenKnown
-
-  appendMetadata: ->
-    allKnowns = ""
-    knownObjects = @Subject.current?.metadata?.known_objects["0001"]
-    if knownObjects
-      for metadata in knownObjects
-        allKnowns += metadata.object if metadata.good_known is true
-    @el.find("#metadata-knowns").html allKnowns
+    processedKnown.x =  processedKnown.x * (SCALING_FACTOR / HALF_WINDOW_HEIGHT )
+    processedKnown.y =  processedKnown.y * (SCALING_FACTOR / HALF_WINDOW_HEIGHT )
+    processedKnown
 
   evaluateAnnotations: (P_ref) ->
     # console.log 'GROUND TRUTH: (',P_ref.x,',',P_ref.y,')'
