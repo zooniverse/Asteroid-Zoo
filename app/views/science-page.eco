@@ -9,7 +9,6 @@
 
   <div class="content-container white-bg">
     <iframe id="az-video" width="560" height="315" src="//www.youtube.com/embed/tFlxjGyOQ8U" frameborder="0" allowfullscreen></iframe>
-
     <div class="summary">
       <%- translate 'p', 'science.summary' %>
     </div>
@@ -28,6 +27,10 @@
         <%- translate 'h3', 'science.composition_title' %>
         <%- translate 'science.composition_content' %>
       </div>
+    </div>
+    <div id="known" class="summary content">
+      <%- translate 'h3', 'science.known_title' %>
+      <%- translate 'science.known_content' %>
     </div>
   </div>
 </div>
@@ -57,3 +60,4 @@
     </div>
   </div>
 </div>
+

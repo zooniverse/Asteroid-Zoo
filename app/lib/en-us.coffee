@@ -190,10 +190,10 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
       <p>The data in use by the Asteroid Zoo is the product of the Catalina Sky Survey.  After the event on Jupiter in 1994, the United States decided that it would be a national priority to find all potentially dangerous asteroids.  The Catalina Sky Survey (CSS) is funded by NASA to find asteroids, specifically to find all the Near Earth Objects with a radius larger than 100 meters.  They have been gracious enough to share all of their data with the public in order to further the mission of finding as many asteroids as they can.  The facilities consist of three telescopes, two in Arizona and one near Coonabarabran, NSW Australia.  These three telescopes image the sky looking for asteroids.  They take an image of the sky with a roughly 10 second exposure, then move to an adjacent position, take another picture, move and so on for about 10 minutes.  Then the telescope returns to the first pointing and repeats.  This way, the asteroids have time to move and the telescope stays actively looking for new targets.</p>
     '''
 
-    content: '''
-      <p>Teach the computers to leanr about asteroids..</p>
-      <p>Mine asteroids!.</p>
-      <p>Etc.</p>
+    known_title: "About known objects in Asteroid Zoo images"
+    known_content: '''
+      <p>Known objects are confirmed asteroids from the Minor Planet Center. Some of these are are quite possible for you to see when classifying on Asteroid Zoo. After you are done classifying a set of images, the objects are circled in green on the summary page. The name of the object is also listed under the heading Subject Summary.  If you’ve detected one, we also give you feedback on the same page that you are on the right track. However, some of the known objects are unlikely to be seen by you due to such factors as size, speed, atmospheric or other distortions in the images. These are not circled or messaged to you after you classify.
+    </p>
     '''
 
     figures:
