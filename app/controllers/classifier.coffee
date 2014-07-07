@@ -49,7 +49,7 @@ class Classifier extends BaseController
     'click #favorite'                       : 'onClickFavorite'
     'change input[name="frame-slider"]'     : 'onChangeFrameSlider'
     'change .asteroid-not-visible'          : 'onClickAsteroidNotVisible'
-    'keydown'                               : 'onKeyDown'
+
     # state controller events
     'change input[name="classifier-type"]': (e) ->
       if e.currentTarget.value is 'asteroid'
@@ -75,7 +75,7 @@ class Classifier extends BaseController
       @notify translate('span', 'classifier.rightPanel.artifactDoneScreen', class: 'red-text') if @state is 'artifactTool' and @doneButton.prop('disabled')
 
     'click .marking-surface': ->
-      @notify translate('span', 'classifier.rightPanel.whatKindScreen', class: 'red-text') if @state is 'whatKind' and !@summaryImageContainer.is(':visible')
+      @notify translate('span', 'classifier.rightPanel.whatKindScreen', class: 'red-text') if @state is 'whatKind' and !@inSummaryView()
 
     'click .channel-cycler': ->
       if @cycling and !@tutorial.el.hasClass "open"
@@ -83,7 +83,7 @@ class Classifier extends BaseController
         @onClickCycleChannels()
 
     'click .finished-screen': ->
-      if @state is 'whatKind' and @finishButton.prop("disabled") and !@nextSubjectButton.is(":visible")
+      if @state is 'whatKind' and @finishButton.prop("disabled") and !@inSummaryView()
         @notify translate 'classifier.finished.finishedButtonScreen'
 
     'click .right-panel': ->
@@ -147,7 +147,7 @@ class Classifier extends BaseController
 
     asteroidTool:
       enter: ->
-        if @el.attr('flicker') is 'true'
+        if @inFlickerView()
           @activateFrame 0
         else
           @showAllTrackingIcons()
@@ -166,7 +166,7 @@ class Classifier extends BaseController
         @disableMarkingSurfaces()
         @el.find('.asteroid-classifier').hide()
         @doneButton.hide()
-        @onClickFlicker() unless @el.attr('flicker') is 'true'
+        @onClickFlicker() unless @inFlickerView()
 
     artifactTool:
       enter: ->
@@ -217,6 +217,7 @@ class Classifier extends BaseController
     @Subject = Subject
     @Subject.group = MAIN_SUBJECT_GROUP
     @loader.fadeIn()
+    $("html").on "keydown", @onKeyDown
 
   createMarkingSurfaces: ->
     @numFrames = 4
@@ -248,7 +249,7 @@ class Classifier extends BaseController
   addGhostMark: (mark) ->
     svgElement = null
     for surface, i in @markingSurfaceList when i isnt +mark.frame
-      if @el.attr('flicker') is 'true'
+      if @inFlickerView()
         [xVal, yVal] = [mark.x, mark.y]
       else
         [xVal, yVal] = [mark.x / 2, mark.y / 2]
@@ -303,7 +304,7 @@ class Classifier extends BaseController
     @activateFrame(frame)
 
   onKeyDown: (e) =>
-    return if @playTimeout? or @el.attr('flicker') is 'false' # disable while playing or in 4up
+    return if @framesShouldNotBePlayed()
     switch e.which
       when KEYS.one   then @activateFrame(0)
       when KEYS.two   then @activateFrame(1)
@@ -313,10 +314,24 @@ class Classifier extends BaseController
         e.preventDefault()
         @onClickPlay()
 
+  framesShouldNotBePlayed: ->
+    !@active() or @notInFlickerView() or @inSummaryView()
+
+  inFlickerView: -> @el.attr('flicker') is 'true'
+
+  notInFlickerView: -> @el.attr('flicker') is 'false'
+
+  inSummaryView: -> @summaryImageContainer.is(':visible')
+
+  active: -> @el.hasClass 'active'
+
   handleFirstVisit: ->
-    if User.current?.preferences?.asteroid?.first_visit isnt "false" and @el.hasClass("active")
+    if @usersFirstVisit() and @active()
       User.current?.setPreference("first_visit", "false") if User.current
       @tutorial.start()
+
+  usersFirstVisit: ->
+    User.current?.preferences?.asteroid?.first_visit isnt "false"
 
   onUserChange: (e, user) =>
     Subject.next() unless @classification?
@@ -326,9 +341,9 @@ class Classifier extends BaseController
     @startLoading()
 
   onSubjectSelect: (e, subject) =>
-    # Subject.current.classification_count = 0 # DEBUG CODE: fake brand new subject  
+    # Subject.current.classification_count = 0 # DEBUG CODE: fake brand new subject
     if DEV_MODE and subject
-      console.log  subject.zooniverse_id 
+      console.log  subject.zooniverse_id
     if @subjectUnseen()
       @notification.html translate('span', 'classifier.subjectUnseenMessage', class: 'bold-text green-text')
       @notification.fadeIn()
@@ -390,7 +405,7 @@ class Classifier extends BaseController
   loadFrame: (image, src, attempts = 1) ->
     loadImage(src).then (img) =>
       if attempts < 10 and !!~img.src.indexOf (new Array 100).join 'A'
-        setTimeout => 
+        setTimeout =>
           @loadFrame image, src, attempts + 1
       else if attempts >= 10
         console.log("Gave up on #{src}")
@@ -519,7 +534,7 @@ class Classifier extends BaseController
   notify: (message, time_displayed = 3000) =>
     return if new Date().getTime() - @lastNotifyTime < 3000
     @notification.html(message).fadeIn(300).delay(time_displayed).fadeOut(300, =>
-      if @subjectUnseen() 
+      if @subjectUnseen()
         @notification.html translate('span', 'classifier.subjectUnseenMessage', class: 'bold-text green-text')
         @notification.fadeIn()
     )
@@ -574,7 +589,7 @@ class Classifier extends BaseController
   activateFrame: (frame) ->
     @setAsteroidFrame(frame)
     classifier.el.find(".asteroid-frame-#{frame}").addClass 'current-asteroid-frame'
-    return if @el.attr('flicker') is "false"
+    return if @notInFlickerView()
     @showFrame(frame)
     @el.attr 'data-on-frame', frame
     @nextFrame.prop 'disabled', if frame is (@numFrames-1) then true else false
@@ -642,14 +657,14 @@ class Classifier extends BaseController
   #helper method to showSummary
   summarizeKnownObjects: ->
     objectsData = @Subject.current?.metadata?.known_objects
-    processedKnowns = new Object  
+    processedKnowns = new Object
     #known object names will be concatentated here
     allKnownsLabel = ""
 
     for frame, objects of objectsData
-      for knownObject in objects  when knownObject.good_known 
+      for knownObject in objects  when knownObject.good_known
         objectName = knownObject.object
-      
+
         #update if seen already
         if processedKnowns[objectName]
           @updateSeenObject(processedKnowns[objectName], knownObject)
@@ -658,11 +673,11 @@ class Classifier extends BaseController
            #append the object name to the label
           allKnownsLabel += objectName
       #if we found known object show message
-    
-    #display the known objects message message only if 
+
+    #display the known objects message message only if
     @knownAsteroidMessage.show() if Object.keys(processedKnowns).length > 0
-    
-    #write out the object names of good knowns 
+
+    #write out the object names of good knowns
     @el.find("#metadata-knowns").html allKnownsLabel
 
     #for each known object
@@ -670,11 +685,11 @@ class Classifier extends BaseController
       processedKnown = @averageKnownPoints(processedKnown)
       radius = 10
       #process marking surface
-      for surface in [@markingSurfaceList...] 
+      for surface in [@markingSurfaceList...]
         surface.addShape 'ellipse', class: "known-asteroid", opacity: 0.75, cx: processedKnown.x, cy: processedKnown.y, rx: radius, ry: radius, fill: "none", stroke: "rgb(20,200,20)", 'stroke-width': 2
       #and evaluate annotations for users marking known objects
       @evaluateAnnotations(processedKnown.P_ref)
-     
+
   #helper method to summarizeKnownObjects
   firstSeen:(knownObject) ->
     x = Math.round(knownObject.x)
@@ -699,7 +714,7 @@ class Classifier extends BaseController
     # now the P_ref object can be set
     # grab the point reference before scale
     processedKnown.P_ref = x:  processedKnown.x, y:  processedKnown.y
-    #apply scaling 
+    #apply scaling
     processedKnown.x =  processedKnown.x * (SCALING_FACTOR / HALF_WINDOW_HEIGHT )
     processedKnown.y =  processedKnown.y * (SCALING_FACTOR / HALF_WINDOW_HEIGHT )
     processedKnown
@@ -741,7 +756,7 @@ class Classifier extends BaseController
   trainingRate: ->
     count = zooniverse.models.User.current?.project?.classification_count or 0
     count += zooniverse.models.Classification.sentThisSession
-    
+
     if count < 10
       1 / 5
     else if count < 20
