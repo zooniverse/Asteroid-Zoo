@@ -622,6 +622,7 @@ class Classifier extends BaseController
     radio.checked = false for radio in @classifierTypeRadios
     @onClickCycleChannels() if @cycling
     @showSummary()
+    @favoriteBtn.hide()
     @sendClassification()
     # hide all marks
     mark.setAttribute 'visibility', 'hidden' for mark in [@el.find(".mark")...]
@@ -785,7 +786,7 @@ class Classifier extends BaseController
     element.hide() for element in [@summaryContainer, @nextSubjectButton, @rightPanelSummary]
     @summaryImageContainer.empty()
     @leftPanel.find(".answers:lt(5)").css 'pointer-events', 'auto'
-    @favoriteBtn.removeClass 'favorited'
+    @favoriteBtn.show().removeClass 'favorited'
     @favoriteMessage.html translate "classifier.favorite.add"
     @stopPlayingFrames()
     element.show() for element in [@surfacesContainer, @finishButton, @rightPanel.find('.answers'), @cycleButton]
