@@ -28,10 +28,6 @@
         <%- translate 'science.composition_content' %>
       </div>
     </div>
-    <div id="known" class="summary content">
-      <%- translate 'h3', 'science.known_title' %>
-      <%- translate 'science.known_content' %>
-    </div>
   </div>
 </div>
 
@@ -56,6 +52,10 @@
 <div class="content-block">
   <div class="content-container white-bg">
     <div class="full-column">
+      <div id="known" class="summary content">
+        <%- translate 'h3', 'science.known_title' %>
+        <%- translate 'science.known_content' %>
+      </div>
       <center><img src="./images/rock.png"></center>
     </div>
   </div>
