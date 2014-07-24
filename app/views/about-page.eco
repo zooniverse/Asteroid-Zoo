@@ -10,7 +10,7 @@
 <div class="content-block">
   <div class="content-container white-bg">
     <%- translate 'p', 'about.summary', style: 'font-size: 20px; color: "#8d8a8a"; padding-bottom: 40px; text-align: center' %>
-    <%- translate 'about.content' %>
+    <%- translate 'div', 'about.content' %>
 
     <div class="intro team content">
       <%- translate 'h1', 'about.teamTitle', style: 'font-size: 24px' %>

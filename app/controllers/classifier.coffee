@@ -203,12 +203,15 @@ class Classifier extends BaseController
     @summaryContainer.hide()
     @rightPanelSummary.hide()
     @nextSubjectButton.hide()
+
     @tutorial = new Tutorial
       steps: tutorialSteps
       firstStep: 'welcome'
       parent: @el
+
     @tutorial.el.on 'start-tutorial enter-tutorial-step', =>
       translate.refresh @tutorial.el.get 0
+
     User.on 'change', @onUserChange
     Subject.on 'fetch', @onSubjectFetch
     Subject.on 'select', @onSubjectSelect
