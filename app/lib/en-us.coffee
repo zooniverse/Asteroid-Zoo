@@ -280,6 +280,8 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
   # TUTORIAL
   ######################
   tutorial:
+    nextButton: 'Continue'
+    demoButton: 'Show Me'
 
     welcome:
       header: 'Welcome to Asteroid Zoo!'

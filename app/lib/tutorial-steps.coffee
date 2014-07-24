@@ -5,12 +5,14 @@ tutorialSteps =
   welcome: new Step
     header: t 'span', 'tutorial.welcome.header'
     details: t 'span', 'tutorial.welcome.details'
+    nextButton: t 'span', 'tutorial.nextButton'
     attachment: 'center center #surfaces-container center center'
     next: 'overview'  
 
   overview: new Step
     header: t 'span', 'tutorial.overview.header'
     details: t 'span', 'tutorial.overview.details'
+    nextButton: t 'span', 'tutorial.nextButton'
     focus: '#left-panel'
     attachment: 'left center #left-panel right center'
     next: 'tools'
@@ -19,6 +21,7 @@ tutorialSteps =
   tools: new Step
     header: t 'span', 'tutorial.tools.header'
     details: t 'span', 'tutorial.tools.details'
+    nextButton: t 'span', 'tutorial.nextButton'
     className: "arrow-left"
     focus: '#tools'
     attachment: 'left center #tools right center'
@@ -28,6 +31,7 @@ tutorialSteps =
   view: new Step
     header: t 'span', 'tutorial.view.header'
     details: t 'span', 'tutorial.view.details'
+    nextButton: t 'span', 'tutorial.nextButton'
     className: "arrow-left"
     focus: '#views'
     attachment: 'left center #views right center'
@@ -38,6 +42,7 @@ tutorialSteps =
   guide: new Step
     header: t 'span', 'tutorial.guide.header'
     details: t 'span', 'tutorial.guide.details'
+    nextButton: t 'span', 'tutorial.nextButton'
     className: "arrow-left"
     focus: '#guide-button'
     attachment: 'left center #guide-button right center'
@@ -46,12 +51,14 @@ tutorialSteps =
   beginWorkflow: new Step
     header: t 'span', 'tutorial.beginWorkflow.header'
     details: t 'span', 'tutorial.beginWorkflow.details'
+    nextButton: t 'span', 'tutorial.nextButton'
     attachment: 'center center #surfaces-container center center'
     next: 'cycle'
 
   cycle: new Step
     header: t 'span', 'tutorial.cycle.header'
     details: t 'span', 'tutorial.cycle.details'
+    nextButton: t 'span', 'tutorial.nextButton'
     instruction: t 'span', 'tutorial.cycle.instruction'
     className: "arrow-bottom"
     focus: '[name="cycle-channels"]'
@@ -60,6 +67,7 @@ tutorialSteps =
 
   stopCycle: new Step
     header: t 'span', 'tutorial.cycle.header'
+    nextButton: t 'span', 'tutorial.nextButton'
     instruction: t 'span', 'tutorial.cycle.turnOff'
     attachment: 'center bottom [name="cycle-channels"] center top'
     className: "arrow-bottom"
@@ -68,6 +76,7 @@ tutorialSteps =
   play: new Step
     header: t 'span', 'tutorial.play.header'
     details: t 'span', 'tutorial.play.details'
+    nextButton: t 'span', 'tutorial.nextButton'
     instruction: t 'span', 'tutorial.play.instruction'
     className: "arrow-bottom"
     attachment: 'center bottom #play-button center top'
@@ -76,6 +85,8 @@ tutorialSteps =
   observe: new Step
     header: t 'span', 'tutorial.observe.header'
     details: t 'span', 'tutorial.observe.details'
+    nextButton: t 'span', 'tutorial.nextButton'
+    demoButton: t 'span', 'tutorial.demoButton'
     instruction: t 'span', 'tutorial.observe.instruction'
     attachment: 'center center #right-panel center center'
     next: 'firstAsteroid'
@@ -121,12 +132,14 @@ tutorialSteps =
   firstAsteroid: new Step
     header: t 'span', 'tutorial.firstAsteroid.header'
     details: t 'span', 'tutorial.firstAsteroid.details'
+    nextButton: t 'span', 'tutorial.nextButton'
     attachment: 'center center #surfaces-container center center'
     next: 'selectAsteroid'
 
   # add intermediate step: play frames, move textbox to right panel, add "Don't see an asteroid? Hint."
   selectAsteroid: new Step
     header: t 'span', 'tutorial.selectAsteroid.header'
+    nextButton: t 'span', 'tutorial.nextButton'
     instruction: t 'span', 'tutorial.selectAsteroid.instruction'
     className: "arrow-right"
     attachment: 'right bottom #asteroid-button left bottom'
@@ -134,12 +147,14 @@ tutorialSteps =
 
   asteroid_1: new Step
     header: t 'span', 'tutorial.asteroid_1.header'
+    nextButton: t 'span', 'tutorial.nextButton'
     instruction: t 'span', 'tutorial.asteroid_1.instruction'
     next: 'click [id="surfaces-container"]': 'nextFrame'
     attachment: 'center bottom #surfaces-container center bottom'
 
   nextFrame: new Step
     header: t 'span', 'tutorial.nextFrame.header'
+    nextButton: t 'span', 'tutorial.nextButton'
     instruction: t 'span', 'tutorial.nextFrame.instruction'
     className: "arrow-right"
     attachment: 'right center [name="next-frame"] left center'
@@ -148,6 +163,7 @@ tutorialSteps =
   continueMarkingAsteroids: new Step
     header: t 'span', 'tutorial.continueMarkingAsteroids.header'
     details: t 'span', 'tutorial.continueMarkingAsteroids.details'
+    nextButton: t 'span', 'tutorial.nextButton'
     instruction: t 'span', 'tutorial.continueMarkingAsteroids.instruction'
     attachment: 'center bottom #surfaces-container center bottom'
     next: 'click [id="asteroid-done"]':'markArtifacts'
@@ -156,12 +172,14 @@ tutorialSteps =
   markArtifacts: new Step
     header: t 'span', 'tutorial.markArtifacts.header'
     details: t 'span', 'tutorial.markArtifacts.details'
+    nextButton: t 'span', 'tutorial.nextButton'
     attachment: 'center center #surfaces-container center center'
     next: 'finished'
 
   finished: new Step
     header: t 'span', 'tutorial.finished.header'
     details: t 'span', 'tutorial.finished.details'
+    nextButton: t 'span', 'tutorial.nextButton'
     attachment: 'center center #surfaces-container center center'
 
 module.exports = tutorialSteps
