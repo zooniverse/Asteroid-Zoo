@@ -17,15 +17,15 @@
         <%- translate 'h3', 'science.intro_title' %>
         <%- translate 'div', 'science.intro_content' %>
         <%- translate 'h3', 'science.where_title' %>
-        <%- translate 'science.where_content' %>
+        <%- translate 'div', 'science.where_content' %>
         <%- translate 'h3', 'science.find_title' %>
-        <%- translate 'science.find_content' %>
+        <%- translate 'div', 'science.find_content' %>
       </div>
     </div>
     <div class="half-column">
       <div class="content right">
         <%- translate 'h3', 'science.composition_title' %>
-        <%- translate 'science.composition_content' %>
+        <%- translate 'div', 'science.composition_content' %>
       </div>
     </div>
   </div>
@@ -43,7 +43,7 @@
     <div class="half-column">
       <div class="content right">
         <%- translate 'h2', 'science.catalina' %>      
-        <%- translate 'science.special' %>
+        <%- translate 'div', 'science.special' %>
       </div>
     </div>
   </div>
@@ -54,7 +54,7 @@
     <div class="full-column">
       <div id="known" class="summary content">
         <%- translate 'h3', 'science.known_title' %>
-        <%- translate 'science.known_content' %>
+        <%- translate 'div', 'science.known_content' %>
       </div>
       <center><img src="./images/rock.png"></center>
     </div>

@@ -12,13 +12,13 @@
   <div class="content-container white-bg">
     <div class="content">
       <%- translate 'h2', 'education.classroom' %>
-      <%- translate 'education.classroomAnswer' %>
+      <%- translate 'span', 'education.classroomAnswer' %>
 
       <%- translate 'h2', 'education.resources_title' %>
-      <%- translate 'education.resources_content' %>
+      <%- translate 'span', 'education.resources_content' %>
 
       <%- translate 'h2', 'education.more_title' %>
-      <%- translate 'education.more_content' %>
+      <%- translate 'span', 'education.more_content' %>
     </div>
   </div>
 </div>

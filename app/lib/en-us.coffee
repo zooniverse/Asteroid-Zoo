@@ -65,6 +65,10 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     finish: 'Finish'
     nextSubject: 'Next Subject'
 
+    subjectSummary:
+      title: 'Subject Summary'
+      yourResults: 'Your Results'
+
     type:
       asteroid:
         label: 'Asteroid'
