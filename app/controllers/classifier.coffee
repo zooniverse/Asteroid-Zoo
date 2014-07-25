@@ -617,10 +617,6 @@ class Classifier extends BaseController
       for i in [0...markElements.length]
         markElements[0].parentElement.appendChild markElements[0]
 
-    # invert using svg inverter - implement when cross origin ready
-    images = document.getElementsByClassName('frame-image')
-    InvertSvg(image) for image in images
-
   onClickFinishMarking: ->
     radio.checked = false for radio in @classifierTypeRadios
     @onClickCycleChannels() if @cycling
