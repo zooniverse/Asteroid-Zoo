@@ -210,7 +210,7 @@
             <%- translate 'button', 'classifier.done', name: 'asteroid-done', type: 'button' %>
           </div>
           <div class="button">
-            <%- translate 'button', 'Cancel', name: 'cancel' %>
+            <%- translate 'button', 'classifier.cancel', name: 'cancel' %>
           </div>
         </section>
       </div>

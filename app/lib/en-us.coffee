@@ -43,6 +43,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     title: 'Classify'
     done:  'Done'
     reset: 'Reset'
+    cancel: 'Cancel'
     delete: 'Delete Mark'
     next: 'Next'
     whatKind: 'What do you see here?'
