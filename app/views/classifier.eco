@@ -204,7 +204,7 @@
           <h3><%- translate 'div', 'artifacts.heading' %></h3>
 
           <div class="button">
-            <%- translate 'button', 'Next Frame', name: 'next-frame' %>
+            <%- translate 'button', 'classifier.nextFrame', name: 'next-frame' %>
           </div>
           <div class="button artifact-done-screen">
             <%- translate 'button', 'classifier.done', name: 'asteroid-done', type: 'button' %>
@@ -304,7 +304,7 @@
                 <label>
                   <div class="<%="asteroid-visible asteroid-visible-#{frameNum}"%>">
                     <input type="checkbox" name="visible" class="<%= "asteroid-checkbox asteroid-not-visible asteroid-not-visible-#{frameNum}" %>" id="<%="asteroid-visible-#{frameNum}" %>"/>
-                    <%- translate 'span', "Not Visible?" %>
+                    <%- translate 'span', 'classifier.notVisible' %>
                   </div>
                 </label>
                 <span id="<%= "marked-status-#{frameNum}" %>"><!-- Marked / Not Visible --></span>

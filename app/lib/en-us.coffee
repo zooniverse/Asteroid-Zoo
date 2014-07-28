@@ -46,6 +46,8 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     cancel: 'Cancel'
     delete: 'Delete Mark'
     next: 'Next'
+    nextFrame: 'Next Frame'
+    notVisible: 'Not Visible?'
     whatKind: 'What do you see here?'
     tools:
       header: 'TOOLS'
