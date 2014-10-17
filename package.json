@@ -17,6 +17,7 @@
     "start": "haw serve --port 3416",
     "deploy-to-staging": "haw build && publisssh ./build zooniverse-static/www.asteroidzoo.org/beta && rm -rf ./build",
     "deploy-to-production": "haw build && publisssh ./build zooniverse-static/www.asteroidzoo.org && rm -rf ./build",
+    "deploy": "npm run deploy-to-production",
     "deploy-locale":"seed-translation --project asteroid --env production"
   }
 }
