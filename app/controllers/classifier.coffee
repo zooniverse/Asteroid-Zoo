@@ -47,6 +47,7 @@ class Classifier extends BaseController
     'click button[name="guide"]'            : 'onClickGuide'
     'click .asteroid-classifier form'       : 'onClickAsteroidClassifierForm'
     'click #favorite'                       : 'onClickFavorite'
+    'change input[name="bad-set"]'          : 'onChangeBadSet'
     'change input[name="frame-slider"]'     : 'onChangeFrameSlider'
     'change .asteroid-not-visible'          : 'onClickAsteroidNotVisible'
 
@@ -192,6 +193,7 @@ class Classifier extends BaseController
     @invert = false
     @cycling = false
     @guideShowing = false
+    @badSet = false
     window.classifier = @
     @recordedClickEvents = []
     @setOfSightings = []
@@ -814,6 +816,9 @@ class Classifier extends BaseController
       @notify translate 'span', 'classifier.favorite.removeMessage', class: 'red-text'
       @favoriteMessage.html translate "classifier.favorite.add"
 
+  onChangeBadSet: ->
+    @badSet = @el.find('[name="bad-set"]').prop('checked')
+
   startLoading: ->
     @el.addClass 'loading'
 
@@ -825,10 +830,11 @@ class Classifier extends BaseController
 
   sendClassification: ->
     @finishButton.prop 'disabled', true
+    @classification.set 'badSet', @badSet
     @classification.set 'recordedClickEvents', [@recordedClickEvents...]
     @classification.set 'setOfSightings', [@setOfSightings...]
     @classification.set 'classification_count', Subject.current.classification_count
-    # console.log JSON.stringify( @classification ) # DEBUG CODE
+    console.log JSON.stringify( @classification ) # DEBUG CODE
     @classification.send()
     @recordedClickEvents = []
 

@@ -352,7 +352,7 @@
     </div>
 
     <div id="bad-set">
-      <label><input type="checkbox"/>Bad image set.</label>
+      <label><input name="bad-set" type="checkbox"/>Bad image set</label>
     </div>
 
   </div><!-- end marking tool interface / right-panel-->
