@@ -623,6 +623,7 @@ class Classifier extends BaseController
     @onClickCycleChannels() if @cycling
     @showSummary()
     @favoriteBtn.hide()
+    @el.find('#bad-set').hide()
     @sendClassification()
     # hide all marks
     mark.setAttribute 'visibility', 'hidden' for mark in [@el.find(".mark")...]
@@ -790,6 +791,7 @@ class Classifier extends BaseController
     @favoriteMessage.html translate "classifier.favorite.add"
     @stopPlayingFrames()
     element.show() for element in [@surfacesContainer, @finishButton, @rightPanel.find('.answers'), @cycleButton]
+    @el.find('#bad-set').show()
     @el.find('[name="bad-set"]').prop "checked", false
 
 
@@ -835,7 +837,7 @@ class Classifier extends BaseController
     @classification.set 'recordedClickEvents', [@recordedClickEvents...]
     @classification.set 'setOfSightings', [@setOfSightings...]
     @classification.set 'classification_count', Subject.current.classification_count
-    console.log JSON.stringify( @classification ) # DEBUG CODE
+    # console.log JSON.stringify( @classification ) # DEBUG CODE
     @classification.send()
     @recordedClickEvents = []
 
