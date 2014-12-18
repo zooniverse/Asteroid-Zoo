@@ -193,7 +193,6 @@ class Classifier extends BaseController
     @invert = false
     @cycling = false
     @guideShowing = false
-    @badSet = false
     window.classifier = @
     @recordedClickEvents = []
     @setOfSightings = []
@@ -791,6 +790,8 @@ class Classifier extends BaseController
     @favoriteMessage.html translate "classifier.favorite.add"
     @stopPlayingFrames()
     element.show() for element in [@surfacesContainer, @finishButton, @rightPanel.find('.answers'), @cycleButton]
+    @el.find('[name="bad-set"]').prop "checked", false
+
 
     if @shouldShowTraining()
       Subject.group = TRAINING_SUBJECT_GROUP
