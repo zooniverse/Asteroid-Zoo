@@ -351,6 +351,10 @@
       <p id="favorite-message"><%- translate 'span', 'classifier.favorite.add' %></p>
     </div>
 
+    <div id="bad-set">
+      <label><input type="checkbox"/>Bad image set.</label>
+    </div>
+
   </div><!-- end marking tool interface / right-panel-->
 
   <div class="bottom-row">
