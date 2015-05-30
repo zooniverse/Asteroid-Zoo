@@ -344,7 +344,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
 
     continueMarkingAsteroids:
       header: 'Continue Marking'
-      details: 'The blue mark shows the location of your previous mark. In addition, it let\'s you know you\'ve yet to mark an asteroid in this frame.'
+      details: 'The blue mark shows the location of your previous mark. In addition, it lets you know you\'ve yet to mark an asteroid in this frame.'
       instruction: "Continue marking the asteroids on each frame and click 'Done' when you are finished."
 
     asteroidDone:
@@ -353,7 +353,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
 
     markArtifacts:
       header: 'Marking Artifacts'
-      details: 'You may see other objects in the images that are not asteroids, but are unique in the image, these may be artifacts. Artifacts typically appear in one frame of the sequence. Unlike asteroids, you don\'t have to track artifacts across the frames. Check out examples of each artifact in the guide.'
+      details: 'You may see other objects in the images that are not asteroids, but are unique in the image. These may be artifacts. Artifacts typically appear in one frame of the sequence. Unlike asteroids, you don\'t have to track artifacts across the frames. Check out examples of each artifact in the guide.'
 
     finished:
       header: 'Happy Hunting!'
