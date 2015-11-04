@@ -488,13 +488,15 @@ class Classifier extends BaseController
       @doneButton.prop 'disabled', false
 
   updateIconsForCreateMark: (frameNum) =>
+    markedText = translate 'span', 'classifier.marked'
+
     @el.find("#number-#{frameNum}").hide()
     @el.find(".asteroid-frame-complete-#{frameNum}").prop 'checked', true
     @el.find("#not-visible-icon-#{frameNum}").hide() # checked = false??
     @el.find("#marked-icon-#{frameNum}").show()
     @el.find("#asteroid-visible-#{frameNum}").prop 'checked', false
     @el.find(".asteroid-visible-#{frameNum}").hide()
-    @el.find("#marked-status-#{frameNum}").show().html("Marked!")
+    @el.find("#marked-status-#{frameNum}").show().html(markedText)
 
   updateIconsForDestroyMark: (frameNum) =>
     @el.find("#number-#{frameNum}").show()
