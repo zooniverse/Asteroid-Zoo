@@ -272,6 +272,8 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
         <p><a href="https://www.youtube.com/watch?v=tOKCeW66ncM&list=PL-sncRQpy4-sN0ROwD3a1oR4VivhBBm_X&feature=c4-overview-vl">Asteroid Fact vs. Fiction from the ORISIS-REX 321Mission</a></p>
       </li>
     </ul>
+
+    <p>Students Discover, a collaboration between the North Carolina Museum of Natural Sciences and the Kenan Fellows Program, has created <a href="http://studentsdiscover.org/teaching-modules/asteroid-zoo/">Asteroid Zoo: Your Meteor Mission</a>. This set of lessons is designed for middle school classes.</p>
     '''
 
     more_title: 'How can I keep up to date with education and Asteroid Zoo?'
