@@ -49,6 +49,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
     nextFrame: 'Next Frame'
     notVisible: 'Not Visible?'
     whatKind: 'What do you see here?'
+    marked: 'Marked!'
     tools:
       header: 'TOOLS'
       invert: 'Invert'

@@ -313,7 +313,7 @@
           <% end %>
 
           <div class="button">
-            <%- translate 'button', 'Next Frame', name: 'next-frame' %>
+            <%- translate 'button', 'classifier.nextFrame', name: 'next-frame' %>
           </div>
           <div class="button">
             <%- translate 'button.cancel', 'classifier.delete', name: 'asteroid-delete', type: 'button' %>
