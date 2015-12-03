@@ -27,7 +27,12 @@ languageManager.on 'change-language', (e, code, strings) ->
 # load api
 ##################################################
 Api = require 'zooniverse/lib/api'
-api = new Api project: 'asteroid'
+
+api = if window.location.hostname is 'www.asteroidzoo.org'
+  new Api project: 'asteroid', host: 'http://www.asteroidzoo.org', path: '/_ouroboros_api/proxy'
+else
+  new Api project: 'asteroid'
+
 Transporter = require './lib/transporter'
 transporter = new Transporter
 
