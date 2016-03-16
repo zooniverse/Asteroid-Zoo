@@ -401,6 +401,8 @@ class Classifier extends BaseController
 
       img_src = if @invert then subject_info.inverted[i] else subject_info.standard[i]
 
+      img_src = img_src.replace /^http:/, 'https:'
+
       @loadFrame frameImage, img_src
 
     @stopLoading()
