@@ -29,7 +29,7 @@ class HomePage extends BaseController
 
   updateMinorAsteroidCount: (e, user) =>
     # live update minor planet count across site, or fallback to last seen
-    $.getJSON "http://mpc-count.herokuapp.com/count", (data) =>
+    $.getJSON "https://mpc-count.herokuapp.com/count", (data) =>
       asteroidNum = data?.count || false
       @setTotalAsteroidCountText(asteroidNum)
       @updateUserLastSeenAsteroidCount(asteroidNum, user)

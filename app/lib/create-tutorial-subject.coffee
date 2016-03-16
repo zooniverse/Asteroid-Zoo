@@ -5,17 +5,17 @@ createTutorialSubject = ->
     id: 'TRAINING_SUBJECT'
     location:
       standard: [
-        'http://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0001-202-scaled.png'
-        'http://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0002-202-scaled.png'
-        'http://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0003-202-scaled.png'
-        'http://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0004-202-scaled.png'
+        'https://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0001-202-scaled.png'
+        'https://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0002-202-scaled.png'
+        'https://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0003-202-scaled.png'
+        'https://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0004-202-scaled.png'
       ]
 
       inverted: [
-        'http://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0001-202-negative.png'
-        'http://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0002-202-negative.png'
-        'http://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0003-202-negative.png'
-        'http://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0004-202-negative.png'
+        'https://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0001-202-negative.png'
+        'https://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0002-202-negative.png'
+        'https://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0003-202-negative.png'
+        'https://asteroidzoo.s3.amazonaws.com/CSS%20Data/Catalina_Sky_Survey_Sample/703/2012/12Dec02/azoo/01_12DEC02_N12022_0004-202-negative.png'
 
       ]
     metadata: {
@@ -35,7 +35,7 @@ createTutorialSubject = ->
             y: 23
             mag: 19.2
             good_known: true
-          },          
+          },
           {
             object: "(TutorialImage-C)"
             x: 66
@@ -58,7 +58,7 @@ createTutorialSubject = ->
             y: 23
             mag: 19.2
             good_known: true
-          },          
+          },
           {
             object: "(TutorialImage-C)"
             x: 68
@@ -81,7 +81,7 @@ createTutorialSubject = ->
             y: 23
             mag: 19.2
             good_known: true
-          },          
+          },
           {
             object: "(TutorialImage-C)"
             x: 70
@@ -104,7 +104,7 @@ createTutorialSubject = ->
             y: 22
             mag: 19.2
             good_known: true
-          },          
+          },
           {
             object: "(TutorialImage-C)"
             x: 72

@@ -29,7 +29,7 @@ languageManager.on 'change-language', (e, code, strings) ->
 Api = require 'zooniverse/lib/api'
 
 api = if window.location.hostname is 'www.asteroidzoo.org'
-  new Api project: 'asteroid', host: 'http://www.asteroidzoo.org', path: '/_ouroboros_api/proxy'
+  new Api project: 'asteroid', host: 'https://www.asteroidzoo.org', path: '/_ouroboros_api/proxy'
 else
   new Api project: 'asteroid'
 
