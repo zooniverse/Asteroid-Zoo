@@ -445,7 +445,7 @@ class Classifier extends BaseController
       @frameSlider.attr 'disabled', false
       @cycleButton.removeClass 'active'
     else
-      promisedImgs = (loadImage src for src in @classification.subject.location.standard)
+      promisedImgs = (loadImage src.replace(/^http:/, 'https:') for src in @classification.subject.location.standard)
       $.when(promisedImgs...).then (imgs...) =>
         if @cycling
           sources = imgs.map (img) -> img.src
