@@ -200,7 +200,7 @@ Scientists are scanning our solar system for asteroids with the Catalina Sky Sur
 
     known_title: "About known objects in Asteroid Zoo images"
     known_content: '''
-      <p>Known objects are confirmed asteroids from the Minor Planet Center. Some of these are are quite possible for you to see when classifying on Asteroid Zoo. After you are done classifying a set of images, the objects are circled in green on the summary page. The name of the object is also listed under the heading Subject Summary.  If you’ve detected one, we also give you feedback on the same page that you are on the right track. However, some of the known objects are unlikely to be seen by you due to such factors as size, speed, atmospheric or other distortions in the images. These are not circled or messaged to you after you classify.
+      <p>Known objects are confirmed asteroids from the Minor Planet Center. Some of these are quite possible for you to see when classifying on Asteroid Zoo. After you are done classifying a set of images, the objects are circled in green on the summary page. The name of the object is also listed under the heading Subject Summary.  If you’ve detected one, we also give you feedback on the same page that you are on the right track. However, some of the known objects are unlikely to be seen by you due to such factors as size, speed, atmospheric or other distortions in the images. These are not circled or messaged to you after you classify.
     </p>
     '''
 
